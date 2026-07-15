@@ -255,7 +255,7 @@ export default async function HomePage({
 
             <div
               className="tariff-chart"
-              role="img"
+              role="group"
               aria-label="Базовые тарифы по категориям транспорта: I — 325 рублей, II — 456 рублей, III — 586 рублей, IV — 846 рублей"
             >
               {VEHICLE_CATEGORY_TARIFFS.map((item) => (

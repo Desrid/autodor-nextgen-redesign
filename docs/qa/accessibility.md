@@ -64,6 +64,8 @@ Target: **WCAG 2.2 AA**. Date: **2026-07-15**.
 
 Полная production Playwright-матрица завершилась с результатом **206 passed, 26 намеренных project-scoped skipped, exit 0**. Post-performance-patch последовательный smoke/axe/media контроль: **27 passed, 6 намеренных skipped, exit 0**.
 
+После первого независимого validator pass исправлены два serious axe-дефекта: deadline badge получил светлый фон с фирменной оранжевой рамкой, а интерактивная диаграмма использует `role="group"` вместо семантически сворачивающего descendants `role="img"`. Повторный production accessibility-прогон на `desktop-1440`, `mobile-390` и `mobile-390-reduced-motion`: **17 passed, 1 ожидаемый desktop touch-only skip, exit 0**.
+
 Automated tools cannot validate copy quality, reading order in all screen readers, meaningful alt text, usable gestures or focus visibility against every background. Those remain manual release checks.
 
 ## Незавершённые ручные проверки

@@ -38,7 +38,7 @@ Google Sheet: «Структура главной страницы сайта Г
 ## Локальные доказательства текущего handoff
 
 - `npm run build` — green, Next.js production compilation and static routes generated;
-- `npm test` — 4 files, 16 tests green;
+- `npm test` — 5 files, 19 tests green;
 - полная Playwright-матрица — **206 passed, 26 намеренных project-scoped skipped, exit 0** на 8 viewport/motion-профилях;
 - media pause / media failure / Save-Data — целевые desktop/mobile проекты green; post-performance-patch sequential control — **27 passed, 6 intentional skips, exit 0**;
 - visual regression — **8/8** projects green; после дополнительной оптимизации hero AVIF `mobile-390` повторно green;
