@@ -2,7 +2,13 @@ import { expect, test } from "@playwright/test";
 
 test("mobile hero preload is present and reuses one responsive image request", async ({
   page,
+  viewport,
 }) => {
+  test.skip(
+    !viewport || viewport.width >= 768,
+    "The responsive preload request contract is intentionally mobile-only.",
+  );
+
   const heroRequests: string[] = [];
 
   page.on("request", (request) => {

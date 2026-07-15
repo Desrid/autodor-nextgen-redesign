@@ -47,7 +47,8 @@ jobs:
         run: npm ci --no-audit --no-fund
       - run: npm run build
       - run: npx playwright install --with-deps chromium
-      - run: npm run test:e2e
+      - name: Run functional browser tests
+        run: npx playwright test --grep-invert "homepage visual regression"
         env:
           CI: "true"
       - name: Upload browser reports
@@ -55,6 +56,36 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: browser-reports
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  visual:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    needs: quality
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - run: npm run build
+      - run: npx playwright install chromium
+      - name: Run Windows visual regression
+        run: npx playwright test e2e/visual.spec.ts
+        env:
+          CI: "true"
+      - name: Upload visual reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-reports-windows
           path: |
             playwright-report/
             test-results/

@@ -18,12 +18,13 @@
 ## Фактический итог автоматизации
 
 - Полная Playwright-матрица: **206 passed, 26 намеренных project-scoped skipped, exit 0**, 8 профилей, 232 теста.
-- Visual regression: **8/8** эталонных full-page снимков прошли.
+- Visual regression: **8/8** эталонных full-page снимков прошли после контролируемого обновления baselines для подтвержденных R09/R13; актуальные desktop/mobile full-page кадры просмотрены перед фиксацией.
 - Unit/component/data: **5 файлов, 19 тестов passed**.
 - Static gates: ESLint, TypeScript strict, Prettier check и production build — **passed**.
 - Повторный post-patch smoke/axe/media: **27 passed, 6 намеренных skipped, exit 0** на `desktop-1440`, `mobile-390`, `mobile-390-reduced-motion`.
 - После независимой приемки исправлены contrast deadline badge и вложенные interactive semantics диаграммы; повторный production accessibility-набор: **17 passed, 1 desktop touch-only skip, exit 0** на `desktop-1440`, `mobile-390`, `mobile-390-reduced-motion`.
-- Responsive hero preload contract: **1 passed, exit 0**; HTML содержит mobile AVIF preload, network log подтверждает один запрос без double-fetch.
+- Responsive hero preload contract: **1 mobile passed, 2 non-mobile intentionally skipped, exit 0**; HTML содержит mobile AVIF preload, network log подтверждает один запрос без double-fetch. На viewport `>=768` media-условие намеренно не инициирует mobile image request.
+- CI разделяет кроссплатформенные обязанности: Linux Chromium запускает функциональный E2E-набор без platform-specific screenshot assertions, отдельный обязательный `windows-latest` job проверяет все 8 committed `win32` visual baselines.
 - Один параллельный diagnostic-run дал нестабильный focus timeout; тот же тест прошёл отдельно и в последовательном контрольном наборе. Это не скрыто, но release evidence основано на воспроизводимом sequential-run.
 - Lighthouse latest median (`mobile-preload-1..3`): Performance 97, Accessibility 100, Best Practices 100, SEO 100; LCP **2666 мс**. Бюджет LCP `< 2500 мс` не выполнен, поэтому общий release verdict — **BLOCKED**.
 
