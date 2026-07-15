@@ -1,0 +1,10 @@
+.next/
+coverage/
+node_modules/
+playwright-report/
+test-results/
+.artifacts/
+.tools/
+.lazyweb/
+docs/research/screenshots/
+docs/qa/lighthouse/*.json

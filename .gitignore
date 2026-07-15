@@ -1,0 +1,13 @@
+node_modules/
+.tools/video-sources/
+.next/
+*.tsbuildinfo
+coverage/
+playwright-report/
+test-results/
+.vercel/
+.artifacts/
+.tools/pdf/node_modules/
+.lazyweb/
+.env*
+!.env.example
