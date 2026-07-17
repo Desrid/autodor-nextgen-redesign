@@ -22,7 +22,7 @@ test("uses the exact Figma footer content and local SVG assets", async ({ page }
   const imagePaths = await footer
     .locator("img")
     .evaluateAll((images) =>
-      images.map((image) => (image.getAttribute("src") ?? "").split("?")[0]),
+      images.map((image) => (image.getAttribute("src") ?? "").split("?")[0] ?? ""),
     );
   expect(imagePaths).toHaveLength(11);
   expect(imagePaths.every((path) => path.endsWith(".svg"))).toBe(true);

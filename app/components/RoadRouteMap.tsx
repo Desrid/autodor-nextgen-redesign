@@ -333,6 +333,8 @@ function smoothRoutePath(
   }
 
   const lastPoint = points[points.length - 1];
+  if (!lastPoint) return path;
+
   return `${path} Q ${lastPoint.x.toFixed(1)} ${lastPoint.y.toFixed(1)} ${lastPoint.x.toFixed(1)} ${lastPoint.y.toFixed(1)}`;
 }
 
@@ -346,12 +348,15 @@ export function RoadRouteMap({
   routeLabel: string;
 }>) {
   const coordinates = lineCoordinates(geometry);
+  const firstCoordinate = coordinates[0];
+  if (!firstCoordinate) return null;
+
   const routeBounds = bounds(coordinates);
   const routePath = smoothRoutePath(coordinates, routeBounds);
   const badgeCoordinate =
     BADGE_COORDINATES[roadId] ??
     coordinates[Math.floor(coordinates.length / 2)] ??
-    coordinates[0];
+    firstCoordinate;
   const badgePoint = project(badgeCoordinate, routeBounds);
   const markers = ROUTE_MARKERS[roadId] ?? [];
   const markerAnimationOrder = [...markers]

@@ -58,6 +58,10 @@ test("service actions compensate the top inset and preserve size and hover motio
     if (!firstCard) {
       throw new Error("Expected the service panel to contain action cards");
     }
+    const [firstRect, secondRect, , fourthRect] = cardRects;
+    if (!firstRect || !secondRect || !fourthRect) {
+      throw new Error("Expected the service panel to contain four action cards");
+    }
     const panelStyle = getComputedStyle(element);
 
     return {
@@ -73,12 +77,12 @@ test("service actions compensate the top inset and preserve size and hover motio
       },
       backgroundColor: panelStyle.backgroundColor,
       offsets: {
-        top: Math.round(cardRects[0].top - panelRect.top),
-        right: Math.round(panelRect.right - cardRects[3].right),
-        bottom: Math.round(panelRect.bottom - cardRects[0].bottom),
-        left: Math.round(cardRects[0].left - panelRect.left),
+        top: Math.round(firstRect.top - panelRect.top),
+        right: Math.round(panelRect.right - fourthRect.right),
+        bottom: Math.round(panelRect.bottom - firstRect.bottom),
+        left: Math.round(firstRect.left - panelRect.left),
       },
-      gap: Math.round(cardRects[1].left - cardRects[0].right),
+      gap: Math.round(secondRect.left - firstRect.right),
       cardBorderRadius: getComputedStyle(firstCard).borderTopLeftRadius,
       sizes: cardRects.map((rect) => ({ width: rect.width, height: rect.height })),
     };
@@ -96,9 +100,13 @@ test("service actions compensate the top inset and preserve size and hover motio
   expect(geometry.gap).toBe(24);
   expect(geometry.cardBorderRadius).toBe("24px");
 
-  for (const size of geometry.sizes.slice(1)) {
-    expect(Math.abs(size.width - geometry.sizes[0].width)).toBeLessThan(0.02);
-    expect(Math.abs(size.height - geometry.sizes[0].height)).toBeLessThan(0.02);
+  const [firstSize, ...remainingSizes] = geometry.sizes;
+  if (!firstSize) {
+    throw new Error("Expected the service panel to contain action card sizes");
+  }
+  for (const size of remainingSizes) {
+    expect(Math.abs(size.width - firstSize.width)).toBeLessThan(0.02);
+    expect(Math.abs(size.height - firstSize.height)).toBeLessThan(0.02);
   }
 
   const paymentCard = cards.first();

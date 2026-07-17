@@ -135,7 +135,9 @@ export function HeaderNav() {
       header.style.removeProperty("backdrop-filter");
     }
 
-    return () => header.style.removeProperty("backdrop-filter");
+    return () => {
+      header.style.removeProperty("backdrop-filter");
+    };
   }, [activeLayer, isScrolled]);
 
   useEffect(() => {
