@@ -48,8 +48,14 @@ test("R01: header exposes keyboard-reachable institutional navigation", async ({
   page,
 }) => {
   const header = page.locator("[data-section='header']");
+  const compact = (page.viewportSize()?.width ?? 1920) < 1280;
 
   await expect(header).toBeVisible();
+  await header
+    .getByRole("button", {
+      name: compact ? "Открыть меню" : "Открыть дополнительную навигацию",
+    })
+    .click();
   await expect(
     header.getByRole("navigation", { name: /основная навигация/i }),
   ).toBeVisible();
@@ -57,7 +63,10 @@ test("R01: header exposes keyboard-reachable institutional navigation", async ({
     0,
   );
   await expect(
-    header.getByRole("link", { name: /документ/i, includeHidden: true }),
+    header.getByRole("link", {
+      name: "Нормативно-правовая информация",
+      exact: true,
+    }),
   ).toHaveAttribute("href", /\S+/);
 });
 
@@ -72,8 +81,6 @@ test("R02: road network exposes all nine roads in approved order", async ({ page
       .locator("[data-road-id]")
       .evaluateAll((roads) => roads.map((road) => road.getAttribute("data-road-id"))),
   ).toEqual(roadIds);
-  await expect(page.getByTestId("road-static-list")).toBeAttached();
-
   await tabs.first().focus();
   await page.keyboard.press("ArrowRight");
   await expect(tabs.nth(1)).toBeFocused();
@@ -120,9 +127,32 @@ test("R04-R07: content rails expose honest data or explicit source states", asyn
     page.locator("[data-loyalty-item], [data-loyalty-state='empty']"),
   ).not.toHaveCount(0);
 
-  await expect(page.getByTestId("news-grid").locator("[data-news-item]")).toHaveCount(
-    5,
-  );
+  const newsGrid = page.getByTestId("news-grid");
+  await expect(newsGrid.locator("[data-news-item]")).toHaveCount(5);
+  await expect(newsGrid.locator("img")).toHaveCount(5);
+  await expect(newsGrid.getByText("Иллюстрация", { exact: true })).toHaveCount(0);
+
+  const allNews = newsGrid.getByRole("link", { name: "Все новости" });
+  await expect(allNews).toBeVisible();
+  await expect(allNews).toHaveCSS("background-color", "rgb(213, 68, 0)");
+  await expect(allNews).toHaveCSS("color", "rgb(255, 255, 255)");
+
+  if ((page.viewportSize()?.width ?? 0) >= 1024) {
+    const [buttonBox, rightColumnCardBox] = await Promise.all([
+      allNews.boundingBox(),
+      newsGrid.locator(".news-card--3").boundingBox(),
+    ]);
+    expect(Math.abs((buttonBox?.x ?? 0) - (rightColumnCardBox?.x ?? 0))).toBeLessThan(
+      1,
+    );
+    expect(
+      Math.abs((buttonBox?.width ?? 0) - (rightColumnCardBox?.width ?? 0)),
+    ).toBeLessThan(1);
+  }
+
+  for (const image of await newsGrid.locator("img").all()) {
+    await expect(image).toHaveAttribute("alt", /.+/);
+  }
   await expect(page.getByTestId("important-state")).toBeVisible();
   await expect(
     page.getByTestId("media-rail").locator("[data-media-item]"),

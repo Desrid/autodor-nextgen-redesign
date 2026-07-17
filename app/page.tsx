@@ -1,11 +1,15 @@
 import { ContactsTabs } from "@/app/components/ContactsTabs.client";
 import { FloatingUtilities } from "@/app/components/FloatingUtilities.client";
 import { HeaderNav } from "@/app/components/HeaderNav.client";
-import { RoadNetworkHero } from "@/app/components/RoadNetworkHero.client";
+import LoyaltyRail from "@/app/components/LoyaltyRail.client";
+import { ServicesGrid } from "@/app/components/ServicesGrid";
+import {
+  type HeroVariant,
+  RoadNetworkHero,
+} from "@/app/components/RoadNetworkHero.client";
 import {
   GOVERNMENT_LINKS,
   NEWS,
-  SERVICES,
   SOCIAL_LINKS,
   SUBSIDIARY_SERVICES,
 } from "@/app/data/home-content";
@@ -19,7 +23,12 @@ import {
 import Image from "next/image";
 
 type HomePageProps = Readonly<{
-  searchParams?: Promise<Readonly<{ car?: string | readonly string[] }>>;
+  searchParams?: Promise<
+    Readonly<{
+      car?: string | readonly string[];
+      hero?: string | readonly string[];
+    }>
+  >;
 }>;
 
 const MEDIA_GALLERY = [
@@ -84,17 +93,25 @@ export default async function HomePage({
 }: HomePageProps = {}) {
   const query = await searchParams;
   const carValue = Array.isArray(query.car) ? query.car[0] : query.car;
-  const withCar = carValue === "on";
+  const heroValue = Array.isArray(query.hero) ? query.hero[0] : query.hero;
+  const withCar = carValue !== "off";
+  const heroVariant: HeroVariant =
+    heroValue === "atlas" || heroValue === "signal" ? heroValue : "cinematic";
 
   return (
     <>
       <header className="site-header" data-section="header" data-node-id="1767:6576">
         <HeaderNav />
       </header>
+      <div
+        id="header-scroll-sentinel"
+        className="header-scroll-sentinel"
+        aria-hidden="true"
+      />
 
       <main id="main-content" tabIndex={-1}>
         <div data-section="roads" data-node-id="1767:7102">
-          <RoadNetworkHero withCar={withCar} />
+          <RoadNetworkHero withCar={withCar} variant={heroVariant} />
         </div>
 
         <section
@@ -103,27 +120,10 @@ export default async function HomePage({
           data-section="services"
           data-node-id="1767:7168"
         >
-          <SectionHeading id="services-title">Сервисы</SectionHeading>
-          <div className="services-grid" data-testid="services-grid">
-            {SERVICES.map((service) => (
-              <details
-                key={service.id}
-                className="service-card"
-                data-service-id={service.id}
-                data-testid={`service-${service.id}`}
-                data-node-id={service.nodeId}
-              >
-                <summary>
-                  <span>{service.title}</span>
-                  <span aria-hidden="true">+</span>
-                </summary>
-                <div className="service-card__body">
-                  <p>{service.description}</p>
-                  <a href={service.href}>Открыть сервис</a>
-                </div>
-              </details>
-            ))}
+          <div className="services-heading" data-node-id="1767:7220">
+            <h2 id="services-title">Сервисы</h2>
           </div>
+          <ServicesGrid />
         </section>
 
         <section
@@ -132,23 +132,9 @@ export default async function HomePage({
           data-section="loyalty"
           data-node-id="1767:7270"
         >
-          <SectionHeading id="loyalty-title">Программа лояльности</SectionHeading>
-          <div
-            className="source-state source-state--wide"
-            data-testid="loyalty-rail"
-            data-loyalty-state="ready"
-          >
-            <div>
-              <p>Действует до 30 сентября 2026 года</p>
-              <strong>Поддержка многодетных семей</strong>
-              <p data-loyalty-item>
-                12 000 бонусных баллов, транспондер T-pass со скидкой 30% и максимальная
-                скидка программы лояльности 15%.
-              </p>
-            </div>
-            <a href="https://www.russianhighways.ru/press/news/145160/">
-              Условия акции
-            </a>
+          <div className="loyalty-header">
+            <SectionHeading id="loyalty-title">Программа лояльности</SectionHeading>
+            <LoyaltyRail />
           </div>
         </section>
 
@@ -166,16 +152,44 @@ export default async function HomePage({
                 className={`news-card news-card--${index + 1}`}
                 data-news-item
               >
-                <time>{item.date}</time>
-                <h3>
-                  <a href={item.href}>{item.title}</a>
-                </h3>
+                <a
+                  className="news-card__link"
+                  href={item.href}
+                  aria-label={`${item.title}. ${item.date}.`}
+                >
+                  <Image
+                    className="news-card__image"
+                    src={item.image}
+                    alt={item.imageAlt}
+                    fill
+                    sizes={
+                      index === 0
+                        ? "(max-width: 767px) 100vw, (max-width: 1023px) 100vw, 50vw"
+                        : "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
+                    }
+                  />
+                  <span className="news-card__shade" aria-hidden="true" />
+                  <div className="news-card__content">
+                    <div className="news-card__meta">
+                      <time dateTime={item.dateTime}>{item.date}</time>
+                    </div>
+                    <div className="news-card__copy">
+                      <h3>{item.title}</h3>
+                      <span className="news-card__cta" aria-hidden="true">
+                        Читать
+                      </span>
+                    </div>
+                  </div>
+                </a>
               </article>
             ))}
+            <a
+              className="news-bento__all"
+              href="https://www.russianhighways.ru/press/news/"
+            >
+              Все новости
+            </a>
           </div>
-          <a className="section-link" href="https://www.russianhighways.ru/press/news/">
-            Все новости
-          </a>
         </section>
 
         <section
@@ -389,18 +403,16 @@ export default async function HomePage({
           <div className="future-layout" data-testid="future-projects">
             <div className="future-map" data-fallback="no-webgl">
               <Image
-                src="/brand/future-projects-map.png"
-                alt="Презентационная карта будущих проектов из Figma. Точная геометрия объектов не верифицирована"
-                width="736"
-                height="463"
+                src="/brand/autodor-network-map.svg"
+                alt="Схема направлений развития сети дорог Автодора: действующие дороги, перспективные проекты, строящиеся участки и морские порты. Не предназначена для навигации"
+                width="1600"
+                height="760"
                 loading="lazy"
               />
-              <p>
+              <p className="visually-hidden">
                 Статический режим карты. Названия и ориентир по сроку подтверждены
                 официальным проспектом; точная геометрия не публикуется как проверенная.
               </p>
-            </div>
-            <div>
               <ol className="future-timeline" aria-label="Шкала лет из Figma">
                 {FUTURE_PROJECT_TIMELINE.map((item) => (
                   <li key={item.year} data-node-id={item.figmaNodeId}>
@@ -408,99 +420,158 @@ export default async function HomePage({
                   </li>
                 ))}
               </ol>
-              <div className="future-projects">
-                {FUTURE_PROJECTS.map((project, index) => (
-                  <article
-                    key={project.id}
-                    data-future-project
-                    data-status={project.publicationStatus}
-                    data-node-id={project.figmaCardNodeId}
-                  >
-                    <p>Проект {index + 1}</p>
-                    {project.publicationStatus === "verified" ? (
-                      <>
-                        <h3>{project.title}</h3>
-                        <p>
-                          <time dateTime={`${project.deadlineYear}`}>
-                            {project.deadlineLabel}
-                          </time>
-                        </p>
-                        <a href={project.detailsUrl}>Официальный источник, стр. 36</a>
-                      </>
-                    ) : (
-                      <>
-                        <h3>Название и срок не опубликованы</h3>
-                        <p>{project.mapGeometry.reason}</p>
-                      </>
-                    )}
-                  </article>
-                ))}
-              </div>
-              <a
-                className="section-link"
-                href="https://russianhighways.ru/about/activity/"
-              >
-                Деятельность компании
-              </a>
             </div>
+            <div className="future-projects">
+              {FUTURE_PROJECTS.map((project, index) => (
+                <article
+                  key={project.id}
+                  data-future-project
+                  data-status={project.publicationStatus}
+                  data-node-id={project.figmaCardNodeId}
+                >
+                  <p>Проект {index + 1}</p>
+                  {project.publicationStatus === "verified" ? (
+                    <>
+                      <h3>{project.title}</h3>
+                      <p>
+                        <time dateTime={`${project.deadlineYear}`}>
+                          {project.deadlineLabel}
+                        </time>
+                      </p>
+                      <a href={project.detailsUrl}>Официальный источник, стр. 36</a>
+                    </>
+                  ) : (
+                    <>
+                      <h3>Название и срок не опубликованы</h3>
+                      <p>{project.mapGeometry.reason}</p>
+                    </>
+                  )}
+                </article>
+              ))}
+            </div>
+            <a
+              className="section-link"
+              href="https://russianhighways.ru/about/activity/"
+            >
+              Деятельность компании
+            </a>
           </div>
         </section>
       </main>
 
       <footer className="site-footer" data-section="footer" data-node-id="1767:7539">
-        <div className="footer-grid">
-          <div className="footer-brand">
-            <a
-              href="https://russianhighways.ru/"
-              aria-label="Государственная компания Автодор"
-            >
-              <Image
-                src="/brand/autodor-logo-footer.png"
-                alt=""
-                width="230"
-                height="58"
-                loading="lazy"
-              />
-            </a>
-            <address>
-              <span>Москва, Страстной бульвар, 9</span>
-              <a href="mailto:info@russianhighways.ru">info@russianhighways.ru</a>
-              <a href="tel:+74957271195">+7 495 727-11-95</a>
+        <div className="footer-frame" data-node-id="1767:7540">
+          <div className="footer-top-row" data-node-id="1767:7541">
+            <div className="footer-brand" data-node-id="1767:7542">
+              <a
+                href="https://russianhighways.ru/"
+                aria-label="Государственная компания Автодор"
+              >
+                <Image
+                  src="/brand/autodor-logo-footer.svg"
+                  alt=""
+                  width={241}
+                  height={38}
+                  loading="lazy"
+                />
+              </a>
+            </div>
+            <div className="footer-top-spacer" aria-hidden="true" />
+            <address className="footer-contacts" data-node-id="1767:8050">
+              <span className="footer-contact" data-node-id="1767:8053">
+                <Image src="/brand/footer-location.svg" alt="" width={24} height={24} />
+                <span>Москва, Страстной бульвар, 9</span>
+              </span>
+              <a
+                className="footer-contact"
+                href="mailto:info@russianhighways.ru"
+                data-node-id="1767:8058"
+              >
+                <Image src="/brand/footer-email.svg" alt="" width={24} height={24} />
+                <span>info@russianhighways.ru</span>
+              </a>
+              <a
+                className="footer-contact"
+                href="tel:+74957271195"
+                data-node-id="1767:8063"
+              >
+                <Image src="/brand/footer-phone.svg" alt="" width={24} height={24} />
+                <span>+7&nbsp;495&nbsp;727-11-95</span>
+              </a>
             </address>
+            <nav
+              className="footer-social"
+              aria-label="Социальные сети"
+              data-node-id="1767:8066"
+            >
+              {SOCIAL_LINKS.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  aria-label={item.label}
+                  data-node-id={item.nodeId}
+                >
+                  <Image
+                    src={item.image}
+                    alt=""
+                    width={48}
+                    height={48}
+                    loading="lazy"
+                  />
+                </a>
+              ))}
+            </nav>
           </div>
-          <nav className="footer-legal" aria-label="Правовая информация">
-            <a href="https://russianhighways.ru/about/regulatory-information/disc_inform/">
-              Раскрытие информации
-            </a>
-            <a href="https://russianhighways.ru/about/">Противодействие коррупции</a>
-            <a href="https://russianhighways.ru/upload/docs/politika_PD.pdf">
-              Политика обработки персональных данных
-            </a>
-          </nav>
-          <nav className="footer-social" aria-label="Социальные сети">
-            {SOCIAL_LINKS.map((item) => (
-              <a key={item.label} href={item.href} aria-label={item.label}>
-                {item.label}
+
+          <nav
+            className="footer-government"
+            aria-label="Государственные ресурсы"
+            data-node-id="1767:8085"
+          >
+            {GOVERNMENT_LINKS.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                aria-label={item.label}
+                data-node-id={item.nodeId}
+              >
+                <Image
+                  src={item.image}
+                  alt=""
+                  width={item.width}
+                  height={64}
+                  loading="lazy"
+                />
               </a>
             ))}
           </nav>
-        </div>
-        <nav className="government-links" aria-label="Государственные ресурсы">
-          {GOVERNMENT_LINKS.map((item) => (
-            <a key={item.label} href={item.href}>
-              <Image
-                src={item.image}
-                alt={item.label}
-                width="220"
-                height="64"
-                loading="lazy"
-              />
+
+          <nav
+            className="footer-legal"
+            aria-label="Правовая информация"
+            data-node-id="1767:9207"
+          >
+            <a
+              href="https://russianhighways.ru/about/regulatory-information/disc_inform/"
+              data-node-id="1767:9209"
+            >
+              Раскрытие информации
             </a>
-          ))}
-        </nav>
-        <p className="copyright">
-          © 2009–2026 Государственная компания «Российские автомобильные дороги»
-        </p>
+            <a href="https://russianhighways.ru/about/" data-node-id="1767:9210">
+              Противодействие коррупции
+            </a>
+            <a
+              href="https://russianhighways.ru/upload/docs/politika_PD.pdf"
+              data-node-id="1767:9211"
+            >
+              Политика обработки персональных данных
+            </a>
+          </nav>
+
+          <p className="footer-copyright" data-node-id="1767:9215">
+            © 2009–2026&nbsp;Государственная компания «Российские автомобильные дороги»
+          </p>
+        </div>
       </footer>
 
       <FloatingUtilities />

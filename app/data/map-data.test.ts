@@ -48,12 +48,18 @@ describe("road data contract", () => {
     }
   });
 
-  it("does not expose invented geometry", () => {
+  it("exposes all nine routes as official-source presentation schematics", () => {
     for (const road of ROADS) {
-      expect(hasVerifiedGeometry(road.mapGeometry)).toBe(false);
+      expect(hasVerifiedGeometry(road.mapGeometry)).toBe(true);
       expect(road.mapGeometry).toMatchObject({
-        status: "unavailable",
-        geometry: null,
+        status: "verified",
+        geometry: { type: "LineString" },
+        source: {
+          url: road.detailsUrl,
+          verifiedAt: "2026-07-16",
+        },
+        license: "Displayed as a schematic route",
+        attribution: "Avtodor route scheme",
       });
     }
   });

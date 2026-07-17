@@ -1,28 +1,13 @@
-export type NavigationItem = Readonly<{
-  label: string;
-  href: `https://${string}`;
-}>;
+import type { HeaderLink as NavigationItem } from "./header-navigation";
 
-export const PRIMARY_NAVIGATION = [
-  { label: "О компании", href: "https://russianhighways.ru/about/" },
-  { label: "Пресс-центр", href: "https://www.russianhighways.ru/press/" },
-  {
-    label: "Пользователям автодорог",
-    href: "https://russianhighways.ru/for_drivers/",
-  },
-  { label: "Партнерам", href: "https://russianhighways.ru/for_investor/" },
-  { label: "Закупки", href: "https://russianhighways.ru/tenders/?tab=1" },
-] as const satisfies readonly NavigationItem[];
+export { PRIMARY_NAVIGATION } from "./header-navigation";
 
 export const MORE_NAVIGATION = [
   {
     label: "Документы",
     href: "https://russianhighways.ru/about/regulatory-information/disc_inform/",
   },
-  {
-    label: "Реализация",
-    href: "https://russianhighways.ru/tenders/?tab=1",
-  },
+  { label: "Реализация", href: "https://russianhighways.ru/tenders/?tab=1" },
   { label: "Поддержка МСП", href: "https://russianhighways.ru/msp/" },
 ] as const satisfies readonly NavigationItem[];
 
@@ -87,32 +72,52 @@ export const SERVICES = [
 
 export const NEWS = [
   {
+    dateTime: "2026-07-14",
     date: "14 июля 2026",
     title:
-      "Михаил Мишустин встретился с председателем правления государственной компании «Автодор» Вячеславом Петушенко",
+      "Михаил Мишустин встретился с\u00a0председателем правления государственной компании «Автодор» Вячеславом Петушенко",
     href: "https://russianhighways.ru/press/news/149487/",
+    image: "/media/news/government-meeting-patriotic.png",
+    imageAlt:
+      "Сгенерированный образ совещания по дорожной инфраструктуре с российским триколором; не является документальной съёмкой встречи",
   },
   {
+    dateTime: "2026-07-10",
     date: "10 июля 2026",
     title:
-      "Глава Автодора и губернатор Пермского края обсудили перспективы развития региона",
+      "Глава Автодора и\u00a0губернатор Пермского края обсудили перспективы развития региона",
     href: "https://russianhighways.ru/press/news/149367/",
+    image: "/media/news/perm-development.png",
+    imageAlt:
+      "Сгенерированная панорама современной автомагистрали в лесном ландшафте; не является снимком конкретного участка",
   },
   {
+    dateTime: "2026-07-09",
     date: "9 июля 2026",
-    title: "Автодор поздравил выпускников МАДИ с окончанием университета",
+    title: "Автодор поздравил выпускников МАДИ с\u00a0окончанием университета",
     href: "https://russianhighways.ru/press/news/149323/",
+    image: "/media/news/madi-graduates.png",
+    imageAlt:
+      "Сгенерированная иллюстрация выпускников дорожного инженерного направления с чертежами и касками",
   },
   {
+    dateTime: "2026-07-08",
     date: "8 июля 2026",
     title:
-      "Госкомпания «Автодор» и Правительство Псковской области будут развивать дорожный сервис для автотуристов",
+      "Госкомпания «Автодор» и\u00a0Правительство Псковской области будут развивать дорожный сервис для\u00a0автотуристов",
     href: "https://russianhighways.ru/press/news/149261/",
+    image: "/media/news/pskov-roadside.png",
+    imageAlt:
+      "Сгенерированная иллюстрация современного придорожного сервиса для автотуристов в сосновом лесу",
   },
   {
+    dateTime: "2026-07-08",
     date: "8 июля 2026",
-    title: "За пять лет на ЦКАД зафиксировано около 410 млн проездов",
+    title: "За\u00a0пять лет на\u00a0ЦКАД зафиксировано около 410 млн проездов",
     href: "https://russianhighways.ru/press/news/149242/",
+    image: "/media/news/ckad-traffic.png",
+    imageAlt:
+      "Сгенерированный вид сверху на загруженную многоуровневую дорожную развязку; не является снимком ЦКАД",
   },
 ] as const;
 
@@ -214,27 +219,52 @@ export const SUBSIDIARY_SERVICES = [
 ] as const;
 
 export const SOCIAL_LINKS = [
-  { label: "Rutube", href: "https://rutube.ru/channel/24811017/" },
-  { label: "ВКонтакте", href: "https://vk.com/gkavtodor" },
-  { label: "Telegram", href: "https://t.me/avtodorgk" },
-  { label: "Одноклассники", href: "https://ok.ru/gkavtodor" },
-  { label: "MAX", href: "https://max.ru/avtodorgk" },
-] as const satisfies readonly NavigationItem[];
+  {
+    label: "Rutube",
+    href: "https://rutube.ru/channel/24811017/",
+    image: "/brand/social-rutube.svg",
+    nodeId: "1767:8067",
+  },
+  {
+    label: "ВКонтакте",
+    href: "https://vk.com/gkavtodor",
+    image: "/brand/social-vk.svg",
+    nodeId: "1767:8071",
+  },
+  {
+    label: "Одноклассники",
+    href: "https://ok.ru/gkavtodor",
+    image: "/brand/social-ok.svg",
+    nodeId: "1767:8075",
+  },
+  {
+    label: "MAX",
+    href: "https://max.ru/avtodorgk",
+    image: "/brand/social-max.svg",
+    nodeId: "1767:8082",
+  },
+] as const;
 
 export const GOVERNMENT_LINKS = [
   {
     label: "Правительство России",
     href: "http://government.ru/",
-    image: "/brand/government-rf.png",
+    image: "/brand/government-rf.svg",
+    width: 72,
+    nodeId: "1767:8086",
   },
   {
     label: "Минтранс России",
     href: "https://mintrans.gov.ru/",
-    image: "/brand/mintrans-rf.png",
+    image: "/brand/mintrans-rf.svg",
+    width: 59,
+    nodeId: "1767:8249",
   },
   {
     label: "Стройкомплекс России",
     href: "https://stroi.gov.ru/",
-    image: "/brand/moscow-construction.png",
+    image: "/brand/construction-rf.svg",
+    width: 103,
+    nodeId: "1767:9202",
   },
 ] as const;

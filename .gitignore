@@ -1,6 +1,7 @@
 node_modules/
 .tools/video-sources/
 .next/
+.next-preview-cache-backup/
 *.tsbuildinfo
 coverage/
 playwright-report/
@@ -11,3 +12,4 @@ test-results/
 .lazyweb/
 .env*
 !.env.example
+debug.log

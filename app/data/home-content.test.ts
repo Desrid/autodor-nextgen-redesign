@@ -41,7 +41,13 @@ describe("homepage source-backed content contracts", () => {
     expect(NEWS).toHaveLength(5);
     for (const item of NEWS) {
       expect(item.date).toMatch(/^\d{1,2} [а-яё]+ 20\d{2}$/i);
+      expect(item.dateTime).toMatch(/^20\d{2}-\d{2}-\d{2}$/);
       expect(item.title.length).toBeGreaterThan(20);
+      expect(item.title).not.toMatch(
+        /(?:^|\s)(?:а|в|и|к|о|с|у|на|по|за|из|от|до|для) /iu,
+      );
+      expect(item.image).toMatch(/^\/media\/news\/[a-z-]+\.png$/);
+      expect(item.imageAlt.length).toBeGreaterThan(30);
     }
   });
 
@@ -70,5 +76,21 @@ describe("homepage source-backed content contracts", () => {
     for (const { href } of GOVERNMENT_LINKS) {
       expect(() => new URL(href)).not.toThrow();
     }
+  });
+
+  it("keeps the exact Figma footer logo slots as local SVG assets", () => {
+    expect(SOCIAL_LINKS.map(({ nodeId }) => nodeId)).toEqual([
+      "1767:8067",
+      "1767:8071",
+      "1767:8075",
+      "1767:8082",
+    ]);
+    expect(SOCIAL_LINKS.every(({ image }) => image.endsWith(".svg"))).toBe(true);
+    expect(GOVERNMENT_LINKS.map(({ nodeId }) => nodeId)).toEqual([
+      "1767:8086",
+      "1767:8249",
+      "1767:9202",
+    ]);
+    expect(GOVERNMENT_LINKS.every(({ image }) => image.endsWith(".svg"))).toBe(true);
   });
 });
