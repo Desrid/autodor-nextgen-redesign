@@ -1,0 +1,485 @@
+{
+  "generatedAt": "2026-07-15",
+  "assets": [
+    {
+      "source": "public/media/source/bridge-viaduct.png",
+      "file": "public/media/optimized/bridge-viaduct/bridge-viaduct-desktop-1440.avif",
+      "variant": "desktop",
+      "format": "avif",
+      "width": 1440,
+      "height": 810,
+      "bytes": 73439,
+      "sha256": "833288d3f4cdc5426da298ff219da2263fa30923c70363e81e24f2acc7344341"
+    },
+    {
+      "source": "public/media/source/bridge-viaduct.png",
+      "file": "public/media/optimized/bridge-viaduct/bridge-viaduct-desktop-1440.webp",
+      "variant": "desktop",
+      "format": "webp",
+      "width": 1440,
+      "height": 810,
+      "bytes": 117690,
+      "sha256": "051af1997fcca46f224e313c24b555d3d3085dd9e8cc07792618321864a48ed8"
+    },
+    {
+      "source": "public/media/source/bridge-viaduct.png",
+      "file": "public/media/optimized/bridge-viaduct/bridge-viaduct-desktop-640.avif",
+      "variant": "desktop",
+      "format": "avif",
+      "width": 640,
+      "height": 360,
+      "bytes": 15305,
+      "sha256": "49b619572349217383c0b887fccc73bed814bb209cc60f80735b50b9fd6a0791"
+    },
+    {
+      "source": "public/media/source/bridge-viaduct.png",
+      "file": "public/media/optimized/bridge-viaduct/bridge-viaduct-desktop-640.webp",
+      "variant": "desktop",
+      "format": "webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 25208,
+      "sha256": "aedd100a8b8bb1dcceff98dff70feb172a835379f8cb8ccd4594b2bd7da10066"
+    },
+    {
+      "source": "public/media/source/bridge-viaduct.png",
+      "file": "public/media/optimized/bridge-viaduct/bridge-viaduct-desktop-960.avif",
+      "variant": "desktop",
+      "format": "avif",
+      "width": 960,
+      "height": 540,
+      "bytes": 35508,
+      "sha256": "503b0187b61eb716069fac64867ca72bc17c9df25993f81e450f0d92f3b8c892"
+    },
+    {
+      "source": "public/media/source/bridge-viaduct.png",
+      "file": "public/media/optimized/bridge-viaduct/bridge-viaduct-desktop-960.webp",
+      "variant": "desktop",
+      "format": "webp",
+      "width": 960,
+      "height": 540,
+      "bytes": 55026,
+      "sha256": "33a397959ead81c929351fbb2684ce409daf9d18f03e790626e5dac17eb156f3"
+    },
+    {
+      "source": "public/media/source/bridge-viaduct.png",
+      "file": "public/media/optimized/bridge-viaduct/bridge-viaduct-mobile-320.avif",
+      "variant": "mobile",
+      "format": "avif",
+      "width": 320,
+      "height": 400,
+      "bytes": 8835,
+      "sha256": "bf19be40906e43bd3570424453fd8e810b09decb1497d3984f3224aff6df26c7"
+    },
+    {
+      "source": "public/media/source/bridge-viaduct.png",
+      "file": "public/media/optimized/bridge-viaduct/bridge-viaduct-mobile-320.webp",
+      "variant": "mobile",
+      "format": "webp",
+      "width": 320,
+      "height": 400,
+      "bytes": 13712,
+      "sha256": "3a9f886a55df12bc4f745ad6500421c039e978cf18073cb53a0fae311abe3df6"
+    },
+    {
+      "source": "public/media/source/bridge-viaduct.png",
+      "file": "public/media/optimized/bridge-viaduct/bridge-viaduct-mobile-480.avif",
+      "variant": "mobile",
+      "format": "avif",
+      "width": 480,
+      "height": 600,
+      "bytes": 19065,
+      "sha256": "a4b7be71e36b823fcfb3432ff9745b7d084e25da6443a317352ef103851b8215"
+    },
+    {
+      "source": "public/media/source/bridge-viaduct.png",
+      "file": "public/media/optimized/bridge-viaduct/bridge-viaduct-mobile-480.webp",
+      "variant": "mobile",
+      "format": "webp",
+      "width": 480,
+      "height": 600,
+      "bytes": 30002,
+      "sha256": "aeeee347aa2bcde9c4cd025d6a2223f93864e1ea087fb64d3bae1eefe6e5bcba"
+    },
+    {
+      "source": "public/media/source/bridge-viaduct.png",
+      "file": "public/media/optimized/bridge-viaduct/bridge-viaduct-mobile-720.avif",
+      "variant": "mobile",
+      "format": "avif",
+      "width": 720,
+      "height": 900,
+      "bytes": 42062,
+      "sha256": "b31cb81f26cd974c8acbae975216f175fd66791e593439ce43a970318c0b0d1e"
+    },
+    {
+      "source": "public/media/source/bridge-viaduct.png",
+      "file": "public/media/optimized/bridge-viaduct/bridge-viaduct-mobile-720.webp",
+      "variant": "mobile",
+      "format": "webp",
+      "width": 720,
+      "height": 900,
+      "bytes": 65502,
+      "sha256": "ea8a4860ac5922ae096d794325d7880093c66fa624ad03ba8e00f306a12c509a"
+    },
+    {
+      "source": "public/media/source/federal-highway-aerial-hero.png",
+      "file": "public/media/optimized/federal-highway-aerial-hero/federal-highway-aerial-hero-desktop-1440.avif",
+      "variant": "desktop",
+      "format": "avif",
+      "width": 1440,
+      "height": 810,
+      "bytes": 135752,
+      "sha256": "71d1c7a4aab99988137272b66ed3ee03dde28b0738025229526e1ef34cb7257c"
+    },
+    {
+      "source": "public/media/source/federal-highway-aerial-hero.png",
+      "file": "public/media/optimized/federal-highway-aerial-hero/federal-highway-aerial-hero-desktop-1440.webp",
+      "variant": "desktop",
+      "format": "webp",
+      "width": 1440,
+      "height": 810,
+      "bytes": 200104,
+      "sha256": "3fc28b30f392b3b1154d0a71a47463505ad430a93fb55f2c12c35a775ee4ed19"
+    },
+    {
+      "source": "public/media/source/federal-highway-aerial-hero.png",
+      "file": "public/media/optimized/federal-highway-aerial-hero/federal-highway-aerial-hero-desktop-640.avif",
+      "variant": "desktop",
+      "format": "avif",
+      "width": 640,
+      "height": 360,
+      "bytes": 34186,
+      "sha256": "53b55d49bcb4ad5afa1bc0152988beb4b0bba62daf58bba9b3f9099ca4fc0fab"
+    },
+    {
+      "source": "public/media/source/federal-highway-aerial-hero.png",
+      "file": "public/media/optimized/federal-highway-aerial-hero/federal-highway-aerial-hero-desktop-640.webp",
+      "variant": "desktop",
+      "format": "webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 48630,
+      "sha256": "50562aca69f55eff068d3e10b9d349f76601b9d2f8ae9e5ee2bcd4a2bc2a9ab3"
+    },
+    {
+      "source": "public/media/source/federal-highway-aerial-hero.png",
+      "file": "public/media/optimized/federal-highway-aerial-hero/federal-highway-aerial-hero-desktop-960.avif",
+      "variant": "desktop",
+      "format": "avif",
+      "width": 960,
+      "height": 540,
+      "bytes": 74400,
+      "sha256": "e9a638cdc11da2a1c32a2cab6a987323fafdbbc1899cfd6f0a5ef0148278ce50"
+    },
+    {
+      "source": "public/media/source/federal-highway-aerial-hero.png",
+      "file": "public/media/optimized/federal-highway-aerial-hero/federal-highway-aerial-hero-desktop-960.webp",
+      "variant": "desktop",
+      "format": "webp",
+      "width": 960,
+      "height": 540,
+      "bytes": 105128,
+      "sha256": "ac0ff36aec41eda319494678343374f5689e3be31aace6dc7a9ab8ec240dcff9"
+    },
+    {
+      "source": "public/media/source/federal-highway-aerial-hero.png",
+      "file": "public/media/optimized/federal-highway-aerial-hero/federal-highway-aerial-hero-mobile-320.avif",
+      "variant": "mobile",
+      "format": "avif",
+      "width": 320,
+      "height": 400,
+      "bytes": 9863,
+      "sha256": "44ad61478d59fdcb772bd096bc47ece7bed2f585b775622d22c584fb8d6295ed"
+    },
+    {
+      "source": "public/media/source/federal-highway-aerial-hero.png",
+      "file": "public/media/optimized/federal-highway-aerial-hero/federal-highway-aerial-hero-mobile-320.webp",
+      "variant": "mobile",
+      "format": "webp",
+      "width": 320,
+      "height": 400,
+      "bytes": 27264,
+      "sha256": "3c4ee18af88dd7e0c1dafa79ed699b791f950c88a1cbbaaee095c48181e670ea"
+    },
+    {
+      "source": "public/media/source/federal-highway-aerial-hero.png",
+      "file": "public/media/optimized/federal-highway-aerial-hero/federal-highway-aerial-hero-mobile-480.avif",
+      "variant": "mobile",
+      "format": "avif",
+      "width": 480,
+      "height": 600,
+      "bytes": 21080,
+      "sha256": "582357ad0416f438d0ef28ee4ab7e6ae9075c68fe8ba75921616bfcc7bf3db26"
+    },
+    {
+      "source": "public/media/source/federal-highway-aerial-hero.png",
+      "file": "public/media/optimized/federal-highway-aerial-hero/federal-highway-aerial-hero-mobile-480.webp",
+      "variant": "mobile",
+      "format": "webp",
+      "width": 480,
+      "height": 600,
+      "bytes": 57066,
+      "sha256": "b9b873de1f94508136673f2569d6d68f3f440db33022ae4fb38e4e47185513bc"
+    },
+    {
+      "source": "public/media/source/federal-highway-aerial-hero.png",
+      "file": "public/media/optimized/federal-highway-aerial-hero/federal-highway-aerial-hero-mobile-720.avif",
+      "variant": "mobile",
+      "format": "avif",
+      "width": 720,
+      "height": 900,
+      "bytes": 40787,
+      "sha256": "ab7abac465b1ea2d22c512b41412a0f956855ef0b3235ff4c2e03b971cf42072"
+    },
+    {
+      "source": "public/media/source/federal-highway-aerial-hero.png",
+      "file": "public/media/optimized/federal-highway-aerial-hero/federal-highway-aerial-hero-mobile-720.webp",
+      "variant": "mobile",
+      "format": "webp",
+      "width": 720,
+      "height": 900,
+      "bytes": 109582,
+      "sha256": "534b0c2936c732a4e775cbd3ba2974931b48871d6274a766778fa164264188aa"
+    },
+    {
+      "source": "public/media/source/road-construction.png",
+      "file": "public/media/optimized/road-construction/road-construction-desktop-1440.avif",
+      "variant": "desktop",
+      "format": "avif",
+      "width": 1440,
+      "height": 810,
+      "bytes": 136323,
+      "sha256": "72f7a41a6c087b60e054291cb9e3147b086ed03250dd55af4183bb3d20603d1c"
+    },
+    {
+      "source": "public/media/source/road-construction.png",
+      "file": "public/media/optimized/road-construction/road-construction-desktop-1440.webp",
+      "variant": "desktop",
+      "format": "webp",
+      "width": 1440,
+      "height": 810,
+      "bytes": 193250,
+      "sha256": "2d01a3d89c243e4e66eb8b7fd35169e3d9f8067b2ffae1e2b2bbd7c58bf0a902"
+    },
+    {
+      "source": "public/media/source/road-construction.png",
+      "file": "public/media/optimized/road-construction/road-construction-desktop-640.avif",
+      "variant": "desktop",
+      "format": "avif",
+      "width": 640,
+      "height": 360,
+      "bytes": 31734,
+      "sha256": "b2ec2fc358ef86b6a144dac53e2c5b8b4a36af3bc9c734db3f862af90baeee44"
+    },
+    {
+      "source": "public/media/source/road-construction.png",
+      "file": "public/media/optimized/road-construction/road-construction-desktop-640.webp",
+      "variant": "desktop",
+      "format": "webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 42804,
+      "sha256": "1243b1e5af4f229c4acb93b88ad394649af68da4bd90797a1f4c7a26cce65f07"
+    },
+    {
+      "source": "public/media/source/road-construction.png",
+      "file": "public/media/optimized/road-construction/road-construction-desktop-960.avif",
+      "variant": "desktop",
+      "format": "avif",
+      "width": 960,
+      "height": 540,
+      "bytes": 72238,
+      "sha256": "8ea5d52d3a973a262b83246cc1aa7bc1051b10d5d051c6883e19c4a9f136d95e"
+    },
+    {
+      "source": "public/media/source/road-construction.png",
+      "file": "public/media/optimized/road-construction/road-construction-desktop-960.webp",
+      "variant": "desktop",
+      "format": "webp",
+      "width": 960,
+      "height": 540,
+      "bytes": 95166,
+      "sha256": "a136dbdff6ebf8c384dea7e22b442082223db959ddafacffca6831d4fc9479aa"
+    },
+    {
+      "source": "public/media/source/road-construction.png",
+      "file": "public/media/optimized/road-construction/road-construction-mobile-320.avif",
+      "variant": "mobile",
+      "format": "avif",
+      "width": 320,
+      "height": 400,
+      "bytes": 18446,
+      "sha256": "88c064aad2a0df0fa9215fcc6873984884cbccc010575d7b80aa0ee0a0f28c80"
+    },
+    {
+      "source": "public/media/source/road-construction.png",
+      "file": "public/media/optimized/road-construction/road-construction-mobile-320.webp",
+      "variant": "mobile",
+      "format": "webp",
+      "width": 320,
+      "height": 400,
+      "bytes": 23946,
+      "sha256": "0874394f7d89c9ca78555fee86a1b66ad940b32deb9a062789137316ddd0180f"
+    },
+    {
+      "source": "public/media/source/road-construction.png",
+      "file": "public/media/optimized/road-construction/road-construction-mobile-480.avif",
+      "variant": "mobile",
+      "format": "avif",
+      "width": 480,
+      "height": 600,
+      "bytes": 39645,
+      "sha256": "a343e49e2a1d4662c9165b746494e285f5146696f9f8703142f63f6da36388fd"
+    },
+    {
+      "source": "public/media/source/road-construction.png",
+      "file": "public/media/optimized/road-construction/road-construction-mobile-480.webp",
+      "variant": "mobile",
+      "format": "webp",
+      "width": 480,
+      "height": 600,
+      "bytes": 52964,
+      "sha256": "7f7fed1ceb8ef3b5c28e95f911a4cb596bcd7106f828b091cdd8ec9168f6c8a2"
+    },
+    {
+      "source": "public/media/source/road-construction.png",
+      "file": "public/media/optimized/road-construction/road-construction-mobile-720.avif",
+      "variant": "mobile",
+      "format": "avif",
+      "width": 720,
+      "height": 900,
+      "bytes": 73385,
+      "sha256": "bf014acaf554d488663a0788cff3c1f66bd0850dd4274be34dd8a8fb19887716"
+    },
+    {
+      "source": "public/media/source/road-construction.png",
+      "file": "public/media/optimized/road-construction/road-construction-mobile-720.webp",
+      "variant": "mobile",
+      "format": "webp",
+      "width": 720,
+      "height": 900,
+      "bytes": 105728,
+      "sha256": "1a78b61a0d23ef41f788f9695cac9089bf5f3b76011475c1be01978b64128cb4"
+    },
+    {
+      "source": "public/media/source/tunnel-portal.png",
+      "file": "public/media/optimized/tunnel-portal/tunnel-portal-desktop-1440.avif",
+      "variant": "desktop",
+      "format": "avif",
+      "width": 1440,
+      "height": 810,
+      "bytes": 161588,
+      "sha256": "705aee27a4088e693ca34a9aa0d2cbe9f9f5b5cbeef102c49cdec0fb2e82d21e"
+    },
+    {
+      "source": "public/media/source/tunnel-portal.png",
+      "file": "public/media/optimized/tunnel-portal/tunnel-portal-desktop-1440.webp",
+      "variant": "desktop",
+      "format": "webp",
+      "width": 1440,
+      "height": 810,
+      "bytes": 234634,
+      "sha256": "c0841b35241fe89a44bcc1e7d68828d8c3b6514c07cb2aa00c0085b34e493b27"
+    },
+    {
+      "source": "public/media/source/tunnel-portal.png",
+      "file": "public/media/optimized/tunnel-portal/tunnel-portal-desktop-640.avif",
+      "variant": "desktop",
+      "format": "avif",
+      "width": 640,
+      "height": 360,
+      "bytes": 37197,
+      "sha256": "b71b5131dcdacf30a984abd25170b742990af4adcd3d35cf63270ec754ff808c"
+    },
+    {
+      "source": "public/media/source/tunnel-portal.png",
+      "file": "public/media/optimized/tunnel-portal/tunnel-portal-desktop-640.webp",
+      "variant": "desktop",
+      "format": "webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 50816,
+      "sha256": "a9144101df709cab2f650afdbb4196cb9e9bc0538f20d29c15abe324653caa16"
+    },
+    {
+      "source": "public/media/source/tunnel-portal.png",
+      "file": "public/media/optimized/tunnel-portal/tunnel-portal-desktop-960.avif",
+      "variant": "desktop",
+      "format": "avif",
+      "width": 960,
+      "height": 540,
+      "bytes": 85705,
+      "sha256": "4dc59f5bf10639c0ef3a936d2c322a0ecb1cec383b320d1c022320d4fc7fe940"
+    },
+    {
+      "source": "public/media/source/tunnel-portal.png",
+      "file": "public/media/optimized/tunnel-portal/tunnel-portal-desktop-960.webp",
+      "variant": "desktop",
+      "format": "webp",
+      "width": 960,
+      "height": 540,
+      "bytes": 114766,
+      "sha256": "3087f37c1cc76f4a859972248e4e0e1dcfcfbef63029580e48fda8a06753e580"
+    },
+    {
+      "source": "public/media/source/tunnel-portal.png",
+      "file": "public/media/optimized/tunnel-portal/tunnel-portal-mobile-320.avif",
+      "variant": "mobile",
+      "format": "avif",
+      "width": 320,
+      "height": 400,
+      "bytes": 19372,
+      "sha256": "69203cada0bdc0c593975201a183066c02044d458cd2bf60630c4ca1368ed3aa"
+    },
+    {
+      "source": "public/media/source/tunnel-portal.png",
+      "file": "public/media/optimized/tunnel-portal/tunnel-portal-mobile-320.webp",
+      "variant": "mobile",
+      "format": "webp",
+      "width": 320,
+      "height": 400,
+      "bytes": 25356,
+      "sha256": "3876a9910fb3dbe8bb75ad861d226c5514e22ad0de2f6bc632041f89b67acb93"
+    },
+    {
+      "source": "public/media/source/tunnel-portal.png",
+      "file": "public/media/optimized/tunnel-portal/tunnel-portal-mobile-480.avif",
+      "variant": "mobile",
+      "format": "avif",
+      "width": 480,
+      "height": 600,
+      "bytes": 41203,
+      "sha256": "1c73725bca4f69cc5967624296f3d0c0b3f76cbf09f30598a74e194cc2dadc88"
+    },
+    {
+      "source": "public/media/source/tunnel-portal.png",
+      "file": "public/media/optimized/tunnel-portal/tunnel-portal-mobile-480.webp",
+      "variant": "mobile",
+      "format": "webp",
+      "width": 480,
+      "height": 600,
+      "bytes": 56388,
+      "sha256": "ddee1fb5befb1f7bfa400e7deeb766c2f0e0c578c06b8aeba3ad46813a88ab97"
+    },
+    {
+      "source": "public/media/source/tunnel-portal.png",
+      "file": "public/media/optimized/tunnel-portal/tunnel-portal-mobile-720.avif",
+      "variant": "mobile",
+      "format": "avif",
+      "width": 720,
+      "height": 900,
+      "bytes": 82400,
+      "sha256": "7263b8bcddc4b6f1e71b1f6a827df95736b708a8d6ff73161777a999898c8c3d"
+    },
+    {
+      "source": "public/media/source/tunnel-portal.png",
+      "file": "public/media/optimized/tunnel-portal/tunnel-portal-mobile-720.webp",
+      "variant": "mobile",
+      "format": "webp",
+      "width": 720,
+      "height": 900,
+      "bytes": 119564,
+      "sha256": "5ab0ba63eb5f271683bb2f9e47ac364dfdb4f9a715740f4e97d761252e44719f"
+    }
+  ]
+}

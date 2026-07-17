@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 760" role="img" aria-labelledby="title desc">
+  <title id="title">Направления развития сети автомобильных дорог Автодора</title>
+  <desc id="desc">Векторная презентационная схема сети Автодора: действующие дороги, перспективные проекты, строящиеся участки и морские порты. Не предназначена для навигации.</desc>
+  <defs>
+    <style>
+      .land { fill: #f1f2f2; stroke: #fff; stroke-width: 2; }
+      .border { fill: none; stroke: #fff; stroke-width: 1.25; opacity: .94; }
+      .managed { fill: none; stroke: #ff8b61; stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; }
+      .construction { fill: none; stroke: #ff8b61; stroke-width: 3.4; stroke-dasharray: 8 5; stroke-linecap: round; }
+      .prospect { fill: none; stroke: #20bb50; stroke-width: 3.2; stroke-dasharray: 6 5; stroke-linecap: round; stroke-linejoin: round; }
+      .city { fill: #252925; font: 700 17px Arial, Helvetica, sans-serif; paint-order: stroke; stroke: #f1f2f2; stroke-width: 3; stroke-linejoin: round; }
+      .minor { fill: #777b77; font: 600 12px Arial, Helvetica, sans-serif; }
+      .sea { fill: #6aaee0; font: 700 13px Arial, Helvetica, sans-serif; }
+      .country { fill: #8b8f8d; font: 700 24px Arial, Helvetica, sans-serif; letter-spacing: .02em; }
+      .label { fill: #20b84b; }
+      .label-text { fill: #fff; font: 700 15px Arial, Helvetica, sans-serif; }
+      .label-outline { fill: #fff; stroke: #20b84b; stroke-width: 1.5; }
+      .label-outline-text { fill: #20b84b; font: 700 14px Arial, Helvetica, sans-serif; }
+      .construction-label { fill: #fff; stroke: #ff8b61; stroke-width: 1.5; }
+      .construction-text { fill: #ed7048; font: 700 13px Arial, Helvetica, sans-serif; }
+      .route-label { fill: #fff; stroke: #aeb3b1; stroke-width: 1; }
+      .route-text { fill: #59605c; font: 700 15px Arial, Helvetica, sans-serif; }
+      .port { fill: #55aee6; font: 700 12px Arial, Helvetica, sans-serif; }
+      .port-symbol { fill: #55aee6; font: 700 22px Arial, Helvetica, sans-serif; }
+      .legend { fill: #313632; font: 700 16px Arial, Helvetica, sans-serif; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="760" fill="#fff" />
+  <path class="land" d="M75 78 112 43 205 47 251 33 314 53 381 37 446 64 528 58 591 86 698 65 787 79 856 106 934 97 1004 132 1063 122 1125 156 1178 191 1170 248 1140 272 1147 336 1110 374 1035 377 1014 421 951 438 907 470 832 476 797 504 718 492 664 518 580 505 529 536 470 522 424 543 369 526 329 548 276 524 236 478 188 458 155 413 127 385 109 331 82 298 96 257 73 212 91 174Z" />
+  <path class="land" d="M298 449 334 454 358 482 365 525 339 564 301 572 264 550 253 510Z" />
+  <path class="land" d="M379 542 413 563 428 600 410 629 369 624 355 588Z" />
+  <path class="land" d="M742 503 790 516 838 554 850 597 818 631 757 624 725 588Z" />
+  <path class="land" d="M827 608 885 626 904 660 882 691 826 684 804 652Z" />
+  <path class="land" d="M130 158 108 162 94 180 105 195 129 191 145 174Z" />
+  <path class="land" d="M141 200 121 215 125 235 149 244 167 229 165 211Z" />
+  <path class="land" d="M983 82 1015 64 1047 80 1055 109 1025 123 994 112Z" />
+  <path class="land" d="M1008 153 1039 137 1067 152 1061 179 1027 189Z" />
+  <path class="border" d="M188 135 221 150 252 175 282 194 324 212 357 204 390 226 431 216 462 233 505 230 536 247 579 244 616 263 662 250 706 263 753 254 798 266 842 247 882 258 926 241 971 253 1008 237" />
+  <path class="border" d="M251 246 275 270 302 288 324 315 351 338 383 351 408 376 431 405 457 429 479 461 508 481 541 492 575 477 613 467 650 450 695 439 738 422 775 405 816 399 850 376 888 353" />
+  <path class="border" d="M291 337 279 368 287 400 307 423 333 436 358 463 372 491 359 518" />
+  <path class="border" d="M427 299 450 322 477 331 507 349 531 372 548 400 576 422 606 438" />
+  <path class="border" d="M609 267 615 299 636 321 665 339 692 357 724 370" />
+
+  <!-- Existing toll-road network from the official scheme. -->
+  <path class="managed" d="M156 151 C175 170 181 188 203 202 S238 221 250 248 S273 275 287 302" />
+  <path class="managed" d="M287 302 C321 292 350 286 380 284 S431 300 470 303 S518 315 556 312 S597 327 635 324 S676 337 718 331 S764 346 811 337 S853 315 898 309" />
+  <path class="managed" d="M273 287 C248 297 226 310 207 329 S175 351 150 364" />
+  <path class="managed" d="M279 306 C262 331 258 360 259 389 S271 425 280 452 S285 484 300 513 S315 547 317 581" />
+  <path class="managed" d="M317 581 C332 593 347 607 365 626 S385 645 404 661" />
+  <path class="managed" d="M264 291 C280 275 298 270 311 281 S316 304 302 310 S277 305 264 291Z" />
+  <path class="managed" d="M814 336 C835 320 855 304 875 299 S904 292 920 273 S946 257 972 258" />
+  <path class="construction" d="M946 257 C957 241 963 228 962 211 S964 186 976 173" />
+
+  <!-- Prospective corridors and projects. -->
+  <path class="prospect" d="M271 282 C285 272 305 272 316 287 S315 307 302 315" />
+  <path class="prospect" d="M288 309 C318 326 346 335 367 349 S397 365 418 373" />
+  <path class="prospect" d="M488 402 C507 385 525 369 543 353 S577 340 594 323 S621 298 644 289" />
+  <path class="prospect" d="M486 402 C475 427 468 450 459 477 S443 510 427 530" />
+  <path class="prospect" d="M427 530 C451 542 468 550 481 566 S496 590 514 606" />
+  <path class="prospect" d="M407 618 C424 602 434 583 444 566 S461 541 478 521" />
+  <path class="prospect" d="M428 621 C449 634 468 646 486 651" />
+
+  <g aria-label="Города и регионы">
+    <text class="country" x="490" y="212">РОССИЙСКАЯ</text><text class="country" x="510" y="239">ФЕДЕРАЦИЯ</text>
+    <text class="country" x="80" y="392">БЕЛАРУСЬ</text>
+    <text class="city" x="154" y="132">Санкт-Петербург</text><text class="city" x="148" y="202">Великий</text><text class="city" x="148" y="220">Новгород</text>
+    <text class="city" x="231" y="235">Тверь</text><text class="city" x="253" y="271">Москва</text><text class="city" x="191" y="327">Смоленск</text><text class="city" x="244" y="356">Брянск</text>
+    <text class="city" x="355" y="250">Владимир</text><text class="city" x="452" y="232">Нижний</text><text class="city" x="452" y="250">Новгород</text><text class="city" x="535" y="271">Чебоксары</text><text class="city" x="639" y="271">Казань</text>
+    <text class="city" x="371" y="406">Воронеж</text><text class="city" x="439" y="382">Саранск</text><text class="city" x="421" y="419">Пенза</text><text class="city" x="526" y="382">Тольятти</text><text class="city" x="568" y="408">Самара</text>
+    <text class="city" x="479" y="473">Саратов</text><text class="city" x="612" y="425">Оренбург</text><text class="city" x="676" y="246">Екатеринбург</text>
+    <text class="city" x="357" y="538">Волгоград</text><text class="city" x="336" y="575">Ростов-на-Дону</text><text class="city" x="279" y="565">Донецк</text><text class="city" x="306" y="548">Луганск</text>
+    <text class="city" x="260" y="621">Краснодар</text><text class="city" x="217" y="648">Новороссийск</text><text class="city" x="377" y="670">Сочи</text><text class="city" x="512" y="624">Астрахань</text>
+    <text class="minor" x="386" y="334">Липецк</text><text class="minor" x="256" y="442">Курск</text><text class="minor" x="316" y="479">Белгород</text><text class="minor" x="615" y="264">Пермь</text>
+    <text class="sea" x="73" y="112">Финский</text><text class="sea" x="73" y="128">залив</text><text class="sea" x="230" y="706">Чёрное море</text><text class="sea" x="548" y="705">Каспийское море</text>
+  </g>
+
+  <g aria-label="Подписи дорог и проектов">
+    <path d="M156 151 137 35H20" fill="none" stroke="#ff8b61" stroke-width="1.5" /><circle cx="156" cy="151" r="4" fill="#ff8b61" />
+    <rect class="construction-label" x="20" y="20" width="216" height="26" rx="4" /><text class="construction-text" x="30" y="38">ТР М-11 «НЕВА» — ПУЛКОВО</text>
+    <path d="M177 180 147 70H20" fill="none" stroke="#ff8b61" stroke-width="1.5" /><circle cx="177" cy="180" r="4" fill="#ff8b61" />
+    <rect class="construction-label" x="20" y="55" width="205" height="26" rx="4" /><text class="construction-text" x="30" y="73">ТР М-11 «НЕВА» — КМ 385</text>
+    <path d="M184 147V164H224" fill="none" stroke="#20b84b" stroke-width="1.5" /><circle cx="184" cy="147" r="4" fill="#20b84b" />
+    <rect class="label" x="224" y="151" width="116" height="29" rx="5" /><text class="label-text" x="236" y="171">М-11 «Нева»</text>
+    <path d="M239 304V274H187" fill="none" stroke="#20b84b" stroke-width="1.5" /><circle cx="239" cy="304" r="4" fill="#20b84b" />
+    <rect class="label" x="79" y="259" width="132" height="29" rx="5" /><text class="label-text" x="91" y="279">М-1 «Беларусь»</text>
+    <path d="M209 349H115" fill="none" stroke="#20b84b" stroke-width="1.5" /><circle cx="209" cy="349" r="4" fill="#20b84b" />
+    <rect class="label" x="34" y="334" width="130" height="29" rx="5" /><text class="label-text" x="46" y="354">М-3 «Украина»</text>
+    <path d="M281 327H344" fill="none" stroke="#20b84b" stroke-width="1.5" /><circle cx="281" cy="327" r="4" fill="#20b84b" />
+    <rect class="label" x="344" y="312" width="104" height="29" rx="5" /><text class="label-text" x="356" y="332">М-4 «Дон»</text>
+    <path d="M287 281V220H229" fill="none" stroke="#20b84b" stroke-width="1.5" /><circle cx="287" cy="281" r="4" fill="#20b84b" />
+    <rect class="label" x="150" y="205" width="67" height="29" rx="5" /><text class="label-text" x="163" y="225">КАД-2</text>
+    <path d="M418 374H523" fill="none" stroke="#20b84b" stroke-width="1.5" /><circle cx="418" cy="374" r="4" fill="#20b84b" />
+    <rect class="label" x="523" y="359" width="242" height="29" rx="5" /><text class="label-text" x="535" y="379">ОБХОД ОРЕХОВО-ЗУЕВО</text>
+    <path d="M486 403H650" fill="none" stroke="#20b84b" stroke-width="1.5" /><circle cx="486" cy="403" r="4" fill="#20b84b" />
+    <rect class="label-outline" x="650" y="416" width="170" height="29" rx="5" /><text class="label-outline-text" x="662" y="436">ЮГО-ЗАПАДНАЯ ХОРДА</text>
+    <path d="M409 620H245" fill="none" stroke="#20b84b" stroke-width="1.5" /><circle cx="409" cy="620" r="4" fill="#20b84b" />
+    <rect class="label" x="112" y="605" width="122" height="29" rx="5" /><text class="label-text" x="124" y="625">ЮЖНЫЙ ОБХОД</text>
+    <path d="M300 513 275 497H20" fill="none" stroke="#ff8b61" stroke-width="1.5" /><circle cx="300" cy="513" r="4" fill="#ff8b61" />
+    <rect class="construction-label" x="20" y="482" width="260" height="26" rx="4" /><text class="construction-text" x="30" y="500">РЕКОНСТРУКЦИЯ М-4 «ДОН», КМ 933–1024</text>
+    <path d="M840 476V502H895" fill="none" stroke="#ff8b61" stroke-width="1.5" /><circle cx="840" cy="476" r="4" fill="#ff8b61" />
+    <rect class="construction-label" x="895" y="489" width="208" height="48" rx="4" /><text class="construction-text" x="905" y="507">ПУНКТ ПРОПУСКА «САРАТОВ —</text><text class="construction-text" x="905" y="524">ГРАНИЦА РФ И КАЗАХСТАНА»</text>
+    <rect class="route-label" x="252" y="181" width="118" height="28" rx="4" /><text class="route-text" x="263" y="200">М-11 «Нева»</text>
+    <rect class="route-label" x="82" y="384" width="118" height="28" rx="4" /><text class="route-text" x="94" y="403">М-3 «Украина»</text>
+    <rect class="route-label" x="340" y="427" width="100" height="28" rx="4" /><text class="route-text" x="351" y="446">М-4 «Дон»</text>
+    <rect class="route-label" x="774" y="300" width="122" height="28" rx="4" /><text class="route-text" x="786" y="319">М-12 «Восток»</text>
+    <path d="M404 661H479" fill="none" stroke="#20b84b" stroke-width="1.5" /><circle cx="404" cy="661" r="4" fill="#20b84b" />
+    <rect class="label" x="479" y="646" width="170" height="29" rx="5" /><text class="label-text" x="491" y="666">М-4 «Дон» — Сочи</text>
+    <path d="M303 314V301H371" fill="none" stroke="#20b84b" stroke-width="1.5" /><circle cx="303" cy="314" r="4" fill="#20b84b" />
+    <rect class="label-outline" x="371" y="286" width="455" height="29" rx="5" /><text class="label-outline-text" x="383" y="306" font-size="12">ТР: ЦКАД × ДМИТРОВСКОЕ, ФРЯНОВСКОЕ И ЩЁЛКОВСКОЕ ШОССЕ</text>
+  </g>
+
+  <g aria-label="Морские порты">
+    <text class="port-symbol" x="132" y="145">⚓</text><text class="port" x="120" y="163">Морской порт</text><text class="port" x="120" y="177">Санкт-Петербург</text>
+    <text class="port-symbol" x="215" y="657">⚓</text><text class="port" x="202" y="675">Новороссийский</text><text class="port" x="202" y="688">морской порт</text>
+    <text class="port-symbol" x="368" y="686">⚓</text><text class="port" x="354" y="705">Порт Сочи</text>
+    <text class="port-symbol" x="500" y="609">⚓</text><text class="port" x="516" y="604">Астраханский</text><text class="port" x="516" y="618">морской порт</text>
+  </g>
+
+  <g transform="translate(1135 510)" aria-label="Условные обозначения">
+    <rect width="385" height="194" rx="12" fill="#fff" fill-opacity=".94" />
+    <text class="legend" x="28" y="37">Условные обозначения</text>
+    <path class="managed" d="M28 66H88" /><text class="legend" x="105" y="72">Дороги в доверительном управлении</text>
+    <path class="prospect" d="M28 100H88" /><text class="legend" x="105" y="106">Перспективные проекты</text>
+    <path class="construction" d="M28 134H88" /><text class="legend" x="105" y="140">Строящиеся участки</text>
+    <text class="port-symbol" x="46" y="177">⚓</text><text class="legend" x="105" y="174">Морские порты</text>
+  </g>
+</svg>
