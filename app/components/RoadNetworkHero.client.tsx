@@ -17,16 +17,19 @@ const MEDIA = [
   "tunnel-portal",
 ] as const;
 
+const HERO_VIDEO_BASE =
+  "https://github.com/Desrid/autodor-nextgen-redesign/raw/bbd9ce1bc25553148c5b264a6a6f9b7609cea45e/public/media/video";
+
 const HERO_VIDEO_SEQUENCE = [
-  "/media/video/hero-road-01.mp4",
-  "/media/video/hero-road-02.mp4",
-  "/media/video/hero-road-03.mp4",
-  "/media/video/hero-road-04.mp4",
-  "/media/video/hero-road-01.mp4",
-  "/media/video/hero-road-02.mp4",
-  "/media/video/hero-road-03.mp4",
-  "/media/video/hero-road-04.mp4",
-  "/media/video/hero-road-02.mp4",
+  `${HERO_VIDEO_BASE}/hero-road-01.mp4`,
+  `${HERO_VIDEO_BASE}/hero-road-02.mp4`,
+  `${HERO_VIDEO_BASE}/hero-road-03.mp4`,
+  `${HERO_VIDEO_BASE}/hero-road-04.mp4`,
+  `${HERO_VIDEO_BASE}/hero-road-01.mp4`,
+  `${HERO_VIDEO_BASE}/hero-road-02.mp4`,
+  `${HERO_VIDEO_BASE}/hero-road-03.mp4`,
+  `${HERO_VIDEO_BASE}/hero-road-04.mp4`,
+  `${HERO_VIDEO_BASE}/hero-road-02.mp4`,
 ] as const;
 
 export type HeroVariant = "cinematic" | "atlas" | "signal";
