@@ -1,25 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import { CONTACT_TABS } from "@/app/data/home-content";
 
 export function ContactsTabs() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isVertical, setIsVertical] = useState(true);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
-
-  useEffect(() => {
-    if (typeof window.matchMedia !== "function") return;
-
-    const mediaQuery = window.matchMedia("(min-width: 768px)");
-    const updateOrientation = () => setIsVertical(mediaQuery.matches);
-
-    updateOrientation();
-    mediaQuery.addEventListener("change", updateOrientation);
-
-    return () => mediaQuery.removeEventListener("change", updateOrientation);
-  }, []);
 
   const select = (index: number, focus = false) => {
     const next = (index + CONTACT_TABS.length) % CONTACT_TABS.length;
@@ -32,29 +19,23 @@ export function ContactsTabs() {
       <div
         className="contacts-tabs"
         role="tablist"
-        aria-label="Организации"
-        aria-orientation={isVertical ? "vertical" : "horizontal"}
+        aria-label="Компании группы"
+        aria-orientation="vertical"
         onKeyDown={(event) => {
-          if (
-            ![
-              "ArrowUp",
-              "ArrowDown",
-              "ArrowLeft",
-              "ArrowRight",
-              "Home",
-              "End",
-            ].includes(event.key)
-          )
+          if (!["ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) {
             return;
+          }
+
           event.preventDefault();
           if (event.key === "Home") select(0, true);
           if (event.key === "End") select(CONTACT_TABS.length - 1, true);
-          if (["ArrowUp", "ArrowLeft"].includes(event.key))
-            select(activeIndex - 1, true);
-          if (["ArrowDown", "ArrowRight"].includes(event.key))
-            select(activeIndex + 1, true);
+          if (event.key === "ArrowUp") select(activeIndex - 1, true);
+          if (event.key === "ArrowDown") select(activeIndex + 1, true);
         }}
       >
+        <div className="contacts-tabs__group" role="presentation">
+          Гос&nbsp;компания
+        </div>
         {CONTACT_TABS.map((contact, index) => (
           <button
             key={contact.id}
@@ -83,23 +64,52 @@ export function ContactsTabs() {
           aria-labelledby={`contact-tab-${contact.id}`}
           hidden={activeIndex !== index}
         >
-          <h3 title={contact.name}>{contact.name}</h3>
+          <h3>{contact.name}</h3>
           <div className="contact-panel__details">
-            {contact.phone ? (
-              <a href={`tel:${contact.phone.replace(/[^+\d]/g, "")}`}>
-                {contact.phone}
-              </a>
-            ) : null}
-            {contact.email ? (
-              <a href={`mailto:${contact.email}`}>{contact.email}</a>
-            ) : null}
-            {contact.status !== "verified" ? (
-              <p>
-                Полный телефон и email требуют повторной проверки в официальном реестре.
-              </p>
-            ) : null}
-            <a className="text-link" href={contact.href}>
+            <a
+              className="contact-panel__row"
+              href={`tel:${contact.phone.replace(/[^+\d]/g, "")}`}
+            >
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M6 3h3l2 5-2 1a11 11 0 0 0 5 5l1-2 5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2Z"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              {contact.phone}
+            </a>
+            <a className="contact-panel__row" href={`mailto:${contact.email}`}>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect
+                  x="3"
+                  y="5"
+                  width="18"
+                  height="14"
+                  rx="2"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                />
+                <path
+                  d="m4 7 8 6 8-6"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                />
+              </svg>
+              {contact.email}
+            </a>
+            <a className="contact-panel__more" href={contact.href}>
               Подробнее
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M5 12h14M13 6l6 6-6 6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </a>
           </div>
         </div>
