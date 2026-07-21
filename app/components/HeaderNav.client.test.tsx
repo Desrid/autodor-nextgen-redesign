@@ -1,9 +1,21 @@
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { HeaderNav } from "./HeaderNav.client";
 
 describe("HeaderNav", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
+
   it("opens and closes the full mega layer with the same trigger", () => {
     const { container } = render(<HeaderNav />);
     const trigger = screen.getByRole("button", {
@@ -19,6 +31,7 @@ describe("HeaderNav", () => {
     expect(
       screen.getByRole("navigation", { name: "Дополнительная навигация" }),
     ).toBeInTheDocument();
+    expect(screen.queryByRole("search")).not.toBeInTheDocument();
 
     fireEvent.click(trigger);
     expect(container.querySelector(".header-shell")).toHaveAttribute(
@@ -40,6 +53,9 @@ describe("HeaderNav", () => {
     fireEvent.click(search);
     expect(more).toHaveAttribute("aria-expanded", "false");
     expect(search).toHaveAttribute("aria-expanded", "true");
+    expect(
+      screen.queryByRole("navigation", { name: "Дополнительная навигация" }),
+    ).not.toBeInTheDocument();
     await waitFor(() => expect(screen.getByRole("searchbox")).toHaveFocus());
 
     fireEvent.click(language);
@@ -63,11 +79,39 @@ describe("HeaderNav", () => {
 
     fireEvent.click(search);
     await waitFor(() => expect(screen.getByRole("searchbox")).toHaveFocus());
-    fireEvent.pointerDown(document.body);
+    const outsideClick = new PointerEvent("pointerdown", {
+      bubbles: true,
+      cancelable: true,
+    });
+    document.body.dispatchEvent(outsideClick);
     expect(search).toHaveFocus();
+    expect(outsideClick.defaultPrevented).toBe(false);
+  });
+
+  it("suggests matching navigation destinations while typing", async () => {
+    render(<HeaderNav />);
+    fireEvent.click(screen.getByRole("button", { name: "Открыть поиск" }));
+
+    const searchbox = screen.getByRole("searchbox");
+    fireEvent.change(searchbox, { target: { value: "нева" } });
+
+    expect(screen.getByRole("link", { name: "М-11 «Нева»" })).toHaveAttribute(
+      "href",
+      "https://russianhighways.ru/for_drivers/?tab=5",
+    );
+    expect(screen.getByRole("status")).toHaveTextContent("Найдено подсказок: 1");
+
+    fireEvent.change(searchbox, { target: { value: "несуществующий раздел" } });
+    expect(
+      screen.getByText("Подходящих разделов не найдено", {
+        selector: ".header-search-empty",
+      }),
+    ).toBeVisible();
   });
 
   it("traps Tab inside the full-screen mobile layer and restores menu focus", async () => {
+    const main = document.createElement("main");
+    document.body.append(main);
     render(<HeaderNav />);
     const trigger = screen.getByRole("button", { name: "Открыть меню" });
 
@@ -75,6 +119,8 @@ describe("HeaderNav", () => {
     const dialog = screen.getByRole("dialog", { name: "Мобильная навигация" });
     const close = within(dialog).getByRole("button", { name: "Закрыть" });
     await waitFor(() => expect(close).toHaveFocus());
+    expect(document.body).toHaveStyle({ overflow: "hidden" });
+    expect(main.inert).toBe(true);
 
     const focusable = dialog.querySelectorAll<HTMLElement>(
       "a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex='-1'])",
@@ -87,5 +133,38 @@ describe("HeaderNav", () => {
 
     fireEvent.keyDown(document, { key: "Escape" });
     expect(trigger).toHaveFocus();
+    expect(document.body.style.overflow).toBe("");
+    expect(main.inert).toBe(false);
+    main.remove();
+  });
+
+  it("closes the mobile layer when the viewport switches to desktop", () => {
+    let onDesktopChange: (() => void) | undefined;
+    const desktopQuery = {
+      matches: false,
+      addEventListener: vi.fn(
+        (_event: string, listener: () => void) => (onDesktopChange = listener),
+      ),
+      removeEventListener: vi.fn(),
+    };
+    vi.stubGlobal(
+      "matchMedia",
+      vi.fn(() => desktopQuery as unknown as MediaQueryList),
+    );
+
+    const { container } = render(<HeaderNav />);
+    fireEvent.click(screen.getByRole("button", { name: "Открыть меню" }));
+    expect(container.querySelector(".header-shell")).toHaveAttribute(
+      "data-header-state",
+      "mobileMenu",
+    );
+
+    desktopQuery.matches = true;
+    act(() => onDesktopChange?.());
+    expect(container.querySelector(".header-shell")).toHaveAttribute(
+      "data-header-state",
+      "closed",
+    );
+    expect(document.body.style.overflow).toBe("");
   });
 });
