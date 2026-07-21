@@ -109,6 +109,29 @@ describe("HeaderNav", () => {
     ).toBeVisible();
   });
 
+  it("supports keyboard navigation and clearing search suggestions", async () => {
+    render(<HeaderNav />);
+    fireEvent.click(screen.getByRole("button", { name: "Открыть поиск" }));
+
+    const searchbox = screen.getByRole("searchbox", { name: "Поиск по сайту" });
+    expect(searchbox).toHaveAttribute("aria-autocomplete", "list");
+    expect(searchbox).not.toHaveAttribute("aria-controls");
+    fireEvent.change(searchbox, { target: { value: "нева" } });
+    expect(searchbox).toHaveAttribute("aria-controls", "header-search-suggestions");
+    fireEvent.keyDown(searchbox, { key: "ArrowDown" });
+
+    const suggestion = screen.getByRole("link", { name: "М-11 «Нева»" });
+    expect(suggestion).toHaveFocus();
+    fireEvent.keyDown(suggestion, { key: "ArrowUp" });
+    expect(searchbox).toHaveFocus();
+
+    fireEvent.click(screen.getByRole("button", { name: "Очистить поле поиска" }));
+    await waitFor(() => expect(searchbox).toHaveValue(""));
+    expect(
+      screen.queryByRole("list", { name: "Подсказки поиска" }),
+    ).not.toBeInTheDocument();
+  });
+
   it("traps Tab inside the full-screen mobile layer and restores menu focus", async () => {
     const main = document.createElement("main");
     document.body.append(main);
