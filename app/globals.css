@@ -514,12 +514,12 @@ h3 {
 }
 
 .header-layer {
-  position: absolute;
-  inset-block-start: 100%;
-  inset-inline-start: 0;
+  position: fixed;
+  inset: var(--header-height) 0 0;
   z-index: var(--layer-overlay);
-  width: 100vw;
-  max-height: calc(100dvh - var(--header-height));
+  width: 100%;
+  height: calc(100dvh - var(--header-height));
+  max-height: none;
   overflow-x: hidden;
   overflow-y: auto;
   background: var(--color-page);
@@ -562,10 +562,14 @@ h3 {
 }
 
 .header-layer[data-layer="language"] {
+  position: absolute;
+  inset-block: 100% auto;
   inset-inline-start: auto;
   inset-inline-end: 278px;
   display: grid;
   width: 128px;
+  height: auto;
+  max-height: calc(100dvh - var(--header-height));
   padding: 8px;
   border: 1px solid var(--color-border);
   border-radius: 0 0 var(--radius-control) var(--radius-control);
@@ -594,7 +598,9 @@ h3 {
 
 .header-search-form {
   position: relative;
-  height: 48px;
+  width: min(100%, 960px);
+  min-height: 48px;
+  margin-inline: auto;
 }
 
 .header-search-form input {
@@ -620,6 +626,46 @@ h3 {
   border: 2px solid var(--color-brand-orange);
   outline: 0;
   box-shadow: none;
+}
+
+.header-search-results {
+  margin-block-start: 12px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-page);
+  box-shadow: 0 16px 32px rgb(45 42 38 / 10%);
+}
+
+.header-search-results ul {
+  display: grid;
+  margin: 0;
+  padding: 8px;
+  list-style: none;
+}
+
+.header-search-results a {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding-inline: 16px;
+  border-radius: var(--radius-control);
+  color: var(--color-text);
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.header-search-results a:hover,
+.header-search-results a:focus-visible {
+  background: var(--color-surface-subtle);
+}
+
+.header-search-empty {
+  margin: 0;
+  padding: 20px 24px;
+  color: #6b6966;
+  font-size: 14px;
 }
 
 .header-mega-grid {
@@ -4135,8 +4181,6 @@ h3 {
   }
 
   .header-layer--mobile {
-    position: fixed;
-    inset: var(--header-height) 0 0;
     width: 100%;
     height: calc(100dvh - var(--header-height));
     max-height: none;
@@ -4420,12 +4464,29 @@ h3 {
   }
 
   .search-button img {
-    width: 48px;
-    height: 48px;
+    width: 24px;
+    height: 24px;
   }
 
   .menu-button {
     min-width: 64px;
+  }
+
+  @media (max-width: 359px) {
+    .brand-lockup {
+      flex: 1 1 auto;
+      width: auto;
+      min-width: 0;
+    }
+
+    .header-actions {
+      gap: 4px;
+    }
+
+    .menu-button {
+      min-width: 56px;
+      padding-inline: 8px;
+    }
   }
 
   .header-layer__inner {

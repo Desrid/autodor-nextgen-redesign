@@ -4,6 +4,7 @@ import Image from "next/image";
 import {
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
   type MouseEvent as ReactMouseEvent,
@@ -21,6 +22,7 @@ type HeaderLayer = "closed" | "megaMenu" | "search" | "language" | "mobileMenu";
 type OpenHeaderLayer = Exclude<HeaderLayer, "closed">;
 
 const EXIT_DURATION_MS = 180;
+const MAX_SEARCH_SUGGESTIONS = 6;
 const FOCUSABLE_SELECTOR = [
   "a[href]",
   "button:not([disabled])",
@@ -30,11 +32,25 @@ const FOCUSABLE_SELECTOR = [
   "[tabindex]:not([tabindex='-1'])",
 ].join(",");
 
+const SEARCH_ITEMS = [
+  ...PRIMARY_NAVIGATION,
+  ...HEADER_NAVIGATION_GROUPS.flatMap((group) => [
+    ...group.links,
+    ...("secondary" in group ? group.secondary.links : []),
+  ]),
+].filter(
+  (item, index, items) =>
+    items.findIndex(
+      (candidate) => candidate.label === item.label && candidate.href === item.href,
+    ) === index,
+);
+
 export function HeaderNav() {
   const [activeLayer, setActiveLayer] = useState<HeaderLayer>("closed");
   const [renderedLayer, setRenderedLayer] = useState<OpenHeaderLayer | null>(null);
   const [isClosing, setIsClosing] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const headerRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -46,6 +62,7 @@ export function HeaderNav() {
   const mobileButtonRef = useRef<HTMLButtonElement>(null);
   const restoreFocusRef = useRef<HTMLElement | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const sentinelVisibleRef = useRef(true);
 
   const clearCloseTimer = useCallback(() => {
     if (closeTimerRef.current) {
@@ -99,17 +116,27 @@ export function HeaderNav() {
 
   useEffect(() => {
     const sentinel = document.getElementById("header-scroll-sentinel");
+    if (
+      !sentinel ||
+      typeof IntersectionObserver === "undefined" ||
+      typeof window.matchMedia !== "function"
+    ) {
+      return;
+    }
+
     const desktop = window.matchMedia("(min-width: 1280px)");
-    if (!sentinel || typeof IntersectionObserver === "undefined") return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => setIsScrolled(desktop.matches && !entry?.isIntersecting),
+      ([entry]) => {
+        sentinelVisibleRef.current = entry?.isIntersecting ?? true;
+        setIsScrolled(desktop.matches && !sentinelVisibleRef.current);
+      },
       { rootMargin: "-104px 0px 0px 0px", threshold: 0 },
     );
 
     observer.observe(sentinel);
     const handleDesktopChange = () => {
-      if (!desktop.matches) setIsScrolled(false);
+      setIsScrolled(desktop.matches && !sentinelVisibleRef.current);
     };
 
     desktop.addEventListener("change", handleDesktopChange);
@@ -126,6 +153,7 @@ export function HeaderNav() {
     const shouldFrost =
       isScrolled &&
       activeLayer !== "megaMenu" &&
+      typeof window.matchMedia === "function" &&
       window.matchMedia("(min-width: 1280px)").matches &&
       !window.matchMedia("(prefers-reduced-transparency: reduce)").matches;
 
@@ -157,7 +185,6 @@ export function HeaderNav() {
 
     const onPointerDown = (event: PointerEvent) => {
       if (!headerRef.current?.contains(event.target as Node)) {
-        event.preventDefault();
         closeLayer();
       }
     };
@@ -197,19 +224,47 @@ export function HeaderNav() {
   }, [activeLayer, closeLayer]);
 
   useEffect(() => {
-    if (renderedLayer !== "mobileMenu") return;
+    if (activeLayer !== "mobileMenu") return;
 
     const previousOverflow = document.body.style.overflow;
+    const main = document.querySelector<HTMLElement>("main");
+    const mainWasInert = main?.inert ?? false;
     document.body.style.overflow = "hidden";
+    if (main) main.inert = true;
+
     return () => {
       document.body.style.overflow = previousOverflow;
+      if (main) main.inert = mainWasInert;
     };
-  }, [renderedLayer]);
+  }, [activeLayer]);
+
+  useEffect(() => {
+    if (activeLayer !== "mobileMenu" || typeof window.matchMedia !== "function") {
+      return;
+    }
+
+    const desktop = window.matchMedia("(min-width: 1280px)");
+    const handleDesktopChange = () => {
+      if (desktop.matches) closeLayer(false);
+    };
+
+    desktop.addEventListener("change", handleDesktopChange);
+    return () => desktop.removeEventListener("change", handleDesktopChange);
+  }, [activeLayer, closeLayer]);
 
   const onLayerButtonClick =
     (layer: OpenHeaderLayer) => (event: ReactMouseEvent<HTMLButtonElement>) => {
       toggleLayer(layer, event.currentTarget);
     };
+
+  const searchSuggestions = useMemo(() => {
+    const query = searchQuery.trim().toLocaleLowerCase("ru");
+    if (!query) return [];
+
+    return SEARCH_ITEMS.filter((item) =>
+      item.label.toLocaleLowerCase("ru").includes(query),
+    ).slice(0, MAX_SEARCH_SUGGESTIONS);
+  }, [searchQuery]);
 
   const panelClassName = [
     "header-layer",
@@ -347,15 +402,15 @@ export function HeaderNav() {
           data-layer={renderedLayer}
           role={renderedLayer === "mobileMenu" ? "dialog" : undefined}
           aria-modal={renderedLayer === "mobileMenu" ? "true" : undefined}
-          aria-label={
-            renderedLayer === "mobileMenu" ? "Мобильная навигация" : undefined
+          aria-labelledby={
+            renderedLayer === "mobileMenu" ? "mobile-navigation-title" : undefined
           }
           aria-hidden={isClosing || undefined}
         >
           <div className="header-layer__inner">
             {renderedLayer === "mobileMenu" ? (
               <div className="mobile-panel-heading">
-                <span>Навигация</span>
+                <span id="mobile-navigation-title">Мобильная навигация</span>
                 <button
                   ref={mobileCloseRef}
                   type="button"
@@ -367,27 +422,54 @@ export function HeaderNav() {
               </div>
             ) : null}
 
-            <form
-              className="header-search-form"
-              action="https://russianhighways.ru/search"
-              method="get"
-              role="search"
-            >
-              <label className="visually-hidden" htmlFor="header-search-query">
-                Поиск по сайту
-              </label>
-              <input
-                ref={searchInputRef}
-                id="header-search-query"
-                name="q"
-                type="search"
-                placeholder="Поиск"
-                autoComplete="off"
-              />
-              <button className="visually-hidden" type="submit">
-                Найти
-              </button>
-            </form>
+            {renderedLayer === "search" ? (
+              <form
+                className="header-search-form"
+                action="https://russianhighways.ru/search"
+                method="get"
+                role="search"
+              >
+                <label className="visually-hidden" htmlFor="header-search-query">
+                  Поиск по сайту
+                </label>
+                <input
+                  ref={searchInputRef}
+                  id="header-search-query"
+                  name="q"
+                  type="search"
+                  placeholder="Поиск"
+                  autoComplete="off"
+                  aria-controls="header-search-suggestions"
+                  onChange={(event) => setSearchQuery(event.currentTarget.value)}
+                />
+                <button className="visually-hidden" type="submit">
+                  Найти
+                </button>
+                {searchQuery.trim() ? (
+                  <div className="header-search-results">
+                    <p className="visually-hidden" role="status" aria-live="polite">
+                      {searchSuggestions.length
+                        ? `Найдено подсказок: ${searchSuggestions.length}`
+                        : "Подходящих разделов не найдено"}
+                    </p>
+                    <ul id="header-search-suggestions">
+                      {searchSuggestions.map((item) => (
+                        <li key={`${item.label}-${item.href}`}>
+                          <a href={item.href} onClick={closeAfterNavigation}>
+                            {item.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                    {!searchSuggestions.length ? (
+                      <p className="header-search-empty">
+                        Подходящих разделов не найдено
+                      </p>
+                    ) : null}
+                  </div>
+                ) : null}
+              </form>
+            ) : null}
 
             {renderedLayer === "mobileMenu" ? (
               <nav
@@ -415,84 +497,94 @@ export function HeaderNav() {
               </nav>
             ) : null}
 
-            <nav
-              className="header-mega-navigation"
-              aria-label="Дополнительная навигация"
-            >
-              <div className="header-mega-grid">
-                {HEADER_NAVIGATION_GROUPS.map((group) => (
-                  <div className="header-mega-group" key={group.title}>
-                    <h2>{group.title}</h2>
-                    <ul>
-                      {group.links.map((item) => (
-                        <li key={`${group.title}-${item.label}`}>
-                          <a href={item.href} onClick={closeAfterNavigation}>
-                            {item.label}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                    {"secondary" in group ? (
-                      <div className="header-mega-group__secondary">
-                        <h2>{group.secondary.title}</h2>
-                        <ul>
-                          {group.secondary.links.map((item) => (
-                            <li key={`${group.secondary.title}-${item.label}`}>
-                              <a href={item.href} onClick={closeAfterNavigation}>
-                                {item.label}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ) : null}
-                  </div>
-                ))}
-              </div>
-            </nav>
+            {renderedLayer !== "search" ? (
+              <nav
+                className="header-mega-navigation"
+                aria-label="Дополнительная навигация"
+              >
+                <div className="header-mega-grid">
+                  {HEADER_NAVIGATION_GROUPS.map((group) => (
+                    <div className="header-mega-group" key={group.title}>
+                      <h2>{group.title}</h2>
+                      <ul>
+                        {group.links.map((item) => (
+                          <li key={`${group.title}-${item.label}`}>
+                            <a href={item.href} onClick={closeAfterNavigation}>
+                              {item.label}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                      {"secondary" in group ? (
+                        <div className="header-mega-group__secondary">
+                          <h2>{group.secondary.title}</h2>
+                          <ul>
+                            {group.secondary.links.map((item) => (
+                              <li key={`${group.secondary.title}-${item.label}`}>
+                                <a href={item.href} onClick={closeAfterNavigation}>
+                                  {item.label}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              </nav>
+            ) : null}
 
-            <div className="header-contact-row">
-              <p>{HEADER_CONTACTS.copyright}</p>
-              <div className="header-contact-links">
-                <span>
-                  <Image
-                    src="/brand/header/location.svg"
-                    alt=""
-                    width={24}
-                    height={24}
-                    unoptimized
-                  />
-                  {HEADER_CONTACTS.address}
-                </span>
-                <a href={HEADER_CONTACTS.email.href}>
-                  <Image
-                    src="/brand/header/email.svg"
-                    alt=""
-                    width={24}
-                    height={24}
-                    unoptimized
-                  />
-                  {HEADER_CONTACTS.email.label}
-                </a>
-                <a href={HEADER_CONTACTS.phone.href}>
-                  <Image
-                    src="/brand/header/phone.svg"
-                    alt=""
-                    width={24}
-                    height={24}
-                    unoptimized
-                  />
-                  {HEADER_CONTACTS.phone.label}
-                </a>
-              </div>
-              <div className="header-social-links" aria-label="Социальные сети">
-                {HEADER_SOCIAL_LINKS.map((item) => (
-                  <a key={item.label} href={item.href} aria-label={item.label}>
-                    <Image src={item.image} alt="" width={48} height={48} unoptimized />
+            {renderedLayer !== "search" ? (
+              <div className="header-contact-row">
+                <p>{HEADER_CONTACTS.copyright}</p>
+                <div className="header-contact-links">
+                  <span>
+                    <Image
+                      src="/brand/header/location.svg"
+                      alt=""
+                      width={24}
+                      height={24}
+                      unoptimized
+                    />
+                    {HEADER_CONTACTS.address}
+                  </span>
+                  <a href={HEADER_CONTACTS.email.href}>
+                    <Image
+                      src="/brand/header/email.svg"
+                      alt=""
+                      width={24}
+                      height={24}
+                      unoptimized
+                    />
+                    {HEADER_CONTACTS.email.label}
                   </a>
-                ))}
+                  <a href={HEADER_CONTACTS.phone.href}>
+                    <Image
+                      src="/brand/header/phone.svg"
+                      alt=""
+                      width={24}
+                      height={24}
+                      unoptimized
+                    />
+                    {HEADER_CONTACTS.phone.label}
+                  </a>
+                </div>
+                <div className="header-social-links" aria-label="Социальные сети">
+                  {HEADER_SOCIAL_LINKS.map((item) => (
+                    <a key={item.label} href={item.href} aria-label={item.label}>
+                      <Image
+                        src={item.image}
+                        alt=""
+                        width={48}
+                        height={48}
+                        unoptimized
+                      />
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
+            ) : null}
           </div>
         </div>
       ) : null}
