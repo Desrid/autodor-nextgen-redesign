@@ -1,6 +1,6 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
@@ -9,25 +9,6 @@ import { hasVerifiedGeometry } from "@/app/data/map-contracts";
 import { ROADS } from "@/app/data/roads";
 
 import { RoadRouteMap } from "./RoadRouteMap";
-
-const MEDIA = [
-  "federal-highway-aerial-hero",
-  "bridge-viaduct",
-  "road-construction",
-  "tunnel-portal",
-] as const;
-
-const HERO_VIDEO_SEQUENCE = [
-  "/media/video/hero-road-01.mp4",
-  "/media/video/hero-road-02.mp4",
-  "/media/video/hero-road-03.mp4",
-  "/media/video/hero-road-04.mp4",
-  "/media/video/hero-road-01.mp4",
-  "/media/video/hero-road-02.mp4",
-  "/media/video/hero-road-03.mp4",
-  "/media/video/hero-road-04.mp4",
-  "/media/video/hero-road-02.mp4",
-] as const;
 
 export type HeroVariant = "cinematic" | "atlas" | "signal";
 
@@ -127,9 +108,12 @@ function HeroArrowIcon({ direction }: Readonly<{ direction: "left" | "right" }>)
 }
 
 function RoadPicture({
-  roadLabel,
   media,
-}: Readonly<{ roadLabel: string; media: (typeof MEDIA)[number] }>) {
+  priority,
+}: Readonly<{
+  media: (typeof ROADS)[number]["heroMedia"]["image"];
+  priority: boolean;
+}>) {
   return (
     <picture>
       <source
@@ -151,10 +135,11 @@ function RoadPicture({
       />
       <img
         src={`/media/optimized/${media}/${media}-desktop-1440.webp`}
-        alt={`Обобщённый визуальный образ федеральной автомагистрали. Не является документальным изображением ${roadLabel}`}
+        alt=""
         width="1440"
         height="810"
-        fetchPriority="high"
+        decoding="async"
+        fetchPriority={priority ? "high" : "auto"}
       />
     </picture>
   );
@@ -180,12 +165,16 @@ export function RoadNetworkHero({
   const [travelDirection, setTravelDirection] = useState<"forward" | "backward">(
     "forward",
   );
-  const pointerStart = useRef<number | null>(null);
+  const pointerStart = useRef<{
+    x: number;
+    y: number;
+    pointerId: number;
+  } | null>(null);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const videoRef = useRef<HTMLVideoElement>(null);
   const activeRoad = ROADS[activeIndex] ?? ROADS[0];
   const activeRoadName = roadName(activeRoad.label, activeRoad.shortLabel);
-  const activeVideo = HERO_VIDEO_SEQUENCE[activeIndex] ?? HERO_VIDEO_SEQUENCE[0];
+  const activeVideo = activeRoad.heroMedia.video;
   const tabRailStyle = { "--road-index": activeIndex } as CSSProperties;
 
   useEffect(() => {
@@ -197,23 +186,18 @@ export function RoadNetworkHero({
         connection?: Readonly<{ saveData?: boolean }>;
       }
     ).connection;
-    let enableTimer: number | undefined;
-
     const syncCapability = () => {
-      if (enableTimer !== undefined) window.clearTimeout(enableTimer);
-
       if (motion.matches || connection?.saveData === true) {
         setVideoEnabled(false);
         return;
       }
 
-      enableTimer = window.setTimeout(() => setVideoEnabled(true), 4_000);
+      setVideoEnabled(true);
     };
 
     syncCapability();
     motion.addEventListener("change", syncCapability);
     return () => {
-      if (enableTimer !== undefined) window.clearTimeout(enableTimer);
       motion.removeEventListener("change", syncCapability);
     };
   }, []);
@@ -228,18 +212,40 @@ export function RoadNetworkHero({
     if (!videoEnabled) return;
 
     video.load();
-    void video.play().catch(() => {
-      setMediaFailed(true);
-    });
+    void video
+      .play()
+      .then(() => setVideoReady(true))
+      .catch(() => {
+        setMediaFailed(true);
+      });
   }, [activeIndex, videoEnabled]);
 
   const selectRoad = (index: number, focus = false) => {
     const nextIndex = (index + ROADS.length) % ROADS.length;
-    if (index !== activeIndex) {
-      setTravelDirection(index > activeIndex ? "forward" : "backward");
+    if (nextIndex !== activeIndex) {
+      const forwardDistance = (nextIndex - activeIndex + ROADS.length) % ROADS.length;
+      const backwardDistance = (activeIndex - nextIndex + ROADS.length) % ROADS.length;
+      setTravelDirection(forwardDistance <= backwardDistance ? "forward" : "backward");
     }
     setActiveIndex(nextIndex);
     if (focus) tabRefs.current[nextIndex]?.focus();
+  };
+
+  const finishSwipe = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const start = pointerStart.current;
+    pointerStart.current = null;
+    if (!start || start.pointerId !== event.pointerId) return;
+
+    const horizontalDistance = event.clientX - start.x;
+    const verticalDistance = event.clientY - start.y;
+    if (
+      Math.abs(horizontalDistance) < 48 ||
+      Math.abs(horizontalDistance) <= Math.abs(verticalDistance)
+    ) {
+      return;
+    }
+
+    selectRoad(activeIndex + (horizontalDistance < 0 ? 1 : -1));
   };
 
   return (
@@ -252,21 +258,24 @@ export function RoadNetworkHero({
       <div
         className="road-hero__island"
         onPointerDown={(event) => {
-          pointerStart.current = event.clientX;
+          if (event.pointerType === "mouse" && event.button !== 0) return;
+          if ((event.target as HTMLElement).closest("a, button")) return;
+          pointerStart.current = {
+            x: event.clientX,
+            y: event.clientY,
+            pointerId: event.pointerId,
+          };
         }}
-        onPointerUp={(event) => {
-          if (pointerStart.current === null) return;
-          const displacement = event.clientX - pointerStart.current;
+        onPointerUp={finishSwipe}
+        onPointerCancel={() => {
           pointerStart.current = null;
-          if (Math.abs(displacement) < 48) return;
-          selectRoad(activeIndex + (displacement < 0 ? 1 : -1));
         }}
       >
         <div className="road-hero__media">
           <div className="road-hero__visual" key={`${variant}-${activeRoad.id}-visual`}>
             <RoadPicture
-              roadLabel={activeRoad.label}
-              media={MEDIA[activeIndex % MEDIA.length] ?? MEDIA[0]}
+              media={activeRoad.heroMedia.image}
+              priority={activeIndex === 0}
             />
             <video
               key={activeRoad.id}
@@ -277,10 +286,11 @@ export function RoadNetworkHero({
               muted
               loop
               playsInline
-              preload="none"
+              preload="metadata"
               aria-hidden="true"
               tabIndex={-1}
               onCanPlay={() => setVideoReady(true)}
+              onPlaying={() => setVideoReady(true)}
               onError={() => setMediaFailed(true)}
             >
               {videoEnabled && !mediaFailed ? (
@@ -345,6 +355,7 @@ export function RoadNetworkHero({
                     type="button"
                     role="tab"
                     aria-controls="road-panel"
+                    aria-label={road.label}
                     aria-selected={activeIndex === index}
                     tabIndex={activeIndex === index ? 0 : -1}
                     data-road-id={road.id}
@@ -363,6 +374,8 @@ export function RoadNetworkHero({
             id="road-panel"
             role="tabpanel"
             aria-labelledby={`road-tab-${activeRoad.id}`}
+            aria-live="polite"
+            aria-atomic="true"
             data-testid="road-panel"
             key={`${variant}-${activeRoad.id}-content`}
           >

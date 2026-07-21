@@ -1049,6 +1049,7 @@ h3 {
   inset: 0;
   min-height: 0;
   overflow: hidden;
+  touch-action: pan-y pinch-zoom;
   border: 0;
   border-radius: 24px;
   -webkit-mask: url("/media/ui/road-hero-silhouette.svg") center / 100% 100% no-repeat;
@@ -1069,6 +1070,7 @@ h3 {
 .road-hero__visual {
   z-index: 0;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .road-hero__visual picture,
@@ -1359,6 +1361,15 @@ h3 {
 
 .road-tabs button:hover {
   background: rgb(255 255 255 / 6%);
+}
+
+.road-tabs button:focus-visible {
+  outline: 2px solid var(--color-page);
+  outline-offset: -3px;
+}
+
+.road-hero[data-hero-variant="atlas"] .road-tabs button:focus-visible {
+  outline-color: var(--color-brand-black);
 }
 
 .road-tabs button[aria-selected="true"] {
@@ -4687,6 +4698,7 @@ h3 {
 
   .road-tabs-viewport {
     inset: 1.25rem 1rem auto;
+    scroll-padding-inline: 1rem;
   }
 
   .road-route-map {
@@ -4699,6 +4711,7 @@ h3 {
 
   .road-tabs button {
     font-size: 0.78rem;
+    min-height: 2.75rem;
   }
 
   .road-hero__content {
