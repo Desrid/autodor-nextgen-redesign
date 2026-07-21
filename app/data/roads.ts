@@ -10,11 +10,21 @@ export type RoadFact = Readonly<{
   speedKmhMax: number;
 }>;
 
+export type RoadHeroMedia = Readonly<{
+  image:
+    | "federal-highway-aerial-hero"
+    | "bridge-viaduct"
+    | "road-construction"
+    | "tunnel-portal";
+  video: `/media/video/${string}.mp4`;
+}>;
+
 export type RoadRecord = Readonly<{
   id: RoadId;
   figmaNodeId: FigmaNodeId;
   label: string;
   shortLabel: string;
+  heroMedia: RoadHeroMedia;
   fact: RoadFact;
   detailsUrl: `https://${string}`;
   factSource: VerificationSource;
@@ -54,6 +64,10 @@ export const ROADS = [
     figmaNodeId: "1767:7111",
     label: "М-1 «Беларусь»",
     shortLabel: "М-1",
+    heroMedia: {
+      image: "federal-highway-aerial-hero",
+      video: "/media/video/hero-custom-01.mp4",
+    },
     fact: {
       extent: "52 км платных участков",
       classes: ["IБ"],
@@ -93,6 +107,10 @@ export const ROADS = [
     figmaNodeId: "1767:7112",
     label: "М-3 «Украина»",
     shortLabel: "М-3",
+    heroMedia: {
+      image: "bridge-viaduct",
+      video: "/media/video/hero-custom-02.mp4",
+    },
     fact: {
       extent: "104,2 км платных участков",
       classes: ["IБ"],
@@ -119,6 +137,10 @@ export const ROADS = [
     figmaNodeId: "1767:7113",
     label: "М-4 «Дон»",
     shortLabel: "М-4",
+    heroMedia: {
+      image: "road-construction",
+      video: "/media/video/hero-custom-03.mp4",
+    },
     fact: {
       extent: "1234 км платных участков",
       classes: ["IА", "IБ"],
@@ -145,6 +167,10 @@ export const ROADS = [
     figmaNodeId: "1767:7114",
     label: "М-11 «Нева»",
     shortLabel: "М-11",
+    heroMedia: {
+      image: "tunnel-portal",
+      video: "/media/video/hero-custom-04.mp4",
+    },
     fact: {
       extent: "684 км в доверительном управлении",
       classes: ["IА"],
@@ -170,6 +196,10 @@ export const ROADS = [
     figmaNodeId: "1767:7115",
     label: "М-12 «Восток»",
     shortLabel: "М-12",
+    heroMedia: {
+      image: "federal-highway-aerial-hero",
+      video: "/media/video/hero-custom-05.mp4",
+    },
     fact: {
       extent: "1232 км участков в платной эксплуатации",
       classes: ["IБ"],
@@ -196,6 +226,10 @@ export const ROADS = [
     figmaNodeId: "1767:7116",
     label: "А-113 ЦКАД",
     shortLabel: "А-113",
+    heroMedia: {
+      image: "bridge-viaduct",
+      video: "/media/video/hero-custom-01.mp4",
+    },
     fact: {
       extent: "267 км платных участков",
       classes: ["IА"],
@@ -223,6 +257,10 @@ export const ROADS = [
     figmaNodeId: "1767:7117",
     label: "А-289",
     shortLabel: "А-289",
+    heroMedia: {
+      image: "road-construction",
+      video: "/media/video/hero-custom-02.mp4",
+    },
     fact: {
       extent: "119 км платных участков",
       classes: ["IБ"],
@@ -246,6 +284,10 @@ export const ROADS = [
     figmaNodeId: "1767:7118",
     label: "А-105 Москва-Домодедово",
     shortLabel: "А-105",
+    heroMedia: {
+      image: "tunnel-portal",
+      video: "/media/video/hero-custom-03.mp4",
+    },
     fact: {
       extent: "22,5 км протяжённости дороги",
       classes: ["IВ"],
@@ -269,6 +311,10 @@ export const ROADS = [
     figmaNodeId: "1767:7119",
     label: "А-107 Московское малое кольцо",
     shortLabel: "А-107",
+    heroMedia: {
+      image: "bridge-viaduct",
+      video: "/media/video/hero-custom-04.mp4",
+    },
     fact: {
       extent: "257 км протяжённости",
       classes: ["II", "III"],

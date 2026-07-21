@@ -1,5 +1,6 @@
 import type { Coordinate, VerifiedLineGeometry } from "@/app/data/map-contracts";
 import type { CSSProperties } from "react";
+import { useId } from "react";
 
 type RouteMarker = Readonly<{
   label: string;
@@ -347,6 +348,7 @@ export function RoadRouteMap({
   roadId: string;
   routeLabel: string;
 }>) {
+  const routeMapId = useId().replaceAll(":", "");
   const coordinates = lineCoordinates(geometry);
   const firstCoordinate = coordinates[0];
   if (!firstCoordinate) return null;
@@ -362,7 +364,7 @@ export function RoadRouteMap({
   const markerAnimationOrder = [...markers]
     .sort((first, second) => second.coordinate[0] - first.coordinate[0])
     .map((marker) => marker.label);
-  const maskId = `${roadId}-route-reveal-mask`;
+  const maskId = `${routeMapId}-${roadId}-route-reveal-mask`;
   const shieldWidth = Math.max(48, routeLabel.length * 13);
 
   return (
