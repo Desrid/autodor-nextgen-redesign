@@ -79,6 +79,11 @@ describe("HeaderNav", () => {
 
     fireEvent.click(search);
     await waitFor(() => expect(screen.getByRole("searchbox")).toHaveFocus());
+    fireEvent.pointerDown(document.querySelector("[data-layer='search']")!);
+    expect(search).toHaveFocus();
+
+    fireEvent.click(search);
+    await waitFor(() => expect(screen.getByRole("searchbox")).toHaveFocus());
     const outsideClick = new PointerEvent("pointerdown", {
       bubbles: true,
       cancelable: true,

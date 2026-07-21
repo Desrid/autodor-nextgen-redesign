@@ -19,6 +19,17 @@ export const VEHICLE_CATEGORY_TARIFFS = [
   { category: "IV", priceRub: 846, figmaNodeId: "1767:7438" },
 ] as const;
 
+export const TARIFF_STATISTICS_SUMMARY = {
+  categoriesCount: VEHICLE_CATEGORY_TARIFFS.length,
+  minimumTariffRub: Math.min(...VEHICLE_CATEGORY_TARIFFS.map(({ priceRub }) => priceRub)),
+  maximumTariffRub: Math.max(...VEHICLE_CATEGORY_TARIFFS.map(({ priceRub }) => priceRub)),
+  verifiedAt: TARIFF_INDEXING_SOURCE.verifiedAt,
+} as const;
+
+export const TARIFF_STATISTICS_CHART_LABEL = `Базовые тарифы по категориям транспорта: ${VEHICLE_CATEGORY_TARIFFS.map(
+  ({ category, priceRub }) => `${category} — ${priceRub} рублей`,
+).join(", ")}`;
+
 export const TARIFF_STATISTICS_CONTEXT = {
   metric: "Базовая стоимость проезда",
   road: "М-12 «Восток»",

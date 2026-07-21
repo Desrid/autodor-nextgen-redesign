@@ -370,11 +370,13 @@ export function RoadRouteMap({
   return (
     <div
       className="road-route-map"
+      data-road-id={roadId}
       data-map-source={geometry.source.url}
       data-testid={`road-route-map-${roadId}`}
     >
       <svg
-        aria-hidden="true"
+        aria-label={`Схема маршрута ${routeLabel}`}
+        role="img"
         focusable="false"
         viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
         preserveAspectRatio="xMidYMid meet"

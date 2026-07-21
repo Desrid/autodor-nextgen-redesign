@@ -244,6 +244,8 @@ test("R11-R14: hidden documents, social commitments, verified future projects an
   await expect(future).toContainText("КАД-2");
   await expect(future).toContainText("А-108");
   await expect(future).toContainText("Южный обход г. Краснодар");
+  await expect(future.getByText("3 проекта")).toBeVisible();
+  await expect(future.getByText("КАД-2", { exact: true })).toBeVisible();
   await expect(future.getByRole("link", { name: /официальный источник/i })).toHaveCount(
     3,
   );

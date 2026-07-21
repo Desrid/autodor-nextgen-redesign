@@ -1,7 +1,7 @@
 "use client";
 
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import Image from "next/image";
 
 import { HERO_ACTIONS } from "@/app/data/home-content";
@@ -172,6 +172,7 @@ export function RoadNetworkHero({
   } | null>(null);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const roadTabsHelpId = useId();
   const activeRoad = ROADS[activeIndex] ?? ROADS[0];
   const activeRoadName = roadName(activeRoad.label, activeRoad.shortLabel);
   const activeVideo = activeRoad.heroMedia.video;
@@ -212,8 +213,10 @@ export function RoadNetworkHero({
     if (!videoEnabled) return;
 
     video.load();
-    void video
-      .play()
+    const playback = video.play();
+    if (!playback) return;
+
+    void playback
       .then(() => setVideoReady(true))
       .catch(() => {
         setMediaFailed(true);
@@ -228,7 +231,13 @@ export function RoadNetworkHero({
       setTravelDirection(forwardDistance <= backwardDistance ? "forward" : "backward");
     }
     setActiveIndex(nextIndex);
-    if (focus) tabRefs.current[nextIndex]?.focus();
+    const nextTab = tabRefs.current[nextIndex];
+    if (focus) nextTab?.focus();
+    nextTab?.scrollIntoView?.({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "nearest",
+    });
   };
 
   const finishSwipe = (event: ReactPointerEvent<HTMLDivElement>) => {
@@ -314,6 +323,9 @@ export function RoadNetworkHero({
 
           <div className="road-tabs-viewport">
             <div className="road-tabs-rail" style={tabRailStyle}>
+              <p id={roadTabsHelpId} className="visually-hidden">
+                Выберите дорогу кнопками или используйте клавиши со стрелками.
+              </p>
               {withCar ? (
                 <div className="road-car-track" aria-hidden="true">
                   <span
@@ -335,6 +347,7 @@ export function RoadNetworkHero({
                 className="road-tabs"
                 role="tablist"
                 aria-label="Выбор дороги"
+                aria-describedby={roadTabsHelpId}
                 onKeyDown={(event) => {
                   if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key))
                     return;
@@ -377,6 +390,7 @@ export function RoadNetworkHero({
             aria-live="polite"
             aria-atomic="true"
             data-testid="road-panel"
+            data-road-id={activeRoad.id}
             key={`${variant}-${activeRoad.id}-content`}
           >
             <p className="road-hero__eyebrow">Сеть дорог</p>
@@ -412,6 +426,7 @@ export function RoadNetworkHero({
               type="button"
               onClick={() => selectRoad(activeIndex - 1)}
               aria-label="Предыдущая дорога"
+              aria-controls="road-panel"
             >
               <HeroArrowIcon direction="left" />
             </button>
@@ -419,6 +434,7 @@ export function RoadNetworkHero({
               type="button"
               onClick={() => selectRoad(activeIndex + 1)}
               aria-label="Следующая дорога"
+              aria-controls="road-panel"
             >
               <HeroArrowIcon direction="right" />
             </button>

@@ -2,14 +2,18 @@ import { describe, expect, it } from "vitest";
 
 import {
   CONTACT_TABS,
+  FOOTER_CONTACTS,
+  FOOTER_LEGAL_LINKS,
   GOVERNMENT_LINKS,
   HERO_ACTIONS,
   MORE_NAVIGATION,
   NEWS,
   PRIMARY_NAVIGATION,
   SERVICES,
+  SOCIAL_COMMITMENTS,
   SOCIAL_LINKS,
   SUBSIDIARY_SERVICES,
+  SUPPORT_FAQ,
 } from "./home-content";
 
 const allUrls = [
@@ -20,6 +24,7 @@ const allUrls = [
   ...NEWS,
   ...CONTACT_TABS,
   ...SUBSIDIARY_SERVICES,
+  ...SOCIAL_COMMITMENTS,
   ...SOCIAL_LINKS,
 ].map(({ href }) => href);
 
@@ -58,11 +63,17 @@ describe("homepage source-backed content contracts", () => {
   });
 
   it("does not publish empty subsidiary service cards", () => {
-    expect(SUBSIDIARY_SERVICES.length).toBeGreaterThan(0);
+    expect(SUBSIDIARY_SERVICES).toHaveLength(4);
+    expect(new Set(SUBSIDIARY_SERVICES.map(({ id }) => id)).size).toBe(
+      SUBSIDIARY_SERVICES.length,
+    );
     for (const item of SUBSIDIARY_SERVICES) {
       expect(item.company.trim()).not.toBe("");
       expect(item.service.trim()).not.toBe("");
       expect(item.description.trim()).not.toBe("");
+      expect(item.category.trim()).not.toBe("");
+      expect(item.offerings).toHaveLength(2);
+      expect(item.linkLabel.trim()).not.toBe("");
     }
   });
 
@@ -92,5 +103,39 @@ describe("homepage source-backed content contracts", () => {
       "1767:9202",
     ]);
     expect(GOVERNMENT_LINKS.every(({ image }) => image.endsWith(".svg"))).toBe(true);
+  });
+
+  it("keeps the two verified social commitments in Figma order", () => {
+    expect(SOCIAL_COMMITMENTS.map(({ nodeId }) => nodeId)).toEqual([
+      "1767:7504",
+      "1767:7506",
+    ]);
+    expect(SOCIAL_COMMITMENTS.map(({ id }) => id)).toEqual([
+      "large-families",
+      "small-business",
+    ]);
+
+    for (const item of SOCIAL_COMMITMENTS) {
+      expect(item.media).toBeTruthy();
+      expect(item.src).toMatch(/^\/media\/social\/.+\.png$/);
+      expect(item.imageAlt).toMatch(/^Сгенерированный образ/);
+      expect(item.eyebrow).not.toBe("");
+      expect(item.title).not.toBe("");
+      expect(item.description).not.toBe("");
+      expect(item.linkLabel).not.toBe("");
+      expect(item.href).toMatch(/^https:\/\//);
+    }
+  });
+
+  it("keeps footer contacts and support answers complete and actionable", () => {
+    expect(FOOTER_CONTACTS).toHaveLength(3);
+    expect(FOOTER_CONTACTS.every(({ image }) => image.endsWith(".svg"))).toBe(true);
+    expect(FOOTER_LEGAL_LINKS).toHaveLength(3);
+    expect(SUPPORT_FAQ).toHaveLength(3);
+    expect(SUPPORT_FAQ.every(({ question, answer }) => question && answer)).toBe(true);
+
+    for (const link of FOOTER_LEGAL_LINKS) {
+      expect(link.href).toMatch(/^https:\/\//);
+    }
   });
 });

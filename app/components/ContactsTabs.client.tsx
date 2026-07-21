@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 
 import { CONTACT_TABS } from "@/app/data/home-content";
 
+const HEAD_OFFICE_ADDRESS = "127006, Москва, Страстной бульвар, 9";
+
 export function ContactsTabs() {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -92,6 +94,27 @@ export function ContactsTabs() {
               </svg>
               {contact.email}
             </a>
+            {contact.id === "state-company" ? (
+              <address className="contact-panel__address">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M12 21s7-5.1 7-12A7 7 0 1 0 5 9c0 6.9 7 12 7 12Z"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                  />
+                  <circle
+                    cx="12"
+                    cy="9"
+                    r="2.25"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                  />
+                </svg>
+                <span>{HEAD_OFFICE_ADDRESS}</span>
+              </address>
+            ) : null}
+          </div>
+          <div className="contact-panel__actions">
             <a className="contact-panel__more" href={contact.href}>
               Подробнее
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">

@@ -15,13 +15,14 @@ describe("ContactsTabs", () => {
     expect(screen.getByRole("tabpanel")).toHaveTextContent(
       "Государственная компания «Автодор»",
     );
-    expect(screen.getByRole("link", { name: "+7 (495) 727-11-95" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /\+7 \(495\) 727-11-95/ })).toHaveAttribute(
       "href",
       "tel:+74957271195",
     );
     expect(
       screen.getByRole("link", { name: "info@russianhighways.ru" }),
     ).toHaveAttribute("href", "mailto:info@russianhighways.ru");
+    expect(screen.getByText("127006, Москва, Страстной бульвар, 9")).toBeVisible();
   });
 
   it("moves focus, activates tabs and wraps with vertical arrow keys", () => {

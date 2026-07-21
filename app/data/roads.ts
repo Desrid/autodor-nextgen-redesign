@@ -66,7 +66,7 @@ export const ROADS = [
     shortLabel: "М-1",
     heroMedia: {
       image: "federal-highway-aerial-hero",
-      video: "/media/video/hero-custom-01.mp4",
+      video: "/media/video/hero-road-01.mp4",
     },
     fact: {
       extent: "52 км платных участков",
@@ -109,7 +109,7 @@ export const ROADS = [
     shortLabel: "М-3",
     heroMedia: {
       image: "bridge-viaduct",
-      video: "/media/video/hero-custom-02.mp4",
+      video: "/media/video/hero-road-02.mp4",
     },
     fact: {
       extent: "104,2 км платных участков",
@@ -139,7 +139,7 @@ export const ROADS = [
     shortLabel: "М-4",
     heroMedia: {
       image: "road-construction",
-      video: "/media/video/hero-custom-03.mp4",
+      video: "/media/video/hero-road-03.mp4",
     },
     fact: {
       extent: "1234 км платных участков",
@@ -169,7 +169,7 @@ export const ROADS = [
     shortLabel: "М-11",
     heroMedia: {
       image: "tunnel-portal",
-      video: "/media/video/hero-custom-04.mp4",
+      video: "/media/video/hero-road-04.mp4",
     },
     fact: {
       extent: "684 км в доверительном управлении",
@@ -198,7 +198,7 @@ export const ROADS = [
     shortLabel: "М-12",
     heroMedia: {
       image: "federal-highway-aerial-hero",
-      video: "/media/video/hero-custom-05.mp4",
+      video: "/media/video/hero-road-01.mp4",
     },
     fact: {
       extent: "1232 км участков в платной эксплуатации",
@@ -228,7 +228,7 @@ export const ROADS = [
     shortLabel: "А-113",
     heroMedia: {
       image: "bridge-viaduct",
-      video: "/media/video/hero-custom-01.mp4",
+      video: "/media/video/hero-road-02.mp4",
     },
     fact: {
       extent: "267 км платных участков",
@@ -259,7 +259,7 @@ export const ROADS = [
     shortLabel: "А-289",
     heroMedia: {
       image: "road-construction",
-      video: "/media/video/hero-custom-02.mp4",
+      video: "/media/video/hero-road-03.mp4",
     },
     fact: {
       extent: "119 км платных участков",
@@ -286,7 +286,7 @@ export const ROADS = [
     shortLabel: "А-105",
     heroMedia: {
       image: "tunnel-portal",
-      video: "/media/video/hero-custom-03.mp4",
+      video: "/media/video/hero-road-04.mp4",
     },
     fact: {
       extent: "22,5 км протяжённости дороги",
@@ -313,7 +313,7 @@ export const ROADS = [
     shortLabel: "А-107",
     heroMedia: {
       image: "bridge-viaduct",
-      video: "/media/video/hero-custom-04.mp4",
+      video: "/media/video/hero-road-02.mp4",
     },
     fact: {
       extent: "257 км протяжённости",

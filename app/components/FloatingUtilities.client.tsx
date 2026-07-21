@@ -1,18 +1,29 @@
 "use client";
 
-import { useRef } from "react";
+import { SUPPORT_FAQ } from "@/app/data/home-content";
+import { useEffect, useRef, useState } from "react";
 
 export function FloatingUtilities() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const chatTriggerRef = useRef<HTMLButtonElement>(null);
+  const [isBackToTopVisible, setIsBackToTopVisible] = useState(false);
+
+  useEffect(() => {
+    const updateVisibility = () => setIsBackToTopVisible(window.scrollY > 320);
+
+    updateVisibility();
+    window.addEventListener("scroll", updateVisibility, { passive: true });
+    return () => window.removeEventListener("scroll", updateVisibility);
+  }, []);
 
   const openChat = () => {
-    dialogRef.current?.showModal();
+    if (!dialogRef.current?.open) {
+      dialogRef.current?.showModal();
+    }
   };
 
   const closeChat = () => {
     dialogRef.current?.close();
-    chatTriggerRef.current?.focus();
   };
 
   return (
@@ -23,6 +34,9 @@ export function FloatingUtilities() {
           className="floating-button"
           data-testid="back-to-top"
           aria-label="Наверх"
+          aria-hidden={!isBackToTopVisible}
+          tabIndex={isBackToTopVisible ? 0 : -1}
+          hidden={!isBackToTopVisible}
           onClick={() => {
             const reduced = window.matchMedia(
               "(prefers-reduced-motion: reduce)",
@@ -41,7 +55,24 @@ export function FloatingUtilities() {
           aria-label="Открыть помощь"
           onClick={openChat}
         >
-          <span aria-hidden="true">?</span>
+          <svg
+            className="floating-button__dialog-icon"
+            aria-hidden="true"
+            viewBox="0 0 32 32"
+            width="32"
+            height="32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill="var(--color-brand-orange)"
+              d="M12 12.5h12a3.5 3.5 0 0 1 3.5 3.5v6a3.5 3.5 0 0 1-3.5 3.5h-4.5L15 29v-3.5h-3A3.5 3.5 0 0 1 8.5 22v-6a3.5 3.5 0 0 1 3.5-3.5Z"
+            />
+            <path
+              fill="var(--color-brand-orange)"
+              d="M8 4.5h12A3.5 3.5 0 0 1 23.5 8v6a3.5 3.5 0 0 1-3.5 3.5h-6.5L8.5 22v-4.5H8A3.5 3.5 0 0 1 4.5 14V8A3.5 3.5 0 0 1 8 4.5Z"
+            />
+          </svg>
         </button>
       </aside>
 
@@ -50,6 +81,7 @@ export function FloatingUtilities() {
         className="chat-dialog"
         data-testid="chat-dialog"
         aria-labelledby="chat-title"
+        aria-describedby="chat-intro"
         onCancel={(event) => {
           event.preventDefault();
           closeChat();
@@ -62,30 +94,19 @@ export function FloatingUtilities() {
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <p className="chat-dialog__intro">Частые вопросы</p>
+        <p className="chat-dialog__intro" id="chat-intro">
+          Частые вопросы
+        </p>
         <div className="faq-list">
-          <details>
-            <summary>Как оплатить проезд?</summary>
-            <p>
-              Перейдите в сервис оплаты и выберите доступный способ для вашей поездки.
-            </p>
-            <a href="https://russianhighways.ru/for_drivers/">
-              Открыть сервисы водителя
-            </a>
-          </details>
-          <details>
-            <summary>Что делать при поломке?</summary>
-            <p>
-              Позвоните по короткому номеру *2323. Помощь на платной дороге оказывается
-              безвозмездно.
-            </p>
-          </details>
-          <details>
-            <summary>Как связаться с компанией?</summary>
-            <p>
-              Общий телефон: +7 (495) 727-11-95. Ситуационный центр: +7 (495) 580-98-41.
-            </p>
-          </details>
+          {SUPPORT_FAQ.map((item) => (
+            <details key={item.question}>
+              <summary>{item.question}</summary>
+              <p>{item.answer}</p>
+              {item.href && item.linkLabel ? (
+                <a href={item.href}>{item.linkLabel}</a>
+              ) : null}
+            </details>
+          ))}
         </div>
         <a className="primary-button" href="https://www.russianhighways.ru/feedback/">
           Перейти к форме обращения

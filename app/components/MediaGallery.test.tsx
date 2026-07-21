@@ -25,4 +25,29 @@ describe("MediaGallery", () => {
     fireEvent.click(screen.getByRole("button", { name: "Закрыть просмотр" }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
+
+  it("moves through the gallery from the lightbox controls", () => {
+    render(
+      <MediaGallery
+        label="Галерея"
+        descriptions={[
+          { title: "Мост", description: "Описание моста" },
+          { title: "Дорога", description: "Описание дороги" },
+        ]}
+      >
+        <figure>
+          <img src="/bridge.webp" alt="Мост" />
+        </figure>
+        <figure>
+          <img src="/road.webp" alt="Дорога" />
+        </figure>
+      </MediaGallery>,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Открыть: Мост" }));
+    fireEvent.click(screen.getByRole("button", { name: "Следующее изображение" }));
+
+    expect(screen.getByRole("heading", { name: "Дорога" })).toBeVisible();
+    expect(screen.queryByText("2 из 2")).not.toBeInTheDocument();
+  });
 });

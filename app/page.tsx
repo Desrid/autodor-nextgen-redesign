@@ -1,26 +1,25 @@
 import { ContactsTabs } from "@/app/components/ContactsTabs.client";
 import { FloatingUtilities } from "@/app/components/FloatingUtilities.client";
 import { HeaderNav } from "@/app/components/HeaderNav.client";
+import ImportantStories from "@/app/components/ImportantStories.client";
 import LoyaltyRail from "@/app/components/LoyaltyRail.client";
 import { MediaGallery } from "@/app/components/MediaGallery.client";
+import { NewsGrid } from "@/app/components/NewsGrid";
 import { ServicesGrid } from "@/app/components/ServicesGrid";
 import {
   type HeroVariant,
   RoadNetworkHero,
 } from "@/app/components/RoadNetworkHero.client";
+import { RoadStatistics } from "@/app/components/RoadStatistics.client";
 import {
+  FOOTER_CONTACTS,
+  FOOTER_LEGAL_LINKS,
   GOVERNMENT_LINKS,
-  NEWS,
+  SOCIAL_COMMITMENTS,
   SOCIAL_LINKS,
   SUBSIDIARY_SERVICES,
 } from "@/app/data/home-content";
-import { FUTURE_PROJECTS, FUTURE_PROJECT_TIMELINE } from "@/app/data/future-projects";
-import {
-  TARIFF_INDEXING_SOURCE,
-  TARIFF_PRIMARY_SOURCE,
-  TARIFF_STATISTICS_CONTEXT,
-  VEHICLE_CATEGORY_TARIFFS,
-} from "@/app/data/statistics";
+import { FUTURE_PROJECTS } from "@/app/data/future-projects";
 import Image from "next/image";
 
 type HomePageProps = Readonly<{
@@ -154,6 +153,12 @@ const GENERATED_MEDIA = [
   ],
 ] as const;
 
+const FUTURE_PROJECT_MEDIA = [
+  "/media/news/ckad-traffic.png",
+  "/media/source/road-construction.png",
+  "/media/source/bridge-viaduct.png",
+] as const;
+
 function SectionHeading({ id, children }: Readonly<{ id: string; children: string }>) {
   return (
     <div className="section-heading">
@@ -218,7 +223,7 @@ function MediaPicture({
 
 export default async function HomePage({
   searchParams = Promise.resolve({}),
-}: HomePageProps = {}) {
+}: HomePageProps) {
   const query = await searchParams;
   const carValue = Array.isArray(query.car) ? query.car[0] : query.car;
   const heroValue = Array.isArray(query.hero) ? query.hero[0] : query.hero;
@@ -273,51 +278,7 @@ export default async function HomePage({
           data-node-id="1767:7305"
         >
           <SectionHeading id="news-title">Новости</SectionHeading>
-          <div className="news-bento" data-testid="news-grid">
-            {NEWS.map((item, index) => (
-              <article
-                key={item.href}
-                className={`news-card news-card--${index + 1}`}
-                data-news-item
-              >
-                <a
-                  className="news-card__link"
-                  href={item.href}
-                  aria-label={`${item.title}. ${item.date}.`}
-                >
-                  <Image
-                    className="news-card__image"
-                    src={item.image}
-                    alt={item.imageAlt}
-                    fill
-                    sizes={
-                      index === 0
-                        ? "(max-width: 767px) 100vw, (max-width: 1023px) 100vw, 50vw"
-                        : "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
-                    }
-                  />
-                  <span className="news-card__shade" aria-hidden="true" />
-                  <div className="news-card__content">
-                    <div className="news-card__meta">
-                      <time dateTime={item.dateTime}>{item.date}</time>
-                    </div>
-                    <div className="news-card__copy">
-                      <h3>{item.title}</h3>
-                      <span className="news-card__cta" aria-hidden="true">
-                        Читать
-                      </span>
-                    </div>
-                  </div>
-                </a>
-              </article>
-            ))}
-            <a
-              className="news-bento__all"
-              href="https://www.russianhighways.ru/press/news/"
-            >
-              Все новости
-            </a>
-          </div>
+          <NewsGrid />
         </section>
 
         <section
@@ -326,22 +287,9 @@ export default async function HomePage({
           data-section="important"
           data-node-id="1767:7328"
         >
-          <SectionHeading id="important-title">Важная информация</SectionHeading>
-          <div className="important-state" data-testid="important-state">
-            <div>
-              <p>14 июля 2026 года</p>
-              <h3>
-                Михаил Мишустин встретился с председателем правления Государственной
-                компании «Автодор»
-              </h3>
-              <p>
-                В 2026 году введена развязка ЦКАД с Дмитровским шоссе, завершаются
-                работы на участках М-1 и М-3.
-              </p>
-            </div>
-            <a href="https://russianhighways.ru/press/news/149487/">
-              Читать официальный материал
-            </a>
+          <div className="important-header">
+            <SectionHeading id="important-title">Важная информация</SectionHeading>
+            <ImportantStories />
           </div>
         </section>
 
@@ -401,83 +349,7 @@ export default async function HomePage({
           data-section="statistics"
           data-node-id="1767:7415"
         >
-          <SectionHeading id="statistics-title">Статистика</SectionHeading>
-          <figure className="tariff-statistics" data-testid="tariff-statistics">
-            <figcaption className="tariff-statistics__intro">
-              <p>{TARIFF_STATISTICS_CONTEXT.metric}</p>
-              <h3>
-                {TARIFF_STATISTICS_CONTEXT.road}: {TARIFF_STATISTICS_CONTEXT.section}
-              </h3>
-              <p>
-                {TARIFF_STATISTICS_CONTEXT.schedule};{" "}
-                {TARIFF_STATISTICS_CONTEXT.discount}. Это тарифы конкретного участка, а
-                не общесетевая статистика.
-              </p>
-            </figcaption>
-
-            <div
-              className="tariff-chart"
-              role="group"
-              aria-label="Базовые тарифы по категориям транспорта: I — 325 рублей, II — 456 рублей, III — 586 рублей, IV — 846 рублей"
-            >
-              {VEHICLE_CATEGORY_TARIFFS.map((item) => (
-                <div
-                  className="tariff-chart__row"
-                  data-node-id={item.figmaNodeId}
-                  key={item.category}
-                >
-                  <span className="tariff-chart__category">{item.category}</span>
-                  <span
-                    aria-hidden="true"
-                    className="tariff-chart__bar"
-                    style={{ width: `${(item.priceRub / 846) * 100}%` }}
-                  />
-                  <strong>{item.priceRub} ₽</strong>
-                  <span className="tariff-tooltip">
-                    <button
-                      type="button"
-                      aria-describedby={`tariff-tip-${item.category}`}
-                      aria-label={`Пояснение тарифа категории ${item.category}`}
-                    >
-                      i
-                    </button>
-                    <span id={`tariff-tip-${item.category}`} role="tooltip">
-                      Категория {item.category}: базовый тариф {item.priceRub} рублей,
-                      понедельник — воскресенье, без скидки.
-                    </span>
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            <div className="tariff-table-wrap">
-              <table>
-                <caption>Текстовый эквивалент диаграммы тарифов</caption>
-                <thead>
-                  <tr>
-                    <th scope="col">Категория ТС</th>
-                    <th scope="col">Базовый тариф, ₽</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {VEHICLE_CATEGORY_TARIFFS.map((item) => (
-                    <tr key={item.category}>
-                      <th scope="row">{item.category}</th>
-                      <td>{item.priceRub}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            <div className="tariff-sources">
-              <p>{TARIFF_STATISTICS_CONTEXT.sourceNote}</p>
-              <a href={TARIFF_PRIMARY_SOURCE.url}>Исходная публикация тарифов</a>
-              <a href={TARIFF_INDEXING_SOURCE.url}>
-                Проверка после индексации 2026 года
-              </a>
-            </div>
-          </figure>
+          <RoadStatistics />
         </section>
 
         <section
@@ -486,18 +358,37 @@ export default async function HomePage({
           data-section="subsidiary-services"
           data-node-id="1767:7456"
         >
-          <SectionHeading id="subsidiary-title">Блок «Услуги»</SectionHeading>
+          <SectionHeading id="subsidiary-title">Услуги</SectionHeading>
           <div className="subsidiary-bento" data-testid="subsidiary-grid">
             {SUBSIDIARY_SERVICES.map((item, index) => (
               <article
                 key={item.id}
                 className={`subsidiary-card subsidiary-card--${index + 1}`}
                 data-subsidiary-item
+                data-subsidiary-service={item.id}
               >
-                <p>{item.company}</p>
-                <h3>{item.service}</h3>
-                <p>{item.description}</p>
-                <a href={item.href}>Подробнее</a>
+                <div className="subsidiary-card__header">
+                  <p className="subsidiary-card__category">{item.category}</p>
+                  <h3>{item.service}</h3>
+                  <p className="subsidiary-card__company">{item.company}</p>
+                </div>
+                <div className="subsidiary-card__details">
+                  <p>{item.description}</p>
+                  <ul aria-label={`Направления: ${item.company}`}>
+                    {item.offerings.map((offering) => (
+                      <li key={offering}>{offering}</li>
+                    ))}
+                  </ul>
+                </div>
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`${item.linkLabel}: ${item.company} (откроется в новой вкладке)`}
+                >
+                  {item.linkLabel}
+                  <span aria-hidden="true">↗</span>
+                </a>
               </article>
             ))}
           </div>
@@ -511,33 +402,35 @@ export default async function HomePage({
         >
           <SectionHeading id="social-title">Соц. обязательства</SectionHeading>
           <div className="social-grid">
-            <article data-social-item data-node-id="1767:7504">
-              <MediaPicture
-                media="bridge-viaduct"
-                alt="Сгенерированный образ дорожной инфраструктуры без привязки к конкретной социальной программе"
-              />
-              <div>
-                <h3>Поддержка многодетных семей</h3>
-                <p>
-                  До 30 сентября 2026 года действует специальная программа с бонусными
-                  баллами, скидкой на T-pass и максимальной скидкой программы
-                  лояльности.
-                </p>
-                <a href="https://www.russianhighways.ru/press/news/145160/">
-                  Условия программы
-                </a>
-              </div>
-            </article>
-            <article data-social-item data-node-id="1767:7506">
-              <div>
-                <h3>Поддержка МСП</h3>
-                <p>
-                  Официальный раздел о закупках у субъектов малого и среднего
-                  предпринимательства.
-                </p>
-                <a href="https://russianhighways.ru/msp/">Открыть раздел</a>
-              </div>
-            </article>
+            {SOCIAL_COMMITMENTS.map((item) => (
+              <article
+                key={item.id}
+                className="social-card"
+                data-social-item
+                data-social-commitment={item.id}
+                data-node-id={item.nodeId}
+                aria-labelledby={`social-${item.id}-title`}
+              >
+                <div className="social-card__media" data-social-media>
+                  <MediaPicture src={item.src} alt={item.imageAlt} />
+                </div>
+                <div className="social-card__content">
+                  <p className="social-card__eyebrow">{item.eyebrow}</p>
+                  <h3 id={`social-${item.id}-title`}>{item.title}</h3>
+                  <p>{item.description}</p>
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${item.linkLabel}: ${item.title} (откроется в новой вкладке)`}
+                  >
+                    {item.linkLabel}
+                    <span aria-hidden="true">↗</span>
+                    <span className="visually-hidden"> (откроется в новой вкладке)</span>
+                  </a>
+                </div>
+              </article>
+            ))}
           </div>
         </section>
 
@@ -549,26 +442,16 @@ export default async function HomePage({
         >
           <SectionHeading id="future-title">Будущие проекты</SectionHeading>
           <div className="future-layout" data-testid="future-projects">
-            <div className="future-map" data-fallback="no-webgl">
+            <figure className="future-map">
               <Image
-                src="/brand/autodor-network-map.svg"
-                alt="Схема направлений развития сети дорог Автодора: действующие дороги, перспективные проекты, строящиеся участки и морские порты. Не предназначена для навигации"
-                width="1600"
-                height="760"
+                className="future-map__image"
+                src="/brand/autodor-official-network-overlay.png"
+                alt="Схема сети дорог Автодора с обозначениями действующих и перспективных маршрутов"
+                width="2580"
+                height="1500"
                 loading="lazy"
               />
-              <p className="visually-hidden">
-                Статический режим карты. Названия и ориентир по сроку подтверждены
-                официальным проспектом; точная геометрия не публикуется как проверенная.
-              </p>
-              <ol className="future-timeline" aria-label="Шкала лет из Figma">
-                {FUTURE_PROJECT_TIMELINE.map((item) => (
-                  <li key={item.year} data-node-id={item.figmaNodeId}>
-                    <time>{item.year}</time>
-                  </li>
-                ))}
-              </ol>
-            </div>
+            </figure>
             <div className="future-projects">
               {FUTURE_PROJECTS.map((project, index) => (
                 <article
@@ -577,32 +460,50 @@ export default async function HomePage({
                   data-status={project.publicationStatus}
                   data-node-id={project.figmaCardNodeId}
                 >
-                  <p>Проект {index + 1}</p>
-                  {project.publicationStatus === "verified" ? (
-                    <>
-                      <h3>{project.title}</h3>
+                  <Image
+                    className="future-projects__image"
+                    src={FUTURE_PROJECT_MEDIA[index] ?? FUTURE_PROJECT_MEDIA[0]}
+                    alt=""
+                    width={1200}
+                    height={680}
+                    loading="lazy"
+                  />
+                  <div className="future-projects__shade" aria-hidden="true" />
+                  <div className="future-projects__content">
+                    <div className="future-projects__meta">
+                      <p>Проект {index + 1}</p>
+                      {project.publicationStatus === "verified" ? (
+                        <span>{project.shortTitle}</span>
+                      ) : null}
+                    </div>
+                    {project.publicationStatus === "verified" ? (
+                      <>
+                      <h3 title={project.title} aria-label={project.title}>
+                        {project.title}
+                      </h3>
                       <p>
                         <time dateTime={`${project.deadlineYear}`}>
                           {project.deadlineLabel}
                         </time>
                       </p>
-                      <a href={project.detailsUrl}>Официальный источник, стр. 36</a>
-                    </>
-                  ) : (
-                    <>
+                      <a
+                        href={project.detailsUrl}
+                        aria-label={`Открыть: ${project.factSource.label}`}
+                      >
+                        Официальный источник, стр. 36
+                        <span aria-hidden="true">↗</span>
+                      </a>
+                      </>
+                    ) : (
+                      <>
                       <h3>Название и срок не опубликованы</h3>
                       <p>{project.mapGeometry.reason}</p>
-                    </>
-                  )}
+                      </>
+                    )}
+                  </div>
                 </article>
               ))}
             </div>
-            <a
-              className="section-link"
-              href="https://russianhighways.ru/about/activity/"
-            >
-              Деятельность компании
-            </a>
           </div>
         </section>
       </main>
@@ -626,26 +527,33 @@ export default async function HomePage({
             </div>
             <div className="footer-top-spacer" aria-hidden="true" />
             <address className="footer-contacts" data-node-id="1767:8050">
-              <span className="footer-contact" data-node-id="1767:8053">
-                <Image src="/brand/footer-location.svg" alt="" width={24} height={24} />
-                <span>Москва, Страстной бульвар, 9</span>
-              </span>
-              <a
-                className="footer-contact"
-                href="mailto:info@russianhighways.ru"
-                data-node-id="1767:8058"
-              >
-                <Image src="/brand/footer-email.svg" alt="" width={24} height={24} />
-                <span>info@russianhighways.ru</span>
-              </a>
-              <a
-                className="footer-contact"
-                href="tel:+74957271195"
-                data-node-id="1767:8063"
-              >
-                <Image src="/brand/footer-phone.svg" alt="" width={24} height={24} />
-                <span>+7&nbsp;495&nbsp;727-11-95</span>
-              </a>
+              {FOOTER_CONTACTS.map((item) => {
+                const content = (
+                  <>
+                    <Image src={item.image} alt="" width={24} height={24} />
+                    <span>{item.value}</span>
+                  </>
+                );
+
+                return item.href ? (
+                  <a
+                    className="footer-contact"
+                    href={item.href}
+                    data-node-id={item.nodeId}
+                    key={item.label}
+                  >
+                    {content}
+                  </a>
+                ) : (
+                  <span
+                    className="footer-contact"
+                    data-node-id={item.nodeId}
+                    key={item.label}
+                  >
+                    {content}
+                  </span>
+                );
+              })}
             </address>
             <nav
               className="footer-social"
@@ -699,21 +607,11 @@ export default async function HomePage({
             aria-label="Правовая информация"
             data-node-id="1767:9207"
           >
-            <a
-              href="https://russianhighways.ru/about/regulatory-information/disc_inform/"
-              data-node-id="1767:9209"
-            >
-              Раскрытие информации
-            </a>
-            <a href="https://russianhighways.ru/about/" data-node-id="1767:9210">
-              Противодействие коррупции
-            </a>
-            <a
-              href="https://russianhighways.ru/upload/docs/politika_PD.pdf"
-              data-node-id="1767:9211"
-            >
-              Политика обработки персональных данных
-            </a>
+            {FOOTER_LEGAL_LINKS.map((item) => (
+              <a href={item.href} data-node-id={item.nodeId} key={item.label}>
+                {item.label}
+              </a>
+            ))}
           </nav>
 
           <p className="footer-copyright" data-node-id="1767:9215">
