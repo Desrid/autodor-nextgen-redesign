@@ -162,7 +162,7 @@ test("R04-R07: content rails expose honest data or explicit source states", asyn
   const media = page.locator("[data-section='media']");
   const mediaRail = page.getByTestId("media-rail");
   await expect(mediaRail.locator("[data-media-original]")).toHaveCount(23);
-  await expect(media.getByText(/\/ 23$/)).toBeVisible();
+  await expect(media.getByText(/\/ 23$/)).toHaveCount(0);
 
   await mediaRail.focus();
   await page.keyboard.press("ArrowRight");

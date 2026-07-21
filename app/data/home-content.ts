@@ -123,6 +123,14 @@ export const NEWS = [
 
 export const CONTACT_TABS = [
   {
+    id: "state-company",
+    label: "Гос компания",
+    name: "Государственная компания «Автодор»",
+    phone: "+7 (495) 727-11-95",
+    email: "info@russianhighways.ru",
+    href: "https://www.russianhighways.ru/about/structure/",
+  },
+  {
     id: "management-company",
     label: "ООО УК «Автодор»",
     name: "ООО УК «Автодор»",

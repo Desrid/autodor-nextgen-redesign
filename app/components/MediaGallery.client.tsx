@@ -19,6 +19,8 @@ type MediaGalleryProps = Readonly<{
   label: string;
 }>;
 
+const AUTO_SCROLL_PX_PER_SECOND = 36;
+
 export function MediaGallery({ children, descriptions, label }: MediaGalleryProps) {
   const items = Children.toArray(children);
   const railRef = useRef<HTMLDivElement>(null);
@@ -71,7 +73,8 @@ export function MediaGallery({ children, descriptions, label }: MediaGalleryProp
       const rail = railRef.current;
       if (rail && !pauseRef.current && !reduceMotion && !dragRef.current.active) {
         const elapsed = Math.min(time - (lastTimeRef.current ?? time), 40);
-        rail.scrollLeft += elapsed * 0.025;
+        // Increasing scrollLeft moves the visible images from right to left.
+        rail.scrollLeft += (elapsed * AUTO_SCROLL_PX_PER_SECOND) / 1000;
         normalizeScroll();
         updateActiveItem();
       }
@@ -150,18 +153,6 @@ export function MediaGallery({ children, descriptions, label }: MediaGalleryProp
       className="media-gallery"
       aria-label={label}
       role="region"
-      onMouseEnter={() => {
-        pauseRef.current = true;
-      }}
-      onMouseLeave={() => {
-        pauseRef.current = false;
-      }}
-      onFocusCapture={() => {
-        pauseRef.current = true;
-      }}
-      onBlurCapture={() => {
-        pauseRef.current = false;
-      }}
     >
       <p id="media-gallery-help" className="visually-hidden">
         Галерея движется автоматически. Используйте стрелки или перетаскивание для
@@ -178,6 +169,18 @@ export function MediaGallery({ children, descriptions, label }: MediaGalleryProp
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
+        onMouseEnter={() => {
+          pauseRef.current = true;
+        }}
+        onMouseLeave={() => {
+          pauseRef.current = false;
+        }}
+        onFocusCapture={() => {
+          pauseRef.current = true;
+        }}
+        onBlurCapture={() => {
+          pauseRef.current = false;
+        }}
       >
         {[false, true].map((duplicate) => (
           <div
@@ -212,11 +215,6 @@ export function MediaGallery({ children, descriptions, label }: MediaGalleryProp
           </div>
         ))}
       </div>
-      <p className="media-gallery__status" aria-live="polite" aria-atomic="true">
-        <span className="visually-hidden">Изображение </span>
-        {activeIndex + 1} / {items.length}
-      </p>
-
       {selected && selectedIndex !== null ? (
         <div
           className="media-lightbox"

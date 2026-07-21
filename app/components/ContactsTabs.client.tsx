@@ -33,9 +33,6 @@ export function ContactsTabs() {
           if (event.key === "ArrowDown") select(activeIndex + 1, true);
         }}
       >
-        <div className="contacts-tabs__group" role="presentation">
-          Гос&nbsp;компания
-        </div>
         {CONTACT_TABS.map((contact, index) => (
           <button
             key={contact.id}
@@ -91,11 +88,7 @@ export function ContactsTabs() {
                   stroke="currentColor"
                   strokeWidth="1.8"
                 />
-                <path
-                  d="m4 7 8 6 8-6"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                />
+                <path d="m4 7 8 6 8-6" stroke="currentColor" strokeWidth="1.8" />
               </svg>
               {contact.email}
             </a>
