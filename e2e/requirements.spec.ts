@@ -158,6 +158,14 @@ test("R04-R07: content rails expose honest data or explicit source states", asyn
     page.getByTestId("media-rail").locator("[data-media-item]"),
   ).not.toHaveCount(0);
   await expect(page.locator("[data-section='media'] h2:visible")).toHaveCount(0);
+
+  const media = page.locator("[data-section='media']");
+  const mediaRail = page.getByTestId("media-rail");
+  await expect(mediaRail.locator("[data-media-original]")).toHaveCount(23);
+  await expect(media.getByText(/\/ 23$/)).toBeVisible();
+
+  await mediaRail.focus();
+  await page.keyboard.press("ArrowRight");
 });
 
 test("R08: contacts implement the tabs keyboard contract", async ({ page }) => {
