@@ -21,3 +21,13 @@ describe("road video delivery contract", () => {
     }
   });
 });
+
+describe("media gallery delivery contract", () => {
+  it("ships all generated gallery images as optimized WebP assets", () => {
+    for (let index = 1; index <= 20; index += 1) {
+      const filename = `gallery-${String(index).padStart(2, "0")}.webp`;
+      const path = join(process.cwd(), "public", "media", "gallery", filename);
+      expect(statSync(path).size, path).toBeGreaterThan(20_000);
+    }
+  });
+});

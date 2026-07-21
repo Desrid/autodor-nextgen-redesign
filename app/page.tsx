@@ -2,6 +2,7 @@ import { ContactsTabs } from "@/app/components/ContactsTabs.client";
 import { FloatingUtilities } from "@/app/components/FloatingUtilities.client";
 import { HeaderNav } from "@/app/components/HeaderNav.client";
 import LoyaltyRail from "@/app/components/LoyaltyRail.client";
+import { MediaGallery } from "@/app/components/MediaGallery.client";
 import { ServicesGrid } from "@/app/components/ServicesGrid";
 import {
   type HeroVariant,
@@ -35,18 +36,122 @@ const MEDIA_GALLERY = [
   {
     id: "bridge",
     media: "bridge-viaduct",
+    title: "Мост через большую реку",
+    description:
+      "Современный мостовой переход связывает берега и продолжает скоростную магистраль.",
     alt: "Сгенерированный образ современного дорожного моста. Не является документальной съёмкой конкретного объекта",
   },
   {
     id: "construction",
     media: "road-construction",
+    title: "Строительство новой трассы",
+    description:
+      "Подготовка основания и инженерных сооружений будущей автомобильной дороги.",
     alt: "Сгенерированный образ строительства федеральной автомагистрали без привязки к конкретному объекту",
   },
   {
     id: "tunnel",
     media: "tunnel-portal",
+    title: "Портал дорожного тоннеля",
+    description:
+      "Современный тоннель помогает сохранить устойчивый маршрут в сложном рельефе.",
     alt: "Сгенерированный образ портала дорожного тоннеля. Не является документальной съёмкой конкретного объекта",
   },
+] as const;
+
+const GENERATED_MEDIA = [
+  [
+    "gallery-01",
+    "Вантовый мост на рассвете",
+    "Новый мостовой переход над широкой рекой в мягком утреннем свете.",
+  ],
+  [
+    "gallery-02",
+    "Магистраль среди холмов",
+    "Плавная трасса проходит через зелёный холмистый ландшафт.",
+  ],
+  [
+    "gallery-03",
+    "Строительство развязки",
+    "Дорожная техника формирует многоуровневую транспортную развязку.",
+  ],
+  [
+    "gallery-04",
+    "Тоннель в вечернем свете",
+    "Освещённый портал современного тоннеля в сумерках.",
+  ],
+  [
+    "gallery-05",
+    "Многоуровневая развязка",
+    "Воздушный вид на распределение транспортных потоков.",
+  ],
+  [
+    "gallery-06",
+    "Зимняя дорога",
+    "Безопасная магистраль проходит через заснеженный хвойный лес.",
+  ],
+  ["gallery-07", "Прибрежное шоссе", "Дорога следует вдоль морского побережья и скал."],
+  [
+    "gallery-08",
+    "Пункт взимания платы",
+    "Современная инфраструктура скоростной дороги на рассвете.",
+  ],
+  ["gallery-09", "Виадук над долиной", "Протяжённый мост пересекает осеннюю долину."],
+  [
+    "gallery-10",
+    "Ночная магистраль",
+    "Световые линии подчёркивают геометрию ночной дороги.",
+  ],
+  [
+    "gallery-11",
+    "Зона отдыха",
+    "Современное пространство для остановки на длинном маршруте.",
+  ],
+  [
+    "gallery-12",
+    "Инженерный контроль",
+    "Специалисты проверяют готовность нового мостового полотна.",
+  ],
+  [
+    "gallery-13",
+    "Дорога среди полей",
+    "Свежая магистраль пересекает открытый сельский ландшафт.",
+  ],
+  [
+    "gallery-14",
+    "Городская кольцевая дорога",
+    "Транспортный коридор проходит рядом с современным городом.",
+  ],
+  [
+    "gallery-15",
+    "Горный перевал",
+    "Защищённая барьерами дорога проходит сквозь утренний туман.",
+  ],
+  [
+    "gallery-16",
+    "Большая дорожная стройка",
+    "Общий вид на комплексное строительство нового участка трассы.",
+  ],
+  [
+    "gallery-17",
+    "Шумозащитные экраны",
+    "Современные экраны снижают влияние магистрали на городскую среду.",
+  ],
+  [
+    "gallery-18",
+    "Мост над лесом",
+    "Скоростная дорога бережно пересекает зелёный массив.",
+  ],
+  [
+    "gallery-19",
+    "Закат над трассой",
+    "Свободная магистраль уходит к горизонту в тёплом свете.",
+  ],
+  [
+    "gallery-20",
+    "Интерьер тоннеля",
+    "Разметка и освещение обеспечивают понятное движение внутри тоннеля.",
+  ],
 ] as const;
 
 function SectionHeading({ id, children }: Readonly<{ id: string; children: string }>) {
@@ -57,20 +162,41 @@ function SectionHeading({ id, children }: Readonly<{ id: string; children: strin
   );
 }
 
-function MediaPicture({ media, alt }: Readonly<{ media: string; alt: string }>) {
+function MediaPicture({
+  media,
+  src,
+  alt,
+  priority = false,
+}: Readonly<{ media?: string; src?: string; alt: string; priority?: boolean }>) {
+  if (src) {
+    return (
+      <Image
+        src={src}
+        alt={alt}
+        width={960}
+        height={640}
+        sizes="(max-width: 767px) 82vw, (max-width: 1200px) 48vw, 736px"
+        unoptimized
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : "auto"}
+      />
+    );
+  }
+
+  if (!media) return null;
   return (
     <picture>
       <source
         type="image/avif"
         media="(max-width: 767px)"
         srcSet={`/media/optimized/${media}/${media}-mobile-320.avif 320w, /media/optimized/${media}/${media}-mobile-480.avif 480w, /media/optimized/${media}/${media}-mobile-720.avif 720w`}
-        sizes="88vw"
+        sizes="(max-width: 479px) 88vw, 72vw"
       />
       <source
         type="image/webp"
         media="(max-width: 767px)"
         srcSet={`/media/optimized/${media}/${media}-mobile-320.webp 320w, /media/optimized/${media}/${media}-mobile-480.webp 480w, /media/optimized/${media}/${media}-mobile-720.webp 720w`}
-        sizes="88vw"
+        sizes="(max-width: 479px) 88vw, 72vw"
       />
       <source
         type="image/avif"
@@ -82,7 +208,9 @@ function MediaPicture({ media, alt }: Readonly<{ media: string; alt: string }>) 
         alt={alt}
         width="960"
         height="640"
-        loading="lazy"
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : "auto"}
+        decoding="async"
       />
     </picture>
   );
@@ -218,23 +346,43 @@ export default async function HomePage({
         </section>
 
         <section
+          id="media-gallery"
           className="media-section"
           aria-label="Дороги, мосты и строительство"
           data-section="media"
           data-node-id="1767:7339"
         >
-          <div
-            className="media-rail"
-            data-testid="media-rail"
-            tabIndex={0}
-            aria-label="Прокручиваемая медиагалерея"
+          <MediaGallery
+            label="Прокручиваемая медиагалерея"
+            descriptions={[
+              ...MEDIA_GALLERY.map(({ title, description }) => ({
+                title,
+                description,
+              })),
+              ...GENERATED_MEDIA.map(([, title, description]) => ({
+                title,
+                description,
+              })),
+            ]}
           >
-            {MEDIA_GALLERY.map((item) => (
-              <figure key={item.id} data-media-item>
-                <MediaPicture media={item.media} alt={item.alt} />
+            {MEDIA_GALLERY.map((item, index) => (
+              <figure key={item.id}>
+                <MediaPicture
+                  media={item.media}
+                  alt={item.alt}
+                  priority={index === 0}
+                />
               </figure>
             ))}
-          </div>
+            {GENERATED_MEDIA.map(([id, title]) => (
+              <figure key={id}>
+                <MediaPicture
+                  src={`/media/gallery/${id}.webp`}
+                  alt={`Сгенерированный образ: ${title.toLocaleLowerCase("ru")}`}
+                />
+              </figure>
+            ))}
+          </MediaGallery>
         </section>
 
         <section
