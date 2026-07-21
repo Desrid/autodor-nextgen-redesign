@@ -165,7 +165,7 @@ test("R08: contacts implement the tabs keyboard contract", async ({ page }) => {
 
   await expect(tabs).not.toHaveCount(0);
   await tabs.first().focus();
-  await page.keyboard.press("ArrowRight");
+  await page.keyboard.press("ArrowDown");
   await expect(tabs.nth(1)).toBeFocused();
   await page.keyboard.press("End");
   await expect(tabs.last()).toBeFocused();
