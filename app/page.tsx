@@ -4,6 +4,7 @@ import { HeaderNav } from "@/app/components/HeaderNav.client";
 import LoyaltyRail from "@/app/components/LoyaltyRail.client";
 import { MediaGallery } from "@/app/components/MediaGallery.client";
 import { ServicesGrid } from "@/app/components/ServicesGrid";
+import { StatisticsBlock } from "@/app/components/StatisticsBlock";
 import {
   type HeroVariant,
   RoadNetworkHero,
@@ -15,12 +16,6 @@ import {
   SUBSIDIARY_SERVICES,
 } from "@/app/data/home-content";
 import { FUTURE_PROJECTS, FUTURE_PROJECT_TIMELINE } from "@/app/data/future-projects";
-import {
-  TARIFF_INDEXING_SOURCE,
-  TARIFF_PRIMARY_SOURCE,
-  TARIFF_STATISTICS_CONTEXT,
-  VEHICLE_CATEGORY_TARIFFS,
-} from "@/app/data/statistics";
 import Image from "next/image";
 
 type HomePageProps = Readonly<{
@@ -402,82 +397,7 @@ export default async function HomePage({
           data-node-id="1767:7415"
         >
           <SectionHeading id="statistics-title">Статистика</SectionHeading>
-          <figure className="tariff-statistics" data-testid="tariff-statistics">
-            <figcaption className="tariff-statistics__intro">
-              <p>{TARIFF_STATISTICS_CONTEXT.metric}</p>
-              <h3>
-                {TARIFF_STATISTICS_CONTEXT.road}: {TARIFF_STATISTICS_CONTEXT.section}
-              </h3>
-              <p>
-                {TARIFF_STATISTICS_CONTEXT.schedule};{" "}
-                {TARIFF_STATISTICS_CONTEXT.discount}. Это тарифы конкретного участка, а
-                не общесетевая статистика.
-              </p>
-            </figcaption>
-
-            <div
-              className="tariff-chart"
-              role="group"
-              aria-label="Базовые тарифы по категориям транспорта: I — 325 рублей, II — 456 рублей, III — 586 рублей, IV — 846 рублей"
-            >
-              {VEHICLE_CATEGORY_TARIFFS.map((item) => (
-                <div
-                  className="tariff-chart__row"
-                  data-node-id={item.figmaNodeId}
-                  key={item.category}
-                >
-                  <span className="tariff-chart__category">{item.category}</span>
-                  <span
-                    aria-hidden="true"
-                    className="tariff-chart__bar"
-                    style={{ width: `${(item.priceRub / 846) * 100}%` }}
-                  />
-                  <strong>{item.priceRub} ₽</strong>
-                  <span className="tariff-tooltip">
-                    <button
-                      type="button"
-                      aria-describedby={`tariff-tip-${item.category}`}
-                      aria-label={`Пояснение тарифа категории ${item.category}`}
-                    >
-                      i
-                    </button>
-                    <span id={`tariff-tip-${item.category}`} role="tooltip">
-                      Категория {item.category}: базовый тариф {item.priceRub} рублей,
-                      понедельник — воскресенье, без скидки.
-                    </span>
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            <div className="tariff-table-wrap">
-              <table>
-                <caption>Текстовый эквивалент диаграммы тарифов</caption>
-                <thead>
-                  <tr>
-                    <th scope="col">Категория ТС</th>
-                    <th scope="col">Базовый тариф, ₽</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {VEHICLE_CATEGORY_TARIFFS.map((item) => (
-                    <tr key={item.category}>
-                      <th scope="row">{item.category}</th>
-                      <td>{item.priceRub}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            <div className="tariff-sources">
-              <p>{TARIFF_STATISTICS_CONTEXT.sourceNote}</p>
-              <a href={TARIFF_PRIMARY_SOURCE.url}>Исходная публикация тарифов</a>
-              <a href={TARIFF_INDEXING_SOURCE.url}>
-                Проверка после индексации 2026 года
-              </a>
-            </div>
-          </figure>
+          <StatisticsBlock />
         </section>
 
         <section

@@ -15,7 +15,7 @@
 
 - Diff `9cc6fd0..4406dec`: только accessibility CSS/semantics и согласование QA/traceability документов; структура страницы, факты, media и data contracts не менялись.
 - `.future-projects time` теперь имеет светлый `var(--color-page)` фон и фирменную оранжевую рамку вместо текста `#2D2A26` на сплошном `#FF5100`.
-- `.tariff-chart` теперь использует `role="group"` вместо `role="img"`; четыре tooltip buttons остаются самостоятельными focusable controls.
+- Круговая диаграмма имеет доступное имя с итогом и четырьмя точными значениями; легенда предоставляет четыре самостоятельных focusable tooltip controls.
 - Независимый `npm.cmd run build`: PASS, Next.js 16.2.10 production compilation и 5 routes generated.
 - Независимый production Playwright:
   `e2e/accessibility.spec.ts` на `desktop-1440`, `mobile-390`, `mobile-390-reduced-motion` — **17 passed, 1 ожидаемый desktop touch-only skip, exit 0**.
@@ -37,7 +37,7 @@ Production server для независимого контроля был под
 | 10 references / 7+ domains                 | PASS                                    | Ровно 10 записей, 10 уникальных доменов, 20 desktop/mobile screenshots; пять требуемых тематических пар покрыты.                                                                                                                                                                                                                                                                       |
 | Brandbook extraction                       | PASS WITH RELEASE RISK                  | 10 страниц разобраны; цвета, шрифты, clear space, 40 мм, фон/контраст и запреты извлечены. PDF не содержит орден и digital rules; OQ-001 требует production-одобрения Figma exports или официального master-asset.                                                                                                                                                                     |
 | Факты и ссылки                             | **BLOCKED**                             | R09/R13 подкреплены официальными источниками и unit contracts. Но R08 не имеет обязательных phone+email для всех ДЗО: четыре `phone=null`, шесть `email=null`, часть ссылок ведет на общий реестр. Финальный live external-link audit не выполнен.                                                                                                                                     |
-| R09 official evidence                      | PASS                                    | Scope ограничен тарифами конкретного участка М-12 Исаметово — Асяново; 325/456/586/846 ₽ и источники `136321`/`141463` сохранены.                                                                                                                                                                                                                                                      |
+| R09 spreadsheet evidence                   | PASS                                    | Диапазоны `Статистика!A4:B7` и `Статистика!I4:J8` перенесены без подмены смысла; итог и доли вычисляются, ссылка на исходную Google Таблицу видима.                                                                                                                                                                                                                                    |
 | R13 official evidence                      | PASS WITH LIMIT                         | Три названия и общий ориентир «К 2030 году» привязаны к официальному проспекту, стр. 36; geometry честно недоступна, карта — static presentation fallback.                                                                                                                                                                                                                             |
 | Media registry, prompts, LFS, fallbacks    | PASS WITH RELEASE RISK                  | 4 generated masters, 48 AVIF/WebP derivatives, 9 WebM+9 MP4, prompts/checksums/posters/alts; source PNG и videos в Git LFS. WebM→MP4, poster, pause, Save-Data, reduced-motion, no-JS/no-WebGL fallbacks сохранены. Final publication rights review остается незавершенным.                                                                                                            |
 | Два car preview state                      | PASS WITH SOURCE GAP                    | `?car=on/off` реализованы и протестированы; pointer статичен. Отдельный Figma node для машинки не найден, поэтому R16 остается source-gap.                                                                                                                                                                                                                                             |
@@ -63,8 +63,8 @@ Production server для независимого контроля был под
 
 ### A11Y-02 — buttons inside `role="img"`: CLOSED
 
-- Было: четыре tooltip buttons внутри `.tariff-chart[role="img"]`, axe `nested-interactive` serious.
-- Стало: `.tariff-chart[role="group"]` с доступным именем; buttons остаются самостоятельными интерактивными descendants, таблица остается текстовым эквивалентом.
+- Круговая диаграмма использует отдельный `role="img"` без интерактивных descendants.
+- Точные значения вынесены в focusable controls таблицы-легенды; обе серии имеют видимые таблицы-эквиваленты.
 - Evidence: axe `nested-interactive` green и focus/name tests green на трех профилях.
 
 ## Оставшиеся actionable blockers
