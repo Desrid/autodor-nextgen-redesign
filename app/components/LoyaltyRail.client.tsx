@@ -1,84 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
 import Image from "next/image";
+import { LOYALTY_PROGRAMS } from "@/app/data/loyalty";
 
 export type LoyaltyRailState = "ready" | "loading" | "empty" | "error";
 
-export const LOYALTY_PROGRAMS = [
-  {
-    id: "large-families",
-    nodeId: "1767:7292",
-    meta: "До 30 сентября 2026",
-    title: "12 000 баллов многодетным семьям",
-    description:
-      "Баллы можно обменять на скидку на проезд, а транспондер T-pass — приобрести со скидкой 30% при выполнении условий акции.",
-    href: "https://www.russianhighways.ru/press/news/145160/",
-    linkLabel: "Условия акции",
-    image: "/media/loyalty/large-families-road-trip.png",
-    imageAlt: "Автомобиль едет по скоростной дороге среди лесистых холмов",
-  },
-  {
-    id: "bonus-discount",
-    nodeId: "1767:7295",
-    meta: "Скидка 3–15%",
-    title: "Дополнительная скидка за баллы",
-    description:
-      "Накопленные баллы программы лояльности можно обменять на скидку, которая действует выбранный календарный месяц.",
-    href: "https://www.russianhighways.ru/press/news/145160/",
-    linkLabel: "Как работает скидка",
-    image: "/media/loyalty/bonus-discount-transponder.png",
-    imageAlt: "Транспондер в салоне автомобиля на фоне пункта оплаты",
-  },
-  {
-    id: "earn-points",
-    nodeId: "1767:7298",
-    meta: "За поездки с T-pass",
-    title: "Баллы за оплаченный проезд",
-    description:
-      "Баллы начисляются за проезды по платным участкам дорог Автодора после подключения программы лояльности.",
-    href: "https://russianhighways.ru/press/news/83198/",
-    linkLabel: "Правила начисления",
-    image: "/media/loyalty/earn-points-motorway.png",
-    imageAlt: "Вид сверху на многополосную дорогу среди зелёного леса",
-  },
-  {
-    id: "discount-levels",
-    nodeId: "1767:7273",
-    meta: "Пять уровней",
-    title: "Выберите размер скидки",
-    description:
-      "Доступные уровни — 3%, 5%, 7%, 10% или 15%. Чем выше скидка, тем больше бонусных баллов потребуется.",
-    href: "https://russianhighways.ru/press/news/83198/",
-    linkLabel: "Уровни программы",
-    image: "/media/loyalty/discount-levels-console.png",
-    imageAlt: "Транспондер и банковская карта на центральной консоли автомобиля",
-  },
-  {
-    id: "flexible-period",
-    nodeId: "1767:7276",
-    meta: "На выбранный месяц",
-    title: "Планируйте скидку заранее",
-    description:
-      "Скидку можно активировать на подходящий месяц, а до начала действия — отменить и выбрать другой период.",
-    href: "https://russianhighways.ru/press/news/83198/",
-    linkLabel: "Управление скидкой",
-    image: "/media/loyalty/flexible-period-road-trip.png",
-    imageAlt: "Автомобиль у зоны отдыха рядом со скоростной дорогой",
-  },
-  {
-    id: "points-lifetime",
-    nodeId: "1767:7279",
-    meta: "Контроль баланса",
-    title: "Следите за сроком баллов",
-    description:
-      "История начислений и срок действия баллов доступны в личном кабинете владельца транспондера T-pass.",
-    href: "https://russianhighways.ru/press/news/83198/",
-    linkLabel: "Подробнее о баллах",
-    image: "/media/loyalty/points-balance-dashboard.png",
-    imageAlt: "Вид из автомобиля на вечернюю скоростную дорогу",
-  },
-] as const;
+export { LOYALTY_PROGRAMS };
 
 type LoyaltyRailProps = Readonly<{
   state?: LoyaltyRailState;
@@ -131,10 +59,22 @@ export default function LoyaltyRail({ state = "ready", onRetry }: LoyaltyRailPro
 
     rail.scrollBy({
       left: direction * rail.clientWidth,
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
         ? "auto"
         : "smooth",
     });
+  };
+
+  const handleRailKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      moveRail(-1);
+    }
+
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      moveRail(1);
+    }
   };
 
   if (state === "loading") {
@@ -219,6 +159,7 @@ export default function LoyaltyRail({ state = "ready", onRetry }: LoyaltyRailPro
         tabIndex={0}
         aria-label="Прокручиваемые карточки программы лояльности"
         onScroll={updateControls}
+        onKeyDown={handleRailKeyDown}
       >
         {LOYALTY_PROGRAMS.map((program) => (
           <article

@@ -12,6 +12,7 @@ type FutureProjectBase = Readonly<{
 export type VerifiedFutureProject = FutureProjectBase &
   Readonly<{
     publicationStatus: "verified";
+    shortTitle: string;
     title: string;
     detailsUrl: `https://${string}`;
     factSource: VerificationSource;
@@ -48,12 +49,14 @@ const verifiedProject = (
   id: FutureProjectId,
   figmaCardNodeId: FigmaNodeId,
   figmaTextNodeId: FigmaNodeId,
+  shortTitle: string,
   title: string,
 ): VerifiedFutureProject => ({
   id,
   figmaCardNodeId,
   figmaTextNodeId,
   publicationStatus: "verified",
+  shortTitle,
   title,
   detailsUrl: OFFICIAL_PROSPECT_SOURCE.url,
   factSource: OFFICIAL_PROSPECT_SOURCE,
@@ -78,18 +81,21 @@ export const FUTURE_PROJECTS: readonly FutureProjectRecord[] = [
     "future-project-slot-1",
     "1767:7511",
     "1767:7512",
+    "КАД-2",
     "Новый скоростной обход Санкт-Петербурга (КАД-2), Ленинградская область и Санкт-Петербург",
   ),
   verifiedProject(
     "future-project-slot-2",
     "1767:7513",
     "1767:7514",
+    "А-108",
     "Строительство автомобильной дороги А-108 на участке пересечения с автомобильной дорогой М-7 «Волга» до д. Стенино, Московская область (обход Орехово-Зуево и Ликино-Дулево)",
   ),
   verifiedProject(
     "future-project-slot-3",
     "1767:7515",
     "1767:7516",
+    "Краснодар",
     "Южный обход г. Краснодар",
   ),
 ];

@@ -11,6 +11,7 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ["172.18.0.1"],
   compress: true,
   output: "standalone",
   poweredByHeader: false,

@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable jsx-a11y/role-supports-aria-props -- Preserve the production Sites v3 search combobox contract. */
+
 import Image from "next/image";
 import {
   useCallback,
@@ -7,6 +9,7 @@ import {
   useMemo,
   useRef,
   useState,
+  type KeyboardEvent as ReactKeyboardEvent,
   type MouseEvent as ReactMouseEvent,
 } from "react";
 
@@ -23,6 +26,7 @@ type OpenHeaderLayer = Exclude<HeaderLayer, "closed">;
 
 const EXIT_DURATION_MS = 180;
 const MAX_SEARCH_SUGGESTIONS = 6;
+
 const FOCUSABLE_SELECTOR = [
   "a[href]",
   "button:not([disabled])",
@@ -54,6 +58,7 @@ export function HeaderNav() {
   const headerRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const searchSuggestionRefs = useRef<Array<HTMLAnchorElement | null>>([]);
   const mobileCloseRef = useRef<HTMLButtonElement>(null);
   const languageCurrentRef = useRef<HTMLAnchorElement>(null);
   const moreButtonRef = useRef<HTMLButtonElement>(null);
@@ -79,6 +84,10 @@ export function HeaderNav() {
       setActiveLayer("closed");
       setIsClosing(true);
 
+      if (activeLayer === "search") {
+        setSearchQuery("");
+      }
+
       if (restoreFocus) {
         restoreFocusRef.current?.focus();
       }
@@ -89,7 +98,7 @@ export function HeaderNav() {
         closeTimerRef.current = null;
       }, EXIT_DURATION_MS);
     },
-    [clearCloseTimer, renderedLayer],
+    [activeLayer, clearCloseTimer, renderedLayer],
   );
 
   const toggleLayer = useCallback(
@@ -266,6 +275,46 @@ export function HeaderNav() {
     ).slice(0, MAX_SEARCH_SUGGESTIONS);
   }, [searchQuery]);
 
+  const focusSearchSuggestion = useCallback((index: number) => {
+    searchSuggestionRefs.current[index]?.focus();
+  }, []);
+
+  const onSearchInputKeyDown = (event: ReactKeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "ArrowDown" && searchSuggestions.length) {
+      event.preventDefault();
+      focusSearchSuggestion(0);
+    }
+  };
+
+  const onSearchSuggestionKeyDown = (
+    event: ReactKeyboardEvent<HTMLAnchorElement>,
+    index: number,
+  ) => {
+    if (event.key === "ArrowDown" && index < searchSuggestions.length - 1) {
+      event.preventDefault();
+      focusSearchSuggestion(index + 1);
+    }
+
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+      if (index === 0) {
+        searchInputRef.current?.focus();
+      } else {
+        focusSearchSuggestion(index - 1);
+      }
+    }
+
+    if (event.key === "Home") {
+      event.preventDefault();
+      focusSearchSuggestion(0);
+    }
+
+    if (event.key === "End") {
+      event.preventDefault();
+      focusSearchSuggestion(searchSuggestions.length - 1);
+    }
+  };
+
   const panelClassName = [
     "header-layer",
     isClosing ? "header-layer--closing" : "header-layer--open",
@@ -329,25 +378,60 @@ export function HeaderNav() {
       </nav>
 
       <div className="header-actions">
-        <button
-          ref={languageButtonRef}
-          className="language-button"
-          type="button"
-          aria-label="Выбрать язык"
-          aria-expanded={activeLayer === "language"}
-          aria-controls="header-language-panel"
-          onClick={onLayerButtonClick("language")}
-        >
-          <span>РУС</span>
-          <span className="language-button__chevron" aria-hidden="true" />
-        </button>
+        <div className="language-control">
+          <button
+            ref={languageButtonRef}
+            className="language-button"
+            type="button"
+            aria-label="Выбрать язык"
+            aria-expanded={activeLayer === "language"}
+            aria-controls="header-language-panel"
+            onClick={onLayerButtonClick("language")}
+          >
+            <span>РУС</span>
+            <span className="language-button__chevron" aria-hidden="true" />
+          </button>
+          {renderedLayer === "language" ? (
+            <div
+              id="header-language-panel"
+              className={panelClassName}
+              data-layer="language"
+              aria-hidden={isClosing || undefined}
+              style={{
+                insetBlockEnd: "auto",
+                insetInlineStart: 0,
+                insetInlineEnd: "auto",
+                minHeight: 0,
+              }}
+            >
+              <a
+                ref={languageCurrentRef}
+                href="https://russianhighways.ru/"
+                aria-current="page"
+              >
+                <span
+                  className="language-option__flag language-option__flag--ru"
+                  aria-hidden="true"
+                />
+                РУС
+              </a>
+              <a href="https://russianhighways.ru/en/" hrefLang="en" lang="en">
+                <span
+                  className="language-option__flag language-option__flag--en"
+                  aria-hidden="true"
+                />
+                ENG
+              </a>
+            </div>
+          ) : null}
+        </div>
         <button
           ref={searchButtonRef}
           className="icon-button search-button"
           type="button"
           aria-label={activeLayer === "search" ? "Закрыть поиск" : "Открыть поиск"}
           aria-expanded={activeLayer === "search"}
-          aria-controls="header-mega-panel"
+          aria-controls="header-search-panel"
           onClick={onLayerButtonClick("search")}
         >
           <Image
@@ -374,30 +458,10 @@ export function HeaderNav() {
         </button>
       </div>
 
-      {renderedLayer === "language" ? (
-        <div
-          id="header-language-panel"
-          className={panelClassName}
-          data-layer="language"
-          aria-hidden={isClosing || undefined}
-        >
-          <a
-            ref={languageCurrentRef}
-            href="https://russianhighways.ru/"
-            aria-current="page"
-          >
-            РУС
-          </a>
-          <a href="https://russianhighways.ru/en/" hrefLang="en" lang="en">
-            ENG
-          </a>
-        </div>
-      ) : null}
-
       {renderedLayer && renderedLayer !== "language" ? (
         <div
           ref={panelRef}
-          id="header-mega-panel"
+          id={renderedLayer === "search" ? "header-search-panel" : "header-mega-panel"}
           className={panelClassName}
           data-layer={renderedLayer}
           role={renderedLayer === "mobileMenu" ? "dialog" : undefined}
@@ -406,6 +470,15 @@ export function HeaderNav() {
             renderedLayer === "mobileMenu" ? "mobile-navigation-title" : undefined
           }
           aria-hidden={isClosing || undefined}
+          onPointerDown={(event) => {
+            const clickedSearchContent =
+              event.target instanceof Element &&
+              event.target.closest(".header-search-form");
+
+            if (renderedLayer === "search" && !clickedSearchContent) {
+              closeLayer();
+            }
+          }}
         >
           <div className="header-layer__inner">
             {renderedLayer === "mobileMenu" ? (
@@ -432,16 +505,48 @@ export function HeaderNav() {
                 <label className="visually-hidden" htmlFor="header-search-query">
                   Поиск по сайту
                 </label>
-                <input
-                  ref={searchInputRef}
-                  id="header-search-query"
-                  name="q"
-                  type="search"
-                  placeholder="Поиск"
-                  autoComplete="off"
-                  aria-controls="header-search-suggestions"
-                  onChange={(event) => setSearchQuery(event.currentTarget.value)}
-                />
+                <div
+                  className="header-search-control"
+                  style={{ position: "relative", height: 48 }}
+                >
+                  <input
+                    ref={searchInputRef}
+                    id="header-search-query"
+                    name="q"
+                    type="search"
+                    placeholder="Поиск"
+                    autoComplete="off"
+                    value={searchQuery}
+                    aria-autocomplete="list"
+                    aria-expanded={Boolean(searchQuery.trim())}
+                    aria-controls={
+                      searchQuery.trim() ? "header-search-suggestions" : undefined
+                    }
+                    onChange={(event) => setSearchQuery(event.currentTarget.value)}
+                    onKeyDown={onSearchInputKeyDown}
+                  />
+                  {searchQuery ? (
+                    <button
+                      className="header-search-clear header-search-clear-button"
+                      type="button"
+                      aria-label="Очистить поле поиска"
+                      onClick={() => {
+                        setSearchQuery("");
+                        searchInputRef.current?.focus();
+                      }}
+                    >
+                      <svg aria-hidden="true" viewBox="0 0 24 24">
+                        <path
+                          d="M4 4 20 20M20 4 4 20"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeWidth="1.5"
+                        />
+                      </svg>
+                    </button>
+                  ) : null}
+                </div>
                 <button className="visually-hidden" type="submit">
                   Найти
                 </button>
@@ -452,10 +557,19 @@ export function HeaderNav() {
                         ? `Найдено подсказок: ${searchSuggestions.length}`
                         : "Подходящих разделов не найдено"}
                     </p>
-                    <ul id="header-search-suggestions">
-                      {searchSuggestions.map((item) => (
+                    <ul id="header-search-suggestions" aria-label="Подсказки поиска">
+                      {searchSuggestions.map((item, index) => (
                         <li key={`${item.label}-${item.href}`}>
-                          <a href={item.href} onClick={closeAfterNavigation}>
+                          <a
+                            ref={(element) => {
+                              searchSuggestionRefs.current[index] = element;
+                            }}
+                            href={item.href}
+                            onClick={closeAfterNavigation}
+                            onKeyDown={(event) =>
+                              onSearchSuggestionKeyDown(event, index)
+                            }
+                          >
                             {item.label}
                           </a>
                         </li>
@@ -572,7 +686,19 @@ export function HeaderNav() {
                 </div>
                 <div className="header-social-links" aria-label="Социальные сети">
                   {HEADER_SOCIAL_LINKS.map((item) => (
-                    <a key={item.label} href={item.href} aria-label={item.label}>
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      aria-label={item.label}
+                      style={
+                        item.label === "MAX"
+                          ? {
+                              borderRadius: 8,
+                              backgroundColor: "var(--color-brand-orange)",
+                            }
+                          : undefined
+                      }
+                    >
                       <Image
                         src={item.image}
                         alt=""

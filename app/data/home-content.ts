@@ -31,6 +31,7 @@ export const SERVICES = [
     title: "Калькулятор маршрута",
     description: "Расчёт маршрута и стоимости поездки по платным участкам.",
     href: "https://russianhighways.ru/for_drivers/calculation/",
+    actionLabel: "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0441\u0435\u0440\u0432\u0438\u0441",
   },
   {
     id: "mobile-app",
@@ -38,6 +39,7 @@ export const SERVICES = [
     title: "Мобильное приложение",
     description: "Дорожные сервисы оператора доступны на официальном портале T-pass.",
     href: "https://tpass.me/",
+    actionLabel: "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043d\u0430 \u043f\u043e\u0440\u0442\u0430\u043b T-pass",
   },
   {
     id: "max",
@@ -45,6 +47,7 @@ export const SERVICES = [
     title: "MAX",
     description: "Официальный канал Государственной компании в MAX.",
     href: "https://max.ru/avtodorgk",
+    actionLabel: "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043a\u0430\u043d\u0430\u043b \u0432 MAX",
   },
   {
     id: "legal-account",
@@ -52,6 +55,7 @@ export const SERVICES = [
     title: "Личный кабинет юридических лиц",
     description: "Вход в кабинет для управления услугами и документами организации.",
     href: "https://avtodor-tr.ru/account/",
+    actionLabel: "\u0412\u043e\u0439\u0442\u0438 \u0432 \u043b\u0438\u0447\u043d\u044b\u0439 \u043a\u0430\u0431\u0438\u043d\u0435\u0442",
   },
   {
     id: "online-store",
@@ -59,6 +63,7 @@ export const SERVICES = [
     title: "Интернет-магазин",
     description: "Устройства и услуги для проезда по платным дорогам.",
     href: "https://tpass.me/",
+    actionLabel: "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u0432 \u0438\u043d\u0442\u0435\u0440\u043d\u0435\u0442-\u043c\u0430\u0433\u0430\u0437\u0438\u043d",
   },
   {
     id: "plate-payment",
@@ -67,6 +72,7 @@ export const SERVICES = [
     description:
       "Проверка начисления и оплата проезда без транспондера по государственному номеру автомобиля.",
     href: "https://russianhighways.ru/for_drivers/",
+    actionLabel: "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043e\u043f\u043b\u0430\u0442\u0435 \u043f\u0440\u043e\u0435\u0437\u0434\u0430",
   },
 ] as const;
 
@@ -123,6 +129,14 @@ export const NEWS = [
 
 export const CONTACT_TABS = [
   {
+    id: "state-company",
+    label: "Гос компания",
+    name: "Государственная компания «Автодор»",
+    phone: "+7 (495) 727-11-95",
+    email: "info@russianhighways.ru",
+    href: "https://www.russianhighways.ru/about/structure/",
+  },
+  {
     id: "management-company",
     label: "ООО УК «Автодор»",
     name: "ООО УК «Автодор»",
@@ -178,6 +192,9 @@ export const SUBSIDIARY_SERVICES = [
     company: "ООО УК «Автодор»",
     service: "Управление инфраструктурными активами",
     description: "Проверенный контакт и официальный сайт управляющей компании.",
+    category: "Управляющая компания",
+    offerings: ["Инвестиционные проекты", "Управление активами"],
+    linkLabel: "Официальный сайт УК «Автодор»",
     href: "https://avtodor-mc.ru/",
   },
   {
@@ -185,6 +202,9 @@ export const SUBSIDIARY_SERVICES = [
     company: "ООО «Автодор - Платные Дороги»",
     service: "Операторская деятельность",
     description: "Взимание платы, T-pass и клиентские сервисы.",
+    category: "Оператор платных дорог",
+    offerings: ["Оплата проезда", "Сервисы T-pass"],
+    linkLabel: "Реестр дочерних обществ",
     href: "https://www.russianhighways.ru/about/affiliates/",
   },
   {
@@ -192,6 +212,9 @@ export const SUBSIDIARY_SERVICES = [
     company: "ООО «АВТОДОР-ТП»",
     service: "Транспортные проекты",
     description: "Проверенный телефон опубликован в реестре дочерних обществ.",
+    category: "Транспортные решения",
+    offerings: ["Цифровые сервисы", "Транспортные проекты"],
+    linkLabel: "Реестр дочерних обществ",
     href: "https://www.russianhighways.ru/about/affiliates/",
   },
   {
@@ -199,7 +222,41 @@ export const SUBSIDIARY_SERVICES = [
     company: "Дорожно-эксплуатационные предприятия",
     service: "Ремонт и содержание дорог",
     description: "АО «ДЭП № 17», АО «ДЭП № 22» и АО «ДЭП № 73».",
+    category: "Дорожная эксплуатация",
+    offerings: ["Содержание дорог", "Ремонт инфраструктуры"],
+    linkLabel: "Реестр дочерних обществ",
     href: "https://www.russianhighways.ru/about/affiliates/",
+  },
+] as const;
+
+export const SOCIAL_COMMITMENTS = [
+  {
+    id: "large-families",
+    nodeId: "1767:7504",
+    media: "bridge-viaduct",
+    src: "/media/social/large-families-road.png",
+    imageAlt:
+      "Сгенерированный образ дорожной инфраструктуры без привязки к конкретной социальной программе",
+    eyebrow: "Льготы для поездок",
+    title: "Поддержка многодетных семей",
+    description:
+      "До 30 сентября 2026 года действует специальная программа с бонусными баллами, скидкой на T-pass и максимальной скидкой программы лояльности.",
+    linkLabel: "Условия программы",
+    href: "https://www.russianhighways.ru/press/news/145160/",
+  },
+  {
+    id: "small-business",
+    nodeId: "1767:7506",
+    media: "road-construction",
+    src: "/media/social/small-business-roadworks.png",
+    imageAlt:
+      "Сгенерированный образ строительства дорожной инфраструктуры без привязки к конкретной закупке",
+    eyebrow: "Ответственные закупки",
+    title: "Поддержка МСП",
+    description:
+      "Официальный раздел о закупках у субъектов малого и среднего предпринимательства.",
+    linkLabel: "Открыть раздел",
+    href: "https://russianhighways.ru/msp/",
   },
 ] as const;
 
@@ -251,5 +308,78 @@ export const GOVERNMENT_LINKS = [
     image: "/brand/construction-rf.svg",
     width: 103,
     nodeId: "1767:9202",
+  },
+] as const;
+
+type FooterContact = Readonly<{
+  label: string;
+  value: string;
+  href?: string;
+  image: string;
+  nodeId: string;
+}>;
+
+type SupportFaq = Readonly<{
+  question: string;
+  answer: string;
+  href?: string;
+  linkLabel?: string;
+}>;
+
+export const FOOTER_CONTACTS: readonly FooterContact[] = [
+  {
+    label: "Адрес",
+    value: "Москва, Страстной бульвар, 9",
+    image: "/brand/footer-location.svg",
+    nodeId: "1767:8053",
+  },
+  {
+    label: "Электронная почта",
+    value: "info@russianhighways.ru",
+    href: "mailto:info@russianhighways.ru",
+    image: "/brand/footer-email.svg",
+    nodeId: "1767:8058",
+  },
+  {
+    label: "Телефон",
+    value: "+7 495 727-11-95",
+    href: "tel:+74957271195",
+    image: "/brand/footer-phone.svg",
+    nodeId: "1767:8063",
+  },
+] as const;
+
+export const FOOTER_LEGAL_LINKS = [
+  {
+    label: "Раскрытие информации",
+    href: "https://russianhighways.ru/about/regulatory-information/disc_inform/",
+    nodeId: "1767:9209",
+  },
+  {
+    label: "Противодействие коррупции",
+    href: "https://russianhighways.ru/about/",
+    nodeId: "1767:9210",
+  },
+  {
+    label: "Политика обработки персональных данных",
+    href: "https://russianhighways.ru/upload/docs/politika_PD.pdf",
+    nodeId: "1767:9211",
+  },
+] as const;
+
+export const SUPPORT_FAQ: readonly SupportFaq[] = [
+  {
+    question: "Как оплатить проезд?",
+    answer: "Перейдите в сервис оплаты и выберите доступный способ для вашей поездки.",
+    href: "https://russianhighways.ru/for_drivers/",
+    linkLabel: "Открыть сервисы водителя",
+  },
+  {
+    question: "Что делать при поломке?",
+    answer: "Позвоните по короткому номеру *2323. Помощь на платной дороге оказывается безвозмездно.",
+  },
+  {
+    question: "Как связаться с компанией?",
+    answer: "Общий телефон: +7 (495) 727-11-95. Ситуационный центр: +7 (495) 580-98-41.",
   },
 ] as const;

@@ -22,6 +22,24 @@ describe("RoadNetworkHero", () => {
     expect(screen.queryByTestId("road-route-map-m-1")).not.toBeInTheDocument();
   });
 
+  it("gives keyboard users route-selection guidance and connects controls to the panel", () => {
+    render(<RoadNetworkHero withCar variant="cinematic" />);
+
+    const tabList = screen.getByRole("tablist", { name: "Выбор дороги" });
+    const helpId = tabList.getAttribute("aria-describedby");
+
+    expect(helpId).toBeTruthy();
+    expect(document.getElementById(helpId ?? "")).toHaveTextContent("клавиши со стрелками");
+    expect(screen.getByRole("button", { name: "Предыдущая дорога" })).toHaveAttribute(
+      "aria-controls",
+      "road-panel",
+    );
+    expect(screen.getByRole("button", { name: "Следующая дорога" })).toHaveAttribute(
+      "aria-controls",
+      "road-panel",
+    );
+  });
+
   it("uses road-owned media and announces the selected panel", () => {
     const { container } = render(<RoadNetworkHero withCar variant="cinematic" />);
 
@@ -30,12 +48,14 @@ describe("RoadNetworkHero", () => {
       expect.stringContaining("federal-highway-aerial-hero"),
     );
     expect(screen.getByTestId("road-panel")).toHaveAttribute("aria-live", "polite");
+    expect(screen.getByTestId("road-panel")).toHaveAttribute("data-road-id", "m-1");
 
     fireEvent.click(screen.getByTestId("road-tab-m-3"));
     expect(container.querySelector(".road-hero__visual img")).toHaveAttribute(
       "src",
       expect.stringContaining("bridge-viaduct"),
     );
+    expect(screen.getByTestId("road-panel")).toHaveAttribute("data-road-id", "m-3");
   });
 
   it("never assigns the same video to neighboring road tabs", () => {
@@ -45,6 +65,20 @@ describe("RoadNetworkHero", () => {
 
       expect(road?.heroMedia.video).not.toBe(nextRoad?.heroMedia.video);
     }
+  });
+
+  it("uses only video files published with the road hero", () => {
+    expect(ROADS.map((road) => road.heroMedia.video)).toEqual(
+      expect.arrayContaining([
+        "/media/video/hero-road-01.mp4",
+        "/media/video/hero-road-02.mp4",
+        "/media/video/hero-road-03.mp4",
+        "/media/video/hero-road-04.mp4",
+      ]),
+    );
+    expect(
+      ROADS.every((road) => road.heroMedia.video.startsWith("/media/video/hero-road-")),
+    ).toBe(true);
   });
 
   it("wraps keyboard navigation and reports the shortest travel direction", () => {
@@ -85,6 +119,7 @@ describe("RoadNetworkHero", () => {
       "data-map-source",
       "https://russianhighways.ru/for_drivers/?tab=2",
     );
+    expect(screen.getByRole("img", { name: "Схема маршрута М-1" })).toBeInTheDocument();
 
     fireEvent.click(screen.getByTestId("road-tab-m-3"));
     expect(screen.queryByTestId("road-route-map-m-1")).not.toBeInTheDocument();

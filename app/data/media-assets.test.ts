@@ -3,6 +3,7 @@ import { join } from "node:path";
 
 import { describe, expect, it } from "vitest";
 
+import { LOYALTY_PROGRAMS } from "./loyalty";
 import { ROADS } from "./roads";
 
 describe("road video delivery contract", () => {
@@ -27,6 +28,15 @@ describe("media gallery delivery contract", () => {
     for (let index = 1; index <= 20; index += 1) {
       const filename = `gallery-${String(index).padStart(2, "0")}.webp`;
       const path = join(process.cwd(), "public", "media", "gallery", filename);
+      expect(statSync(path).size, path).toBeGreaterThan(20_000);
+    }
+  });
+});
+
+describe("loyalty rail media delivery contract", () => {
+  it("ships a substantial local image for every source-backed program", () => {
+    for (const program of LOYALTY_PROGRAMS) {
+      const path = join(process.cwd(), "public", program.image);
       expect(statSync(path).size, path).toBeGreaterThan(20_000);
     }
   });

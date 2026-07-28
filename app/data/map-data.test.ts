@@ -88,6 +88,7 @@ describe("verified future projects", () => {
       }
 
       expect(project.title.length).toBeGreaterThan(0);
+      expect(project.shortTitle.length).toBeGreaterThan(0);
       expect(project.deadlineYear).toBe(2030);
       expect(project.deadlineLabel).toBe("К 2030 году");
       expect(project.factSource.url).toMatch(/ed459c049c90a1b80a4f4db93a7a8912\.pdf$/);
@@ -95,6 +96,11 @@ describe("verified future projects", () => {
     }
 
     expect(getPublishableFutureProjects()).toHaveLength(3);
+    expect(getPublishableFutureProjects().map(({ shortTitle }) => shortTitle)).toEqual([
+      "КАД-2",
+      "А-108",
+      "Краснодар",
+    ]);
     expect(getPublishableFutureProjects().map(({ title }) => title)).toEqual([
       "Новый скоростной обход Санкт-Петербурга (КАД-2), Ленинградская область и Санкт-Петербург",
       "Строительство автомобильной дороги А-108 на участке пересечения с автомобильной дорогой М-7 «Волга» до д. Стенино, Московская область (обход Орехово-Зуево и Ликино-Дулево)",

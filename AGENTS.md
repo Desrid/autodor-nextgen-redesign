@@ -10,11 +10,10 @@
 
 # Sole approved design baseline
 
-- The only approved working UI is the pre-statistics design from commit `47061b889049672d30e7edda67b383cea20bb46a` (`Improve header navigation and search`), restored in this worktree.
-- Treat the current `codex/all-blocks-changes` working tree as authoritative even when Git shows intentional differences from branch HEAD `00997f6`.
-- The deletion of `app/components/StatisticsBlock.tsx` and `app/components/StatisticsBlock.test.tsx`, plus the rollback of the statistics data, page, CSS, tests, and documentation, is intentional. Do not restore these files from branch HEAD.
-- Do not import or copy UI files from `codex/foundation-source-audit`, another worktree, an unreachable Git tree, a backup, or an agent-local branch.
-- Do not reintroduce the verified-Sheets statistics redesign or create an alternative statistics implementation unless the user explicitly requests it after this baseline was established.
+- The only approved working UI is the production Sites version 3 at `https://autodor-nextgen-redesign.desrid.chatgpt.site/`, sourced from commit `decd8cb8932774f8f144c37db24c570d84b16198` (`Prepare hosted build`).
+- The production source commit is merged into `codex/all-blocks-changes`; the current working tree on that branch is authoritative for all subsequent edits.
+- Do not restore the former pre-statistics baseline, import UI from another branch or worktree, or replace blocks with an agent-local variant.
+- The statistics, header, media, contacts, loyalty, services, news, and important-stories implementations from production version 3 are all part of the approved baseline and must remain coordinated as one page.
 - All agents must edit this same worktree and see their changes through `http://localhost:3001`. A task that cannot be completed without another branch, worktree, preview port, or dev-server process must stop and escalate to the integration owner.
 - Only the integration owner may change this baseline. Before editing shared UI, agents must acknowledge this section in their handoff and name the exact leased files.
 
