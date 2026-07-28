@@ -1,6 +1,10 @@
 import { defineConfig } from "@playwright/test";
 
-const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:3000";
+const harnessPort = process.env.HARNESS_PORT ?? "3000";
+const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${harnessPort}`;
+const isolatedHarness = process.env.HARNESS_ISOLATED === "1";
+const productionHarness =
+  process.env.CI === "true" || process.env.HARNESS_PRODUCTION === "1";
 
 const viewports = [
   { name: "desktop-1920", width: 1920, height: 1080, hasTouch: false },
@@ -16,9 +20,11 @@ const localWebServer = process.env.PLAYWRIGHT_BASE_URL
   ? {}
   : {
       webServer: {
-        command: process.env.CI ? "npm run start" : "npm run dev",
+        command: productionHarness
+          ? `npm run start -- --port ${harnessPort}`
+          : `npx next dev --webpack --hostname 127.0.0.1 --port ${harnessPort}`,
         url: baseURL,
-        reuseExistingServer: !process.env.CI,
+        reuseExistingServer: !productionHarness && !isolatedHarness,
         timeout: 120_000,
       },
     };

@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("homepage visual regression", async ({ page }) => {
+test("@visual homepage visual regression", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
 

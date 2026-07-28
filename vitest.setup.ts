@@ -16,6 +16,19 @@ if (typeof window !== "undefined" && typeof window.matchMedia !== "function") {
   });
 }
 
+if (typeof HTMLMediaElement !== "undefined") {
+  Object.defineProperties(HTMLMediaElement.prototype, {
+    load: {
+      configurable: true,
+      value: () => undefined,
+    },
+    play: {
+      configurable: true,
+      value: () => Promise.resolve(),
+    },
+  });
+}
+
 import { cleanup } from "@testing-library/react";
 import { afterEach } from "vitest";
 

@@ -342,7 +342,7 @@ test("reduced motion removes header transforms and long animation", async ({
   expect(motion.transform).toBe("none");
 });
 
-test("header visual states", async ({ page }, testInfo) => {
+test("@visual header visual states", async ({ page }, testInfo) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   const width = viewportWidth(page);
   const clip = {

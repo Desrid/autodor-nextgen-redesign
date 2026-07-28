@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "releaseStatus": "blocked",
+  "updatedAt": "2026-07-27",
+  "gates": [
+    {
+      "id": "visual-baseline-freshness",
+      "status": "blocked",
+      "reason": "Committed full-page baselines predate the current integration HEAD and the dirty statistics/layout/CSS state.",
+      "evidence": "e2e/visual.spec.ts-snapshots"
+    },
+    {
+      "id": "lighthouse-mobile-lcp",
+      "status": "blocked",
+      "reason": "The latest mobile median exceeds the approved LCP budget.",
+      "budgetMs": 2500,
+      "lastObservedMedianMs": 2666,
+      "evidence": "docs/qa/performance.md"
+    },
+    {
+      "id": "source-gap-r08",
+      "status": "pending",
+      "reason": "Subsidiary contact details remain incomplete and must not be invented.",
+      "evidence": "docs/open-questions.md"
+    },
+    {
+      "id": "source-gap-r16",
+      "status": "pending",
+      "reason": "The optional car preview behavior has no confirmed Figma node.",
+      "evidence": "docs/open-questions.md"
+    },
+    {
+      "id": "screen-reader",
+      "status": "pending",
+      "reason": "NVDA or equivalent manual pass is not current for this HEAD."
+    },
+    {
+      "id": "zoom-reflow",
+      "status": "pending",
+      "reason": "Manual 200 percent zoom and reflow pass is not current for this HEAD."
+    },
+    {
+      "id": "real-device-touch",
+      "status": "pending",
+      "reason": "A current 320-390 px real-device touch pass is not recorded."
+    },
+    {
+      "id": "asset-rights-and-live-links",
+      "status": "pending",
+      "reason": "Release requires current media-rights and external-link review."
+    },
+    {
+      "id": "field-cwv",
+      "status": "pending",
+      "reason": "Field Core Web Vitals are not available; lab results must not be presented as field evidence."
+    }
+  ]
+}
