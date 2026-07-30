@@ -181,36 +181,34 @@ test("R08: contacts implement the tabs keyboard contract", async ({ page }) => {
   await expect(tabs.first()).toBeFocused();
 });
 
-test("R09-R10: verified section tariffs and subsidiary services remain accessible", async ({
+test("R09-R10: verified spreadsheet statistics and subsidiary services remain accessible", async ({
   page,
 }) => {
   const statistics = page.locator("[data-section='statistics']");
   await expect(page.getByTestId("statistics-source-gap")).toHaveCount(0);
-  await expect(page.getByTestId("tariff-statistics")).toContainText(
-    "Исаметово — Асяново",
+  await expect(page.getByTestId("statistics-dashboard")).toBeVisible();
+  await expect(statistics.getByRole("table")).toHaveCount(2);
+  await expect(statistics.getByRole("img")).toHaveAttribute(
+    "aria-label",
+    /всего 738,7 км.*строительство: 288 км, 39,0%/i,
   );
-  await expect(page.getByTestId("tariff-statistics")).toContainText(
-    "не общесетевая статистика",
-  );
-  await expect(statistics.locator("table")).toBeVisible();
-  await expect(statistics.locator("tbody tr")).toHaveCount(4);
-  await expect(statistics.locator("tbody")).toContainText("325");
-  await expect(statistics.locator("tbody")).toContainText("456");
-  await expect(statistics.locator("tbody")).toContainText("586");
-  await expect(statistics.locator("tbody")).toContainText("846");
-  await expect(
-    statistics.getByRole("link", { name: /исходная публикация/i }),
-  ).toHaveAttribute("href", /136321/);
-  await expect(
-    statistics.getByRole("link", { name: /после индексации/i }),
-  ).toHaveAttribute("href", /141463/);
+  await expect(statistics).toContainText("2025");
+  await expect(statistics).toContainText("2024");
+  await expect(statistics).toContainText("2023");
+  await expect(statistics).toContainText("837,8");
+  await expect(statistics).toContainText("402,6");
+  await expect(statistics.getByText(/^Источник:/i)).toHaveCount(0);
 
   const firstTooltip = statistics.getByRole("button", {
-    name: /пояснение тарифа категории I$/i,
+    name: /строительство: точное значение и доля/i,
   });
   await firstTooltip.focus();
   await expect(firstTooltip).toBeFocused();
-  await expect(statistics.getByRole("tooltip").first()).toContainText("325 рублей");
+  await expect(
+    statistics.getByRole("tooltip", {
+      name: /строительство: 288 км, 39,0%/i,
+    }),
+  ).toBeVisible();
 
   const subsidiaryItems = page
     .getByTestId("subsidiary-grid")

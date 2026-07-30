@@ -280,6 +280,37 @@ export function RoadNetworkHero({
           pointerStart.current = null;
         }}
       >
+        <svg
+          className="road-hero__shadow"
+          viewBox="0 0 1560 682"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <defs>
+            <filter
+              id="road-hero-silhouette-shadow"
+              x="-8%"
+              y="-12%"
+              width="116%"
+              height="132%"
+              colorInterpolationFilters="sRGB"
+            >
+              <feGaussianBlur in="SourceAlpha" stdDeviation="18" result="blur" />
+              <feOffset in="blur" dy="16" result="offset" />
+              <feFlood floodColor="#000" floodOpacity="0.22" result="color" />
+              <feComposite in="color" in2="offset" operator="in" result="shadow" />
+              <feMerge>
+                <feMergeNode in="shadow" />
+              </feMerge>
+            </filter>
+          </defs>
+          <path
+            fill="#000"
+            filter="url(#road-hero-silhouette-shadow)"
+            d="M24 0H1536C1549.25 0 1560 10.75 1560 24V482C1560 495.25 1549.25 506 1536 506H500C482.33 506 468 520.33 468 538V658C468 671.25 457.25 682 444 682H24C10.75 682 0 671.25 0 658V24C0 10.75 10.75 0 24 0Z"
+          />
+        </svg>
         <div className="road-hero__media">
           <div className="road-hero__visual" key={`${variant}-${activeRoad.id}-visual`}>
             <RoadPicture
@@ -398,7 +429,6 @@ export function RoadNetworkHero({
               <h1 id="road-heading" tabIndex={-1} data-road-id={activeRoad.id}>
                 <span className="road-title__number">{activeRoad.shortLabel}</span>
                 <strong>{activeRoadName}</strong>
-                <span className="road-title__accent" aria-hidden="true" />
               </h1>
             </div>
             <dl className="road-facts">
@@ -421,24 +451,6 @@ export function RoadNetworkHero({
             </a>
           </div>
 
-          <div className="road-controls" aria-label="Управление слайдером">
-            <button
-              type="button"
-              onClick={() => selectRoad(activeIndex - 1)}
-              aria-label="Предыдущая дорога"
-              aria-controls="road-panel"
-            >
-              <HeroArrowIcon direction="left" />
-            </button>
-            <button
-              type="button"
-              onClick={() => selectRoad(activeIndex + 1)}
-              aria-label="Следующая дорога"
-              aria-controls="road-panel"
-            >
-              <HeroArrowIcon direction="right" />
-            </button>
-          </div>
         </div>
 
         <div className="road-hero__notch">

@@ -1,6 +1,7 @@
 node_modules/
 .tools/video-sources/
 .next/
+out/
 .next-preview-cache-backup/
 *.tsbuildinfo
 coverage/

@@ -5,13 +5,13 @@ import HomePage from "./page";
 
 describe("HomePage", () => {
   it("provides the semantic main landmark for server-rendered sections", async () => {
-    render(await HomePage({}));
+    render(await HomePage());
 
     expect(screen.getByRole("main")).toHaveAttribute("id", "main-content");
   });
 
   it("keeps the visible Figma sections in approved order", async () => {
-    const { container } = render(await HomePage({}));
+    const { container } = render(await HomePage());
 
     expect(
       [...container.querySelectorAll<HTMLElement>("[data-section]")].map(
@@ -35,21 +35,18 @@ describe("HomePage", () => {
     expect(container.querySelector("[data-section='documents']")).toBeNull();
   });
 
-  it("renders both explicit car preview states", async () => {
-    const withCar = render(
-      await HomePage({ searchParams: Promise.resolve({ car: "on" }) }),
-    );
-    expect(withCar.getByTestId("car-pointer")).toBeInTheDocument();
-    withCar.unmount();
+  it("renders the query-aware road hero with the default car state", async () => {
+    const { container } = render(await HomePage());
 
-    const withoutCar = render(
-      await HomePage({ searchParams: Promise.resolve({ car: "off" }) }),
+    expect(screen.getByTestId("car-pointer")).toBeInTheDocument();
+    expect(container.querySelector(".road-hero")).toHaveAttribute(
+      "data-hero-variant",
+      "cinematic",
     );
-    expect(withoutCar.queryByTestId("car-pointer")).not.toBeInTheDocument();
   });
 
   it("presents the transport complex portal as the first important story", async () => {
-    render(await HomePage({}));
+    render(await HomePage());
 
     const link = screen.getByRole("link", {
       name: /открыть источник/i,
@@ -58,48 +55,59 @@ describe("HomePage", () => {
     expect(
       screen.getByRole("heading", { name: "Всё о транспортном комплексе России" }),
     ).toBeInTheDocument();
-    expect(link).toHaveAttribute(
-      "href",
-      "https://transport.gov.ru/",
-    );
+    expect(link).toHaveAttribute("href", "https://transport.gov.ru/");
     expect(link).toHaveAttribute("target", "_blank");
     expect(link).toHaveAttribute("rel", "noopener noreferrer");
     expect(screen.getByLabelText("Переключение важной информации")).toBeInTheDocument();
   });
 
-  it("renders road statistics with header navigation controls", async () => {
-    render(await HomePage({}));
+  it("renders the verified statistics iteration", async () => {
+    render(await HomePage());
 
-    expect(screen.getByRole("group", { name: "Навигация по трассам" })).toBeInTheDocument();
-    expect(screen.getByRole("table")).toHaveAccessibleName("Текстовый эквивалент диаграммы тарифов");
-    expect(screen.getByTestId("tariff-statistics")).toHaveAttribute("data-road-id", "m-12");
+    expect(screen.getByRole("heading", { name: "Статистика" })).toBeInTheDocument();
+    expect(screen.getByTestId("statistics-dashboard")).toBeInTheDocument();
+    expect(
+      screen.getByRole("table", {
+        name: "Текстовый эквивалент данных по годам",
+      }),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/Источник:/)).not.toBeInTheDocument();
   });
 
   it("renders social commitments from the source-backed records", async () => {
-    const { container } = render(await HomePage({}));
+    const { container } = render(await HomePage());
     const socialSection = container.querySelector("[data-section='social']");
 
     expect(socialSection).toHaveAttribute("aria-labelledby", "social-title");
-    expect(
-      socialSection?.querySelectorAll("[data-social-item]"),
-    ).toHaveLength(2);
+    expect(socialSection?.querySelectorAll("[data-social-item]")).toHaveLength(2);
     expect(
       socialSection?.querySelector("[data-social-commitment='large-families'] img"),
     ).toHaveAccessibleName(
       "Сгенерированный образ дорожной инфраструктуры без привязки к конкретной социальной программе",
     );
     expect(
-      socialSection?.querySelector<HTMLImageElement>("[data-social-commitment='large-families'] img"),
-    ).toHaveAttribute("src", expect.stringContaining("/media/social/large-families-road.png"));
+      socialSection?.querySelector<HTMLImageElement>(
+        "[data-social-commitment='large-families'] img",
+      ),
+    ).toHaveAttribute(
+      "src",
+      expect.stringContaining("/media/social/large-families-road.png"),
+    );
     expect(
       socialSection?.querySelector("[data-social-commitment='small-business'] img"),
     ).toHaveAccessibleName(
       "Сгенерированный образ строительства дорожной инфраструктуры без привязки к конкретной закупке",
     );
     expect(
-      socialSection?.querySelector<HTMLImageElement>("[data-social-commitment='small-business'] img"),
-    ).toHaveAttribute("src", expect.stringContaining("/media/social/small-business-roadworks.png"));
-    const links = socialSection?.querySelectorAll<HTMLAnchorElement>("[data-social-item] a");
+      socialSection?.querySelector<HTMLImageElement>(
+        "[data-social-commitment='small-business'] img",
+      ),
+    ).toHaveAttribute(
+      "src",
+      expect.stringContaining("/media/social/small-business-roadworks.png"),
+    );
+    const links =
+      socialSection?.querySelectorAll<HTMLAnchorElement>("[data-social-item] a");
     expect(links).toHaveLength(2);
     links?.forEach((link) => {
       expect(link).toHaveAttribute("target", "_blank");
@@ -109,7 +117,7 @@ describe("HomePage", () => {
   });
 
   it("makes every subsidiary service card descriptive and safe for external navigation", async () => {
-    const { container } = render(await HomePage({}));
+    const { container } = render(await HomePage());
     const section = container.querySelector("[data-section='subsidiary-services']");
     const cards = section?.querySelectorAll("[data-subsidiary-item]");
 
@@ -120,20 +128,23 @@ describe("HomePage", () => {
       expect(card.querySelectorAll("li")).toHaveLength(2);
       expect(card.querySelector("a")).toHaveAttribute("target", "_blank");
       expect(card.querySelector("a")).toHaveAttribute("rel", "noreferrer");
-      expect(card.querySelector("a")).toHaveAccessibleName(/откроется в новой вкладке/i);
+      expect(card.querySelector("a")).toHaveAccessibleName(
+        /откроется в новой вкладке/i,
+      );
     });
   });
 
   it("presents the future-project map as a single accessible image", async () => {
-    const { container } = render(await HomePage({}));
+    const { container } = render(await HomePage());
     const futureSection = container.querySelector("[data-section='future']");
 
     expect(screen.getByText("КАД-2")).toBeInTheDocument();
     expect(screen.getByText("А-108")).toBeInTheDocument();
     expect(screen.getByText("Краснодар")).toBeInTheDocument();
-    expect(
-      futureSection?.querySelector(".future-map__image"),
-    ).toHaveAttribute("src", expect.stringContaining("autodor-official-network-overlay.png"));
+    expect(futureSection?.querySelector(".future-map__image")).toHaveAttribute(
+      "src",
+      expect.stringContaining("autodor-official-network-overlay.png"),
+    );
     const sourceLinks = screen.getAllByRole("link", {
       name: /Открыть: Проспект ценных бумаг Государственной компании «Автодор», стр. 36/,
     });

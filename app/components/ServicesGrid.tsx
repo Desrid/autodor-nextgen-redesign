@@ -1,231 +1,787 @@
+"use client";
+
+import type { MouseEvent, PointerEvent } from "react";
+
+import Image from "next/image";
+
 import { SERVICES } from "@/app/data/home-content";
+
+import styles from "./ServicesGrid.module.css";
 
 const ROW_SIZE = 3;
 
+export const SERVICES_CARD_HARNESS_CONTRACT = {
+  id: "services-card-system-v1",
+  sourceNodeId: "1767:7168",
+  appearance: {
+    accent: "#FF5100",
+    cornerRadiusPx: 16,
+    titleSizePx: 24,
+    descriptionSizePx: 16,
+    ctaHeightPx: 44,
+    ctaIconSizePx: 24,
+    ctaIconStrokePx: 1.5,
+  },
+  interaction: {
+    finePointer: "hover-reveal-and-direct-click",
+    coarsePointer: "details-disclosure",
+    keyboard: "details-disclosure",
+    reducedMotion: "instant-final-state",
+  },
+  motion: {
+    revealDurationMs: 250,
+    revealDelayMs: 90,
+    routeExitDurationMs: 760,
+    maxRotateXDeg: 10,
+    maxRotateYDeg: 12,
+  },
+  scenes: {
+    "route-calculator": "route-draw-to-target",
+    "mobile-app": "phone-route-and-notifications",
+    max: "communication-orbit",
+    "legal-account": "document-scan-and-approval",
+    "online-store": "package-fulfilment",
+    "plate-payment": "license-scan-and-recognition",
+  },
+} as const;
+
+const routeExitTimers = new WeakMap<HTMLDetailsElement, number>();
+
 type ServiceId = (typeof SERVICES)[number]["id"];
 
-function ServiceIcon({ id }: Readonly<{ id: ServiceId }>) {
-  const common = {
-    fill: "none",
-    stroke: "currentColor",
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-    strokeWidth: 2.25,
-  };
+const RUSSIAN_PREPOSITIONS =
+  /(^|[\s(«„"])(из-за|из-под|без|близ|в|во|вместо|вне|для|до|за|из|к|ко|кроме|между|на|над|о|об|обо|около|от|перед|по|под|при|про|ради|с|со|сквозь|среди|у|через)\s+/giu;
 
-  if (id === "mobile-app") {
-    return (
-      <svg viewBox="0 0 64 64" aria-hidden="true">
-        <rect x="19" y="8" width="26" height="48" rx="7" {...common} />
-        <path d="M28 14h8M30 49h4" {...common} />
-      </svg>
-    );
+function keepPrepositionsWithNextWord(text: string) {
+  return text.replace(RUSSIAN_PREPOSITIONS, "$1$2\u00a0");
+}
+
+function updateServicePerspective(event: PointerEvent<HTMLDetailsElement>) {
+  if (event.pointerType !== "mouse") {
+    return;
   }
 
-  if (id === "max") {
-    return (
-      <svg viewBox="0 0 64 64" aria-hidden="true">
-        <rect x="9" y="9" width="46" height="46" rx="13" {...common} />
-        <path
-          d="M20 38c0-9 5.8-15 14.3-15 6.2 0 10.7 4 10.7 9.7 0 6.8-5.7 11.3-13.5 11.3H25l-6 5 1-11Z"
-          {...common}
-        />
-      </svg>
-    );
+  const card = event.currentTarget;
+  const exitTimer = routeExitTimers.get(card);
+
+  if (exitTimer !== undefined) {
+    window.clearTimeout(exitTimer);
+    routeExitTimers.delete(card);
   }
 
-  if (id === "legal-account") {
-    return (
-      <svg viewBox="0 0 64 64" aria-hidden="true">
-        <rect x="7" y="12" width="50" height="40" rx="9" {...common} />
-        <circle cx="22" cy="27" r="6" {...common} />
-        <path
-          d="M12 44c1.7-6 5.3-9 10-9s8.3 3 10 9M39 25h10M39 34h10M39 43h7"
-          {...common}
-        />
-      </svg>
-    );
+  if (card.dataset.serviceId === "route-calculator") {
+    card.dataset.routeMotion = "active";
   }
 
-  if (id === "online-store") {
-    return (
-      <svg viewBox="0 0 64 64" aria-hidden="true">
-        <path d="M12 23h40l-3 31H15l-3-31Z" {...common} />
-        <path d="M22 25v-6c0-6 4-10 10-10s10 4 10 10v6" {...common} />
-        <circle cx="23" cy="34" r="1.5" fill="currentColor" />
-        <circle cx="41" cy="34" r="1.5" fill="currentColor" />
-      </svg>
-    );
+  const bounds = card.getBoundingClientRect();
+  const normalizedX = (event.clientX - bounds.left) / bounds.width - 0.5;
+  const normalizedY = (event.clientY - bounds.top) / bounds.height - 0.5;
+
+  card.style.setProperty(
+    "--service-rotate-x",
+    `${(-normalizedY * SERVICES_CARD_HARNESS_CONTRACT.motion.maxRotateXDeg).toFixed(
+      2,
+    )}deg`,
+  );
+  card.style.setProperty(
+    "--service-rotate-y",
+    `${(normalizedX * SERVICES_CARD_HARNESS_CONTRACT.motion.maxRotateYDeg).toFixed(
+      2,
+    )}deg`,
+  );
+  card.style.setProperty(
+    "--service-pointer-x",
+    `${((normalizedX + 0.5) * 100).toFixed(1)}%`,
+  );
+  card.style.setProperty(
+    "--service-pointer-y",
+    `${((normalizedY + 0.5) * 100).toFixed(1)}%`,
+  );
+}
+
+function resetServicePerspective(event: PointerEvent<HTMLDetailsElement>) {
+  event.currentTarget.style.setProperty("--service-rotate-x", "0deg");
+  event.currentTarget.style.setProperty("--service-rotate-y", "0deg");
+  event.currentTarget.style.setProperty("--service-pointer-x", "58%");
+  event.currentTarget.style.setProperty("--service-pointer-y", "42%");
+
+  if (
+    event.pointerType !== "mouse" ||
+    event.currentTarget.contains(document.activeElement) ||
+    event.currentTarget.dataset.serviceId !== "route-calculator"
+  ) {
+    return;
   }
 
-  if (id === "plate-payment") {
-    return (
-      <svg viewBox="0 0 96 64" aria-hidden="true">
-        <rect x="4" y="14" width="88" height="36" rx="7" {...common} />
-        <path
-          d="M15 26l10 12M25 26 15 38M33 29c0-2 1.5-3 4-3s4 1 4 3v6c0 2-1.5 3-4 3s-4-1-4-3v-6ZM48 29c0-2 1.5-3 4-3s4 1 4 3v6c0 2-1.5 3-4 3s-4-1-4-3v-6ZM66 29c0-2 1.5-3 4-3s4 1 4 3v6c0 2-1.5 3-4 3s-4-1-4-3v-6ZM81 27h5M81 32h5M81 37h5"
-          {...common}
-        />
-      </svg>
-    );
+  const card = event.currentTarget;
+  const previousTimer = routeExitTimers.get(card);
+
+  if (previousTimer !== undefined) {
+    window.clearTimeout(previousTimer);
   }
 
+  card.dataset.routeMotion = "leaving";
+
+  const exitTimer = window.setTimeout(() => {
+    if (card.dataset.routeMotion === "leaving") {
+      delete card.dataset.routeMotion;
+    }
+
+    routeExitTimers.delete(card);
+  }, SERVICES_CARD_HARNESS_CONTRACT.motion.routeExitDurationMs);
+
+  routeExitTimers.set(card, exitTimer);
+}
+
+function openServiceOnClick(event: MouseEvent<HTMLDetailsElement>, href: string) {
+  const target = event.target as HTMLElement;
+  const isDirectMouseClick =
+    event.detail > 0 && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  if (!isDirectMouseClick || target.closest("summary") === null) {
+    return;
+  }
+
+  event.preventDefault();
+  window.open(href, "_blank", "noopener,noreferrer");
+}
+
+function RouteArtwork() {
   return (
-    <svg viewBox="0 0 64 64" aria-hidden="true">
-      <path d="M12 10h40v44H12z" {...common} />
-      <path d="m12 41 13-13 11 10 16-18M20 18h.1M45 47h.1" {...common} />
-      <circle cx="20" cy="18" r="4" {...common} />
-      <circle cx="45" cy="47" r="4" {...common} />
+    <span className={styles.expandMap}>
+      <span className={styles.expandMapGradient} />
+
+      <span className={styles.expandMapExpanded}>
+        <span className={styles.expandMapSurface} />
+        <svg
+          className={styles.expandMapPreviewRoads}
+          viewBox="0 0 360 280"
+          preserveAspectRatio="none"
+        >
+          <path d="M182 0V64C182 82 196 98 214 98H360" />
+          <path d="M252 0V74C252 88 264 98 278 98" />
+          <path d="M214 98V154C214 172 228 182 246 182H360" />
+          <path d="M306 98V182" />
+        </svg>
+        <svg
+          className={styles.expandMapRoads}
+          viewBox="0 0 360 280"
+          preserveAspectRatio="none"
+        >
+          <line
+            className={styles.expandMapRoadMain}
+            x1="0"
+            y1="98"
+            x2="360"
+            y2="98"
+            pathLength="1"
+          />
+          <line
+            className={styles.expandMapRoadMain}
+            x1="0"
+            y1="182"
+            x2="360"
+            y2="182"
+            pathLength="1"
+          />
+          <line
+            className={styles.expandMapRoadVertical}
+            x1="108"
+            y1="0"
+            x2="108"
+            y2="280"
+            pathLength="1"
+          />
+          <line
+            className={styles.expandMapRoadVertical}
+            x1="252"
+            y1="0"
+            x2="252"
+            y2="280"
+            pathLength="1"
+          />
+          {[56, 140, 224].map((y) => (
+            <line
+              className={styles.expandMapRoadMinor}
+              key={`expand-map-horizontal-${y}`}
+              x1="0"
+              y1={y}
+              x2="360"
+              y2={y}
+              pathLength="1"
+            />
+          ))}
+          {[54, 162, 198, 306].map((x) => (
+            <line
+              className={styles.expandMapRoadMinor}
+              key={`expand-map-vertical-${x}`}
+              x1={x}
+              y1="0"
+              x2={x}
+              y2="280"
+              pathLength="1"
+            />
+          ))}
+        </svg>
+
+        <span
+          className={`${styles.expandMapBuilding} ${styles.expandMapBuildingOne}`}
+        />
+        <span
+          className={`${styles.expandMapBuilding} ${styles.expandMapBuildingTwo}`}
+        />
+        <span
+          className={`${styles.expandMapBuilding} ${styles.expandMapBuildingThree}`}
+        />
+        <span
+          className={`${styles.expandMapBuilding} ${styles.expandMapBuildingFour}`}
+        />
+        <span
+          className={`${styles.expandMapBuilding} ${styles.expandMapBuildingFive}`}
+        />
+        <span
+          className={`${styles.expandMapBuilding} ${styles.expandMapBuildingSix}`}
+        />
+
+        <span className={styles.expandMapFade} />
+        <svg
+          className={styles.expandMapRouteLayer}
+          viewBox="0 0 360 280"
+          preserveAspectRatio="none"
+        >
+          <path
+            className={styles.expandMapRouteShadow}
+            d="M360 56H252V140H180"
+            pathLength="1"
+          />
+          <path
+            className={styles.expandMapRoute}
+            d="M360 56H252V140H180"
+            pathLength="1"
+          />
+        </svg>
+        <span className={styles.expandMapPin}>
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Z" />
+            <circle cx="12" cy="9" r="2.5" />
+          </svg>
+        </span>
+      </span>
+
+      <span className={styles.expandMapGrid}>
+        <svg viewBox="0 0 360 280" preserveAspectRatio="none">
+          <defs>
+            <pattern
+              id="service-expand-map-grid"
+              width="20"
+              height="20"
+              patternUnits="userSpaceOnUse"
+            >
+              <path d="M20 0H0V20" />
+            </pattern>
+          </defs>
+          <rect width="360" height="280" fill="url(#service-expand-map-grid)" />
+        </svg>
+      </span>
+
+      <span className={styles.expandMapTarget} />
+    </span>
+  );
+}
+
+function MobileAppArtwork() {
+  return (
+    <svg className={styles.phoneScene} viewBox="0 0 380 240" aria-hidden="true">
+      <defs>
+        <linearGradient id="phone-frame-gradient" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#ffffff" />
+          <stop offset="0.56" stopColor="#f7f5f4" />
+          <stop offset="1" stopColor="#dcdbe2" />
+        </linearGradient>
+        <linearGradient id="phone-screen-gradient" x1="0" y1="0" x2="0.9" y2="1">
+          <stop offset="0" stopColor="#fffdfb" />
+          <stop offset="0.52" stopColor="#fff7f1" />
+          <stop offset="1" stopColor="#eef4f4" />
+        </linearGradient>
+        <linearGradient id="phone-route-gradient" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#ffb23e" />
+          <stop offset="0.52" stopColor="#ff5100" />
+          <stop offset="1" stopColor="#ff7652" />
+        </linearGradient>
+        <radialGradient id="phone-pin-aura">
+          <stop offset="0" stopColor="#ff5100" stopOpacity="0.34" />
+          <stop offset="1" stopColor="#ff5100" stopOpacity="0" />
+        </radialGradient>
+        <clipPath id="phone-screen-clip">
+          <rect x="80" y="21" width="122" height="190" rx="23" />
+        </clipPath>
+        <filter id="phone-soft-shadow" x="-40%" y="-40%" width="180%" height="200%">
+          <feDropShadow
+            dx="0"
+            dy="7"
+            stdDeviation="7"
+            floodColor="#513426"
+            floodOpacity="0.15"
+          />
+        </filter>
+      </defs>
+
+      <path
+        className={styles.phoneOrbit}
+        d="M69 174C18 136 53 62 134 47C233 28 356 47 357 120C359 188 291 216 205 210"
+      />
+      <g className={styles.phoneOrbitNodes}>
+        <circle cx="62" cy="166" r="4" />
+        <circle cx="280" cy="45" r="3.5" />
+        <circle cx="356" cy="120" r="4" />
+        <circle cx="285" cy="210" r="3.5" />
+      </g>
+
+      <g className={styles.phoneShadow}>
+        <ellipse cx="145" cy="224" rx="79" ry="10" />
+      </g>
+
+      <g className={styles.phoneShell}>
+        <g className={styles.phoneDevice} transform="rotate(3 141 119)">
+          <rect
+            className={styles.phoneFrameBack}
+            x="71"
+            y="10"
+            width="138"
+            height="215"
+            rx="31"
+          />
+          <rect
+            className={styles.phoneFrame}
+            x="68"
+            y="7"
+            width="138"
+            height="215"
+            rx="31"
+            fill="url(#phone-frame-gradient)"
+          />
+          <rect
+            className={styles.phoneScreen}
+            x="80"
+            y="21"
+            width="122"
+            height="190"
+            rx="23"
+            fill="url(#phone-screen-gradient)"
+          />
+          <rect
+            className={styles.phoneIsland}
+            x="119"
+            y="27"
+            width="44"
+            height="9"
+            rx="4.5"
+          />
+
+          <g clipPath="url(#phone-screen-clip)">
+            <g className={styles.phoneMap}>
+              <path d="M57 68C97 71 117 62 153 48S207 38 226 45" />
+              <path d="M65 108C105 91 134 103 169 88S210 63 225 68" />
+              <path d="M68 144C102 137 125 149 158 132S208 112 225 119" />
+              <path d="M97 21C91 58 102 81 93 112S77 168 83 213" />
+              <path d="M146 21C143 52 150 78 143 104S128 158 135 212" />
+              <path d="M188 21C180 57 190 89 179 123S166 174 171 212" />
+            </g>
+            <path
+              className={styles.phoneRouteGlow}
+              d="M111 130C119 113 149 126 157 106S138 87 164 75S147 64 160 54"
+            />
+            <path
+              className={styles.phoneRoute}
+              d="M111 130C119 113 149 126 157 106S138 87 164 75S147 64 160 54"
+              stroke="url(#phone-route-gradient)"
+            />
+
+            <g className={styles.phoneNavigator}>
+              <circle cx="111" cy="130" r="12" />
+              <path d="m106 132 3-8 8 3-5 2-1 5-2-4-3 2Z" />
+            </g>
+
+            <g className={styles.phonePin}>
+              <circle className={styles.phonePinAura} cx="160" cy="54" r="28" />
+              <circle className={styles.phonePinPulse} cx="160" cy="54" r="13" />
+              <path d="M160 38c-10 0-17 7-17 16 0 13 17 28 17 28s17-15 17-28c0-9-7-16-17-16Z" />
+              <circle cx="160" cy="54" r="5" />
+            </g>
+
+            <g className={styles.phoneTopBar}>
+              <path d="M91 43h13M91 47h10M91 51h8" />
+              <path d="M184 45c0-4 5-4 5 0v4l2 3h-9l2-3v-4Z" />
+            </g>
+
+            <g className={styles.phoneDockPanel}>
+              <rect x="87" y="145" width="108" height="48" rx="14" />
+              <path className={styles.phoneDockLabel} d="M99 154h28M99 160h40" />
+              <path className={styles.phoneDockAmount} d="M157 153h23M157 160h16" />
+
+              <g className={`${styles.phoneTile} ${styles.phoneTileRoad}`}>
+                <rect x="95" y="170" width="20" height="20" rx="6" />
+                <path d="M102 186h7M104 173l-2 13M108 173l2 13M103 180h6" />
+              </g>
+              <g className={`${styles.phoneTile} ${styles.phoneTileCar}`}>
+                <rect x="120" y="170" width="20" height="20" rx="6" />
+                <path d="m124 181 2-5h8l2 5M124 181h12v5h-12v-5ZM126 186v2M134 186v2" />
+              </g>
+              <g className={`${styles.phoneTile} ${styles.phoneTileShield}`}>
+                <rect x="145" y="170" width="20" height="20" rx="6" />
+                <path d="M155 174 160 176v4c0 4-2 6-5 8-3-2-5-4-5-8v-4l5-2Z" />
+              </g>
+              <g className={`${styles.phoneTile} ${styles.phoneTileParking}`}>
+                <rect x="170" y="170" width="20" height="20" rx="6" />
+                <path d="M177 187v-13h5a4 4 0 0 1 0 8h-5M178 176h4a2 2 0 0 1 0 4h-4" />
+              </g>
+            </g>
+
+            <g className={styles.phoneBottomNav}>
+              <path d="m101 203 5-5 5 5v5h-10v-5Z" />
+              <circle cx="133" cy="203" r="5" />
+              <path d="M130 203h6M133 200v6" />
+              <path d="M158 198h10v10h-10Z" />
+              <circle cx="188" cy="203" r="5" />
+            </g>
+          </g>
+
+          <path className={styles.phoneSideButton} d="M207 67v30" />
+        </g>
+      </g>
+
+      <g className={`${styles.phoneNotification} ${styles.phoneNotificationOne}`}>
+        <rect
+          className={styles.phoneNotificationSurface}
+          x="224"
+          y="38"
+          width="139"
+          height="49"
+          rx="15"
+        />
+        <circle className={styles.phoneNotificationIcon} cx="248" cy="62.5" r="11" />
+        <path
+          className={styles.phoneNotificationRoadIcon}
+          d="M243 69h10M245 55l-2 14M251 55l2 14M244 62h8"
+        />
+        <path className={styles.phoneNotificationLines} d="M269 56h68M269 68h49" />
+        <path className={styles.phoneNotificationArrow} d="m345 59 4 4-4 4" />
+      </g>
+
+      <g className={`${styles.phoneNotification} ${styles.phoneNotificationTwo}`}>
+        <rect
+          className={styles.phoneNotificationSurface}
+          x="230"
+          y="101"
+          width="134"
+          height="49"
+          rx="15"
+        />
+        <circle className={styles.phoneNotificationIcon} cx="254" cy="125.5" r="11" />
+        <path
+          className={styles.phoneNotificationShieldIcon}
+          d="M254 117 260 119v5c0 5-2 7-6 10-4-3-6-5-6-10v-5l6-2Z"
+        />
+        <path className={styles.phoneNotificationLines} d="M275 119h63M275 131h44" />
+        <path className={styles.phoneNotificationArrow} d="m346 122 4 4-4 4" />
+      </g>
+
+      <g className={`${styles.phoneNotification} ${styles.phoneNotificationThree}`}>
+        <rect
+          className={styles.phoneNotificationSurface}
+          x="216"
+          y="164"
+          width="139"
+          height="49"
+          rx="15"
+        />
+        <circle className={styles.phoneNotificationIcon} cx="240" cy="188.5" r="11" />
+        <path
+          className={styles.phoneNotificationParkingIcon}
+          d="M236 196v-15h5a4 4 0 0 1 0 8h-5M237 183h4a2 2 0 0 1 0 4h-4"
+        />
+        <path className={styles.phoneNotificationLines} d="M261 182h68M261 194h48" />
+        <path className={styles.phoneNotificationArrow} d="m337 185 4 4-4 4" />
+      </g>
     </svg>
   );
 }
 
-function RoutePreview() {
+function MaxArtwork() {
   return (
-    <svg className="route-preview" viewBox="0 0 520 220" aria-hidden="true">
-      <defs>
-        <linearGradient id="route-fade" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0" stopColor="#ff6b00" />
-          <stop offset="0.5" stopColor="#ff5100" />
-          <stop offset="1" stopColor="#ff8a00" />
-        </linearGradient>
-        <clipPath id="route-map-clip">
-          <rect width="520" height="220" />
-        </clipPath>
-        <filter id="route-road-edge-blur" x="-12%" y="-18%" width="124%" height="136%">
-          <feGaussianBlur stdDeviation="13" />
-        </filter>
-        <mask
-          id="route-road-edge-fade"
-          maskUnits="userSpaceOnUse"
-          x="0"
-          y="0"
-          width="520"
-          height="220"
-        >
-          <rect
-            x="10"
-            y="8"
-            width="500"
-            height="204"
-            fill="white"
-            filter="url(#route-road-edge-blur)"
-          />
-        </mask>
-      </defs>
-      <g
-        className="route-preview__street-network"
-        clipPath="url(#route-map-clip)"
-        mask="url(#route-road-edge-fade)"
-      >
-        <g className="route-preview__roads route-preview__roads--primary">
-          <path d="M62.8 227.7L14.7 209.5L2.9 204.8" />
-          <path d="M2.9 204.8L-57.2 181.2" />
-        </g>
-        <g className="route-preview__roads route-preview__roads--tertiary">
-          <path d="M388.7 -87.0L392.5 -77.8L394.1 -74.9L395.7 -72.3L401.8 -62.1L411.9 -45.9L417.6 -36.0L425.6 -22.1L427.0 -19.8L431.2 -12.6L435.1 -6.0L436.7 -3.2L440.1 2.6L441.5 5.2L442.2 6.4L447.9 16.7L453.8 27.3L457.7 34.3L460.0 38.4" />
-          <path d="M460.0 38.4L462.5 43.2L468.9 55.3L472.2 61.5L479.2 75.5L500.9 119.1L503.0 123.7" />
-          <path d="M503.0 123.7L510.3 140.7L517.6 156.4L524.1 170.9L525.6 174.3L538.8 203.4" />
-        </g>
-        <g className="route-preview__roads route-preview__roads--residential">
-          <path d="M503.0 123.7L507.1 124.4L513.0 125.0L518.4 125.0L549.6 122.7L563.2 121.7L597.9 119.1L608.2 118.3L614.1 117.8L642.2 115.5L666.9 113.5L746.7 106.8L780.1 103.7L814.4 100.5L847.1 97.5L853.8 96.8L875.2 94.6L884.6 93.4L891.2 92.1L905.8 87.7L919.8 82.9L928.0 79.9L931.5 78.6L986.5 56.8L999.5 52.5L1013.7 49.1" />
-          <path d="M172.0 184.9L178.8 182.4L188.9 179.0L190.2 178.6L221.8 168.1L230.2 165.4L263.9 154.3L270.6 152.4L318.4 143.0L350.8 136.7L352.1 136.5L359.6 135.5L392.8 132.3L419.4 129.8L425.6 129.2L488.4 123.7L494.4 123.4L497.5 123.4L503.0 123.7" />
-          <path d="M270.6 152.4L254.9 135.1L247.5 127.0L244.6 122.6L242.5 117.5L241.5 115.0L239.9 112.8L221.1 88.7L216.3 83.9L211.5 79.7L208.1 77.6L164.7 52.0L140.5 37.5L126.6 29.1L121.1 25.8L108.8 18.0L92.6 5.7L74.3 -9.1L64.7 -16.8" />
-          <path d="M216.3 83.9L211.3 88.1L204.7 91.0L141.1 113.0L119.8 120.3L108.8 124.2L105.5 125.3L88.5 131.2L74.2 136.1L41.3 147.1L34.1 149.6L-46.4 177.5L-57.2 181.2" />
-          <path d="M460.0 38.4L444.6 41.0L360.3 55.2L342.8 58.2L319.1 62.2L306.7 64.3L291.3 66.9L266.4 71.1L229.0 77.8L225.3 78.9L221.4 80.3L216.3 83.9" />
-          <path d="M110.2 208.1L113.4 206.8L121.2 203.7L127.1 201.3L132.4 199.2L172.0 184.9" />
-          <path d="M79.0 221.1L110.2 208.1" />
-        </g>
-        <g className="route-preview__roads route-preview__roads--unclassified">
-          <path d="M538.8 203.4L522.7 204.7L507.6 206.3L500.1 207.7L490.7 209.7L477.6 213.2L444.7 221.8L432.9 224.8L428.8 225.8L385.0 236.9L376.0 239.3L315.7 255.9L310.2 257.9L306.9 259.2L303.9 260.4L236.9 288.7L226.3 293.2" />
-        </g>
-        <g className="route-preview__roads route-preview__roads--service">
-          <path d="M164.8 23.2L171.8 21.8L178.0 20.6L195.4 17.2L208.3 14.7L209.8 13.9L210.4 12.8L209.9 11.9L203.2 6.3L198.8 2.7L190.9 -3.8L185.4 -8.3L184.1 -9.4L183.9 -10.1L184.4 -10.9L185.7 -11.3L196.4 -13.5L198.9 -14.0L200.8 -14.7L202.9 -15.5L206.1 -16.4L207.3 -16.7L231.5 -21.6L233.7 -22.1L238.8 -23.1L256.2 -26.6L259.1 -26.9L262.2 -26.9L265.0 -26.9L267.7 -27.0L271.0 -27.4L275.0 -28.0L276.9 -28.2L279.0 -27.6L285.0 -22.4L287.5 -21.1L291.1 -20.2L296.0 -19.9L301.3 -20.2L316.0 -22.6" />
-          <path d="M105.8 51.9L93.8 54.3L80.3 54.0L79.3 54.1L78.3 54.3L77.4 54.5L63.5 57.9L62.3 58.3L61.2 58.8L60.4 59.3L59.8 59.9L56.8 64.3L37.8 61.9L36.5 61.7L35.2 61.3L34.1 60.9L33.2 60.4L29.2 57.5L16.6 48.5L15.0 47.7L12.8 47.1L10.3 46.9L7.8 47.0L5.4 47.3L-15.9 52.9" />
-          <path d="M472.2 61.5L458.9 62.6L442.6 64.2L432.6 65.2L425.6 65.9L413.4 68.1L402.2 69.1L400.7 69.3L399.4 69.6L398.2 69.9L397.1 70.4L392.9 72.8L392.0 73.4L391.5 74.1L391.3 74.8L391.5 75.5L394.6 81.8L403.0 98.8L409.3 111.6L413.2 118.7L417.7 126.5L417.9 127.0L418.2 127.5L419.4 129.8" />
-          <path d="M230.2 165.4L226.9 163.9L225.2 163.2L207.4 153.4L206.3 152.6L206.1 151.7L206.8 150.9L208.3 150.2L215.3 148.0L223.6 145.5L224.9 145.0L226.0 144.4L226.8 143.8L227.5 143.2L229.5 140.5L230.3 139.7L231.5 139.0L232.9 138.4L234.6 137.9L236.5 137.6L251.2 135.6L252.6 135.4L254.9 135.1" />
-          <path d="M318.9 78.1L324.0 83.9L329.7 91.4L330.7 92.1L332.3 92.7L334.3 93.0L336.4 92.9L341.2 92.4L370.6 89.2L372.5 88.8L374.0 88.1L374.7 87.3L374.5 86.4L370.8 81.1L368.6 77.1L368.1 75.5L368.9 73.9L370.1 72.2L371.1 71.1L371.3 69.7" />
-          <path d="M-138.4 90.9L-135.1 91.7L-131.3 91.9L-127.5 91.6L-124.2 90.8L-107.6 84.5L-104.7 83.7L-101.4 83.4L-97.9 83.5L-94.8 84.0L-92.1 84.8L-64.4 97.3L-54.5 101.7L-34.9 110.5L-23.4 115.8L-3.8 125.3L31.0 142.2L37.5 145.3L38.4 145.7L41.3 147.1" />
-          <path d="M129.6 60.4L123.9 62.1L82.9 73.7L71.5 66.9L70.6 66.4L69.6 66.1L68.4 65.8L67.1 65.6L56.8 64.3L54.0 68.5L53.4 69.1L52.6 69.6L51.5 70.1L50.2 70.5L13.7 79.5L28.3 88.7L35.8 93.6" />
-          <path d="M121.6 96.4L130.9 93.6L147.6 88.5L155.5 86.1L157.3 85.3L158.5 84.4L158.8 83.4L158.4 82.3L157.2 81.4L144.2 74.2L134.1 68.6L132.3 67.6L131.5 66.9L131.3 66.2L131.6 65.4L132.6 64.8L134.4 63.9" />
-          <path d="M352.1 136.5L350.5 134.5L349.8 133.7L342.7 124.1L337.6 117.3L337.2 115.9L337.9 114.4L339.7 113.1L342.4 112.2L345.8 111.6L367.1 109.7L383.4 108.2L387.8 116.2L389.2 119.0L386.9 121.1L387.2 121.7" />
-          <path d="M463.7 15.2L467.0 14.9L470.7 14.5L474.2 14.0L477.3 13.1L479.7 11.9L481.2 10.5L481.8 9.0L481.4 7.4L480.1 6.0L477.9 4.7L475.0 3.8L471.5 3.1L467.8 2.9L464.0 3.0L457.0 3.7" />
-          <path d="M394.6 81.8L405.5 80.9L408.5 80.9L411.4 81.2L414.0 81.9L415.8 82.8L416.9 84.0L419.2 88.8L421.5 93.3L421.6 94.5L420.8 95.7L419.1 96.8L416.7 97.5L413.9 98.0L403.0 98.8" />
-          <path d="M132.4 199.2L127.6 197.0L106.2 188.0L81.9 177.5L80.6 177.1L79.0 176.9L77.4 177.0L76.0 177.4L52.7 186.7L50.6 187.3L48.1 187.6L45.5 187.6L43.1 187.3L41.0 186.6" />
-        </g>
-        <g className="route-preview__roads route-preview__roads--detail">
-          <path d="M16 182L42 173L72 165L100 157L124 143L145 126" />
-          <path d="M26 107L51 114L78 119L101 117L126 103L149 95" />
-          <path d="M74 22L95 34L114 49L134 64L154 77" />
-          <path d="M153 32L175 45L193 58L209 73" />
-          <path d="M278 14L294 31L310 47L328 61L347 70" />
-          <path d="M283 98L303 105L322 112L342 119L363 126" />
-          <path d="M302 146L319 159L333 173L345 190L352 211" />
-          <path d="M365 88L388 96L410 105L431 116L451 129" />
-          <path d="M421 45L440 58L458 72L476 87L493 102" />
-          <path d="M390 175L414 169L439 163L465 157L497 150" />
-        </g>
+    <span className={styles.maxScene} aria-hidden="true">
+      <span className={styles.maxAura} />
+      <span className={`${styles.maxSatellite} ${styles.maxSatelliteChat}`}>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 5.5h14v10H11l-4.5 3v-3H5v-10Z" />
+          <path d="M8.5 10.5h7" />
+        </svg>
+      </span>
+      <span className={`${styles.maxSatellite} ${styles.maxSatelliteSend}`}>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m4.5 11.5 15-7-5 15-3.2-5-6.8-3Z" />
+          <path d="m11.3 14.5 3-3" />
+        </svg>
+      </span>
+      <span className={`${styles.maxSatellite} ${styles.maxSatelliteBell}`}>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 16.5h10l-1.5-2V10a3.5 3.5 0 0 0-7 0v4.5l-1.5 2Z" />
+          <path d="M10.5 19h3" />
+        </svg>
+      </span>
+      <Image
+        className={styles.maxLogo}
+        src="/media/brand/max-colored.svg"
+        alt=""
+        width={132}
+        height={132}
+        unoptimized
+      />
+    </span>
+  );
+}
+
+function LegalAccountArtwork() {
+  return (
+    <svg className={styles.legalScene} viewBox="0 0 380 240" aria-hidden="true">
+      <path
+        className={styles.legalOrbit}
+        d="M77 205C159 229 294 213 345 132C374 87 345 39 298 22"
+      />
+      <g className={styles.legalPayments}>
+        <rect x="205" y="42" width="142" height="142" rx="18" />
+        <path d="M224 73h64M224 91h98M224 112h78M224 139h91M224 157h58" />
+        <circle cx="318" cy="73" r="7" />
+        <circle cx="318" cy="112" r="7" />
+        <circle cx="318" cy="151" r="7" />
       </g>
-      <path
-        className="route-preview__route-shadow"
-        d="M54 170C84 161 112 164 143 150C169 140 183 135 212 131L233 130C244 129 251 122 246 110C241 97 237 87 217 76C204 69 201 62 221 57C244 51 255 54 279 47L344 39L398 34"
-      />
-      <path
-        className="route-preview__route-line"
-        d="M54 170C84 161 112 164 143 150C169 140 183 135 212 131L233 130C244 129 251 122 246 110C241 97 237 87 217 76C204 69 201 62 221 57C244 51 255 54 279 47L344 39L398 34"
-      />
-      <path
-        className="route-preview__active-route"
-        d="M318 175C318 153 307 137 324 116C342 92 363 83 359 59C355 35 372 21 388 14C399 8 399 8 402 8"
-      />
-      <g className="route-preview__destination">
-        <circle cx="410" cy="42" r="12" />
-        <circle cx="410" cy="42" r="4" />
+      <g className={styles.legalDocument}>
+        <rect x="76" y="26" width="188" height="190" rx="20" />
+        <rect x="96" y="45" width="82" height="12" rx="6" />
+        <rect x="96" y="68" width="127" height="7" rx="3.5" />
+        <g className={styles.legalRows}>
+          <path d="M96 103h129" />
+          <path d="M96 125h108" />
+          <path d="M96 147h129" />
+          <path d="M96 169h76" />
+        </g>
+        <path
+          className={styles.legalSignature}
+          d="M163 192c20-25 18 6 37-11 9-8 17 3 29-2"
+        />
       </g>
-      <g className="route-preview__vehicle">
-        <path d="m15 0-30 12 5-12-5-12L15 0Z" />
+      <rect
+        className={styles.legalScan}
+        x="72"
+        y="105"
+        width="281"
+        height="5"
+        rx="2.5"
+      />
+      <g className={styles.legalSeal}>
+        <circle cx="314" cy="188" r="32" />
+        <circle cx="314" cy="188" r="24" />
+        <path d="m300 188 9 9 20-22" />
       </g>
     </svg>
   );
+}
+
+function StoreArtwork() {
+  return (
+    <svg className={styles.storeScene} viewBox="0 0 380 240" aria-hidden="true">
+      <path
+        className={styles.storeJourney}
+        d="M292 30C338 59 346 111 318 145C287 183 225 189 191 219"
+      />
+      <g className={styles.storeConveyor}>
+        <path d="M18 193h344" />
+        <circle cx="58" cy="207" r="12" />
+        <circle cx="116" cy="207" r="12" />
+        <circle cx="288" cy="207" r="12" />
+        <circle cx="338" cy="207" r="12" />
+        <path className={styles.storeConveyorDash} d="M31 193h317" />
+      </g>
+      <g className={styles.storePackage}>
+        <path d="m132 76 74-29 66 35-76 32-64-38Z" />
+        <path d="m132 76 64 38v74l-64-37V76Z" />
+        <path d="m196 114 76-32v74l-76 32v-74Z" />
+        <path className={styles.storeTape} d="m168 62 67 36v25l-13-8-11 18-15-19" />
+      </g>
+      <g className={styles.storeBadge}>
+        <rect x="36" y="28" width="132" height="58" rx="15" />
+        <text x="54" y="50">
+          Транспондер T-pass
+        </text>
+        <text className={styles.storePrice} x="54" y="73">
+          3 900 ₽
+        </text>
+      </g>
+      <g className={styles.storePin}>
+        <circle cx="315" cy="67" r="15" />
+        <circle cx="315" cy="67" r="5" />
+        <path d="M315 82v18" />
+      </g>
+      <g className={styles.storeSpark}>
+        <path d="M74 117v18M65 126h18" />
+        <path d="M286 25v14M279 32h14" />
+      </g>
+    </svg>
+  );
+}
+
+function PlatePaymentArtwork() {
+  return (
+    <svg className={styles.plateScene} viewBox="0 0 400 250" aria-hidden="true">
+      <defs>
+        <linearGradient id="plate-scanner-trail" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#e31e24" stopOpacity="0" />
+          <stop offset="0.58" stopColor="#ff5a5f" stopOpacity="0.12" />
+          <stop offset="1" stopColor="#e31e24" stopOpacity="0.52" />
+        </linearGradient>
+      </defs>
+      <g className={styles.plateRoad}>
+        <path d="M66 250 174 160M330 250 243 160" />
+        <path d="M164 250 199 169M244 250 219 169" />
+      </g>
+      <g className={styles.plateBody}>
+        <rect
+          className={styles.plateOutline}
+          x="58"
+          y="122"
+          width="289"
+          height="79"
+          rx="8"
+        />
+        <text className={styles.plateNumber} x="80" y="180">
+          А 000 АА
+        </text>
+        <path className={styles.plateSeparator} d="M274 128v67" />
+        <text className={styles.plateRegion} x="289.8" y="159">
+          777
+        </text>
+        <text className={styles.plateCountry} x="286" y="181">
+          RUS
+        </text>
+        <g className={styles.plateFlag}>
+          <rect x="313" y="168" width="26" height="12" rx="1" />
+          <path className={styles.plateFlagBlue} d="M314 172h24v4h-24Z" />
+          <path className={styles.plateFlagRed} d="M314 176h24v3h-24Z" />
+        </g>
+      </g>
+      <g className={styles.plateTarget}>
+        <path d="M78 92H48v30" pathLength="1" />
+        <path d="M327 92h30v30" pathLength="1" />
+        <path d="M48 161v30h30" pathLength="1" />
+        <path d="M357 161v30h-30" pathLength="1" />
+      </g>
+      <rect
+        className={styles.plateScannerTrail}
+        x="0"
+        y="106"
+        width="76"
+        height="71"
+        rx="6"
+        fill="url(#plate-scanner-trail)"
+      />
+      <rect
+        className={styles.plateScanner}
+        x="74"
+        y="106"
+        width="4"
+        height="71"
+        rx="2"
+      />
+      <g className={styles.plateSuccess}>
+        <circle cx="205" cy="206" r="25" />
+        <path d="m193 206 8 8 17-19" />
+      </g>
+    </svg>
+  );
+}
+
+function ServiceArtwork({ id }: Readonly<{ id: ServiceId }>) {
+  if (id === "route-calculator") {
+    return <RouteArtwork />;
+  }
+
+  if (id === "mobile-app") {
+    return <MobileAppArtwork />;
+  }
+
+  if (id === "max") {
+    return <MaxArtwork />;
+  }
+
+  if (id === "legal-account") {
+    return <LegalAccountArtwork />;
+  }
+
+  if (id === "online-store") {
+    return <StoreArtwork />;
+  }
+
+  return <PlatePaymentArtwork />;
 }
 
 export function ServicesGrid() {
   const rows = [SERVICES.slice(0, ROW_SIZE), SERVICES.slice(ROW_SIZE)];
 
   return (
-    <div className="services-grid" data-testid="services-grid">
+    <div className={`services-grid ${styles.grid}`} data-testid="services-grid">
       {rows.map((row, rowIndex) => (
-        <div className="services-row" key={`services-row-${rowIndex + 1}`}>
+        <div
+          className={`services-row ${styles.row}`}
+          key={`services-row-${rowIndex + 1}`}
+        >
           {row.map((service) => (
             <details
               key={service.id}
-              className="service-card"
+              className={`service-card ${styles.card}`}
               data-service-id={service.id}
               data-testid={`service-${service.id}`}
               data-node-id={service.nodeId}
+              data-card-system={SERVICES_CARD_HARNESS_CONTRACT.id}
+              data-motion-scene={SERVICES_CARD_HARNESS_CONTRACT.scenes[service.id]}
+              onPointerMove={updateServicePerspective}
+              onPointerLeave={resetServicePerspective}
+              onClick={(event) => openServiceOnClick(event, service.href)}
             >
-              <summary>
-                <span className="service-card__title">{service.title}</span>
-                <span className="service-card__visual" aria-hidden="true">
-                  <span>
-                    {service.id === "route-calculator" ? (
-                      <RoutePreview />
-                    ) : (
-                      <ServiceIcon id={service.id} />
-                    )}
+              <summary className={styles.summary}>
+                <span className={styles.copy}>
+                  <span className={`service-card__title ${styles.title}`}>
+                    {keepPrepositionsWithNextWord(service.title)}
+                  </span>
+                  <span
+                    className={`service-card__teaser ${styles.teaser}`}
+                    aria-hidden="true"
+                  >
+                    {keepPrepositionsWithNextWord(service.description)}
+                  </span>
+                  <span className={styles.serviceCta} aria-hidden="true">
+                    <span>Открыть сервис</span>
+                    <svg className={styles.serviceCtaIcon} viewBox="0 0 24 24">
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
                   </span>
                 </span>
-                <span className="service-card__teaser" aria-hidden="true">
-                  {service.description}
+                <span
+                  className={`service-card__visual ${styles.visual}`}
+                  data-artwork={service.id}
+                  aria-hidden="true"
+                >
+                  <ServiceArtwork id={service.id} />
                 </span>
               </summary>
-              <div className="service-card__body">
-                <p>{service.description}</p>
+              <div className={`service-card__body ${styles.body}`}>
+                <p>{keepPrepositionsWithNextWord(service.description)}</p>
                 <a href={service.href} target="_blank" rel="noreferrer">
-                  {service.actionLabel}
+                  {keepPrepositionsWithNextWord(service.actionLabel)}
                   <span aria-hidden="true">↗</span>
                   <span className="visually-hidden">
-                    {" (\u043e\u0442\u043a\u0440\u043e\u0435\u0442\u0441\u044f \u0432 \u043d\u043e\u0432\u043e\u0439 \u0432\u043a\u043b\u0430\u0434\u043a\u0435)"}
+                    {
+                      " (\u043e\u0442\u043a\u0440\u043e\u0435\u0442\u0441\u044f \u0432 \u043d\u043e\u0432\u043e\u0439 \u0432\u043a\u043b\u0430\u0434\u043a\u0435)"
+                    }
                   </span>
                 </a>
               </div>

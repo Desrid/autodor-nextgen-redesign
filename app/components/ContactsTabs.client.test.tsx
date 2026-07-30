@@ -12,6 +12,10 @@ describe("ContactsTabs", () => {
       "vertical",
     );
     expect(screen.getAllByRole("tab")).toHaveLength(7);
+    expect(screen.getByRole("tab", { name: "ГК «АВТОДОР»" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
     expect(screen.getByRole("tabpanel")).toHaveTextContent(
       "Государственная компания «Автодор»",
     );

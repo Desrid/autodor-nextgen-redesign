@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 
 import { CONTACT_TABS } from "@/app/data/home-content";
 
+import styles from "./ContactsTabs.module.css";
+
 const HEAD_OFFICE_ADDRESS = "127006, Москва, Страстной бульвар, 9";
 
 export function ContactsTabs() {
@@ -17,9 +19,12 @@ export function ContactsTabs() {
   };
 
   return (
-    <div className="contacts-directory" data-testid="contacts-tabs">
+    <div
+      className={`contacts-directory ${styles.directory}`}
+      data-testid="contacts-tabs"
+    >
       <div
-        className="contacts-tabs"
+        className={`contacts-tabs ${styles.tabs}`}
         role="tablist"
         aria-label="Компании группы"
         aria-orientation="vertical"
@@ -47,9 +52,10 @@ export function ContactsTabs() {
             aria-selected={activeIndex === index}
             aria-controls={`contact-panel-${contact.id}`}
             tabIndex={activeIndex === index ? 0 : -1}
+            className={styles.tab}
             onClick={() => select(index)}
           >
-            {contact.label}
+            {contact.id === "state-company" ? "ГК «АВТОДОР»" : contact.label}
           </button>
         ))}
       </div>
@@ -58,15 +64,15 @@ export function ContactsTabs() {
         <div
           key={contact.id}
           id={`contact-panel-${contact.id}`}
-          className="contact-panel"
+          className={`contact-panel ${styles.panel}`}
           role="tabpanel"
           aria-labelledby={`contact-tab-${contact.id}`}
           hidden={activeIndex !== index}
         >
           <h3>{contact.name}</h3>
-          <div className="contact-panel__details">
+          <div className={`contact-panel__details ${styles.details}`}>
             <a
-              className="contact-panel__row"
+              className={`contact-panel__row ${styles.row}`}
               href={`tel:${contact.phone.replace(/[^+\d]/g, "")}`}
             >
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -79,7 +85,10 @@ export function ContactsTabs() {
               </svg>
               {contact.phone}
             </a>
-            <a className="contact-panel__row" href={`mailto:${contact.email}`}>
+            <a
+              className={`contact-panel__row ${styles.row}`}
+              href={`mailto:${contact.email}`}
+            >
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <rect
                   x="3"
@@ -95,7 +104,7 @@ export function ContactsTabs() {
               {contact.email}
             </a>
             {contact.id === "state-company" ? (
-              <address className="contact-panel__address">
+              <address className={`contact-panel__address ${styles.address}`}>
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                   <path
                     d="M12 21s7-5.1 7-12A7 7 0 1 0 5 9c0 6.9 7 12 7 12Z"
@@ -114,8 +123,8 @@ export function ContactsTabs() {
               </address>
             ) : null}
           </div>
-          <div className="contact-panel__actions">
-            <a className="contact-panel__more" href={contact.href}>
+          <div className={`contact-panel__actions ${styles.actions}`}>
+            <a className={`contact-panel__more ${styles.more}`} href={contact.href}>
               Подробнее
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path

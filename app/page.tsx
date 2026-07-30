@@ -1,4 +1,5 @@
 import { ContactsTabs } from "@/app/components/ContactsTabs.client";
+import { CardTiltController } from "@/app/components/CardTiltController.client";
 import { FloatingUtilities } from "@/app/components/FloatingUtilities.client";
 import { HeaderNav } from "@/app/components/HeaderNav.client";
 import ImportantStories from "@/app/components/ImportantStories.client";
@@ -6,11 +7,8 @@ import LoyaltyRail from "@/app/components/LoyaltyRail.client";
 import { MediaGallery } from "@/app/components/MediaGallery.client";
 import { NewsGrid } from "@/app/components/NewsGrid";
 import { ServicesGrid } from "@/app/components/ServicesGrid";
-import {
-  type HeroVariant,
-  RoadNetworkHero,
-} from "@/app/components/RoadNetworkHero.client";
-import { RoadStatistics } from "@/app/components/RoadStatistics.client";
+import { RoadNetworkHeroQuery } from "@/app/components/RoadNetworkHeroQuery.client";
+import { StatisticsBlock } from "@/app/components/StatisticsBlock";
 import {
   FOOTER_CONTACTS,
   FOOTER_LEGAL_LINKS,
@@ -21,15 +19,6 @@ import {
 } from "@/app/data/home-content";
 import { FUTURE_PROJECTS } from "@/app/data/future-projects";
 import Image from "next/image";
-
-type HomePageProps = Readonly<{
-  searchParams?: Promise<
-    Readonly<{
-      car?: string | readonly string[];
-      hero?: string | readonly string[];
-    }>
-  >;
-}>;
 
 const MEDIA_GALLERY = [
   {
@@ -221,16 +210,7 @@ function MediaPicture({
   );
 }
 
-export default async function HomePage({
-  searchParams = Promise.resolve({}),
-}: HomePageProps) {
-  const query = await searchParams;
-  const carValue = Array.isArray(query.car) ? query.car[0] : query.car;
-  const heroValue = Array.isArray(query.hero) ? query.hero[0] : query.hero;
-  const withCar = carValue !== "off";
-  const heroVariant: HeroVariant =
-    heroValue === "atlas" || heroValue === "signal" ? heroValue : "cinematic";
-
+export default function HomePage() {
   return (
     <>
       <header className="site-header" data-section="header" data-node-id="1767:6576">
@@ -244,7 +224,7 @@ export default async function HomePage({
 
       <main id="main-content" tabIndex={-1}>
         <div data-section="roads" data-node-id="1767:7102">
-          <RoadNetworkHero withCar={withCar} variant={heroVariant} />
+          <RoadNetworkHeroQuery />
         </div>
 
         <section
@@ -349,7 +329,8 @@ export default async function HomePage({
           data-section="statistics"
           data-node-id="1767:7415"
         >
-          <RoadStatistics />
+          <SectionHeading id="statistics-title">Статистика</SectionHeading>
+          <StatisticsBlock />
         </section>
 
         <section
@@ -426,7 +407,10 @@ export default async function HomePage({
                   >
                     {item.linkLabel}
                     <span aria-hidden="true">↗</span>
-                    <span className="visually-hidden"> (откроется в новой вкладке)</span>
+                    <span className="visually-hidden">
+                      {" "}
+                      (откроется в новой вкладке)
+                    </span>
                   </a>
                 </div>
               </article>
@@ -478,26 +462,26 @@ export default async function HomePage({
                     </div>
                     {project.publicationStatus === "verified" ? (
                       <>
-                      <h3 title={project.title} aria-label={project.title}>
-                        {project.title}
-                      </h3>
-                      <p>
-                        <time dateTime={`${project.deadlineYear}`}>
-                          {project.deadlineLabel}
-                        </time>
-                      </p>
-                      <a
-                        href={project.detailsUrl}
-                        aria-label={`Открыть: ${project.factSource.label}`}
-                      >
-                        Официальный источник, стр. 36
-                        <span aria-hidden="true">↗</span>
-                      </a>
+                        <h3 title={project.title} aria-label={project.title}>
+                          {project.title}
+                        </h3>
+                        <p>
+                          <time dateTime={`${project.deadlineYear}`}>
+                            {project.deadlineLabel}
+                          </time>
+                        </p>
+                        <a
+                          href={project.detailsUrl}
+                          aria-label={`Открыть: ${project.factSource.label}`}
+                        >
+                          Официальный источник, стр. 36
+                          <span aria-hidden="true">↗</span>
+                        </a>
                       </>
                     ) : (
                       <>
-                      <h3>Название и срок не опубликованы</h3>
-                      <p>{project.mapGeometry.reason}</p>
+                        <h3>Название и срок не опубликованы</h3>
+                        <p>{project.mapGeometry.reason}</p>
                       </>
                     )}
                   </div>
@@ -620,6 +604,7 @@ export default async function HomePage({
         </div>
       </footer>
 
+      <CardTiltController />
       <FloatingUtilities />
     </>
   );

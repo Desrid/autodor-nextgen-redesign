@@ -22,7 +22,7 @@ describe("RoadNetworkHero", () => {
     expect(screen.queryByTestId("road-route-map-m-1")).not.toBeInTheDocument();
   });
 
-  it("gives keyboard users route-selection guidance and connects controls to the panel", () => {
+  it("gives keyboard users route-selection guidance without duplicate slide controls", () => {
     render(<RoadNetworkHero withCar variant="cinematic" />);
 
     const tabList = screen.getByRole("tablist", { name: "Выбор дороги" });
@@ -30,13 +30,10 @@ describe("RoadNetworkHero", () => {
 
     expect(helpId).toBeTruthy();
     expect(document.getElementById(helpId ?? "")).toHaveTextContent("клавиши со стрелками");
-    expect(screen.getByRole("button", { name: "Предыдущая дорога" })).toHaveAttribute(
-      "aria-controls",
-      "road-panel",
-    );
-    expect(screen.getByRole("button", { name: "Следующая дорога" })).toHaveAttribute(
-      "aria-controls",
-      "road-panel",
+    expect(screen.queryByRole("button", { name: "Предыдущая дорога" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Следующая дорога" })).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Подробнее о дороге" })).toHaveClass(
+      "hero-detail-link",
     );
   });
 

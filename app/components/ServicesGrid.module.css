@@ -1,0 +1,3421 @@
+.grid {
+  width: 100%;
+}
+
+.row {
+  gap: var(--card-gap, 1.5rem);
+}
+
+.card {
+  --accent: #ff5100;
+  --accent-soft: #fff0e8;
+  --companion: #ff9a3d;
+  --scene-ink: #5a2c17;
+  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --title-line-height: clamp(1.15rem, 1.265vw, 1.357rem);
+  --description-top: calc(2.45rem + var(--title-line-height));
+  isolation: isolate;
+  overflow: clip;
+  border-color: transparent;
+  background: var(--color-surface-subtle);
+  box-shadow: 0 1.25rem 3.5rem rgb(45 42 38 / 0);
+  transition:
+    border-color 240ms ease,
+    box-shadow 360ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card[data-service-id="mobile-app"] {
+  --accent: #ff5e3a;
+  --accent-soft: #fff0eb;
+  --companion: #1fb8d2;
+  --scene-ink: #173f46;
+  --description-top: calc(
+    2.45rem + var(--title-line-height) + var(--title-line-height)
+  );
+}
+
+.card[data-service-id="route-calculator"] {
+  --route-pointer-x: 58%;
+  --route-pointer-y: 42%;
+  --route-rotate-x: 0deg;
+  --route-rotate-y: 0deg;
+}
+
+.card[data-service-id="max"] {
+  --accent: #6e1aff;
+  --accent-soft: #f1edff;
+  --companion: #00bfff;
+  --scene-ink: #0d001a;
+}
+
+.card[data-service-id="legal-account"] {
+  --accent: #007f7a;
+  --accent-soft: #e7f7f4;
+  --companion: #ff7a1a;
+  --scene-ink: #173d3b;
+  --description-top: calc(
+    2.45rem + var(--title-line-height) + var(--title-line-height)
+  );
+}
+
+.card[data-service-id="online-store"] {
+  --accent: #a84817;
+  --accent-soft: #fff2e6;
+  --companion: #7443a5;
+  --scene-ink: #4b2a1b;
+}
+
+.card[data-service-id="plate-payment"] {
+  --accent: #168a52;
+  --accent-soft: #eaf8f0;
+  --companion: #ff6a00;
+  --scene-ink: #16412c;
+  --description-top: calc(
+    2.45rem + var(--title-line-height) + var(--title-line-height)
+  );
+}
+
+.card.card[data-service-id] {
+  border: 0;
+  background:
+    radial-gradient(
+      circle at 92% 12%,
+      color-mix(in srgb, var(--companion) 20%, transparent),
+      transparent 40%
+    ),
+    linear-gradient(
+      90deg,
+      var(--color-surface-subtle) 0%,
+      color-mix(in srgb, var(--color-surface-subtle) 98%, transparent) 30%,
+      color-mix(in srgb, var(--accent-soft) 72%, white) 64%,
+      color-mix(in srgb, var(--companion) 18%, white) 100%
+    );
+  box-shadow: none;
+}
+
+.card.card[data-service-id]::before,
+.card.card[data-service-id]::after {
+  content: none;
+}
+
+.card::before {
+  position: absolute;
+  z-index: 5;
+  inset: 0 auto 0 0;
+  width: 4px;
+  border-radius: inherit;
+  background: linear-gradient(180deg, var(--accent), var(--companion));
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transform: scaleY(0.2);
+  transform-origin: top;
+  transition:
+    opacity 200ms ease,
+    transform 460ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:where(:hover, :focus-within, [open]) {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.card.card:hover {
+  border-color: transparent;
+}
+
+.card.card::before,
+.card.card::after {
+  opacity: 0;
+}
+
+.card:where(:hover, :focus-within, [open])::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.card .summary {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  padding: 0;
+  overflow: hidden;
+  gap: 0;
+  align-items: stretch;
+  justify-content: normal;
+}
+
+.copy {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  padding: 1.45rem 1.5rem 0.85rem;
+  background: transparent;
+}
+
+.card .title {
+  position: relative;
+  z-index: 2;
+  width: min(13rem, 100%);
+  max-width: 100%;
+  color: #2d2a26;
+  font-family: Montserrat, Arial, sans-serif;
+  font-size: clamp(1rem, 1.1vw, 1.18rem);
+  font-weight: 760;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  hyphens: none;
+  overflow-wrap: normal;
+  text-wrap: balance;
+  word-break: normal;
+}
+
+.card .teaser {
+  position: static;
+  inset: auto;
+  max-width: 30ch;
+  max-height: 0;
+  margin: 0;
+  overflow: hidden;
+  color: rgb(45 42 38 / 0.72);
+  font-size: clamp(0.8rem, 0.9vw, 0.94rem);
+  line-height: 1.46;
+  opacity: 0;
+  transform: translate3d(0, 0.5rem, 0);
+  transition:
+    max-height 360ms cubic-bezier(0.16, 1, 0.3, 1),
+    margin 280ms ease,
+    opacity 220ms ease 70ms,
+    transform 320ms cubic-bezier(0.16, 1, 0.3, 1) 40ms;
+}
+
+.card .visual {
+  position: absolute;
+  z-index: 1;
+  inset: 4.75rem 0 0;
+  display: grid;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+  place-items: center;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--accent);
+  pointer-events: none;
+  transform: none;
+  transition:
+    inset 520ms cubic-bezier(0.16, 1, 0.3, 1),
+    margin 520ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 280ms ease,
+    border-radius 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 280ms ease,
+    transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card .visual::before {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 75% 30%,
+    color-mix(in srgb, var(--companion) 16%, transparent),
+    transparent 54%
+  );
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 280ms ease;
+}
+
+.card:where(:hover, :focus-within, [open]) .visual::before {
+  opacity: 0.45;
+}
+
+.card:where(:hover, :focus-within, [open]) .summary {
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.card:where(:hover, :focus-within, [open]) .copy {
+  width: 43%;
+  justify-content: flex-start;
+  padding: 1.45rem 0.65rem 1.4rem 1.5rem;
+  background: transparent;
+}
+
+.card.card[data-service-id]:where(:hover, :focus-within, [open]) .visual.visual {
+  inset: 0 0 0 41%;
+  min-height: 100%;
+  margin: 0;
+  border-width: 0;
+  border-radius: 0;
+  background: transparent;
+  transform: translate3d(0, 0, 0);
+}
+
+.card:where(:hover, :focus-within, [open]) .teaser {
+  max-height: 0;
+  margin-top: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.card .body {
+  position: absolute;
+  z-index: 6;
+  inset: var(--description-top) 61% 1.3rem 1.55rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-width: 0;
+  padding: 0 0.75rem 0 0;
+  background: transparent;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(0, 0.6rem, 0);
+  transition:
+    opacity 220ms ease 80ms,
+    transform 320ms cubic-bezier(0.16, 1, 0.3, 1) 50ms;
+}
+
+.card:where(:hover, :focus-within, [open]) .body {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate3d(0, 0, 0);
+}
+
+.hoverBody {
+  position: absolute;
+  z-index: 6;
+  inset: var(--description-top) 61% 1.3rem 1.55rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-width: 0;
+  padding-right: 0.75rem;
+  background: transparent;
+  color: rgb(45 42 38 / 0.72);
+  font-size: clamp(0.8rem, 0.9vw, 0.94rem);
+  line-height: 1.44;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(0, 0.6rem, 0);
+  transition:
+    opacity 220ms ease 80ms,
+    transform 320ms var(--motion-ease) 50ms;
+}
+
+.card:not([open]):where(:hover, :focus-within) .hoverBody {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.hoverCta {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(13rem, 100%);
+  height: 3.5rem;
+  min-height: 3.5rem;
+  margin-top: auto;
+  padding: 0.65rem 1rem;
+  gap: 0.6rem;
+  border-radius: 0.5rem;
+  background: #ff5100;
+  box-shadow: 0 0.75rem 1.5rem rgb(255 81 0 / 0.16);
+  color: #fff;
+  font-size: clamp(0.78rem, 0.9vw, 0.92rem);
+  font-weight: 760;
+  line-height: 1.25;
+}
+
+.card .body p {
+  max-width: 28ch;
+  margin: 0;
+  color: rgb(45 42 38 / 0.72);
+  font-size: clamp(0.8rem, 0.9vw, 0.94rem);
+  line-height: 1.44;
+}
+
+.card .body a {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(13rem, 100%);
+  height: 3.5rem;
+  min-height: 3.5rem;
+  margin-top: auto;
+  padding: 0.65rem 1rem;
+  gap: 0.6rem;
+  border-radius: 0.5rem;
+  background: #ff5100;
+  box-shadow: 0 0.75rem 1.5rem rgb(255 81 0 / 0.16);
+  color: #fff;
+  font-size: clamp(0.78rem, 0.9vw, 0.92rem);
+  font-weight: 760;
+  line-height: 1.25;
+  text-decoration: none;
+  transition:
+    box-shadow 220ms ease,
+    transform 220ms var(--motion-ease);
+}
+
+.card .body a:hover {
+  box-shadow: 0 1rem 1.8rem rgb(255 81 0 / 0.24);
+  transform: translate3d(0, -0.1rem, 0);
+}
+
+.card .body a:focus-visible {
+  outline: 3px solid #2d2a26;
+  outline-offset: 3px;
+}
+
+/* Route calculator: faithful 21st.dev Expand Map composition, opened by hover. */
+.card.card[data-service-id="route-calculator"] {
+  overflow: visible;
+  border: 0;
+  border-radius: 1rem;
+  background: transparent;
+  box-shadow: none;
+  contain: layout;
+  cursor: pointer;
+}
+
+.card[data-service-id="route-calculator"] .summary {
+  position: relative;
+  display: block;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgb(45 42 38 / 0.12);
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: none;
+  transform: perspective(62.5rem) rotateX(0deg) rotateY(0deg);
+  transform-origin: center;
+  transform-style: preserve-3d;
+  transition:
+    transform 180ms ease-out,
+    border-color 240ms ease,
+    box-shadow 350ms ease;
+  will-change: transform;
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .summary {
+  box-shadow: 0 1.25rem 3rem rgb(45 42 38 / 0.08);
+  transform: perspective(62.5rem) rotateX(var(--route-rotate-x))
+    rotateY(var(--route-rotate-y));
+}
+
+.card.card[data-service-id="route-calculator"] .visual.visual {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  overflow: hidden;
+  place-items: stretch;
+  border: 0;
+  border-radius: 1rem;
+  background: #fff;
+}
+
+.card.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .visual.visual {
+  inset: 0;
+  min-height: 100%;
+  border-radius: 1rem;
+  transform: none;
+}
+
+.card[data-service-id="route-calculator"] .visual::before {
+  content: none;
+}
+
+.card[data-service-id="route-calculator"] .copy,
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open]) .copy {
+  position: absolute;
+  z-index: 12;
+  inset: auto 1.25rem 1.25rem;
+  display: flex;
+  width: auto;
+  min-width: 0;
+  padding: 0;
+  gap: 0.18rem;
+  background: transparent;
+  pointer-events: none;
+  transform: translate3d(0, 0, 1.5rem);
+  transition: transform 280ms var(--motion-ease);
+}
+
+.card[data-service-id="route-calculator"] .copy::after {
+  order: 2;
+  width: 30%;
+  height: 1px;
+  margin-top: 0.3rem;
+  background: linear-gradient(
+    90deg,
+    rgb(255 81 0 / 0.5),
+    rgb(255 81 0 / 0.3),
+    transparent
+  );
+  content: "";
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform 400ms ease-out;
+}
+
+.card[data-service-id="route-calculator"] .title {
+  width: auto;
+  max-width: calc(100% - 1rem);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.card[data-service-id="route-calculator"] .teaser {
+  order: 1;
+  position: static;
+  max-width: 42ch;
+  max-height: 0;
+  margin: 0;
+  color: rgb(45 42 38 / 0.62);
+  font-family: var(--font-montserrat), Montserrat, Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  line-height: 1.35;
+  opacity: 0;
+  transform: translate3d(0, -0.55rem, 0);
+  transition:
+    max-height 250ms ease,
+    opacity 250ms ease 90ms,
+    transform 250ms ease 90ms;
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open]) .copy {
+  transform: translate3d(0.25rem, 0, 1.5rem);
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .copy::after {
+  transform: scaleX(3.333);
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open]) .teaser {
+  max-height: 3.5rem;
+  margin-top: 0.1rem;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.card[data-service-id="route-calculator"] .hoverBody {
+  display: none;
+}
+
+.card[data-service-id="route-calculator"] .body {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.card[data-service-id="route-calculator"][open] .body {
+  z-index: 16;
+  inset: 1.25rem 1.25rem auto auto;
+  width: auto;
+  padding: 0;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.card[data-service-id="route-calculator"][open] .body a {
+  width: auto;
+  height: 2.4rem;
+  min-height: 2.4rem;
+  margin: 0;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: rgb(45 42 38 / 0.06);
+  box-shadow: none;
+  color: #2d2a26;
+  font-size: 0.72rem;
+}
+
+.expandMap {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  background: #fff;
+  transform: none;
+}
+
+.expandMapGradient {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgb(45 42 38 / 0.025),
+    transparent 52%,
+    rgb(45 42 38 / 0.055)
+  );
+}
+
+.expandMapExpanded {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  opacity: 0.56;
+  pointer-events: none;
+  transition: opacity 400ms ease;
+}
+
+.expandMapSurface {
+  position: absolute;
+  inset: 0;
+  background: #ececeb;
+}
+
+.card .visual.visual .expandMapRoads {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  fill: none;
+}
+
+.card .visual.visual .expandMapRouteLayer {
+  position: absolute;
+  z-index: 7;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  fill: none;
+  pointer-events: none;
+}
+
+.card .visual.visual .expandMapPreviewRoads {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  fill: none;
+  opacity: 0.74;
+  transition: opacity 280ms ease;
+}
+
+.expandMapPreviewRoads path {
+  fill: none;
+  stroke: rgb(45 42 38 / 0.2);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.5;
+}
+
+.expandMapRoadMain,
+.expandMapRoadVertical,
+.expandMapRoadMinor {
+  stroke-linecap: round;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+}
+
+.expandMapRoadMain {
+  stroke: rgb(45 42 38 / 0.25);
+  stroke-width: 4;
+  transition: stroke 320ms ease;
+}
+
+.expandMapRoadVertical {
+  stroke: rgb(45 42 38 / 0.2);
+  stroke-width: 3;
+}
+
+.expandMapRoadMinor {
+  stroke: rgb(45 42 38 / 0.1);
+  stroke-width: 1.5;
+}
+
+.expandMapRouteShadow,
+.expandMapRoute {
+  fill: none;
+  opacity: 0;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.expandMapRouteShadow {
+  stroke: rgb(255 81 0 / 0.16);
+  stroke-width: 8;
+}
+
+.expandMapRoute {
+  stroke: #ff5100;
+  stroke-width: 3.5;
+}
+
+.expandMapBuilding {
+  position: absolute;
+  border: 1px solid rgb(45 42 38 / 0.14);
+  border-radius: 0.2rem;
+  background: rgb(45 42 38 / 0.18);
+  opacity: 0;
+  transform: scale(0.8);
+  transition:
+    opacity 400ms ease,
+    transform 400ms ease;
+}
+
+.expandMapBuildingOne {
+  top: 40%;
+  left: 10%;
+  width: 15%;
+  height: 20%;
+  transition-delay: 500ms;
+}
+
+.expandMapBuildingTwo {
+  top: 15%;
+  left: 35%;
+  width: 12%;
+  height: 15%;
+  transition-delay: 600ms;
+}
+
+.expandMapBuildingOne,
+.expandMapBuildingTwo {
+  opacity: 0.3;
+  transform: scale(0.94);
+}
+
+.expandMapBuildingThree {
+  top: 70%;
+  left: 75%;
+  width: 18%;
+  height: 18%;
+  transition-delay: 700ms;
+}
+
+.expandMapBuildingFour {
+  top: 20%;
+  right: 10%;
+  width: 10%;
+  height: 25%;
+  transition-delay: 550ms;
+}
+
+.expandMapBuildingFive {
+  top: 55%;
+  left: 5%;
+  width: 8%;
+  height: 12%;
+  transition-delay: 650ms;
+}
+
+.expandMapBuildingSix {
+  top: 8%;
+  left: 75%;
+  width: 14%;
+  height: 10%;
+  transition-delay: 750ms;
+}
+
+.expandMapPin {
+  position: absolute;
+  z-index: 9;
+  top: 50%;
+  left: 50%;
+  width: 2rem;
+  height: 2rem;
+  opacity: 0;
+  filter: drop-shadow(0 0 0.65rem rgb(255 81 0 / 0.5));
+  transform: translate3d(-50%, calc(-100% - 1.25rem), 2rem) scale(0);
+  transition:
+    opacity 350ms ease 300ms,
+    transform 500ms cubic-bezier(0.16, 1, 0.3, 1) 300ms;
+}
+
+.card .visual.visual .expandMapPin svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+}
+
+.expandMapPin path {
+  fill: #ff5100;
+}
+
+.expandMapPin circle {
+  fill: #fff;
+}
+
+.expandMapFade {
+  position: absolute;
+  z-index: 6;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 108% 98% at 0% 100%,
+    #fff 0%,
+    rgb(255 255 255 / 0.98) 39%,
+    rgb(255 255 255 / 0.8) 58%,
+    transparent 86%
+  );
+  opacity: 0.44;
+  transition: opacity 360ms ease;
+}
+
+.expandMapGrid {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  opacity: 0.03;
+  transition: opacity 300ms ease;
+}
+
+.card .visual.visual .expandMapGrid svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+}
+
+.expandMapGrid path {
+  fill: none;
+  stroke: #2d2a26;
+  stroke-width: 0.5;
+}
+
+.expandMapTarget {
+  position: absolute;
+  z-index: 8;
+  top: 50%;
+  left: 50%;
+  width: 1rem;
+  height: 0.42rem;
+  border: 2px solid #ff5100;
+  border-radius: 50%;
+  background: rgb(255 81 0 / 0.14);
+  box-shadow:
+    0 0 0 0.25rem rgb(255 81 0 / 0.08),
+    0 0.35rem 0.8rem rgb(255 81 0 / 0.18);
+  pointer-events: none;
+  isolation: isolate;
+  transform: translate3d(-50%, -50%, 1.75rem);
+  transform-origin: center;
+}
+
+.expandMapTarget::before,
+.expandMapTarget::after {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  width: 46rem;
+  height: 23rem;
+  border: 1px solid rgb(255 81 0 / 0.34);
+  border-radius: 50%;
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-50%, -50%, 0) scale(0.03);
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.serviceCta {
+  order: 3;
+  display: inline-flex;
+  width: max-content;
+  height: 0;
+  min-height: 0;
+  margin-top: 0;
+  padding: 0 0.65rem 0 1rem;
+  overflow: hidden;
+  align-self: flex-start;
+  align-items: center;
+  gap: 0.65rem;
+  border: 0 solid transparent;
+  border-radius: 0.625rem;
+  background: rgb(255 255 255 / 0.42);
+  color: #ff5100;
+  font-family: var(--font-montserrat), Montserrat, Arial, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 650;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(0, -0.35rem, 2rem);
+  transition:
+    height 250ms ease,
+    margin 250ms ease,
+    padding 250ms ease,
+    opacity 250ms ease 90ms,
+    transform 250ms ease 90ms,
+    background-color 220ms ease 90ms,
+    border-color 220ms ease 90ms;
+  white-space: nowrap;
+  backdrop-filter: blur(0.35rem);
+}
+
+.card .serviceCtaIcon {
+  display: block;
+  flex: 0 0 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  max-height: none;
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .expandMap {
+  box-shadow: none;
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .expandMapExpanded {
+  opacity: 1;
+}
+
+.card.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .visual.visual
+  .expandMapPreviewRoads {
+  opacity: 0.18;
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .expandMapGrid {
+  opacity: 0;
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .expandMapRoadMain {
+  animation: expandMapRoadDraw 800ms ease 200ms both;
+  stroke: #fff;
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .expandMapRoadMain:nth-child(2) {
+  animation-delay: 300ms;
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .expandMapRoadVertical {
+  animation: expandMapRoadDraw 600ms ease 400ms both;
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .expandMapRoadVertical:nth-child(4) {
+  animation-delay: 500ms;
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .expandMapRoadMinor {
+  animation: expandMapRoadDraw 500ms ease 600ms both;
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .expandMapRouteShadow,
+.card[data-service-id="route-calculator"][data-route-motion="active"]
+  .expandMapRouteShadow {
+  animation: expandMapRouteDraw 900ms cubic-bezier(0.16, 1, 0.3, 1) 430ms both;
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .expandMapRoute,
+.card[data-service-id="route-calculator"][data-route-motion="active"] .expandMapRoute {
+  animation: expandMapRouteDraw 900ms cubic-bezier(0.16, 1, 0.3, 1) 520ms both;
+}
+
+.card[data-service-id="route-calculator"][data-route-motion="leaving"]
+  .expandMapRouteShadow,
+.card[data-service-id="route-calculator"][data-route-motion="leaving"] .expandMapRoute {
+  animation: expandMapRouteRetract 720ms cubic-bezier(0.55, 0, 0.45, 1) both;
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .expandMapBuilding {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .expandMapPin {
+  opacity: 1;
+  transform: translate3d(-50%, -100%, 2rem) scale(1);
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .expandMapTarget::before {
+  animation: expandMapTargetWave 3.4s cubic-bezier(0.2, 0.65, 0.3, 1) 1.55s infinite;
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .expandMapTarget::after {
+  animation: expandMapTargetWave 3.4s cubic-bezier(0.2, 0.65, 0.3, 1) 2.68s infinite;
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .serviceCta {
+  height: 2.75rem;
+  min-height: 2.75rem;
+  margin-top: 0.65rem;
+  padding: 0.5rem 0.65rem 0.5rem 1rem;
+  border-width: 1px;
+  border-color: #ff5100;
+  background: rgb(255 255 255 / 0.56);
+  opacity: 1;
+  transform: translate3d(0, 0, 2rem);
+}
+
+.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+  .expandMapFade {
+  opacity: 1;
+}
+
+/* Mobile application: phone dock, route draw and notification arrival. */
+.phoneScene {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 22rem);
+  height: 100%;
+  min-height: 9rem;
+  overflow: visible;
+}
+
+.card .visual.visual .phoneScene,
+.card .visual.visual .legalScene,
+.card .visual.visual .storeScene,
+.card .visual.visual .plateScene {
+  width: min(100%, 18rem);
+  height: 100%;
+  max-height: none;
+}
+
+.card .visual.visual .plateScene {
+  width: min(100%, 19rem);
+}
+
+.phoneOrbit {
+  fill: none;
+  stroke: rgb(255 81 0 / 0.44);
+  stroke-width: 1.35;
+  stroke-dasharray: 4 7;
+  opacity: 0.42;
+}
+
+.phoneOrbitNodes circle {
+  fill: #fff;
+  stroke: #ff7a42;
+  stroke-width: 1.5;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.phoneShadow ellipse {
+  fill: rgb(68 51 56 / 0.13);
+  filter: blur(0.25rem);
+  transform-origin: center;
+}
+
+.phoneShell {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+
+.phoneDevice {
+  filter: url("#phone-soft-shadow");
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.phoneFrameBack {
+  fill: #c9c6cd;
+  opacity: 0.72;
+}
+
+.phoneFrame {
+  stroke: rgb(84 75 80 / 0.34);
+  stroke-width: 1.4;
+}
+
+.phoneScreen {
+  stroke: rgb(255 81 0 / 0.18);
+  stroke-width: 1.2;
+  transition: fill 280ms ease;
+}
+
+.phoneIsland {
+  fill: #5c5558;
+  opacity: 0.72;
+}
+
+.phoneSideButton {
+  fill: none;
+  stroke: #9f9ba1;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.phoneMap {
+  opacity: 0.72;
+}
+
+.phoneMap path {
+  fill: none;
+  stroke: #d9dfe0;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+}
+
+.phoneRouteGlow,
+.phoneRoute {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 190;
+  stroke-dashoffset: 72;
+}
+
+.phoneRouteGlow {
+  stroke: rgb(255 81 0 / 0.18);
+  stroke-width: 10;
+  opacity: 0;
+}
+
+.phoneRoute {
+  stroke-width: 4.5;
+  opacity: 0.68;
+}
+
+.phoneNavigator circle {
+  fill: #fff;
+  stroke: #ff7652;
+  stroke-width: 1.5;
+}
+
+.phoneNavigator {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.phoneNavigator path {
+  fill: #ff5100;
+}
+
+.phonePin {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.phonePin path {
+  fill: #ff5100;
+  stroke: #fff;
+  stroke-width: 1.5;
+  paint-order: stroke;
+}
+
+.phonePin circle:last-child {
+  fill: #fff;
+}
+
+.phonePinAura {
+  fill: url("#phone-pin-aura");
+  opacity: 0.62;
+}
+
+.phonePinPulse {
+  fill: none;
+  stroke: rgb(255 81 0 / 0.4);
+  stroke-width: 1.5;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.phoneTopBar path,
+.phoneBottomNav path,
+.phoneBottomNav circle {
+  fill: none;
+  stroke: #3d3a3b;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.phoneBottomNav {
+  opacity: 0.58;
+}
+
+.phoneDockPanel {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+
+.phoneDockPanel > rect {
+  fill: rgb(255 255 255 / 0.92);
+  stroke: rgb(255 81 0 / 0.16);
+  stroke-width: 1;
+}
+
+.phoneDockLabel,
+.phoneDockAmount {
+  fill: none;
+  stroke: #b9b7b8;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+.phoneDockAmount {
+  stroke: #ff7652;
+}
+
+.phoneTile rect {
+  stroke: rgb(255 255 255 / 0.84);
+  stroke-width: 1;
+}
+
+.phoneTile path {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.15;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.phoneTileRoad rect {
+  fill: #ff6a31;
+}
+
+.phoneTileCar rect {
+  fill: #ff8b4d;
+}
+
+.phoneTileShield rect {
+  fill: #ffb23e;
+}
+
+.phoneTileParking rect {
+  fill: #17a78b;
+}
+
+.phoneNotification {
+  --notify-x: 1rem;
+  --notify-accent: #ff6a31;
+  opacity: 0;
+  transform: translate3d(var(--notify-x), -0.5rem, 0) scale(0.9);
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.phoneNotificationTwo {
+  --notify-x: 1.5rem;
+  --notify-accent: #ffb23e;
+}
+
+.phoneNotificationThree {
+  --notify-x: 1.15rem;
+  --notify-accent: #17a78b;
+}
+
+.phoneNotificationSurface {
+  fill: rgb(255 255 255 / 0.94);
+  stroke: color-mix(in srgb, var(--notify-accent) 54%, white);
+  stroke-width: 1.6;
+}
+
+.phoneNotificationIcon {
+  fill: var(--notify-accent);
+}
+
+.phoneNotificationRoadIcon,
+.phoneNotificationShieldIcon,
+.phoneNotificationParkingIcon {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.phoneNotificationLines {
+  fill: none;
+  stroke: #4a4544;
+  stroke-width: 2.3;
+  stroke-linecap: round;
+  opacity: 0.78;
+}
+
+.phoneNotificationArrow {
+  fill: none;
+  stroke: var(--notify-accent);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.card:where(:hover, :focus-within, [open]) .phoneShell {
+  animation: phoneDock 720ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.card:where(:hover, :focus-within, [open]) .phoneRouteGlow,
+.card:where(:hover, :focus-within, [open]) .phoneRoute {
+  animation: phoneRouteDraw 980ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+}
+
+.card:where(:hover, :focus-within, [open]) .phoneOrbit {
+  animation: phoneOrbitDraw 920ms var(--motion-ease) 80ms both;
+}
+
+.card:where(:hover, :focus-within, [open]) .phoneOrbitNodes circle {
+  animation: phoneOrbitNodeIn 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.card:where(:hover, :focus-within, [open]) .phoneOrbitNodes circle:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.card:where(:hover, :focus-within, [open]) .phoneOrbitNodes circle:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+.card:where(:hover, :focus-within, [open]) .phoneOrbitNodes circle:nth-child(4) {
+  animation-delay: 360ms;
+}
+
+.card:where(:hover, :focus-within, [open]) .phoneDockPanel {
+  animation: phonePanelLift 720ms cubic-bezier(0.16, 1, 0.3, 1) 180ms both;
+}
+
+.card:where(:hover, :focus-within, [open]) .phonePin {
+  animation: phonePinSettle 620ms cubic-bezier(0.16, 1, 0.3, 1) 720ms both;
+}
+
+.card:where(:hover, :focus-within, [open]) .phonePinPulse {
+  animation: phonePinPulse 2.2s ease-out 1.2s infinite;
+}
+
+.card:where(:hover, :focus-within, [open]) .phoneNavigator {
+  animation: phoneNavigatorTravel 1.65s cubic-bezier(0.36, 0.12, 0.2, 1) 260ms both;
+}
+
+.card:where(:hover, :focus-within, [open]) .phoneNotificationOne {
+  animation: phoneNotificationIn 620ms cubic-bezier(0.16, 1, 0.3, 1) 380ms both;
+}
+
+.card:where(:hover, :focus-within, [open]) .phoneNotificationTwo {
+  animation: phoneNotificationIn 620ms cubic-bezier(0.16, 1, 0.3, 1) 500ms both;
+}
+
+.card:where(:hover, :focus-within, [open]) .phoneNotificationThree {
+  animation: phoneNotificationIn 620ms cubic-bezier(0.16, 1, 0.3, 1) 620ms both;
+}
+
+.card:where(:hover, :focus-within, [open]) .phoneShadow ellipse {
+  animation: phoneShadowSettle 720ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* MAX: the official mark remains intact; only its communication field animates. */
+.maxScene {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: min(100%, 20rem);
+  height: 100%;
+  max-height: none;
+  place-items: center;
+  transform: scale(0.78);
+  transform-origin: center;
+  transition: transform 520ms var(--motion-ease);
+}
+
+.card[data-service-id="max"]:where(:hover, :focus-within, [open]) .maxScene {
+  transform: scale(1);
+}
+
+.maxLogo {
+  position: relative;
+  z-index: 3;
+  width: clamp(5.2rem, 9vw, 7.7rem);
+  height: min(72%, 6.5rem);
+  object-fit: contain;
+  filter: drop-shadow(0 1rem 1.6rem rgb(71 26 255 / 0.2));
+}
+
+.maxAura {
+  position: absolute;
+  width: 69%;
+  aspect-ratio: 1;
+  border: 1px solid rgb(71 26 255 / 0.23);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgb(0 191 255 / 0.14), transparent 52%),
+    conic-gradient(from 180deg, #00bfff, #471aff, #9500ff, #00bfff);
+  opacity: 0.24;
+  mask: radial-gradient(circle, transparent 54%, #000 56%);
+  transform: scale(0.82);
+}
+
+.maxSatellite {
+  position: absolute;
+  z-index: 4;
+  display: grid;
+  width: 2.65rem;
+  height: 2.65rem;
+  place-items: center;
+  border: 1px solid rgb(71 26 255 / 0.17);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.94);
+  box-shadow: 0 0.7rem 1.5rem rgb(71 26 255 / 0.14);
+  opacity: 0;
+  transform: scale(0.72);
+}
+
+.card .maxSatellite.maxSatellite svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  max-height: 1.2rem;
+  fill: none;
+  stroke: #6e1aff;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.maxSatelliteChat {
+  top: 12%;
+  left: 15%;
+}
+
+.maxSatelliteSend {
+  top: 35%;
+  right: 8%;
+}
+
+.maxSatelliteBell {
+  bottom: 8%;
+  left: 22%;
+}
+
+.card:where(:hover, :focus-within, [open]) .maxAura {
+  animation: maxFieldWake 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.card:where(:hover, :focus-within, [open]) .maxSatellite {
+  animation: maxSatelliteIn 560ms var(--motion-ease) both;
+}
+
+.card:where(:hover, :focus-within, [open]) .maxSatelliteSend {
+  animation-delay: 110ms;
+}
+
+.card:where(:hover, :focus-within, [open]) .maxSatelliteBell {
+  animation-delay: 220ms;
+}
+
+/* Legal account: document depth, identity scan and approval seal. */
+.legalScene {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 18rem);
+  height: 100%;
+  min-height: 9rem;
+  overflow: visible;
+}
+
+.legalOrbit {
+  fill: none;
+  stroke: color-mix(in srgb, var(--companion) 36%, white);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 8;
+}
+
+.legalPayments rect,
+.legalDocument rect {
+  fill: #fff;
+  stroke: var(--accent);
+  stroke-width: 2.25;
+}
+
+.legalPayments {
+  transform: translate3d(0.8rem, 0.2rem, 0) rotate(2deg);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.legalPayments path,
+.legalRows path,
+.legalSignature {
+  fill: none;
+  stroke: color-mix(in srgb, var(--scene-ink) 56%, white);
+  stroke-width: 2.25;
+  stroke-linecap: round;
+}
+
+.legalPayments circle {
+  fill: color-mix(in srgb, var(--accent) 16%, white);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.legalDocument {
+  transform: translate3d(-0.35rem, 0.25rem, 0) rotate(-1.5deg);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.legalDocument rect:nth-child(2) {
+  fill: color-mix(in srgb, var(--accent) 18%, white);
+  stroke: none;
+}
+
+.legalDocument rect:nth-child(3) {
+  fill: color-mix(in srgb, var(--scene-ink) 20%, white);
+  stroke: none;
+}
+
+.legalRows path {
+  stroke-dasharray: 130;
+}
+
+.legalSignature {
+  stroke: var(--companion);
+  stroke-width: 2.5;
+  stroke-dasharray: 90;
+  stroke-dashoffset: 90;
+}
+
+.legalScan {
+  fill: var(--accent);
+  filter: drop-shadow(0 0 0.7rem color-mix(in srgb, var(--companion) 58%, transparent));
+  opacity: 0;
+}
+
+.legalSeal circle {
+  fill: #fff;
+  stroke: var(--companion);
+  stroke-width: 2.25;
+}
+
+.legalSeal circle:nth-child(2) {
+  stroke-width: 1.25;
+  stroke-dasharray: 4 4;
+}
+
+.legalSeal path {
+  fill: none;
+  stroke: var(--companion);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.legalSeal {
+  opacity: 0;
+  transform: scale(0.45);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.card:where(:hover, :focus-within, [open]) .legalDocument {
+  animation: legalDocumentFan 720ms var(--motion-ease) both;
+}
+
+.card:where(:hover, :focus-within, [open]) .legalPayments {
+  animation: legalPaymentsFan 720ms var(--motion-ease) 90ms both;
+}
+
+.card:where(:hover, :focus-within, [open]) .legalScan {
+  animation: legalScanDown 760ms cubic-bezier(0.22, 1, 0.36, 1) 170ms both;
+}
+
+.card:where(:hover, :focus-within, [open]) .legalRows path {
+  animation: legalRowsReveal 650ms var(--motion-ease) 230ms both;
+}
+
+.card:where(:hover, :focus-within, [open]) .legalSignature {
+  animation: legalSignatureDraw 600ms var(--motion-ease) 330ms both;
+}
+
+.card:where(:hover, :focus-within, [open]) .legalSeal {
+  animation: legalSealIn 520ms cubic-bezier(0.16, 1, 0.3, 1) 510ms both;
+}
+
+/* Store: a package lands on a moving fulfilment belt. */
+.storeScene {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 18rem);
+  height: 100%;
+  min-height: 9rem;
+  overflow: visible;
+}
+
+.storeJourney {
+  fill: none;
+  stroke: var(--companion);
+  stroke-width: 2;
+  stroke-dasharray: 5 7;
+  stroke-dashoffset: 72;
+  opacity: 0.72;
+}
+
+.storeConveyor {
+  fill: #fff;
+  stroke: var(--scene-ink);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.storeConveyorDash {
+  stroke: var(--companion);
+  stroke-dasharray: 13 14;
+  stroke-width: 3;
+}
+
+.storePackage {
+  fill: color-mix(in srgb, var(--accent) 11%, white);
+  stroke: var(--accent);
+  stroke-width: 3;
+  stroke-linejoin: round;
+  transform-origin: center bottom;
+}
+
+.storeTape {
+  fill: color-mix(in srgb, var(--companion) 16%, white);
+  stroke: var(--companion);
+  stroke-width: 3;
+}
+
+.storeBadge {
+  opacity: 0;
+  transform: translate3d(-0.6rem, -0.4rem, 0) scale(0.92);
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.storeBadge rect {
+  fill: #fff;
+  stroke: var(--accent);
+  stroke-width: 2;
+  filter: drop-shadow(0 0.55rem 0.8rem rgb(90 44 23 / 0.12));
+}
+
+.storeBadge text {
+  fill: var(--scene-ink);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+}
+
+.storeBadge .storePrice {
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.storePin {
+  opacity: 0;
+  transform: translate3d(0, -0.5rem, 0);
+}
+
+.storePin circle:first-child {
+  fill: #fff;
+  stroke: var(--companion);
+  stroke-width: 3;
+}
+
+.storePin circle:nth-child(2) {
+  fill: var(--companion);
+}
+
+.storePin path,
+.storeSpark path {
+  fill: none;
+  stroke: var(--scene-ink);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.storeSpark {
+  opacity: 0;
+}
+
+.card:where(:hover, :focus-within, [open]) .storePackage {
+  animation: packageLand 780ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.card:where(:hover, :focus-within, [open]) .storeConveyorDash {
+  animation: conveyorAdvance 880ms linear both;
+}
+
+.card:where(:hover, :focus-within, [open]) .storeJourney {
+  animation: storeJourneyDraw 820ms var(--motion-ease) 180ms both;
+}
+
+.card:where(:hover, :focus-within, [open]) .storeBadge {
+  animation: storeBadgeIn 620ms var(--motion-ease) 320ms both;
+}
+
+.card:where(:hover, :focus-within, [open]) .storePin {
+  animation: storePinIn 520ms var(--motion-ease) 500ms both;
+}
+
+.card:where(:hover, :focus-within, [open]) .storeSpark {
+  animation: storeSparkIn 420ms ease 520ms both;
+}
+
+/* Plate payment: optical capture, region recognition and confirmation. */
+.plateScene {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 19rem);
+  height: 100%;
+  min-height: 9rem;
+  overflow: visible;
+}
+
+.plateRoad {
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+
+.plateRoad path {
+  fill: none;
+  stroke: color-mix(in srgb, var(--companion) 28%, white);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.plateRoad path:last-child {
+  stroke-dasharray: 12 10;
+}
+
+.plateBody {
+  transform: translate3d(0, -45px, 0);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 520ms var(--motion-ease);
+}
+
+.plateOutline {
+  fill: #fff;
+  stroke: #111;
+  stroke-width: 3.5;
+}
+
+.plateBody text {
+  fill: #111;
+  font-family: "Arial Narrow", "Roboto Condensed", "PT Sans Narrow", Arial, sans-serif;
+  font-size: 50px;
+  font-stretch: condensed;
+  font-weight: 700;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: 0.015em;
+}
+
+.plateBody .plateNumber {
+  font-size: 50px;
+}
+
+.plateBody .plateRegion {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.plateBody .plateCountry {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.plateSeparator {
+  fill: none;
+  stroke: #111;
+  stroke-width: 3;
+}
+
+.plateFlag rect {
+  fill: #fff;
+  stroke: #111;
+  stroke-width: 1.25;
+}
+
+.plateFlag .plateFlagBlue {
+  fill: #1d63b7;
+  stroke: none;
+}
+
+.plateFlag .plateFlagRed {
+  fill: #e31e24;
+  stroke: none;
+}
+
+.plateTarget {
+  opacity: 0;
+  transition: opacity 320ms ease 90ms;
+}
+
+.plateTarget path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.plateScannerTrail {
+  filter: blur(0.12rem);
+  opacity: 0;
+}
+
+.plateScanner {
+  fill: #e31e24;
+  filter: drop-shadow(0 0 0.55rem rgb(227 30 36 / 0.72));
+  opacity: 0;
+}
+
+.plateSuccess {
+  opacity: 0;
+  transform: scale(0.4);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.plateSuccess circle {
+  fill: #fff;
+  stroke: var(--accent);
+  stroke-width: 4;
+}
+
+.plateSuccess path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.card:where(:hover, :focus-within, [open]) .plateRoad,
+.card:where(:hover, :focus-within, [open]) .plateTarget {
+  opacity: 1;
+}
+
+.card:where(:hover, :focus-within, [open]) .plateBody {
+  transform: translate3d(0, -20px, 0);
+}
+
+.card:where(:hover, :focus-within, [open]) .plateTarget path {
+  animation: plateTargetAcquire 620ms var(--motion-ease) 180ms both;
+}
+
+.card:where(:hover, :focus-within, [open]) .plateScannerTrail {
+  animation: plateScanTrailAcross 2.8s linear 280ms infinite;
+}
+
+.card:where(:hover, :focus-within, [open]) .plateScanner {
+  animation: plateScanAcross 2.8s linear 280ms infinite;
+}
+
+.card:where(:hover, :focus-within, [open]) .plateBody text {
+  animation: plateTextAcquire 680ms ease 210ms both;
+}
+
+.card:where(:hover, :focus-within, [open]) .plateSuccess {
+  animation: plateSuccessIn 520ms cubic-bezier(0.16, 1, 0.3, 1) 560ms both;
+}
+
+@keyframes expandMapRoadDraw {
+  from {
+    stroke-dashoffset: 1000;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes expandMapRouteDraw {
+  from {
+    opacity: 0;
+    stroke-dashoffset: 1;
+  }
+
+  to {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes expandMapRouteRetract {
+  0% {
+    opacity: 1;
+    stroke-dasharray: 1 0;
+    stroke-dashoffset: 0;
+  }
+
+  76% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    stroke-dasharray: 0 1;
+    stroke-dashoffset: -1;
+  }
+}
+
+@keyframes expandMapTargetWave {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0) scale(0.03);
+  }
+
+  8% {
+    opacity: 0.32;
+  }
+
+  58% {
+    opacity: 0.11;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0) scale(1);
+  }
+}
+
+@keyframes phoneDock {
+  0% {
+    transform: translate3d(-0.7rem, 1.25rem, 0) rotate(-5deg) scale(0.92);
+  }
+
+  65% {
+    transform: translate3d(0.15rem, -0.18rem, 0) rotate(1.2deg) scale(1.02);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0) scale(1);
+  }
+}
+
+@keyframes phoneRouteDraw {
+  from {
+    opacity: 0.28;
+    stroke-dashoffset: 190;
+  }
+
+  to {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes phoneOrbitDraw {
+  from {
+    stroke-dashoffset: 72;
+    opacity: 0;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+    opacity: 0.52;
+  }
+}
+
+@keyframes phoneOrbitNodeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+
+  68% {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes phonePanelLift {
+  0% {
+    opacity: 0.62;
+    transform: translate3d(0, 0.45rem, 0) scale(0.96);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translate3d(0, -0.12rem, 0) scale(1.015);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes phonePinSettle {
+  0% {
+    opacity: 0.35;
+    transform: translate3d(0, -0.7rem, 0) scale(0.68);
+  }
+
+  68% {
+    opacity: 1;
+    transform: translate3d(0, 0.1rem, 0) scale(1.08);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes phonePinPulse {
+  0% {
+    opacity: 0.58;
+    transform: scale(0.82);
+  }
+
+  78%,
+  100% {
+    opacity: 0;
+    transform: scale(2.2);
+  }
+}
+
+@keyframes phoneNavigatorTravel {
+  0% {
+    transform: translate3d(-0.2rem, 0.25rem, 0) rotate(-8deg);
+  }
+
+  48% {
+    transform: translate3d(1.2rem, -0.4rem, 0) rotate(8deg);
+  }
+
+  100% {
+    transform: translate3d(2.4rem, -1.55rem, 0) rotate(-4deg);
+  }
+}
+
+@keyframes phoneNotificationIn {
+  0% {
+    opacity: 0;
+    transform: translate3d(var(--notify-x), -0.5rem, 0) scale(0.9);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translate3d(-0.12rem, 0.1rem, 0) scale(1.03);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes phoneShadowSettle {
+  0% {
+    opacity: 0.2;
+    transform: scaleX(0.68);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes maxFieldWake {
+  0% {
+    opacity: 0;
+    transform: rotate(-25deg) scale(0.72);
+  }
+
+  100% {
+    opacity: 0.38;
+    transform: rotate(155deg) scale(1);
+  }
+}
+
+@keyframes maxSatelliteIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.72);
+  }
+
+  68% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes legalDocumentFan {
+  from {
+    opacity: 0.65;
+    transform: translate3d(-0.7rem, 0.55rem, 0) rotate(-4deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(-0.35rem, 0.25rem, 0) rotate(-1.5deg);
+  }
+}
+
+@keyframes legalPaymentsFan {
+  from {
+    opacity: 0.5;
+    transform: translate3d(1.15rem, 0.65rem, 0) rotate(5deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0.8rem, 0.2rem, 0) rotate(2deg);
+  }
+}
+
+@keyframes legalScanDown {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -3.2rem, 0);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  82% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 5.5rem, 0);
+  }
+}
+
+@keyframes legalRowsReveal {
+  from {
+    opacity: 0.25;
+    stroke-dashoffset: 90;
+  }
+
+  to {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes legalSignatureDraw {
+  from {
+    stroke-dashoffset: 90;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes legalSealIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.45) rotate(-18deg);
+  }
+
+  72% {
+    opacity: 1;
+    transform: scale(1.12) rotate(2deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes packageLand {
+  0% {
+    opacity: 0.35;
+    transform: translate3d(-1rem, -2.2rem, 0) rotate(-7deg) scale(0.9);
+  }
+
+  68% {
+    opacity: 1;
+    transform: translate3d(0.15rem, 0.2rem, 0) rotate(1deg) scale(1.02);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0) scale(1);
+  }
+}
+
+@keyframes conveyorAdvance {
+  from {
+    stroke-dashoffset: 54;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes storeJourneyDraw {
+  from {
+    stroke-dashoffset: 72;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes storeBadgeIn {
+  0% {
+    opacity: 0;
+    transform: translate3d(-0.6rem, -0.4rem, 0) scale(0.92);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes storePinIn {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -0.5rem, 0) scale(0.8);
+  }
+
+  72% {
+    opacity: 1;
+    transform: translate3d(0, 0.1rem, 0) scale(1.08);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes storeSparkIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+
+  55% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.72;
+    transform: scale(1);
+  }
+}
+
+@keyframes plateTargetAcquire {
+  from {
+    opacity: 0.3;
+    stroke-dashoffset: 1;
+  }
+
+  to {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes plateScanAcross {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+
+  8% {
+    opacity: 1;
+  }
+
+  68% {
+    opacity: 1;
+    transform: translate3d(12rem, 0, 0);
+  }
+
+  72%,
+  100% {
+    opacity: 0;
+    transform: translate3d(12rem, 0, 0);
+  }
+}
+
+@keyframes plateScanTrailAcross {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+
+  8% {
+    opacity: 0.84;
+  }
+
+  68% {
+    opacity: 0.56;
+    transform: translate3d(12rem, 0, 0);
+  }
+
+  72%,
+  100% {
+    opacity: 0;
+    transform: translate3d(12rem, 0, 0);
+  }
+}
+
+@keyframes plateTextAcquire {
+  0% {
+    opacity: 0.25;
+    transform: translate3d(0.2rem, 0, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes plateSuccessIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) rotate(-14deg);
+  }
+
+  72% {
+    opacity: 1;
+    transform: scale(1.14) rotate(2deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .row:has(.card:nth-child(1):is(:hover, :focus-within, [open])) {
+    grid-template-columns: minmax(0, 1.9fr) minmax(0, 0.55fr) minmax(0, 0.55fr);
+  }
+
+  .row:has(.card:nth-child(2):is(:hover, :focus-within, [open])) {
+    grid-template-columns: minmax(0, 0.55fr) minmax(0, 1.9fr) minmax(0, 0.55fr);
+  }
+
+  .row:has(.card:nth-child(3):is(:hover, :focus-within, [open])) {
+    grid-template-columns: minmax(0, 0.55fr) minmax(0, 0.55fr) minmax(0, 1.9fr);
+  }
+}
+
+@media (max-width: 1023px) {
+  .card.card {
+    height: max-content !important;
+    min-height: 18.75rem;
+    contain: paint;
+  }
+
+  .card .summary,
+  .card:where(:hover, :focus-within, [open]) .summary {
+    grid-template-rows: auto minmax(10rem, 1fr);
+    grid-template-columns: minmax(0, 1fr);
+    height: auto;
+    min-height: 18.75rem;
+  }
+
+  .card:where(:hover, :focus-within, [open]) .copy {
+    width: auto;
+    padding: 1.45rem 1.5rem 0.85rem;
+  }
+
+  .hoverBody {
+    display: none;
+  }
+
+  .card .visual,
+  .card.card[data-service-id]:where(:hover, :focus-within, [open]) .visual.visual {
+    position: relative;
+    inset: auto;
+  }
+
+  .card:where(:hover, :focus-within, [open]) .visual {
+    margin: 0;
+  }
+
+  .card .body {
+    position: static;
+    display: block;
+    padding: 0 1.5rem 1.5rem;
+    background: transparent;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .card.card {
+    height: max-content !important;
+    min-height: 0;
+  }
+
+  .card .summary,
+  .card:where(:hover, :focus-within, [open]) .summary {
+    display: block;
+    height: auto;
+    min-height: 6rem;
+  }
+
+  .copy,
+  .card:where(:hover, :focus-within, [open]) .copy {
+    min-height: 6rem;
+    justify-content: center;
+    padding: 1.25rem 3.5rem 1.25rem 1.25rem;
+    background: transparent;
+  }
+
+  .card .teaser,
+  .card:where(:hover, :focus-within, [open]) .teaser {
+    display: none;
+  }
+
+  .card .visual {
+    display: none;
+  }
+
+  .card.card[open] .visual.visual {
+    display: grid;
+    height: 11.25rem;
+    min-height: 11.25rem;
+    max-height: 11.25rem;
+    margin: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .card .body {
+    position: static;
+    display: block;
+    padding: 0 1.25rem 1.25rem;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .card:hover:not([open]) .teaser {
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
+  }
+
+  .card:hover:not([open]) .summary {
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .card:hover:not([open]) .visual {
+    margin: 0;
+  }
+
+  .card:hover:not([open]) .body {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .card.card[data-service-id]:hover:not([open]) .visual.visual {
+    min-height: 0;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .card:hover:not([open]) .phoneShell,
+  .card:hover:not([open]) .phoneOrbit,
+  .card:hover:not([open]) .phoneOrbitNodes circle,
+  .card:hover:not([open]) .phoneRouteGlow,
+  .card:hover:not([open]) .phoneRoute,
+  .card:hover:not([open]) .phoneDockPanel,
+  .card:hover:not([open]) .phonePin,
+  .card:hover:not([open]) .phonePinPulse,
+  .card:hover:not([open]) .phoneNavigator,
+  .card:hover:not([open]) .phoneNotification,
+  .card:hover:not([open]) .phoneShadow ellipse,
+  .card:hover:not([open]) .maxAura,
+  .card:hover:not([open]) .maxSatellite,
+  .card:hover:not([open]) .legalDocument,
+  .card:hover:not([open]) .legalPayments,
+  .card:hover:not([open]) .legalScan,
+  .card:hover:not([open]) .legalRows path,
+  .card:hover:not([open]) .legalSignature,
+  .card:hover:not([open]) .legalSeal,
+  .card:hover:not([open]) .storePackage,
+  .card:hover:not([open]) .storeConveyorDash,
+  .card:hover:not([open]) .storeJourney,
+  .card:hover:not([open]) .storeBadge,
+  .card:hover:not([open]) .storePin,
+  .card:hover:not([open]) .storeSpark,
+  .card:hover:not([open]) .plateTarget path,
+  .card:hover:not([open]) .plateScannerTrail,
+  .card:hover:not([open]) .plateScanner,
+  .card:hover:not([open]) .plateBody text,
+  .card:hover:not([open]) .plateSuccess {
+    animation: none;
+  }
+
+  .card:hover:not([open]) .plateRoad,
+  .card:hover:not([open]) .plateTarget {
+    opacity: 0;
+  }
+
+  .card:hover:not([open]) .plateBody {
+    transform: translate3d(0, -45px, 0);
+  }
+
+  .card[data-service-id="max"]:hover:not([open]) .maxScene {
+    transform: scale(0.78);
+  }
+
+  .card:hover:not([open]) .expandMapRoadMain,
+  .card:hover:not([open]) .expandMapRoadVertical,
+  .card:hover:not([open]) .expandMapRoadMinor,
+  .card:hover:not([open]) .expandMapRouteShadow,
+  .card:hover:not([open]) .expandMapRoute {
+    animation: none !important;
+  }
+
+  .card[data-service-id="route-calculator"]:hover:not([open]) .expandMapTarget::before,
+  .card[data-service-id="route-calculator"]:hover:not([open]) .expandMapTarget::after {
+    animation: none !important;
+    opacity: 0;
+  }
+
+  .card[data-service-id="route-calculator"]:hover:not([open]) .summary {
+    box-shadow: none;
+    transform: perspective(62.5rem) rotateX(0deg) rotateY(0deg);
+  }
+
+  .card[data-service-id="route-calculator"]:hover:not([open]) .expandMapExpanded {
+    opacity: 0.56;
+  }
+
+  .card[data-service-id="route-calculator"]:hover:not([open]) .expandMapPreviewRoads {
+    opacity: 0.74;
+  }
+
+  .card[data-service-id="route-calculator"]:hover:not([open]) .expandMapGrid {
+    opacity: 0.03;
+  }
+
+  .card[data-service-id="route-calculator"]:hover:not([open]) .expandMapRoadMain {
+    stroke: rgb(45 42 38 / 0.25);
+  }
+
+  .card[data-service-id="route-calculator"]:hover:not([open]) .expandMapBuilding,
+  .card[data-service-id="route-calculator"]:hover:not([open]) .expandMapPin {
+    opacity: 0;
+  }
+
+  .card[data-service-id="route-calculator"]:hover:not([open]) .expandMapBuilding {
+    transform: scale(0.8);
+  }
+
+  .card[data-service-id="route-calculator"]:hover:not([open]) .expandMapBuildingOne,
+  .card[data-service-id="route-calculator"]:hover:not([open]) .expandMapBuildingTwo {
+    opacity: 0.3;
+    transform: scale(0.94);
+  }
+
+  .card[data-service-id="route-calculator"]:hover:not([open]) .expandMapPin {
+    transform: translate3d(-50%, calc(-100% - 1.25rem), 2rem) scale(0);
+  }
+
+  .card[data-service-id="route-calculator"]:hover:not([open]) .expandMapRoute,
+  .card[data-service-id="route-calculator"]:hover:not([open]) .expandMapRouteShadow {
+    opacity: 0;
+    stroke-dashoffset: 1;
+  }
+
+  .card[data-service-id="route-calculator"]:hover:not([open]) .expandMapFade {
+    opacity: 0.44;
+  }
+
+  .serviceCta {
+    display: none;
+  }
+}
+
+/*
+ * Services card harness contract
+ * Mirrors SERVICES_CARD_HARNESS_CONTRACT in ServicesGrid.tsx. The existing
+ * services harness profile owns that component, so these principles are
+ * format-, lint-, type- and browser-checked without changing shared harness
+ * configuration.
+ */
+.card.card[data-card-system="services-card-system-v1"] {
+  --accent: #ff5100;
+  --accent-soft: #fff2eb;
+  --companion: #ff8a4c;
+  --scene-ink: #44352d;
+  --service-pointer-x: 58%;
+  --service-pointer-y: 42%;
+  --service-rotate-x: 0deg;
+  --service-rotate-y: 0deg;
+  height: 18.75rem;
+  min-height: 18.75rem;
+  overflow: visible;
+  border: 0;
+  border-radius: 1rem;
+  background: transparent;
+  box-shadow: none;
+  contain: layout;
+  cursor: pointer;
+}
+
+.card.card[data-card-system="services-card-system-v1"] .summary {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgb(45 42 38 / 0.12);
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: none;
+  list-style: none;
+  transform: perspective(62.5rem) rotateX(0deg) rotateY(0deg);
+  transform-origin: center;
+  transform-style: preserve-3d;
+  transition:
+    transform 180ms ease-out,
+    border-color 240ms ease,
+    box-shadow 350ms ease;
+  will-change: transform;
+}
+
+.card.card[data-card-system="services-card-system-v1"]
+  .summary::-webkit-details-marker {
+  display: none;
+}
+
+.card.card[data-card-system="services-card-system-v1"] .summary:focus-visible {
+  outline: 3px solid #ff5100;
+  outline-offset: 3px;
+}
+
+.card.card[data-card-system="services-card-system-v1"] .summary::after {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--service-pointer-x) var(--service-pointer-y),
+    rgb(255 255 255 / 0.4),
+    transparent 34%
+  );
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+
+.card.card[data-card-system="services-card-system-v1"]:where(
+    :hover,
+    :focus-within,
+    [open]
+  )
+  .summary {
+  border-color: rgb(255 81 0 / 0.22);
+  box-shadow: 0 1.25rem 3rem rgb(45 42 38 / 0.08);
+  transform: perspective(62.5rem) rotateX(var(--service-rotate-x))
+    rotateY(var(--service-rotate-y));
+}
+
+.card.card[data-card-system="services-card-system-v1"]:where(
+    :hover,
+    :focus-within,
+    [open]
+  )
+  .summary::after {
+  opacity: 1;
+}
+
+.card.card[data-card-system="services-card-system-v1"] .visual.visual,
+.card.card[data-card-system="services-card-system-v1"]:where(
+    :hover,
+    :focus-within,
+    [open]
+  )
+  .visual.visual {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  overflow: hidden;
+  place-items: stretch center;
+  border: 0;
+  border-radius: 1rem;
+  background: #efefee;
+  color: #ff5100;
+  transform: none;
+}
+
+.card.card[data-card-system="services-card-system-v1"] .visual.visual::before {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 112% 104% at 0% 100%,
+      #fff 0%,
+      rgb(255 255 255 / 0.98) 40%,
+      rgb(255 255 255 / 0.86) 58%,
+      transparent 86%
+    ),
+    linear-gradient(135deg, rgb(255 255 255 / 0.08), rgb(255 81 0 / 0.035));
+  content: "";
+  opacity: 0.66;
+  pointer-events: none;
+  transition: opacity 250ms ease 90ms;
+}
+
+.card.card[data-card-system="services-card-system-v1"]:where(
+    :hover,
+    :focus-within,
+    [open]
+  )
+  .visual.visual::before {
+  opacity: 1;
+}
+
+.card.card[data-card-system="services-card-system-v1"] .copy,
+.card.card[data-card-system="services-card-system-v1"]:where(
+    :hover,
+    :focus-within,
+    [open]
+  )
+  .copy {
+  position: absolute;
+  z-index: 12;
+  inset: auto 1.25rem 1.25rem;
+  display: flex;
+  width: auto;
+  min-width: 0;
+  padding: 0;
+  gap: 0.18rem;
+  align-items: flex-start;
+  background: transparent;
+  pointer-events: none;
+  transform: translate3d(0, 0, 1.5rem);
+  transition: transform 280ms var(--motion-ease);
+}
+
+.card.card[data-card-system="services-card-system-v1"] .copy::after {
+  order: 2;
+  width: 30%;
+  height: 1px;
+  margin-top: 0.3rem;
+  background: linear-gradient(
+    90deg,
+    rgb(255 81 0 / 0.56),
+    rgb(255 81 0 / 0.34),
+    transparent
+  );
+  content: "";
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform 400ms ease-out;
+}
+
+.card.card[data-card-system="services-card-system-v1"] .title {
+  width: auto;
+  max-width: min(19rem, calc(100% - 1rem));
+  color: #2d2a26;
+  font-family: var(--font-montserrat), Montserrat, Arial, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.card.card[data-card-system="services-card-system-v1"] .teaser {
+  order: 1;
+  position: static;
+  max-width: 42ch;
+  max-height: 0;
+  margin: 0;
+  overflow: hidden;
+  color: rgb(45 42 38 / 0.62);
+  font-family: var(--font-montserrat), Montserrat, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.35;
+  opacity: 0;
+  transform: translate3d(0, -0.55rem, 0);
+  transition:
+    max-height 250ms ease,
+    opacity 250ms ease 90ms,
+    transform 250ms ease 90ms;
+}
+
+.card.card[data-card-system="services-card-system-v1"]:where(
+    :hover,
+    :focus-within,
+    [open]
+  )
+  .copy {
+  transform: translate3d(0.25rem, 0, 1.5rem);
+}
+
+.card.card[data-card-system="services-card-system-v1"]:where(
+    :hover,
+    :focus-within,
+    [open]
+  )
+  .copy::after {
+  transform: scaleX(3.333);
+}
+
+.card.card[data-card-system="services-card-system-v1"]:where(
+    :hover,
+    :focus-within,
+    [open]
+  )
+  .teaser {
+  max-height: 5rem;
+  margin-top: 0.1rem;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.serviceCta {
+  order: 3;
+  box-sizing: border-box;
+  display: inline-flex;
+  width: max-content;
+  height: 0;
+  min-height: 0;
+  margin-top: 0;
+  padding: 0 0.65rem 0 1rem;
+  overflow: hidden;
+  align-self: flex-start;
+  align-items: center;
+  gap: 0.65rem;
+  border: 0 solid transparent;
+  border-radius: 0.625rem;
+  background: rgb(255 255 255 / 0.54);
+  color: #ff5100;
+  font-family: var(--font-montserrat), Montserrat, Arial, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 650;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(0, -0.35rem, 2rem);
+  transition:
+    height 250ms ease,
+    margin 250ms ease,
+    padding 250ms ease,
+    opacity 250ms ease 90ms,
+    transform 250ms ease 90ms,
+    background-color 220ms ease 90ms,
+    border-color 220ms ease 90ms;
+  white-space: nowrap;
+  backdrop-filter: blur(0.35rem);
+}
+
+.card .serviceCtaIcon {
+  display: block;
+  flex: 0 0 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  max-height: none;
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+}
+
+.card.card[data-card-system="services-card-system-v1"]:where(
+    :hover,
+    :focus-within,
+    [open]
+  )
+  .serviceCta {
+  height: 2.75rem;
+  min-height: 2.75rem;
+  margin-top: 0.65rem;
+  padding: 0.5rem 0.65rem 0.5rem 1rem;
+  border-width: 1px;
+  border-color: #ff5100;
+  background: rgb(255 255 255 / 0.64);
+  opacity: 1;
+  transform: translate3d(0, 0, 2rem);
+}
+
+.card.card[data-card-system="services-card-system-v1"] .hoverBody {
+  display: none;
+}
+
+.card.card[data-card-system="services-card-system-v1"] .body {
+  display: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.card.card[data-card-system="services-card-system-v1"][open] .body {
+  position: absolute;
+  z-index: 16;
+  inset: 1.25rem 1.25rem auto auto;
+  display: flex;
+  width: auto;
+  padding: 0;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.card.card[data-card-system="services-card-system-v1"] .body p {
+  display: none;
+}
+
+.card.card[data-card-system="services-card-system-v1"] .body a {
+  width: auto;
+  height: 2.75rem;
+  min-height: 2.75rem;
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ff5100;
+  border-radius: 0.625rem;
+  background: rgb(255 255 255 / 0.78);
+  box-shadow: none;
+  color: #ff5100;
+  font-size: 0.78rem;
+  backdrop-filter: blur(0.35rem);
+}
+
+.card.card[data-card-system="services-card-system-v1"][data-service-id="plate-payment"] {
+  --accent: #168a52;
+  --accent-soft: #eaf8f0;
+  --companion: #56bd84;
+  --scene-ink: #173f2a;
+}
+
+.card.card[data-card-system="services-card-system-v1"][data-service-id="plate-payment"]:where(
+    :hover,
+    :focus-within,
+    [open]
+  )
+  .visual.visual {
+  background-color: #f1f1f0;
+  background-image:
+    linear-gradient(rgb(45 42 38 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(45 42 38 / 0.045) 1px, transparent 1px);
+  background-size: 1.5rem 1.5rem;
+}
+
+.card.card[data-card-system="services-card-system-v1"]
+  :is(.phoneScene, .legalScene, .storeScene, .plateScene) {
+  width: min(100%, 20rem);
+  height: 100%;
+  max-height: none;
+  transform: translate3d(0, -4%, 0) scale(0.94);
+  transform-origin: center;
+  transition: transform 520ms var(--motion-ease);
+}
+
+.card.card[data-card-system="services-card-system-v1"]:where(
+    :hover,
+    :focus-within,
+    [open]
+  )
+  :is(.phoneScene, .legalScene, .storeScene, .plateScene) {
+  transform: translate3d(52%, -6%, 0) scale(1.02);
+}
+
+.card.card[data-card-system="services-card-system-v1"][data-service-id="max"]
+  .maxScene {
+  width: 100%;
+  transform: translate3d(0, -4%, 0) scale(0.78);
+}
+
+.card.card[data-card-system="services-card-system-v1"][data-service-id="max"]:where(
+    :hover,
+    :focus-within,
+    [open]
+  )
+  .maxScene {
+  transform: translate3d(15%, -6%, 0) scale(1);
+}
+
+@media (max-width: 1023px) {
+  .card.card[data-card-system="services-card-system-v1"],
+  .card.card[data-card-system="services-card-system-v1"][open] {
+    height: 18.75rem !important;
+    min-height: 18.75rem;
+    contain: layout;
+  }
+
+  .card.card[data-card-system="services-card-system-v1"] .summary,
+  .card.card[data-card-system="services-card-system-v1"]:where(
+      :hover,
+      :focus-within,
+      [open]
+    )
+    .summary {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 18.75rem;
+  }
+
+  .card.card[data-card-system="services-card-system-v1"] .visual.visual,
+  .card.card[data-card-system="services-card-system-v1"]:where(
+      :hover,
+      :focus-within,
+      [open]
+    )
+    .visual.visual {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    margin: 0;
+  }
+
+  .card.card[data-card-system="services-card-system-v1"] .copy,
+  .card.card[data-card-system="services-card-system-v1"]:where(
+      :hover,
+      :focus-within,
+      [open]
+    )
+    .copy {
+    inset: auto 1.25rem 1.25rem;
+    width: auto;
+    min-height: 0;
+    padding: 0;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 767px) {
+  .card.card[data-card-system="services-card-system-v1"],
+  .card.card[data-card-system="services-card-system-v1"][open] {
+    height: 14rem !important;
+    min-height: 14rem;
+  }
+
+  .card.card[data-card-system="services-card-system-v1"] .summary,
+  .card.card[data-card-system="services-card-system-v1"]:where(
+      :hover,
+      :focus-within,
+      [open]
+    )
+    .summary {
+    height: 100%;
+    min-height: 14rem;
+  }
+
+  .card.card[data-card-system="services-card-system-v1"] .visual.visual,
+  .card.card[data-card-system="services-card-system-v1"][open] .visual.visual {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    height: 100%;
+    min-height: 100%;
+    max-height: none;
+  }
+
+  .card.card[data-card-system="services-card-system-v1"] .copy,
+  .card.card[data-card-system="services-card-system-v1"]:where(
+      :hover,
+      :focus-within,
+      [open]
+    )
+    .copy {
+    inset: auto 1rem 1rem;
+    min-height: 0;
+    padding: 0;
+  }
+
+  .card.card[data-card-system="services-card-system-v1"] .title {
+    font-size: 1.35rem;
+  }
+
+  .card.card[data-card-system="services-card-system-v1"] .teaser {
+    display: block;
+    font-size: 0.875rem;
+  }
+
+  .card.card[data-card-system="services-card-system-v1"]
+    :is(.phoneScene, .legalScene, .storeScene, .plateScene) {
+    transform: translate3d(0, -8%, 0) scale(0.82);
+  }
+
+  .card.card[data-card-system="services-card-system-v1"][data-service-id="max"]
+    .maxScene {
+    transform: translate3d(0, -8%, 0) scale(0.68);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .card.card[data-card-system="services-card-system-v1"] .summary {
+    transform: none;
+  }
+
+  .card.card[data-card-system="services-card-system-v1"]:hover:not([open]) .summary {
+    border-color: rgb(45 42 38 / 0.12);
+    box-shadow: none;
+    transform: none;
+  }
+
+  .card.card[data-card-system="services-card-system-v1"]:hover:not([open])
+    .summary::after {
+    opacity: 0;
+  }
+
+  .card.card[data-card-system="services-card-system-v1"]:hover:not([open]) .copy {
+    transform: translate3d(0, 0, 1.5rem);
+  }
+
+  .card.card[data-card-system="services-card-system-v1"]:hover:not([open])
+    .copy::after {
+    transform: scaleX(1);
+  }
+
+  .card.card[data-card-system="services-card-system-v1"]:hover:not([open]) .teaser {
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
+    transform: translate3d(0, -0.55rem, 0);
+  }
+
+  .card.card[data-card-system="services-card-system-v1"]:hover:not([open]) .serviceCta,
+  .serviceCta {
+    display: none;
+  }
+
+  .card.card[data-card-system="services-card-system-v1"][open] .teaser {
+    display: none;
+  }
+
+  .card.card[data-card-system="services-card-system-v1"][open] .body {
+    inset: 1rem 1rem auto 44%;
+    gap: 0.5rem;
+  }
+
+  .card.card[data-card-system="services-card-system-v1"][open] .body p {
+    display: block;
+    max-width: none;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid rgb(255 81 0 / 0.14);
+    border-radius: 0.625rem;
+    background: rgb(255 255 255 / 0.8);
+    color: rgb(45 42 38 / 0.68);
+    font-family: var(--font-montserrat), Montserrat, Arial, sans-serif;
+    font-size: 0.75rem;
+    line-height: 1.35;
+    backdrop-filter: blur(0.35rem);
+  }
+
+  .card.card[data-card-system="services-card-system-v1"][open] .body a {
+    width: 100%;
+    font-size: 0;
+  }
+
+  .card.card[data-card-system="services-card-system-v1"][open] .body a::before {
+    font-size: 0.78rem;
+    content: "Открыть сервис";
+  }
+
+  .card.card[data-card-system="services-card-system-v1"][open]
+    .body
+    a
+    > span[aria-hidden="true"] {
+    font-size: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card.card[data-card-system="services-card-system-v1"] .summary,
+  .card.card[data-card-system="services-card-system-v1"] .summary::after,
+  .card.card[data-card-system="services-card-system-v1"] .copy,
+  .card.card[data-card-system="services-card-system-v1"] .copy::after,
+  .card.card[data-card-system="services-card-system-v1"] .visual::before,
+  .card.card[data-card-system="services-card-system-v1"] .teaser,
+  .card.card[data-card-system="services-card-system-v1"] .serviceCta,
+  .card.card[data-card-system="services-card-system-v1"]
+    :is(.phoneScene, .legalScene, .storeScene, .plateScene, .maxScene) {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .card.card[data-card-system="services-card-system-v1"] .summary {
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card::before,
+  .summary,
+  .teaser,
+  .visual,
+  .hoverBody,
+  .phoneShell,
+  .phoneOrbit,
+  .phoneOrbitNodes circle,
+  .phoneRouteGlow,
+  .phoneRoute,
+  .phoneDockPanel,
+  .phonePin,
+  .phonePinPulse,
+  .phoneNavigator,
+  .phoneNotification,
+  .phoneShadow ellipse,
+  .maxScene,
+  .maxAura,
+  .maxSatellite,
+  .legalDocument,
+  .legalPayments,
+  .legalScan,
+  .legalRows path,
+  .legalSignature,
+  .legalSeal,
+  .storePackage,
+  .storeConveyorDash,
+  .storeJourney,
+  .storeBadge,
+  .storePin,
+  .storeSpark,
+  .plateRoad,
+  .plateBody,
+  .plateTarget,
+  .plateTarget path,
+  .plateScannerTrail,
+  .plateScanner,
+  .plateBody text,
+  .plateSuccess,
+  .expandMap,
+  .expandMapExpanded,
+  .expandMapPreviewRoads,
+  .expandMapGrid,
+  .expandMapRoadMain,
+  .expandMapRoadVertical,
+  .expandMapRoadMinor,
+  .expandMapRouteShadow,
+  .expandMapRoute,
+  .expandMapBuilding,
+  .expandMapPin,
+  .expandMapFade,
+  .expandMapTarget,
+  .expandMapTarget::before,
+  .expandMapTarget::after,
+  .serviceCta {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .card[data-service-id="route-calculator"] .summary,
+  .expandMap {
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  .card:where(:hover, :focus-within, [open]) .expandMapRoadMain,
+  .card:where(:hover, :focus-within, [open]) .expandMapRoadVertical,
+  .card:where(:hover, :focus-within, [open]) .expandMapRoadMinor,
+  .card:where(:hover, :focus-within, [open]) .expandMapRouteShadow,
+  .card:where(:hover, :focus-within, [open]) .expandMapRoute {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+
+  .card:where(:hover, :focus-within, [open]) .expandMapBuilding {
+    opacity: 1;
+    transform: none;
+  }
+
+  .card:where(:hover, :focus-within, [open]) .expandMapPin {
+    opacity: 1;
+    transform: translate3d(-50%, -100%, 2rem) scale(1);
+  }
+
+  .card:where(:hover, :focus-within, [open]) .phoneNotification,
+  .card:where(:hover, :focus-within, [open]) .maxSatellite,
+  .card:where(:hover, :focus-within, [open]) .legalDocument,
+  .card:where(:hover, :focus-within, [open]) .legalPayments,
+  .card:where(:hover, :focus-within, [open]) .legalSeal,
+  .card:where(:hover, :focus-within, [open]) .storeBadge,
+  .card:where(:hover, :focus-within, [open]) .storePin,
+  .card:where(:hover, :focus-within, [open]) .storeSpark,
+  .card:where(:hover, :focus-within, [open]) .plateSuccess {
+    opacity: 1;
+    transform: none;
+  }
+
+  .card:where(:hover, :focus-within, [open]) .maxAura {
+    opacity: 0.38;
+    transform: rotate(155deg) scale(1);
+  }
+
+  .card:where(:hover, :focus-within, [open]) .legalSignature,
+  .card:where(:hover, :focus-within, [open]) .storeJourney,
+  .card:where(:hover, :focus-within, [open]) .plateTarget path {
+    stroke-dashoffset: 0;
+  }
+
+  .card:where(:hover, :focus-within, [open]) .plateTarget path {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 1023px) {
+  .card.card[data-service-id="route-calculator"] {
+    height: 18.75rem !important;
+    min-height: 18.75rem;
+  }
+
+  .card[data-service-id="route-calculator"] .summary,
+  .card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+    .summary {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 18.75rem;
+  }
+
+  .card.card[data-service-id="route-calculator"] .visual.visual,
+  .card.card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+    .visual.visual {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    margin: 0;
+  }
+
+  .card[data-service-id="route-calculator"] .copy,
+  .card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open]) .copy {
+    inset: auto 1.25rem 1.25rem;
+    width: auto;
+    padding: 0;
+  }
+
+  .card[data-service-id="route-calculator"] .body {
+    position: absolute;
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .card[data-service-id="route-calculator"][open] .body {
+    position: absolute;
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .card.card[data-service-id="route-calculator"],
+  .card.card[data-service-id="route-calculator"][open] {
+    height: 14rem !important;
+    min-height: 14rem;
+  }
+
+  .card[data-service-id="route-calculator"] .summary,
+  .card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+    .summary {
+    display: block;
+    height: 100%;
+    min-height: 14rem;
+  }
+
+  .card.card[data-service-id="route-calculator"] .visual.visual,
+  .card.card[data-service-id="route-calculator"][open] .visual.visual {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    height: 100%;
+    min-height: 100%;
+    max-height: none;
+  }
+
+  .card[data-service-id="route-calculator"] .copy,
+  .card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open]) .copy {
+    min-height: 0;
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  .card[data-service-id="route-calculator"] .teaser,
+  .card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
+    .teaser {
+    display: block;
+  }
+
+  .card[data-service-id="route-calculator"] .copy,
+  .card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open]) .copy {
+    inset: auto 1rem 1rem;
+  }
+}

@@ -40,7 +40,6 @@ export function NewsGrid() {
             <div className="news-card__content">
               <div className="news-card__meta">
                 <time dateTime={item.dateTime}>{item.date}</time>
-                <span className="news-card__source">Официальный сайт</span>
               </div>
               <div className="news-card__copy">
                 <h3>{item.title}</h3>

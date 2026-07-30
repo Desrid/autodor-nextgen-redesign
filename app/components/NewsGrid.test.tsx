@@ -25,10 +25,9 @@ describe("NewsGrid", () => {
     }
   });
 
-  it("prioritizes the lead image and offers the complete official news feed", () => {
+  it("offers the complete official news feed", () => {
     render(<NewsGrid />);
 
-    expect(screen.getAllByText("Официальный сайт")).toHaveLength(NEWS.length);
     expect(screen.getByRole("link", { name: /Все новости/ })).toHaveAttribute(
       "href",
       "https://www.russianhighways.ru/press/news/",
