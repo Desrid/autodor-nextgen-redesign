@@ -9,7 +9,6 @@ export const CARD_TILT_TARGETS = [
   ".news-bento__all",
   ".important-state",
   ".media-gallery__item:not(:disabled)",
-  ".statistics-dashboard",
   ".subsidiary-card",
   ".social-card",
   ".future-projects article",

@@ -4,6 +4,7 @@ import type { MouseEvent, PointerEvent } from "react";
 
 import Image from "next/image";
 
+import { ArrowIcon } from "@/app/components/ArrowIcon";
 import { SERVICES } from "@/app/data/home-content";
 
 import styles from "./ServicesGrid.module.css";
@@ -294,23 +295,23 @@ function MobileAppArtwork() {
     <svg className={styles.phoneScene} viewBox="0 0 380 240" aria-hidden="true">
       <defs>
         <linearGradient id="phone-frame-gradient" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#ffffff" />
-          <stop offset="0.56" stopColor="#f7f5f4" />
-          <stop offset="1" stopColor="#dcdbe2" />
+          <stop offset="0" stopColor="var(--color-page)" />
+          <stop offset="0.56" stopColor="var(--color-surface-subtle)" />
+          <stop offset="1" stopColor="var(--color-gray-3)" />
         </linearGradient>
         <linearGradient id="phone-screen-gradient" x1="0" y1="0" x2="0.9" y2="1">
-          <stop offset="0" stopColor="#fffdfb" />
-          <stop offset="0.52" stopColor="#fff7f1" />
-          <stop offset="1" stopColor="#eef4f4" />
+          <stop offset="0" stopColor="var(--color-page)" />
+          <stop offset="0.52" stopColor="var(--color-brand-orange-faint)" />
+          <stop offset="1" stopColor="var(--color-surface-subtle)" />
         </linearGradient>
         <linearGradient id="phone-route-gradient" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#ffb23e" />
-          <stop offset="0.52" stopColor="#ff5100" />
-          <stop offset="1" stopColor="#ff7652" />
+          <stop offset="0" stopColor="var(--color-brand-orange-light)" />
+          <stop offset="0.52" stopColor="var(--color-brand-orange)" />
+          <stop offset="1" stopColor="var(--color-brand-orange-hover)" />
         </linearGradient>
         <radialGradient id="phone-pin-aura">
-          <stop offset="0" stopColor="#ff5100" stopOpacity="0.34" />
-          <stop offset="1" stopColor="#ff5100" stopOpacity="0" />
+          <stop offset="0" stopColor="var(--color-brand-orange)" stopOpacity="0.34" />
+          <stop offset="1" stopColor="var(--color-brand-orange)" stopOpacity="0" />
         </radialGradient>
         <clipPath id="phone-screen-clip">
           <rect x="80" y="21" width="122" height="190" rx="23" />
@@ -320,7 +321,7 @@ function MobileAppArtwork() {
             dx="0"
             dy="7"
             stdDeviation="7"
-            floodColor="#513426"
+            floodColor="var(--color-brand-black)"
             floodOpacity="0.15"
           />
         </filter>
@@ -777,7 +778,7 @@ export function ServicesGrid() {
                 <p>{keepPrepositionsWithNextWord(service.description)}</p>
                 <a href={service.href} target="_blank" rel="noreferrer">
                   {keepPrepositionsWithNextWord(service.actionLabel)}
-                  <span aria-hidden="true">↗</span>
+                  <ArrowIcon className="inline-arrow-icon" direction="right" />
                   <span className="visually-hidden">
                     {
                       " (\u043e\u0442\u043a\u0440\u043e\u0435\u0442\u0441\u044f \u0432 \u043d\u043e\u0432\u043e\u0439 \u0432\u043a\u043b\u0430\u0434\u043a\u0435)"

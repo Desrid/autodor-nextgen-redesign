@@ -82,4 +82,21 @@ describe("CardTiltController", () => {
     await waitFor(() => expect(socialCard).toHaveClass("cursor-tilt-card"));
     expect(contactPanel).not.toHaveClass("cursor-tilt-card");
   });
+
+  it("keeps the statistics dashboard free from tilt and cursor glare", async () => {
+    const { container } = render(
+      <>
+        <CardTiltController />
+        <figure className="statistics-dashboard">Статистика</figure>
+      </>,
+    );
+    const statisticsDashboard = container.querySelector<HTMLElement>(
+      ".statistics-dashboard",
+    );
+
+    await waitFor(() =>
+      expect(statisticsDashboard).not.toHaveClass("cursor-tilt-card"),
+    );
+    expect(statisticsDashboard).not.toHaveAttribute("data-cursor-tilt");
+  });
 });

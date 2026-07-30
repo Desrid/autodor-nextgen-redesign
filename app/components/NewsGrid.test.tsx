@@ -33,4 +33,18 @@ describe("NewsGrid", () => {
       "https://www.russianhighways.ru/press/news/",
     );
   });
+
+  it("uses right-facing 24px stroke icons instead of text arrows", () => {
+    const { container } = render(<NewsGrid />);
+    const icons = container.querySelectorAll(".news-card__cta-icon");
+
+    expect(icons).toHaveLength(NEWS.length + 1);
+    expect(container).not.toHaveTextContent("↗");
+
+    for (const icon of icons) {
+      expect(icon).toHaveAttribute("width", "24");
+      expect(icon).toHaveAttribute("height", "24");
+      expect(icon).toHaveAttribute("stroke-width", "1.5");
+    }
+  });
 });

@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowIcon } from "@/app/components/ArrowIcon";
 import { SUPPORT_FAQ } from "@/app/data/home-content";
 import { useEffect, useRef, useState } from "react";
 
@@ -45,7 +46,7 @@ export function FloatingUtilities() {
             document.querySelector<HTMLElement>("h1")?.focus({ preventScroll: true });
           }}
         >
-          <span aria-hidden="true">↑</span>
+          <ArrowIcon direction="up" />
         </button>
         <button
           ref={chatTriggerRef}

@@ -7,7 +7,12 @@ import {
 } from "@/app/data/statistics";
 import type { CSSProperties } from "react";
 
-const OPERATION_COLORS = ["#ff7433", "#ff854d", "#ff9766", "#ffa880"] as const;
+const OPERATION_COLORS = [
+  "var(--color-brand-orange)",
+  "color-mix(in srgb, var(--color-brand-orange) 82%, var(--color-page))",
+  "color-mix(in srgb, var(--color-brand-orange) 64%, var(--color-page))",
+  "color-mix(in srgb, var(--color-brand-orange) 46%, var(--color-page))",
+] as const;
 
 const maxYearlyDistance = Math.max(...YEARLY_STATISTICS.map((item) => item.distanceKm));
 

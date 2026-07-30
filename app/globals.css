@@ -4,17 +4,53 @@
 :root {
   color-scheme: light;
   --color-brand-orange: #ff5100;
+  --color-brand-orange-rgb: 255 81 0;
   --color-brand-black: #2d2a26;
+  --color-brand-black-rgb: 45 42 38;
   --color-gray-7: #97999c;
+  --color-gray-7-rgb: 151 153 156;
   --color-gray-5: #b1b3b6;
+  --color-gray-5-rgb: 177 179 182;
   --color-gray-3: #d1d3d4;
+  --color-gray-3-rgb: 209 211 212;
   --color-gray-1: #e8e8e8;
+  --color-gray-1-rgb: 232 232 232;
   --color-page: #ffffff;
+  --color-page-rgb: 255 255 255;
   --color-surface: #ffffff;
-  --color-surface-subtle: #f4f5f5;
+  --color-surface-subtle: color-mix(
+    in srgb,
+    var(--color-gray-1) 62%,
+    var(--color-page)
+  );
   --color-text: #2d2a26;
+  --color-text-muted: color-mix(
+    in srgb,
+    var(--color-brand-black) 72%,
+    var(--color-page)
+  );
   --color-border: #d1d3d4;
-  --color-header-action: #d54400;
+  --color-brand-orange-hover: color-mix(
+    in srgb,
+    var(--color-brand-orange) 78%,
+    var(--color-brand-black)
+  );
+  --color-brand-orange-light: color-mix(
+    in srgb,
+    var(--color-brand-orange) 46%,
+    var(--color-page)
+  );
+  --color-brand-orange-soft: color-mix(
+    in srgb,
+    var(--color-brand-orange) 14%,
+    var(--color-page)
+  );
+  --color-brand-orange-faint: color-mix(
+    in srgb,
+    var(--color-brand-orange) 7%,
+    var(--color-page)
+  );
+  --color-header-action: var(--color-brand-orange);
   --radius-control: 0.5rem;
   --radius-card: 1rem;
   --layer-base: 0;
@@ -39,8 +75,46 @@
 html {
   min-width: 320px;
   scroll-behavior: auto;
+  scrollbar-color: var(--color-brand-orange) transparent;
+  scrollbar-width: thin;
   text-size-adjust: 100%;
   background: var(--color-page);
+}
+
+html::-webkit-scrollbar {
+  width: 0.75rem;
+  background: transparent;
+}
+
+html::-webkit-scrollbar-track,
+html::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  min-height: 3rem;
+  border: 0.1875rem solid transparent;
+  border-radius: 999px;
+  background: var(--color-brand-orange);
+  background-clip: content-box;
+}
+
+html::-webkit-scrollbar-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+  width: 0;
+  height: 0;
+  border: 0;
+  background: transparent;
+  background-image: none;
+}
+
+@supports selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-color: auto;
+    scrollbar-width: auto;
+  }
 }
 
 body {
@@ -91,7 +165,7 @@ body::after {
   height: 150vh;
   background: repeating-linear-gradient(
     to bottom,
-    rgb(255 81 0 / 15%) 0 2.875rem,
+    rgb(var(--color-brand-orange-rgb) / 15%) 0 2.875rem,
     transparent 2.875rem 7.5rem
   );
   opacity: 0.62;
@@ -217,7 +291,7 @@ h3 {
 
 @media (min-width: 1280px) {
   .site-header:has(.header-shell--scrolled) {
-    border-bottom-color: rgb(209 211 212 / 72%);
+    border-bottom-color: rgb(var(--color-gray-3-rgb) / 72%);
     background: rgb(255 255 255 / 76%);
     box-shadow: 0 10px 24px rgb(45 42 38 / 7%);
     backdrop-filter: blur(20px) saturate(112%);
@@ -360,7 +434,7 @@ h3 {
 
 .more-button:hover,
 .more-button[aria-expanded="true"] {
-  background: #bd3c00;
+  background: var(--color-brand-orange-hover);
 }
 
 .more-button:active {
@@ -442,7 +516,7 @@ h3 {
 }
 
 .account-link:hover {
-  background: #bd3c00;
+  background: var(--color-brand-orange-hover);
 }
 
 .language-button,
@@ -705,7 +779,7 @@ h3 {
 }
 
 .header-search-form input::placeholder {
-  color: #6b6966;
+  color: var(--color-text-muted);
   opacity: 1;
 }
 
@@ -730,7 +804,7 @@ h3 {
   border: 0;
   border-radius: 4px;
   background: transparent;
-  color: #6b6966;
+  color: var(--color-text-muted);
   cursor: pointer;
   transform: translateY(-50%);
 }
@@ -783,7 +857,7 @@ h3 {
 .header-search-empty {
   margin: 0;
   padding: 20px 24px;
-  color: #6b6966;
+  color: var(--color-text-muted);
   font-size: 14px;
 }
 
@@ -871,7 +945,7 @@ h3 {
 
 .header-contact-row > p {
   max-width: 354px;
-  color: #6b6966;
+  color: var(--color-text-muted);
   font-family: Montserrat, Arial, Helvetica, sans-serif;
   font-size: 12px;
   line-height: 18px;
@@ -1017,9 +1091,9 @@ h3 {
   z-index: 1;
   background: linear-gradient(
     90deg,
-    rgb(18 17 15 / 82%) 0%,
-    rgb(18 17 15 / 44%) 50%,
-    rgb(18 17 15 / 12%) 100%
+    rgb(var(--color-brand-black-rgb) / 82%) 0%,
+    rgb(var(--color-brand-black-rgb) / 44%) 50%,
+    rgb(var(--color-brand-black-rgb) / 12%) 100%
   );
 }
 
@@ -1302,9 +1376,9 @@ h3 {
   z-index: 2;
   background: linear-gradient(
     90deg,
-    rgb(18 17 15 / 88%) 0%,
-    rgb(18 17 15 / 48%) 52%,
-    rgb(18 17 15 / 10%) 100%
+    rgb(var(--color-brand-black-rgb) / 88%) 0%,
+    rgb(var(--color-brand-black-rgb) / 48%) 52%,
+    rgb(var(--color-brand-black-rgb) / 10%) 100%
   );
   pointer-events: none;
 }
@@ -1325,7 +1399,7 @@ h3 {
     repeating-radial-gradient(
       ellipse at 18% 90%,
       transparent 0 1.7rem,
-      rgb(255 111 45 / 16%) 1.76rem 1.83rem,
+      rgb(var(--color-brand-orange-rgb) / 16%) 1.76rem 1.83rem,
       transparent 1.9rem 3.45rem
     );
   mix-blend-mode: screen;
@@ -1367,7 +1441,7 @@ h3 {
 }
 
 .road-route-map__marker circle:first-of-type {
-  fill: rgb(240 239 237 / 96%);
+  fill: rgb(var(--color-gray-1-rgb) / 96%);
   stroke: var(--color-brand-orange);
   stroke-width: 3px;
   vector-effect: non-scaling-stroke;
@@ -1384,7 +1458,7 @@ h3 {
   font-weight: 600;
   opacity: 0.92;
   paint-order: stroke;
-  stroke: rgb(18 17 15 / 68%);
+  stroke: rgb(var(--color-brand-black-rgb) / 68%);
   stroke-width: 3px;
 }
 
@@ -1540,7 +1614,7 @@ h3 {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 0.2rem 0.25rem rgb(18 17 15 / 35%));
+  filter: drop-shadow(0 0.2rem 0.25rem rgb(var(--color-brand-black-rgb) / 35%));
 }
 
 .road-tabs {
@@ -1805,7 +1879,7 @@ h3 {
 
 .road-hero__notch .hero-actions a:hover,
 .road-hero__notch .hero-actions a:focus-visible {
-  background: #ffe1d0;
+  background: var(--color-brand-orange-soft);
   box-shadow: 0 1rem 2rem rgb(0 0 0 / 24%);
   transform: translateY(-0.2rem);
 }
@@ -1869,7 +1943,7 @@ h3 {
     .hero-action-icon__card {
     transform-box: fill-box;
     transform-origin: center;
-    fill: #ffe1d0;
+    fill: var(--color-brand-orange-soft);
     animation: hero-icon-card-reveal 520ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
@@ -2042,8 +2116,8 @@ h3 {
 }
 
 .road-hero[data-hero-variant="atlas"] .road-hero__media {
-  border-color: #b8b6b2;
-  background: #f0efed;
+  border-color: var(--color-gray-5);
+  background: var(--color-gray-1);
   color: var(--color-brand-black);
 }
 
@@ -2058,7 +2132,12 @@ h3 {
 
 .road-hero[data-hero-variant="atlas"] .road-hero__scrim {
   background:
-    linear-gradient(90deg, #f0efed 0%, rgb(240 239 237 / 98%) 35%, transparent 68%),
+    linear-gradient(
+      90deg,
+      var(--color-gray-1) 0%,
+      rgb(232 232 232 / 98%) 35%,
+      transparent 68%
+    ),
     repeating-radial-gradient(
       ellipse at 20% 72%,
       transparent 0 1.45rem,
@@ -2122,9 +2201,9 @@ h3 {
 .road-hero[data-hero-variant="signal"] .road-hero__scrim {
   background: linear-gradient(
     90deg,
-    #161513 0%,
-    #161513 35%,
-    rgb(22 21 19 / 26%) 62%,
+    var(--color-brand-black) 0%,
+    var(--color-brand-black) 35%,
+    rgb(var(--color-brand-black-rgb) / 26%) 62%,
     transparent 100%
   );
 }
@@ -2407,7 +2486,11 @@ h3 {
   border: 1px solid var(--color-gray-3);
   border-radius: 0.875rem;
   background:
-    linear-gradient(145deg, rgb(255 255 255 / 0.96), rgb(244 245 245 / 0.72)),
+    linear-gradient(
+      145deg,
+      rgb(var(--color-page-rgb) / 96%),
+      rgb(var(--color-gray-1-rgb) / 72%)
+    ),
     var(--color-page);
   box-shadow: 0 1.25rem 3.5rem rgb(45 42 38 / 0);
   transform-origin: top left;
@@ -2435,9 +2518,9 @@ h3 {
 .service-card:hover,
 .service-card:focus-within,
 .service-card[open] {
-  border-color: rgb(255 81 0 / 0.72);
+  border-color: rgb(var(--color-brand-orange-rgb) / 72%);
   background: var(--color-page);
-  box-shadow: 0 1.5rem 4.5rem rgb(99 46 20 / 0.12);
+  box-shadow: 0 1.5rem 4.5rem rgb(var(--color-brand-black-rgb) / 12%);
 }
 
 .service-card:hover::after,
@@ -2482,7 +2565,7 @@ h3 {
   inset: 5.8rem 1.5rem 1.4rem;
   display: grid;
   place-items: center;
-  color: #ff8b63;
+  color: var(--color-brand-orange-light);
   pointer-events: none;
   transition:
     inset 360ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -2579,16 +2662,6 @@ h3 {
   text-decoration: none;
 }
 
-.service-card__body a span {
-  font-size: 1.2em;
-  transition: transform 180ms ease;
-}
-
-.service-card__body a:hover span,
-.service-card__body a:focus-visible span {
-  transform: translate(0.15rem, -0.15rem);
-}
-
 .route-preview {
   width: 100%;
   height: 100%;
@@ -2655,13 +2728,13 @@ h3 {
 
 .route-preview__active-route {
   fill: none;
-  stroke: #ff5a00;
+  stroke: var(--color-brand-orange);
   stroke-width: 9;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-dasharray: 420;
   stroke-dashoffset: 420;
-  filter: drop-shadow(0 0 5px rgb(255 102 0 / 55%));
+  filter: drop-shadow(0 0 5px rgb(var(--color-brand-orange-rgb) / 55%));
   opacity: 0;
 }
 
@@ -2785,6 +2858,19 @@ h3 {
   font-weight: 700;
 }
 
+.inline-arrow-icon {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: 0 0 1.5rem;
+  transition: transform 180ms ease;
+}
+
+a:hover > .inline-arrow-icon,
+a:focus-visible > .inline-arrow-icon {
+  transform: translateX(0.15rem);
+}
+
 .loyalty-section {
   display: block;
 }
@@ -2855,7 +2941,7 @@ h3 {
   stroke: currentcolor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.75;
+  stroke-width: 1.5;
 }
 
 .loyalty-rail {
@@ -3123,19 +3209,27 @@ h3 {
   z-index: 1;
   inset: 0;
   background:
-    linear-gradient(180deg, rgb(8 14 13 / 0.34) 0%, transparent 36%),
-    linear-gradient(0deg, rgb(8 14 13 / 0.94) 0%, rgb(8 14 13 / 0.12) 72%);
+    linear-gradient(
+      180deg,
+      rgb(var(--color-brand-black-rgb) / 34%) 0%,
+      transparent 36%
+    ),
+    linear-gradient(
+      0deg,
+      rgb(var(--color-brand-black-rgb) / 94%) 0%,
+      rgb(var(--color-brand-black-rgb) / 12%) 72%
+    );
 }
 
 .news-card--1 .news-card__shade {
   background:
     linear-gradient(
       90deg,
-      rgb(8 14 13 / 0.96) 0%,
-      rgb(8 14 13 / 0.68) 48%,
+      rgb(var(--color-brand-black-rgb) / 96%) 0%,
+      rgb(var(--color-brand-black-rgb) / 68%) 48%,
       transparent 82%
     ),
-    linear-gradient(0deg, rgb(8 14 13 / 0.7) 0%, transparent 54%);
+    linear-gradient(0deg, rgb(var(--color-brand-black-rgb) / 70%) 0%, transparent 54%);
 }
 
 .news-card__content {
@@ -3169,7 +3263,7 @@ h3 {
   padding: 0.25rem 0.5rem;
   border: 1px solid rgb(255 255 255 / 42%);
   border-radius: 999px;
-  background: rgb(8 14 13 / 28%);
+  background: rgb(var(--color-brand-black-rgb) / 28%);
   font-size: 0.625rem;
   font-weight: 750;
   letter-spacing: 0.06em;
@@ -3209,10 +3303,11 @@ h3 {
   font-weight: 650;
 }
 
-.news-card__cta::after {
-  content: "↗";
-  font-size: 1rem;
-  line-height: 1;
+.news-card__cta-icon {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: 0 0 1.5rem;
   transition: transform 220ms ease;
 }
 
@@ -3222,18 +3317,21 @@ h3 {
 
 @media (prefers-reduced-motion: reduce) {
   .news-card__image,
-  .news-card__cta::after,
+  .news-card__cta-icon,
   .news-bento__all {
     transition: none;
   }
 }
 
-.news-card__link:hover .news-card__cta::after {
-  transform: translate(0.15rem, -0.15rem);
+.news-card__link:hover .news-card__cta-icon,
+.news-card__link:focus-visible .news-card__cta-icon,
+.news-bento__all:hover .news-card__cta-icon,
+.news-bento__all:focus-visible .news-card__cta-icon {
+  transform: translateX(0.15rem);
 }
 
 .news-card__link:focus-visible {
-  outline: 3px solid var(--color-focus, #f5c242);
+  outline: 3px solid var(--color-brand-orange);
   outline-offset: -5px;
 }
 
@@ -3256,14 +3354,8 @@ h3 {
     transform 220ms ease;
 }
 
-.news-bento__all::after {
-  content: "↗";
-  font-size: 1.25em;
-  line-height: 1;
-}
-
 .news-bento__all:hover {
-  background: #b83a00;
+  background: var(--color-brand-orange-hover);
 }
 
 .news-bento__all:active {
@@ -3337,7 +3429,7 @@ h3 {
   stroke: currentcolor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.75;
+  stroke-width: 1.5;
 }
 
 .important-state {
@@ -3359,9 +3451,9 @@ h3 {
   inset: 0;
   background: linear-gradient(
     90deg,
-    rgb(19 18 16 / 94%) 0%,
-    rgb(19 18 16 / 62%) 48%,
-    rgb(19 18 16 / 12%) 100%
+    rgb(var(--color-brand-black-rgb) / 94%) 0%,
+    rgb(var(--color-brand-black-rgb) / 62%) 48%,
+    rgb(var(--color-brand-black-rgb) / 12%) 100%
   );
   content: "";
 }
@@ -3396,7 +3488,7 @@ h3 {
 
 .important-state__meta {
   margin: 0;
-  color: #a8d9ff;
+  color: var(--color-brand-orange-light);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -3437,7 +3529,7 @@ h3 {
 
 .important-state__link:hover,
 .important-state__link:focus-visible {
-  color: #a8d9ff;
+  color: var(--color-brand-orange-light);
 }
 
 .media-section {
@@ -3513,7 +3605,11 @@ h3 {
   inset: auto 0 0;
   min-height: 6rem;
   padding: 2rem 1.25rem 1rem;
-  background: linear-gradient(0deg, rgb(8 14 13 / 0.88), transparent);
+  background: linear-gradient(
+    0deg,
+    rgb(var(--color-brand-black-rgb) / 88%),
+    transparent
+  );
   color: var(--color-page);
   opacity: 0;
   pointer-events: none;
@@ -3690,7 +3786,7 @@ h3 {
 
 .media-lightbox__navigation button:hover,
 .media-lightbox__navigation button:focus-visible {
-  background: rgb(18 17 15 / 88%);
+  background: rgb(var(--color-brand-black-rgb) / 88%);
 }
 
 .media-lightbox__navigation button:focus-visible,
@@ -4014,7 +4110,7 @@ h3 {
   gap: 1.25rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  box-shadow: 0 0.75rem 1.5rem rgb(18 17 15 / 4%);
+  box-shadow: 0 0.75rem 1.5rem rgb(var(--color-brand-black-rgb) / 4%);
   transition:
     border-color 160ms ease,
     box-shadow 160ms ease,
@@ -4023,7 +4119,7 @@ h3 {
 
 .subsidiary-card:hover {
   border-color: var(--color-brand-orange);
-  box-shadow: 0 1rem 2rem rgb(18 17 15 / 12%);
+  box-shadow: 0 1rem 2rem rgb(var(--color-brand-black-rgb) / 12%);
   transform: translateY(-0.2rem);
 }
 
@@ -4169,8 +4265,8 @@ h3 {
   content: "";
   background: linear-gradient(
     180deg,
-    rgb(7 14 13 / 0.12) 10%,
-    rgb(7 14 13 / 0.88) 100%
+    rgb(var(--color-brand-black-rgb) / 12%) 10%,
+    rgb(var(--color-brand-black-rgb) / 88%) 100%
   );
 }
 
@@ -4339,7 +4435,11 @@ h3 {
 
 .future-projects__shade {
   z-index: 1;
-  background: linear-gradient(180deg, rgb(10 16 14 / 30%) 0%, rgb(10 16 14 / 88%) 100%);
+  background: linear-gradient(
+    180deg,
+    rgb(var(--color-brand-black-rgb) / 30%) 0%,
+    rgb(var(--color-brand-black-rgb) / 88%) 100%
+  );
 }
 
 .future-projects__content {
@@ -4405,7 +4505,7 @@ h3 {
   padding-inline: 0.55rem;
   border: 1px solid rgb(255 255 255 / 70%);
   border-radius: 999px;
-  background: rgb(10 16 14 / 30%);
+  background: rgb(var(--color-brand-black-rgb) / 30%);
   color: inherit;
   font-size: 0.82rem;
   font-weight: 800;
@@ -4419,16 +4519,6 @@ h3 {
   font-weight: 700;
   color: inherit;
   text-decoration-color: rgb(255 255 255 / 56%);
-}
-
-.future-projects a span {
-  font-size: 1.1em;
-  transition: transform 180ms ease;
-}
-
-.future-projects a:hover span,
-.future-projects a:focus-visible span {
-  transform: translate(0.15rem, -0.15rem);
 }
 
 .site-footer {
@@ -4763,7 +4853,7 @@ h3 {
 
 .floating-button--chat:hover,
 .floating-button--chat:focus-visible {
-  background: #bd3c00;
+  background: var(--color-brand-orange-hover);
 }
 
 .floating-button__dialog-icon {
@@ -5326,7 +5416,11 @@ h3 {
   }
 
   .road-hero__scrim {
-    background: linear-gradient(0deg, rgb(18 17 15 / 88%) 0%, rgb(18 17 15 / 26%) 100%);
+    background: linear-gradient(
+      0deg,
+      rgb(var(--color-brand-black-rgb) / 88%) 0%,
+      rgb(var(--color-brand-black-rgb) / 26%) 100%
+    );
   }
 
   .road-hero__content {
@@ -5473,8 +5567,16 @@ h3 {
 
   .news-card--1 .news-card__shade {
     background:
-      linear-gradient(180deg, rgb(8 14 13 / 0.28) 0%, transparent 32%),
-      linear-gradient(0deg, rgb(8 14 13 / 0.94) 0%, rgb(8 14 13 / 0.18) 74%);
+      linear-gradient(
+        180deg,
+        rgb(var(--color-brand-black-rgb) / 28%) 0%,
+        transparent 32%
+      ),
+      linear-gradient(
+        0deg,
+        rgb(var(--color-brand-black-rgb) / 94%) 0%,
+        rgb(var(--color-brand-black-rgb) / 18%) 74%
+      );
   }
 
   .media-rail {
@@ -5812,18 +5914,18 @@ h3 {
   .road-hero[data-hero-variant="atlas"] .road-hero__scrim {
     background: linear-gradient(
       90deg,
-      rgb(240 239 237 / 98%) 0%,
-      rgb(240 239 237 / 82%) 54%,
-      rgb(240 239 237 / 45%) 100%
+      rgb(var(--color-gray-1-rgb) / 98%) 0%,
+      rgb(var(--color-gray-1-rgb) / 82%) 54%,
+      rgb(var(--color-gray-1-rgb) / 45%) 100%
     );
   }
 
   .road-hero[data-hero-variant="signal"] .road-hero__scrim {
     background: linear-gradient(
       90deg,
-      #161513 0%,
-      rgb(22 21 19 / 88%) 54%,
-      rgb(22 21 19 / 46%) 100%
+      var(--color-brand-black) 0%,
+      rgb(var(--color-brand-black-rgb) / 88%) 54%,
+      rgb(var(--color-brand-black-rgb) / 46%) 100%
     );
   }
 
@@ -5923,7 +6025,11 @@ h3 {
 /* Verified tariff statistics */
 .tariff-statistics {
   background:
-    radial-gradient(circle at 100% 0%, rgb(235 112 72 / 20%), transparent 32rem),
+    radial-gradient(
+      circle at 100% 0%,
+      rgb(var(--color-brand-orange-rgb) / 20%),
+      transparent 32rem
+    ),
     var(--color-brand-black);
 }
 
@@ -6141,8 +6247,8 @@ h3 {
 
 .tariff-chart__row:hover,
 .tariff-chart__row:focus-within {
-  border-color: rgb(235 112 72 / 72%);
-  background: rgb(235 112 72 / 10%);
+  border-color: rgb(var(--color-brand-orange-rgb) / 72%);
+  background: rgb(var(--color-brand-orange-rgb) / 10%);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -6162,7 +6268,11 @@ h3 {
 .tariff-chart__bar {
   min-width: 0.35rem;
   height: 0.625rem;
-  background: linear-gradient(90deg, #e65d39, #ffaf79);
+  background: linear-gradient(
+    90deg,
+    var(--color-brand-orange),
+    var(--color-brand-orange-light)
+  );
 }
 
 .tariff-statistics__verified {
@@ -6175,7 +6285,7 @@ h3 {
 }
 
 .tariff-table-wrap tbody tr:last-child {
-  background: rgb(235 112 72 / 12%);
+  background: rgb(var(--color-brand-orange-rgb) / 12%);
 }
 
 @media (max-width: 1100px) {
@@ -6307,8 +6417,17 @@ body textarea {
   border: 1px solid rgb(255 255 255 / 12%);
   border-radius: 1.25rem;
   background:
-    radial-gradient(circle at 100% 0%, rgb(255 116 51 / 18%), transparent 31%),
-    linear-gradient(120deg, #2d2a26 0%, #302d29 68%, #3a2921 100%);
+    radial-gradient(
+      circle at 100% 0%,
+      rgb(var(--color-brand-orange-rgb) / 18%),
+      transparent 31%
+    ),
+    linear-gradient(
+      120deg,
+      var(--color-brand-black) 0%,
+      color-mix(in srgb, var(--color-brand-black) 96%, var(--color-gray-7)) 68%,
+      color-mix(in srgb, var(--color-brand-black) 90%, var(--color-brand-orange)) 100%
+    );
   color: #fff;
   font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
 }
@@ -6470,7 +6589,7 @@ body textarea {
 
 .statistics-bars__trigger:hover,
 .statistics-bars__trigger:focus-visible {
-  border-color: rgb(255 151 102 / 80%);
+  border-color: rgb(var(--color-brand-orange-rgb) / 80%);
   background: rgb(255 255 255 / 8%);
 }
 
@@ -6500,7 +6619,11 @@ body textarea {
   width: max(0.4rem, var(--statistics-bar-width));
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, #ff7433, #ffa880);
+  background: linear-gradient(
+    90deg,
+    var(--color-brand-orange),
+    var(--color-brand-orange-light)
+  );
 }
 
 .statistics-tooltip {
@@ -6512,7 +6635,7 @@ body textarea {
   padding: 0.5rem 0.625rem;
   border: 1px solid rgb(255 255 255 / 20%);
   border-radius: 0.5rem;
-  background: #171513;
+  background: var(--color-brand-black);
   color: #fff;
   box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 28%);
   opacity: 0;
@@ -6741,9 +6864,9 @@ body textarea {
 .loyalty-card:focus-within .loyalty-card__tilt {
   background: linear-gradient(
     135deg,
-    #ff6500 0%,
+    var(--color-brand-orange) 0%,
     var(--color-brand-orange) 42%,
-    #a92d00 100%
+    var(--color-brand-orange-hover) 100%
   );
   color: var(--color-page);
 }
@@ -6774,11 +6897,18 @@ body textarea {
   box-shadow: 0 1.25rem 3rem rgb(45 42 38 / 10%);
 }
 
+/* Important stories keep the cursor glare, but the full-width card stays flat. */
+.important-state.cursor-tilt-card {
+  transform: none;
+  transform-style: flat;
+  will-change: auto;
+}
+
 .loyalty-card .loyalty-card__tilt.cursor-tilt-card[data-cursor-tilt="active"],
 .loyalty-card .loyalty-card__tilt.cursor-tilt-card:is(:hover, :focus-within) {
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 28%),
-    inset 0 -1.75rem 3rem rgb(88 22 0 / 22%);
+    inset 0 -1.75rem 3rem rgb(var(--color-brand-black-rgb) / 22%);
 }
 
 .news-bento__all.cursor-tilt-card:active {

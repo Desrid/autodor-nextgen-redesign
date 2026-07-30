@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { ArrowIcon } from "@/app/components/ArrowIcon";
 import { NEWS } from "@/app/data/home-content";
 
 const ALL_NEWS_URL = "https://www.russianhighways.ru/press/news/";
@@ -45,6 +46,7 @@ export function NewsGrid() {
                 <h3>{item.title}</h3>
                 <span className="news-card__cta" aria-hidden="true">
                   Читать новость
+                  <ArrowIcon className="news-card__cta-icon" direction="right" />
                 </span>
               </div>
             </div>
@@ -53,6 +55,7 @@ export function NewsGrid() {
       ))}
       <a className="news-bento__all" href={ALL_NEWS_URL}>
         <span>Все новости</span>
+        <ArrowIcon className="news-card__cta-icon" direction="right" />
         <span className="visually-hidden">на официальном сайте Автодора</span>
       </a>
     </div>

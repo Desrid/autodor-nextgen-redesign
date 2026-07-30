@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
 import Image from "next/image";
+import { ArrowIcon } from "@/app/components/ArrowIcon";
 import { LOYALTY_PROGRAMS } from "@/app/data/loyalty";
 
 export type LoyaltyRailState = "ready" | "loading" | "empty" | "error";
@@ -12,14 +13,6 @@ type LoyaltyRailProps = Readonly<{
   state?: LoyaltyRailState;
   onRetry?: () => void;
 }>;
-
-function ArrowIcon({ direction }: Readonly<{ direction: "previous" | "next" }>) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d={direction === "previous" ? "m15 5-7 7 7 7" : "m9 5 7 7-7 7"} />
-    </svg>
-  );
-}
 
 export default function LoyaltyRail({ state = "ready", onRetry }: LoyaltyRailProps) {
   const railRef = useRef<HTMLDivElement>(null);
@@ -138,7 +131,7 @@ export default function LoyaltyRail({ state = "ready", onRetry }: LoyaltyRailPro
           disabled={!canScrollPrevious}
           aria-label="Предыдущие программы"
         >
-          <ArrowIcon direction="previous" />
+          <ArrowIcon direction="left" />
         </button>
         <button
           type="button"
@@ -146,7 +139,7 @@ export default function LoyaltyRail({ state = "ready", onRetry }: LoyaltyRailPro
           disabled={!canScrollNext}
           aria-label="Следующие программы"
         >
-          <ArrowIcon direction="next" />
+          <ArrowIcon direction="right" />
         </button>
       </div>
 

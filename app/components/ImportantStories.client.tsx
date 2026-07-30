@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { useState } from "react";
 
+import { ArrowIcon } from "@/app/components/ArrowIcon";
+
 const IMPORTANT_STORIES = [
   {
     id: "transport-complex",
@@ -37,14 +39,6 @@ const IMPORTANT_STORIES = [
   },
 ] as const;
 
-function ArrowIcon({ direction }: Readonly<{ direction: "previous" | "next" }>) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d={direction === "previous" ? "m15 5-7 7 7 7" : "m9 5 7 7-7 7"} />
-    </svg>
-  );
-}
-
 export default function ImportantStories() {
   const [activeIndex, setActiveIndex] = useState(0);
   const story = IMPORTANT_STORIES[activeIndex]!;
@@ -68,10 +62,10 @@ export default function ImportantStories() {
           onClick={() => showStory(-1)}
           aria-label="Предыдущая тема"
         >
-          <ArrowIcon direction="previous" />
+          <ArrowIcon direction="left" />
         </button>
         <button type="button" onClick={() => showStory(1)} aria-label="Следующая тема">
-          <ArrowIcon direction="next" />
+          <ArrowIcon direction="right" />
         </button>
       </div>
 
@@ -100,7 +94,7 @@ export default function ImportantStories() {
             rel="noopener noreferrer"
           >
             Открыть источник
-            <span aria-hidden="true">↗</span>
+            <ArrowIcon className="inline-arrow-icon" direction="right" />
             <span className="visually-hidden"> (откроется в новой вкладке)</span>
           </a>
         </div>

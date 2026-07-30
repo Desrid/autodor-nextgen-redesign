@@ -1,5 +1,6 @@
 import { ContactsTabs } from "@/app/components/ContactsTabs.client";
 import { CardTiltController } from "@/app/components/CardTiltController.client";
+import { ArrowIcon } from "@/app/components/ArrowIcon";
 import { FloatingUtilities } from "@/app/components/FloatingUtilities.client";
 import { HeaderNav } from "@/app/components/HeaderNav.client";
 import ImportantStories from "@/app/components/ImportantStories.client";
@@ -368,7 +369,7 @@ export default function HomePage() {
                   aria-label={`${item.linkLabel}: ${item.company} (откроется в новой вкладке)`}
                 >
                   {item.linkLabel}
-                  <span aria-hidden="true">↗</span>
+                  <ArrowIcon className="inline-arrow-icon" direction="right" />
                 </a>
               </article>
             ))}
@@ -406,7 +407,7 @@ export default function HomePage() {
                     aria-label={`${item.linkLabel}: ${item.title} (откроется в новой вкладке)`}
                   >
                     {item.linkLabel}
-                    <span aria-hidden="true">↗</span>
+                    <ArrowIcon className="inline-arrow-icon" direction="right" />
                     <span className="visually-hidden">
                       {" "}
                       (откроется в новой вкладке)
@@ -475,7 +476,7 @@ export default function HomePage() {
                           aria-label={`Открыть: ${project.factSource.label}`}
                         >
                           Официальный источник, стр. 36
-                          <span aria-hidden="true">↗</span>
+                          <ArrowIcon className="inline-arrow-icon" direction="right" />
                         </a>
                       </>
                     ) : (
