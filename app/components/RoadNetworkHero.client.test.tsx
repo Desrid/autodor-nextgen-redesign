@@ -29,9 +29,15 @@ describe("RoadNetworkHero", () => {
     const helpId = tabList.getAttribute("aria-describedby");
 
     expect(helpId).toBeTruthy();
-    expect(document.getElementById(helpId ?? "")).toHaveTextContent("клавиши со стрелками");
-    expect(screen.queryByRole("button", { name: "Предыдущая дорога" })).not.toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "Следующая дорога" })).not.toBeInTheDocument();
+    expect(document.getElementById(helpId ?? "")).toHaveTextContent(
+      "клавиши со стрелками",
+    );
+    expect(
+      screen.queryByRole("button", { name: "Предыдущая дорога" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Следующая дорога" }),
+    ).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Подробнее о дороге" })).toHaveClass(
       "hero-detail-link",
     );

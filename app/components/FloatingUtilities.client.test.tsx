@@ -15,7 +15,9 @@ describe("FloatingUtilities", () => {
       "0 0 32 32",
     );
     expect(screen.getByTestId("back-to-top")).toHaveAttribute("hidden");
-    expect(container.querySelectorAll(".faq-list details")).toHaveLength(SUPPORT_FAQ.length);
+    expect(container.querySelectorAll(".faq-list details")).toHaveLength(
+      SUPPORT_FAQ.length,
+    );
     expect(screen.getByTestId("chat-dialog")).toHaveAttribute(
       "aria-describedby",
       "chat-intro",

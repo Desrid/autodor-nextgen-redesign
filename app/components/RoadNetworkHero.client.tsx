@@ -450,7 +450,6 @@ export function RoadNetworkHero({
               <HeroArrowIcon direction="right" />
             </a>
           </div>
-
         </div>
 
         <div className="road-hero__notch">

@@ -2,16 +2,14 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "autodor-nextgen-redesign",
   "compatibility_date": "2026-07-20",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
+  "compatibility_flags": ["nodejs_compat"],
   "main": "vinext/server/fetch-handler",
   "assets": {
     "directory": "dist/client",
     "not_found_handling": "none",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
   },
   "cache": {
-    "enabled": true
-  }
+    "enabled": true,
+  },
 }

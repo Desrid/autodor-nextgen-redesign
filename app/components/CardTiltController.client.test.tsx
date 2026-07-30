@@ -13,10 +13,8 @@ describe("CardTiltController", () => {
         </article>
       </>,
     );
-    const card =
-      container.querySelector<HTMLElement>(".loyalty-card__tilt");
-    const layoutSlot =
-      container.querySelector<HTMLElement>(".loyalty-card");
+    const card = container.querySelector<HTMLElement>(".loyalty-card__tilt");
+    const layoutSlot = container.querySelector<HTMLElement>(".loyalty-card");
 
     expect(card).not.toBeNull();
     await waitFor(() => expect(card).toHaveClass("cursor-tilt-card"));
@@ -41,18 +39,10 @@ describe("CardTiltController", () => {
       pointerType: "mouse",
     });
 
-    expect(card!.style.getPropertyValue("--cursor-card-rotate-x")).toBe(
-      "5.00deg",
-    );
-    expect(card!.style.getPropertyValue("--cursor-card-rotate-y")).toBe(
-      "6.00deg",
-    );
-    expect(card!.style.getPropertyValue("--cursor-card-pointer-x")).toBe(
-      "100.0%",
-    );
-    expect(card!.style.getPropertyValue("--cursor-card-pointer-y")).toBe(
-      "0.0%",
-    );
+    expect(card!.style.getPropertyValue("--cursor-card-rotate-x")).toBe("5.00deg");
+    expect(card!.style.getPropertyValue("--cursor-card-rotate-y")).toBe("6.00deg");
+    expect(card!.style.getPropertyValue("--cursor-card-pointer-x")).toBe("100.0%");
+    expect(card!.style.getPropertyValue("--cursor-card-pointer-y")).toBe("0.0%");
     expect(card).toHaveAttribute("data-cursor-tilt", "active");
 
     fireEvent.pointerOut(card!, {
@@ -73,12 +63,9 @@ describe("CardTiltController", () => {
         </details>
       </>,
     );
-    const serviceCard =
-      container.querySelector<HTMLElement>(".service-card");
+    const serviceCard = container.querySelector<HTMLElement>(".service-card");
 
-    await waitFor(() =>
-      expect(serviceCard).not.toHaveClass("cursor-tilt-card"),
-    );
+    await waitFor(() => expect(serviceCard).not.toHaveClass("cursor-tilt-card"));
   });
 
   it("keeps contact panels free from the shared hover treatment", async () => {
@@ -89,8 +76,7 @@ describe("CardTiltController", () => {
         <article className="social-card">Социальная карточка</article>
       </>,
     );
-    const contactPanel =
-      container.querySelector<HTMLElement>(".contact-panel");
+    const contactPanel = container.querySelector<HTMLElement>(".contact-panel");
     const socialCard = container.querySelector<HTMLElement>(".social-card");
 
     await waitFor(() => expect(socialCard).toHaveClass("cursor-tilt-card"));

@@ -182,9 +182,7 @@ export default function LoyaltyRail({ state = "ready", onRetry }: LoyaltyRailPro
               <div className="loyalty-card__content">
                 <p className="loyalty-card__meta">{program.meta}</p>
                 <h3>{program.title}</h3>
-                <p className="loyalty-card__description">
-                  {program.description}
-                </p>
+                <p className="loyalty-card__description">{program.description}</p>
                 <a href={program.href}>{program.linkLabel}</a>
               </div>
             </div>

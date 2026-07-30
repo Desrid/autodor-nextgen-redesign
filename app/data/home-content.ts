@@ -31,7 +31,8 @@ export const SERVICES = [
     title: "Калькулятор маршрута",
     description: "Расчёт маршрута и стоимости поездки по платным участкам.",
     href: "https://russianhighways.ru/for_drivers/calculation/",
-    actionLabel: "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0441\u0435\u0440\u0432\u0438\u0441",
+    actionLabel:
+      "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0441\u0435\u0440\u0432\u0438\u0441",
   },
   {
     id: "mobile-app",
@@ -39,7 +40,8 @@ export const SERVICES = [
     title: "Мобильное приложение",
     description: "Дорожные сервисы оператора доступны на официальном портале T-pass.",
     href: "https://tpass.me/",
-    actionLabel: "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043d\u0430 \u043f\u043e\u0440\u0442\u0430\u043b T-pass",
+    actionLabel:
+      "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043d\u0430 \u043f\u043e\u0440\u0442\u0430\u043b T-pass",
   },
   {
     id: "max",
@@ -47,7 +49,8 @@ export const SERVICES = [
     title: "MAX",
     description: "Официальный канал Государственной компании в MAX.",
     href: "https://max.ru/avtodorgk",
-    actionLabel: "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043a\u0430\u043d\u0430\u043b \u0432 MAX",
+    actionLabel:
+      "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043a\u0430\u043d\u0430\u043b \u0432 MAX",
   },
   {
     id: "legal-account",
@@ -55,7 +58,8 @@ export const SERVICES = [
     title: "Личный кабинет юридических лиц",
     description: "Вход в кабинет для управления услугами и документами организации.",
     href: "https://avtodor-tr.ru/account/",
-    actionLabel: "\u0412\u043e\u0439\u0442\u0438 \u0432 \u043b\u0438\u0447\u043d\u044b\u0439 \u043a\u0430\u0431\u0438\u043d\u0435\u0442",
+    actionLabel:
+      "\u0412\u043e\u0439\u0442\u0438 \u0432 \u043b\u0438\u0447\u043d\u044b\u0439 \u043a\u0430\u0431\u0438\u043d\u0435\u0442",
   },
   {
     id: "online-store",
@@ -63,7 +67,8 @@ export const SERVICES = [
     title: "Интернет-магазин",
     description: "Устройства и услуги для проезда по платным дорогам.",
     href: "https://tpass.me/",
-    actionLabel: "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u0432 \u0438\u043d\u0442\u0435\u0440\u043d\u0435\u0442-\u043c\u0430\u0433\u0430\u0437\u0438\u043d",
+    actionLabel:
+      "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u0432 \u0438\u043d\u0442\u0435\u0440\u043d\u0435\u0442-\u043c\u0430\u0433\u0430\u0437\u0438\u043d",
   },
   {
     id: "plate-payment",
@@ -72,7 +77,8 @@ export const SERVICES = [
     description:
       "Проверка начисления и оплата проезда без транспондера по государственному номеру автомобиля.",
     href: "https://russianhighways.ru/for_drivers/",
-    actionLabel: "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043e\u043f\u043b\u0430\u0442\u0435 \u043f\u0440\u043e\u0435\u0437\u0434\u0430",
+    actionLabel:
+      "\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u043e\u043f\u043b\u0430\u0442\u0435 \u043f\u0440\u043e\u0435\u0437\u0434\u0430",
   },
 ] as const;
 
@@ -376,10 +382,12 @@ export const SUPPORT_FAQ: readonly SupportFaq[] = [
   },
   {
     question: "Что делать при поломке?",
-    answer: "Позвоните по короткому номеру *2323. Помощь на платной дороге оказывается безвозмездно.",
+    answer:
+      "Позвоните по короткому номеру *2323. Помощь на платной дороге оказывается безвозмездно.",
   },
   {
     question: "Как связаться с компанией?",
-    answer: "Общий телефон: +7 (495) 727-11-95. Ситуационный центр: +7 (495) 580-98-41.",
+    answer:
+      "Общий телефон: +7 (495) 727-11-95. Ситуационный центр: +7 (495) 580-98-41.",
   },
 ] as const;

@@ -6,5 +6,6 @@ test-results/
 .artifacts/
 .tools/
 .lazyweb/
+pnpm-lock.yaml
 docs/research/screenshots/
 docs/qa/lighthouse/*.json

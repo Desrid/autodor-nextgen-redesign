@@ -59,16 +59,11 @@ export function CardTiltController() {
     }
 
     function registerCards(root: ParentNode) {
-      if (
-        root instanceof HTMLElement &&
-        root.matches(CARD_TILT_SELECTOR)
-      ) {
+      if (root instanceof HTMLElement && root.matches(CARD_TILT_SELECTOR)) {
         registerCard(root);
       }
 
-      root
-        .querySelectorAll<HTMLElement>(CARD_TILT_SELECTOR)
-        .forEach(registerCard);
+      root.querySelectorAll<HTMLElement>(CARD_TILT_SELECTOR).forEach(registerCard);
     }
 
     function handlePointerMove(event: PointerEvent) {
@@ -125,10 +120,7 @@ export function CardTiltController() {
         return;
       }
 
-      if (
-        event.relatedTarget instanceof Node &&
-        card.contains(event.relatedTarget)
-      ) {
+      if (event.relatedTarget instanceof Node && card.contains(event.relatedTarget)) {
         return;
       }
 
