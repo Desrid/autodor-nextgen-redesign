@@ -110,7 +110,7 @@ export function FloatingUtilities() {
           ))}
         </div>
         <a className="primary-button" href="https://www.russianhighways.ru/feedback/">
-          Перейти к форме обращения
+          Перейти в чат
         </a>
       </dialog>
     </>

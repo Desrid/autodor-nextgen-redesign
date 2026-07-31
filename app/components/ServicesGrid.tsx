@@ -11,6 +11,10 @@ import styles from "./ServicesGrid.module.css";
 
 const ROW_SIZE = 3;
 
+// Official T-pass mark from tpass.me, converted from its published alpha silhouette.
+const TPASS_LOGO_PATH =
+  "M9 0h27v1h-27ZM8 1h29v1h-29ZM7 2h30v1h-30ZM53 2h2v1h-2ZM67 2h3v1h-3ZM81 2h3v1h-3ZM95 2h3v1h-3ZM7 3h30v1h-30ZM47 3h10v1h-10ZM64 3h8v1h-8ZM79 3h7v1h-7ZM92 3h8v1h-8ZM7 4h30v1h-30ZM47 4h11v1h-11ZM63 4h10v1h-10ZM78 4h9v1h-9ZM91 4h10v1h-10ZM7 5h29v1h-29ZM47 5h5v1h-5ZM54 5h4v1h-4ZM63 5h3v1h-3ZM70 5h3v1h-3ZM77 5h4v1h-4ZM84 5h3v1h-3ZM91 5h3v1h-3ZM98 5h3v1h-3ZM7 6h29v1h-29ZM47 6h4v1h-4ZM55 6h4v1h-4ZM63 6h2v1h-2ZM70 6h3v1h-3ZM77 6h4v1h-4ZM86 6h1v1h-1ZM91 6h4v1h-4ZM99 6h1v1h-1ZM6 7h30v1h-30ZM47 7h3v1h-3ZM55 7h4v1h-4ZM68 7h5v1h-5ZM77 7h7v1h-7ZM91 7h6v1h-6ZM6 8h18v1h-18ZM31 8h5v1h-5ZM46 8h4v1h-4ZM55 8h4v1h-4ZM63 8h10v1h-10ZM78 8h8v1h-8ZM92 8h7v1h-7ZM6 9h7v1h-7ZM31 9h4v1h-4ZM46 9h4v1h-4ZM55 9h4v1h-4ZM62 9h6v1h-6ZM69 9h4v1h-4ZM80 9h7v1h-7ZM94 9h6v1h-6ZM6 10h4v1h-4ZM31 10h4v1h-4ZM46 10h4v1h-4ZM55 10h3v1h-3ZM61 10h4v1h-4ZM69 10h4v1h-4ZM83 10h4v1h-4ZM96 10h4v1h-4ZM5 11h5v1h-5ZM31 11h4v1h-4ZM46 11h4v1h-4ZM54 11h4v1h-4ZM61 11h4v1h-4ZM69 11h3v1h-3ZM76 11h3v1h-3ZM83 11h4v1h-4ZM90 11h3v1h-3ZM97 11h3v1h-3ZM5 12h5v1h-5ZM30 12h5v1h-5ZM46 12h11v1h-11ZM61 12h4v1h-4ZM68 12h4v1h-4ZM76 12h4v1h-4ZM82 12h4v1h-4ZM90 12h4v1h-4ZM96 12h4v1h-4ZM5 13h4v1h-4ZM18 13h17v1h-17ZM45 13h11v1h-11ZM61 13h11v1h-11ZM77 13h9v1h-9ZM90 13h9v1h-9ZM5 14h5v1h-5ZM11 14h23v1h-23ZM45 14h4v1h-4ZM50 14h5v1h-5ZM63 14h4v1h-4ZM69 14h3v1h-3ZM78 14h6v1h-6ZM92 14h6v1h-6ZM5 15h11v1h-11ZM23 15h11v1h-11ZM45 15h3v1h-3ZM4 16h12v1h-12ZM23 16h11v1h-11ZM45 16h3v1h-3ZM4 17h12v1h-12ZM23 17h11v1h-11ZM44 17h4v1h-4ZM4 18h12v1h-12ZM22 18h11v1h-11ZM44 18h4v1h-4ZM4 19h11v1h-11ZM22 19h11v1h-11ZM4 20h11v1h-11ZM22 20h15v1h-15ZM3 21h12v1h-12ZM22 21h7v1h-7ZM33 21h4v1h-4ZM3 22h12v1h-12ZM21 22h8v1h-8ZM32 22h5v1h-5ZM3 23h11v1h-11ZM21 23h7v1h-7ZM32 23h5v1h-5ZM3 24h11v1h-11ZM21 24h7v1h-7ZM32 24h5v1h-5ZM2 25h12v1h-12ZM21 25h11v1h-11ZM2 26h12v1h-12ZM21 26h11v1h-11ZM2 27h12v1h-12ZM20 27h12v1h-12ZM2 28h11v1h-11ZM20 28h11v1h-11ZM2 29h11v1h-11ZM16 29h1v1h-1ZM20 29h11v1h-11ZM1 30h12v1h-12ZM14 30h4v1h-4ZM20 30h11v1h-11ZM83 30h2v1h-2ZM1 31h30v1h-30ZM84 31h2v1h-2ZM1 32h30v1h-30ZM43 32h1v1h-1ZM46 32h1v1h-1ZM50 32h2v1h-2ZM54 32h2v1h-2ZM64 32h1v1h-1ZM68 32h3v1h-3ZM73 32h2v1h-2ZM83 32h3v1h-3ZM88 32h1v1h-1ZM93 32h1v1h-1ZM1 33h12v1h-12ZM18 33h12v1h-12ZM41 33h12v1h-12ZM54 33h3v1h-3ZM58 33h1v1h-1ZM61 33h1v1h-1ZM63 33h3v1h-3ZM67 33h9v1h-9ZM77 33h1v1h-1ZM80 33h1v1h-1ZM82 33h8v1h-8ZM91 33h4v1h-4ZM1 34h10v1h-10ZM19 34h11v1h-11ZM41 34h1v1h-1ZM44 34h1v1h-1ZM46 34h4v1h-4ZM51 34h2v1h-2ZM54 34h10v1h-10ZM67 34h1v1h-1ZM70 34h3v1h-3ZM75 34h8v1h-8ZM85 34h3v1h-3ZM89 34h3v1h-3ZM94 34h2v1h-2ZM0 35h10v1h-10ZM14 35h2v1h-2ZM20 35h10v1h-10ZM41 35h1v1h-1ZM43 35h2v1h-2ZM46 35h4v1h-4ZM51 35h3v1h-3ZM55 35h4v1h-4ZM60 35h4v1h-4ZM66 35h2v1h-2ZM69 35h4v1h-4ZM75 35h3v1h-3ZM79 35h4v1h-4ZM84 35h4v1h-4ZM89 35h3v1h-3ZM94 35h1v1h-1ZM0 36h8v1h-8ZM14 36h1v1h-1ZM22 36h8v1h-8ZM40 36h2v1h-2ZM43 36h2v1h-2ZM46 36h13v1h-13ZM60 36h1v1h-1ZM62 36h6v1h-6ZM69 36h2v1h-2ZM72 36h6v1h-6ZM79 36h2v1h-2ZM82 36h3v1h-3ZM86 36h9v1h-9ZM0 37h11v1h-11ZM18 37h11v1h-11ZM47 37h2v1h-2ZM50 37h1v1h-1ZM54 37h1v1h-1ZM63 37h2v1h-2ZM73 37h1v1h-1ZM83 37h1v1h-1ZM88 37h1v1h-1ZM90 37h2v1h-2ZM93 37h1v1h-1ZM0 38h11v1h-11ZM14 38h1v1h-1ZM18 38h11v1h-11ZM47 38h2v1h-2ZM90 38h2v1h-2ZM1 39h10v1h-10ZM13 39h2v1h-2ZM17 39h11v1h-11Z";
+
 export const SERVICES_CARD_HARNESS_CONTRACT = {
   id: "services-card-system-v1",
   sourceNodeId: "1767:7168",
@@ -40,7 +44,7 @@ export const SERVICES_CARD_HARNESS_CONTRACT = {
     "route-calculator": "route-draw-to-target",
     "mobile-app": "phone-route-and-notifications",
     max: "communication-orbit",
-    "legal-account": "document-scan-and-approval",
+    "legal-account": "document-sign-and-approval",
     "online-store": "package-fulfilment",
     "plate-payment": "license-scan-and-recognition",
   },
@@ -364,19 +368,15 @@ function RouteArtwork() {
 }
 
 function MobileAppArtwork() {
+  const homeIcons = Array.from({ length: 24 }, (_, index) => ({
+    column: index % 4,
+    index,
+    row: Math.floor(index / 4),
+  }));
+
   return (
     <svg className={styles.phoneScene} viewBox="0 0 380 240" aria-hidden="true">
       <defs>
-        <linearGradient id="phone-frame-gradient" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="var(--color-page)" />
-          <stop offset="0.56" stopColor="var(--color-surface-subtle)" />
-          <stop offset="1" stopColor="var(--color-gray-3)" />
-        </linearGradient>
-        <linearGradient id="phone-screen-gradient" x1="0" y1="0" x2="0.9" y2="1">
-          <stop offset="0" stopColor="var(--color-page)" />
-          <stop offset="0.52" stopColor="var(--color-brand-orange-faint)" />
-          <stop offset="1" stopColor="var(--color-surface-subtle)" />
-        </linearGradient>
         <linearGradient id="phone-route-gradient" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="var(--color-brand-orange-light)" />
           <stop offset="0.52" stopColor="var(--color-brand-orange)" />
@@ -386,196 +386,284 @@ function MobileAppArtwork() {
           <stop offset="0" stopColor="var(--color-brand-orange)" stopOpacity="0.34" />
           <stop offset="1" stopColor="var(--color-brand-orange)" stopOpacity="0" />
         </radialGradient>
+        <radialGradient id="phone-map-fade" cx="0" cy="1" r="1.08">
+          <stop offset="0" stopColor="#fff" />
+          <stop offset="0.39" stopColor="#fff" stopOpacity="0.98" />
+          <stop offset="0.58" stopColor="#fff" stopOpacity="0.8" />
+          <stop offset="0.86" stopColor="#fff" stopOpacity="0" />
+        </radialGradient>
+        <pattern
+          id="phone-service-map-grid"
+          width="20"
+          height="20"
+          patternUnits="userSpaceOnUse"
+        >
+          <path className={styles.phoneMapGridPath} d="M20 0H0V20" />
+        </pattern>
         <clipPath id="phone-screen-clip">
-          <rect x="80" y="21" width="122" height="190" rx="23" />
+          <rect x="140" y="8" width="100" height="218" rx="20" />
         </clipPath>
         <filter id="phone-soft-shadow" x="-40%" y="-40%" width="180%" height="200%">
           <feDropShadow
             dx="0"
-            dy="7"
-            stdDeviation="7"
+            dy="6"
+            stdDeviation="6"
             floodColor="var(--color-brand-black)"
-            floodOpacity="0.15"
+            floodOpacity="0.13"
           />
         </filter>
       </defs>
 
-      <path
-        className={styles.phoneOrbit}
-        d="M69 174C18 136 53 62 134 47C233 28 356 47 357 120C359 188 291 216 205 210"
-      />
-      <g className={styles.phoneOrbitNodes}>
-        <circle cx="62" cy="166" r="4" />
-        <circle cx="280" cy="45" r="3.5" />
-        <circle cx="356" cy="120" r="4" />
-        <circle cx="285" cy="210" r="3.5" />
-      </g>
-
       <g className={styles.phoneShadow}>
-        <ellipse cx="145" cy="224" rx="79" ry="10" />
+        <ellipse cx="190" cy="229" rx="57" ry="7" />
       </g>
 
       <g className={styles.phoneShell}>
-        <g className={styles.phoneDevice} transform="rotate(3 141 119)">
+        <g className={styles.phoneDevice}>
           <rect
             className={styles.phoneFrameBack}
-            x="71"
-            y="10"
-            width="138"
-            height="215"
-            rx="31"
+            x="139"
+            y="7"
+            width="108"
+            height="226"
+            rx="21.5"
           />
           <rect
             className={styles.phoneFrame}
-            x="68"
-            y="7"
-            width="138"
-            height="215"
-            rx="31"
-            fill="url(#phone-frame-gradient)"
+            x="136"
+            y="4"
+            width="108"
+            height="226"
+            rx="21.5"
+            fill="#fff"
           />
           <rect
             className={styles.phoneScreen}
-            x="80"
-            y="21"
-            width="122"
-            height="190"
-            rx="23"
-            fill="url(#phone-screen-gradient)"
+            x="140"
+            y="8"
+            width="100"
+            height="218"
+            rx="20"
+            fill="#fff"
           />
-          <rect
-            className={styles.phoneIsland}
-            x="119"
-            y="27"
-            width="44"
-            height="9"
-            rx="4.5"
-          />
-
           <g clipPath="url(#phone-screen-clip)">
-            <g className={styles.phoneMap}>
-              <path d="M57 68C97 71 117 62 153 48S207 38 226 45" />
-              <path d="M65 108C105 91 134 103 169 88S210 63 225 68" />
-              <path d="M68 144C102 137 125 149 158 132S208 112 225 119" />
-              <path d="M97 21C91 58 102 81 93 112S77 168 83 213" />
-              <path d="M146 21C143 52 150 78 143 104S128 158 135 212" />
-              <path d="M188 21C180 57 190 89 179 123S166 174 171 212" />
-            </g>
-            <path
-              className={styles.phoneRouteGlow}
-              d="M111 130C119 113 149 126 157 106S138 87 164 75S147 64 160 54"
-            />
-            <path
-              className={styles.phoneRoute}
-              d="M111 130C119 113 149 126 157 106S138 87 164 75S147 64 160 54"
-              stroke="url(#phone-route-gradient)"
-            />
+            <g className={styles.phoneHomeScreen} data-phone-home-screen>
+              <g className={styles.phoneAppGrid} data-phone-app-grid>
+                {homeIcons.map(({ column, index, row }) => {
+                  const x = 142 + column * 26;
+                  const y = 50 + row * 26;
+                  const isAutodor = index === 5;
 
-            <g className={styles.phoneNavigator}>
-              <circle cx="111" cy="130" r="12" />
-              <path d="m106 132 3-8 8 3-5 2-1 5-2-4-3 2Z" />
-            </g>
-
-            <g className={styles.phonePin}>
-              <circle className={styles.phonePinAura} cx="160" cy="54" r="28" />
-              <circle className={styles.phonePinPulse} cx="160" cy="54" r="13" />
-              <path d="M160 38c-10 0-17 7-17 16 0 13 17 28 17 28s17-15 17-28c0-9-7-16-17-16Z" />
-              <circle cx="160" cy="54" r="5" />
-            </g>
-
-            <g className={styles.phoneTopBar}>
-              <path d="M91 43h13M91 47h10M91 51h8" />
-              <path d="M184 45c0-4 5-4 5 0v4l2 3h-9l2-3v-4Z" />
-            </g>
-
-            <g className={styles.phoneDockPanel}>
-              <rect x="87" y="145" width="108" height="48" rx="14" />
-              <path className={styles.phoneDockLabel} d="M99 154h28M99 160h40" />
-              <path className={styles.phoneDockAmount} d="M157 153h23M157 160h16" />
-
-              <g className={`${styles.phoneTile} ${styles.phoneTileRoad}`}>
-                <rect x="95" y="170" width="20" height="20" rx="6" />
-                <path d="M102 186h7M104 173l-2 13M108 173l2 13M103 180h6" />
-              </g>
-              <g className={`${styles.phoneTile} ${styles.phoneTileCar}`}>
-                <rect x="120" y="170" width="20" height="20" rx="6" />
-                <path d="m124 181 2-5h8l2 5M124 181h12v5h-12v-5ZM126 186v2M134 186v2" />
-              </g>
-              <g className={`${styles.phoneTile} ${styles.phoneTileShield}`}>
-                <rect x="145" y="170" width="20" height="20" rx="6" />
-                <path d="M155 174 160 176v4c0 4-2 6-5 8-3-2-5-4-5-8v-4l5-2Z" />
-              </g>
-              <g className={`${styles.phoneTile} ${styles.phoneTileParking}`}>
-                <rect x="170" y="170" width="20" height="20" rx="6" />
-                <path d="M177 187v-13h5a4 4 0 0 1 0 8h-5M178 176h4a2 2 0 0 1 0 4h-4" />
+                  return (
+                    <g
+                      className={
+                        isAutodor
+                          ? `${styles.phoneHomeIcon} ${styles.phoneAutodorIcon}`
+                          : styles.phoneHomeIcon
+                      }
+                      data-phone-autodor-icon={isAutodor ? "true" : undefined}
+                      key={index}
+                    >
+                      <rect x={x} y={y} width="19" height="19" rx="4.4" />
+                      {isAutodor ? (
+                        <g
+                          className={styles.phoneAutodorGlyph}
+                          transform={`translate(${x + 1.7} ${y + 4.5}) scale(0.158)`}
+                        >
+                          <path d="M92.302 28.26C80.908 32.197 71.901 43.043 69.768 56.593C69.695 57.056 70.065 57.478 70.536 57.478H79.658C82.789 57.478 85.518 55.356 86.276 52.331L92.302 28.26Z" />
+                          <path d="M35.8911 56.4C35.6721 56.905 36.0521 57.477 36.6041 57.477H55.4871C56.0521 57.477 56.5411 57.105 56.7021 56.567C61.4861 40.595 73.7281 27.806 92.4901 23.994C93.0521 23.88 93.5031 23.462 93.6421 22.909L94.7181 18.63C70.6351 19.779 46.6191 31.663 35.8911 56.4Z" />
+                          <path d="M98.4387 3.694L99.3807 0H18.9957C15.4697 0 12.3977 2.393 11.5497 5.799L8.11767 19.582C7.88067 20.534 8.83767 21.33 9.73867 20.934C33.6137 10.451 64.1077 4.947 96.9877 4.818C97.6717 4.815 98.2697 4.355 98.4387 3.694Z" />
+                          <path d="M3.12361 39.438L0.145604 51.426C-0.618396 54.503 1.72061 57.477 4.90461 57.477H19.0996C19.7496 57.477 20.3346 57.105 20.6196 56.525C32.6106 32.126 57.4086 16.033 94.7076 14.332C95.3666 14.303 95.9326 13.849 96.0896 13.213L97.0766 9.20898C57.5126 9.63398 28.2876 19.099 4.83761 36.825C3.98261 37.472 3.3806 38.399 3.12361 39.438Z" />
+                        </g>
+                      ) : null}
+                    </g>
+                  );
+                })}
               </g>
             </g>
 
-            <g className={styles.phoneBottomNav}>
-              <path d="m101 203 5-5 5 5v5h-10v-5Z" />
-              <circle cx="133" cy="203" r="5" />
-              <path d="M130 203h6M133 200v6" />
-              <path d="M158 198h10v10h-10Z" />
-              <circle cx="188" cy="203" r="5" />
+            <g className={styles.phoneAppScreen} data-phone-service-screen>
+              <svg
+                className={styles.phoneMapReplica}
+                x="140"
+                y="8"
+                width="100"
+                height="218"
+                viewBox="0 0 100 218"
+              >
+                <rect className={styles.phoneMapSurface} width="100" height="218" />
+                <rect width="100" height="218" fill="url(#phone-service-map-grid)" />
+
+                <g className={styles.phoneMapPreviewRoads}>
+                  <path d="M50 0V50C50 64 56 76 63 76H100" />
+                  <path d="M70 0V58C70 69 75 76 81 76" />
+                  <path d="M63 76V120C63 134 68 144 75 144H100" />
+                  <path d="M85 76V144" />
+                </g>
+
+                <g className={styles.phoneMapRoads}>
+                  <line
+                    className={styles.phoneMapRoadMain}
+                    x1="0"
+                    y1="76"
+                    x2="100"
+                    y2="76"
+                    pathLength="1"
+                  />
+                  <line
+                    className={styles.phoneMapRoadMain}
+                    x1="0"
+                    y1="144"
+                    x2="100"
+                    y2="144"
+                    pathLength="1"
+                  />
+                  <line
+                    className={styles.phoneMapRoadVertical}
+                    x1="31"
+                    y1="0"
+                    x2="31"
+                    y2="218"
+                    pathLength="1"
+                  />
+                  <line
+                    className={styles.phoneMapRoadVertical}
+                    x1="70"
+                    y1="0"
+                    x2="70"
+                    y2="218"
+                    pathLength="1"
+                  />
+                  {[42, 110, 178].map((y) => (
+                    <line
+                      className={styles.phoneMapRoadMinor}
+                      key={`phone-map-horizontal-${y}`}
+                      x1="0"
+                      y1={y}
+                      x2="100"
+                      y2={y}
+                      pathLength="1"
+                    />
+                  ))}
+                  {[15, 45, 55, 85].map((x) => (
+                    <line
+                      className={styles.phoneMapRoadMinor}
+                      key={`phone-map-vertical-${x}`}
+                      x1={x}
+                      y1="0"
+                      x2={x}
+                      y2="218"
+                      pathLength="1"
+                    />
+                  ))}
+                </g>
+
+                <g className={styles.phoneMapBuildings}>
+                  <rect x="10" y="87" width="15" height="44" rx="3" />
+                  <rect x="35" y="33" width="12" height="33" rx="3" />
+                  <rect x="75" y="153" width="18" height="39" rx="3" />
+                  <rect x="80" y="44" width="10" height="55" rx="3" />
+                  <rect x="5" y="120" width="8" height="26" rx="3" />
+                  <rect x="75" y="18" width="14" height="22" rx="3" />
+                </g>
+
+                <rect
+                  className={styles.phoneMapFade}
+                  width="100"
+                  height="218"
+                  fill="url(#phone-map-fade)"
+                />
+                <path
+                  className={styles.phoneRouteGlow}
+                  d="M100 42H70V110H50"
+                  pathLength="1"
+                />
+                <path
+                  className={styles.phoneRoute}
+                  d="M100 42H70V110H50"
+                  pathLength="1"
+                />
+                <g className={styles.phonePin}>
+                  <ellipse
+                    className={styles.phonePinAura}
+                    cx="50"
+                    cy="110"
+                    rx="12"
+                    ry="5"
+                  />
+                  <ellipse
+                    className={styles.phonePinPulse}
+                    cx="50"
+                    cy="110"
+                    rx="7"
+                    ry="3"
+                  />
+                  <path d="M50 86c-5 0-9 4-9 9 0 7 9 15 9 15s9-8 9-15c0-5-4-9-9-9Z" />
+                  <circle cx="50" cy="95" r="2.5" />
+                </g>
+              </svg>
             </g>
           </g>
 
-          <path className={styles.phoneSideButton} d="M207 67v30" />
+          <rect
+            className={styles.phoneIsland}
+            x="170"
+            y="16"
+            width="40"
+            height="10"
+            rx="4"
+          />
+
+          <path className={styles.phoneSideButton} d="M245 68v34" />
         </g>
       </g>
 
       <g className={`${styles.phoneNotification} ${styles.phoneNotificationOne}`}>
         <rect
           className={styles.phoneNotificationSurface}
-          x="224"
-          y="38"
-          width="139"
-          height="49"
-          rx="15"
+          x="258"
+          y="42"
+          width="110"
+          height="44"
+          rx="14"
         />
-        <circle className={styles.phoneNotificationIcon} cx="248" cy="62.5" r="11" />
-        <path
-          className={styles.phoneNotificationRoadIcon}
-          d="M243 69h10M245 55l-2 14M251 55l2 14M244 62h8"
-        />
-        <path className={styles.phoneNotificationLines} d="M269 56h68M269 68h49" />
-        <path className={styles.phoneNotificationArrow} d="m345 59 4 4-4 4" />
+        <g className={styles.phoneNotificationGlyph} transform="translate(267 52)">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M9.5 17V7h3.75a3.25 3.25 0 0 1 0 6.5H9.5M9.5 10.25h3.75" />
+        </g>
+        <path className={styles.phoneNotificationLines} d="M296 59h48M296 69h35" />
       </g>
 
       <g className={`${styles.phoneNotification} ${styles.phoneNotificationTwo}`}>
         <rect
           className={styles.phoneNotificationSurface}
-          x="230"
+          x="264"
           y="101"
-          width="134"
-          height="49"
-          rx="15"
+          width="104"
+          height="44"
+          rx="14"
         />
-        <circle className={styles.phoneNotificationIcon} cx="254" cy="125.5" r="11" />
-        <path
-          className={styles.phoneNotificationShieldIcon}
-          d="M254 117 260 119v5c0 5-2 7-6 10-4-3-6-5-6-10v-5l6-2Z"
-        />
-        <path className={styles.phoneNotificationLines} d="M275 119h63M275 131h44" />
-        <path className={styles.phoneNotificationArrow} d="m346 122 4 4-4 4" />
+        <g className={styles.phoneNotificationGlyph} transform="translate(273 111)">
+          <rect x="3" y="5" width="18" height="14" rx="2.5" />
+          <path d="M3 10h18M7 15h4" />
+        </g>
+        <path className={styles.phoneNotificationLines} d="M302 118h42M302 128h31" />
       </g>
 
       <g className={`${styles.phoneNotification} ${styles.phoneNotificationThree}`}>
         <rect
           className={styles.phoneNotificationSurface}
-          x="216"
-          y="164"
-          width="139"
-          height="49"
-          rx="15"
+          x="254"
+          y="160"
+          width="114"
+          height="44"
+          rx="14"
         />
-        <circle className={styles.phoneNotificationIcon} cx="240" cy="188.5" r="11" />
-        <path
-          className={styles.phoneNotificationParkingIcon}
-          d="M236 196v-15h5a4 4 0 0 1 0 8h-5M237 183h4a2 2 0 0 1 0 4h-4"
-        />
-        <path className={styles.phoneNotificationLines} d="M261 182h68M261 194h48" />
-        <path className={styles.phoneNotificationArrow} d="m337 185 4 4-4 4" />
+        <g className={styles.phoneNotificationGlyph} transform="translate(263 170)">
+          <circle cx="12" cy="8" r="3.5" />
+          <path d="M5 19c.8-3.7 3.1-5.5 7-5.5s6.2 1.8 7 5.5" />
+        </g>
+        <path className={styles.phoneNotificationLines} d="M292 177h49M292 187h36" />
       </g>
     </svg>
   );
@@ -585,23 +673,28 @@ function MaxArtwork() {
   return (
     <span className={styles.maxScene} aria-hidden="true">
       <span className={styles.maxAura} />
-      <span className={`${styles.maxSatellite} ${styles.maxSatelliteChat}`}>
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M5 5.5h14v10H11l-4.5 3v-3H5v-10Z" />
-          <path d="M8.5 10.5h7" />
-        </svg>
+      <span className={`${styles.maxOrbit} ${styles.maxOrbitChat}`}>
+        <span className={styles.maxSatellite}>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="4.75" y="5.25" width="14.5" height="11.5" rx="3" />
+            <path d="M8 16.75v2.5l3.75-2.5M8.5 9.75h7M8.5 12.75h4.5" />
+          </svg>
+        </span>
       </span>
-      <span className={`${styles.maxSatellite} ${styles.maxSatelliteSend}`}>
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="m4.5 11.5 15-7-5 15-3.2-5-6.8-3Z" />
-          <path d="m11.3 14.5 3-3" />
-        </svg>
+      <span className={`${styles.maxOrbit} ${styles.maxOrbitSend}`}>
+        <span className={styles.maxSatellite}>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m20.5 11.5-8.65 8.65a5.5 5.5 0 0 1-7.78-7.78l9.19-9.19a3.75 3.75 0 0 1 5.3 5.3l-9.2 9.2a2 2 0 0 1-2.82-2.83l8.48-8.48" />
+          </svg>
+        </span>
       </span>
-      <span className={`${styles.maxSatellite} ${styles.maxSatelliteBell}`}>
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M7 16.5h10l-1.5-2V10a3.5 3.5 0 0 0-7 0v4.5l-1.5 2Z" />
-          <path d="M10.5 19h3" />
-        </svg>
+      <span className={`${styles.maxOrbit} ${styles.maxOrbitBell}`}>
+        <span className={styles.maxSatellite}>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 9a6 6 0 0 0-12 0c0 6.5-2.5 7-2.5 7h17S18 15.5 18 9Z" />
+            <path d="M9.75 19a2.5 2.5 0 0 0 4.5 0" />
+          </svg>
+        </span>
       </span>
       <Image
         className={styles.maxLogo}
@@ -644,18 +737,10 @@ function LegalAccountArtwork() {
           d="M163 192c20-25 18 6 37-11 9-8 17 3 29-2"
         />
       </g>
-      <rect
-        className={styles.legalScan}
-        x="72"
-        y="105"
-        width="281"
-        height="5"
-        rx="2.5"
-      />
       <g className={styles.legalSeal}>
         <circle cx="314" cy="188" r="32" />
         <circle cx="314" cy="188" r="24" />
-        <path d="m300 188 9 9 20-22" />
+        <path className={styles.legalSealCheck} d="m300 188 9 9 20-22" />
       </g>
     </svg>
   );
@@ -664,41 +749,95 @@ function LegalAccountArtwork() {
 function StoreArtwork() {
   return (
     <svg className={styles.storeScene} viewBox="0 0 380 240" aria-hidden="true">
-      <path
-        className={styles.storeJourney}
-        d="M292 30C338 59 346 111 318 145C287 183 225 189 191 219"
-      />
-      <g className={styles.storeConveyor}>
-        <path d="M18 193h344" />
-        <circle cx="58" cy="207" r="12" />
-        <circle cx="116" cy="207" r="12" />
-        <circle cx="288" cy="207" r="12" />
-        <circle cx="338" cy="207" r="12" />
-        <path className={styles.storeConveyorDash} d="M31 193h317" />
+      <defs>
+        <filter id="tpass-logo-smooth" x="-4%" y="-10%" width="108%" height="120%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="0.3" result="softened" />
+          <feComponentTransfer in="softened">
+            <feFuncA type="linear" slope="1.6" intercept="-0.25" />
+          </feComponentTransfer>
+        </filter>
+      </defs>
+      <g className={styles.storeTransponder}>
+        <rect
+          className={styles.storeTransponderShadow}
+          x="123"
+          y="45"
+          width="138"
+          height="72"
+          rx="20"
+        />
+        <rect
+          className={styles.storeTransponderBody}
+          x="120"
+          y="42"
+          width="138"
+          height="72"
+          rx="20"
+        />
+        <rect
+          className={styles.storeTransponderInset}
+          x="129"
+          y="51"
+          width="120"
+          height="54"
+          rx="14"
+        />
+        <path
+          className={styles.storeTransponderLogo}
+          d={TPASS_LOGO_PATH}
+          filter="url(#tpass-logo-smooth)"
+          shapeRendering="geometricPrecision"
+          transform="translate(138.5 58)"
+        />
       </g>
-      <g className={styles.storePackage}>
-        <path d="m132 76 74-29 66 35-76 32-64-38Z" />
-        <path d="m132 76 64 38v74l-64-37V76Z" />
-        <path d="m196 114 76-32v74l-76 32v-74Z" />
-        <path className={styles.storeTape} d="m168 62 67 36v25l-13-8-11 18-15-19" />
-      </g>
-      <g className={styles.storeBadge}>
-        <rect x="36" y="28" width="132" height="58" rx="15" />
-        <text x="54" y="50">
-          Транспондер T-pass
-        </text>
-        <text className={styles.storePrice} x="54" y="73">
-          3 900 ₽
-        </text>
-      </g>
-      <g className={styles.storePin}>
-        <circle cx="315" cy="67" r="15" />
-        <circle cx="315" cy="67" r="5" />
-        <path d="M315 82v18" />
-      </g>
-      <g className={styles.storeSpark}>
-        <path d="M74 117v18M65 126h18" />
-        <path d="M286 25v14M279 32h14" />
+
+      <g className={styles.storeFulfilmentStage}>
+        <g className={styles.storeConveyor}>
+          <rect
+            className={styles.storeConveyorBelt}
+            x="18"
+            y="195"
+            width="344"
+            height="15"
+            rx="7.5"
+          />
+          <path className={styles.storeConveyorDash} d="M34 202.5h312" pathLength="1" />
+          <g className={styles.storeConveyorWheels}>
+            <circle cx="58" cy="219" r="9" />
+            <circle cx="112" cy="219" r="9" />
+            <circle cx="268" cy="219" r="9" />
+            <circle cx="322" cy="219" r="9" />
+          </g>
+        </g>
+
+        <g className={styles.storePackingBox}>
+          <rect
+            className={styles.storeBoxBody}
+            x="136"
+            y="135"
+            width="108"
+            height="66"
+            rx="5"
+          />
+          <rect
+            className={styles.storeBoxLabel}
+            x="151"
+            y="156"
+            width="37"
+            height="20"
+            rx="4"
+          />
+          <path className={styles.storeBoxLabelLines} d="M157 163h24M157 169h17" />
+          <rect className={styles.storeBoxTape} x="187" y="135" width="7" height="66" />
+          <path
+            className={`${styles.storeBoxLid} ${styles.storeBoxLidLeft}`}
+            d="M136 135v-16h54v16Z"
+          />
+          <path
+            className={`${styles.storeBoxLid} ${styles.storeBoxLidRight}`}
+            d="M190 135v-16h54v16Z"
+          />
+        </g>
       </g>
     </svg>
   );

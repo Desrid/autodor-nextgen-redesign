@@ -22,6 +22,9 @@ describe("FloatingUtilities", () => {
       "aria-describedby",
       "chat-intro",
     );
+    expect(container.querySelector(".primary-button")).toHaveTextContent(
+      "Перейти в чат",
+    );
     expect(container.querySelector(".primary-button")).toHaveAttribute(
       "href",
       "https://www.russianhighways.ru/feedback/",

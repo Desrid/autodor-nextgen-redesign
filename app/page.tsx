@@ -382,7 +382,7 @@ export default function HomePage() {
           data-section="social"
           data-node-id="1767:7501"
         >
-          <SectionHeading id="social-title">Соц. обязательства</SectionHeading>
+          <SectionHeading id="social-title">Социальные обязательства</SectionHeading>
           <div className="social-grid">
             {SOCIAL_COMMITMENTS.map((item) => (
               <article

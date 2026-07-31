@@ -92,10 +92,10 @@ export function StatisticsBlock() {
         <div
           className="statistics-bars"
           role="group"
-          aria-label="Значения по годам в километрах"
+          aria-label="Вертикальная диаграмма значений по годам в километрах"
         >
           {YEARLY_STATISTICS.map((item) => {
-            const widthPercentage = (item.distanceKm / maxYearlyDistance) * 100;
+            const heightPercentage = (item.distanceKm / maxYearlyDistance) * 100;
 
             return (
               <div className="statistics-bars__item" key={item.year}>
@@ -105,21 +105,21 @@ export function StatisticsBlock() {
                   aria-describedby={`statistics-year-tip-${item.year}`}
                   aria-label={`${item.year} год, ${formatDistanceKm(item.distanceKm)} километров`}
                 >
-                  <span className="statistics-bars__year" aria-hidden="true">
-                    {item.year}
+                  <span className="statistics-bars__value">
+                    {formatDistanceKm(item.distanceKm)} км
                   </span>
                   <span className="statistics-bars__plot" aria-hidden="true">
                     <span
                       className="statistics-bars__column"
                       style={
                         {
-                          "--statistics-bar-width": `${widthPercentage}%`,
+                          "--statistics-bar-height": `${heightPercentage}%`,
                         } as CSSProperties
                       }
                     />
                   </span>
-                  <span className="statistics-bars__value">
-                    {formatDistanceKm(item.distanceKm)} км
+                  <span className="statistics-bars__year" aria-hidden="true">
+                    {item.year}
                   </span>
                 </button>
                 <span

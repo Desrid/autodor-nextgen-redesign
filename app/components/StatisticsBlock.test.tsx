@@ -27,6 +27,10 @@ describe("StatisticsBlock", () => {
   it("connects exact-value tooltips to keyboard-focusable controls", () => {
     render(<StatisticsBlock />);
 
+    expect(
+      screen.getByRole("group", { name: /вертикальная диаграмма значений по годам/i }),
+    ).toBeInTheDocument();
+
     const operationControl = screen.getByRole("button", {
       name: /строительство: точное значение и доля/i,
     });
