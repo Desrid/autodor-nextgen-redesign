@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { CardTiltController } from "./CardTiltController.client";
 
 describe("CardTiltController", () => {
-  it("applies the service-card perspective and cursor glare coordinates", async () => {
+  it("applies the shared card perspective from the pointer position", async () => {
     const { container } = render(
       <>
         <CardTiltController />
@@ -41,8 +41,6 @@ describe("CardTiltController", () => {
 
     expect(card!.style.getPropertyValue("--cursor-card-rotate-x")).toBe("5.00deg");
     expect(card!.style.getPropertyValue("--cursor-card-rotate-y")).toBe("6.00deg");
-    expect(card!.style.getPropertyValue("--cursor-card-pointer-x")).toBe("100.0%");
-    expect(card!.style.getPropertyValue("--cursor-card-pointer-y")).toBe("0.0%");
     expect(card).toHaveAttribute("data-cursor-tilt", "active");
 
     fireEvent.pointerOut(card!, {
@@ -83,7 +81,7 @@ describe("CardTiltController", () => {
     expect(contactPanel).not.toHaveClass("cursor-tilt-card");
   });
 
-  it("keeps the statistics dashboard free from tilt and cursor glare", async () => {
+  it("keeps the statistics dashboard free from shared tilt", async () => {
     const { container } = render(
       <>
         <CardTiltController />

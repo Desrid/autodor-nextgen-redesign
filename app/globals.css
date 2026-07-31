@@ -6804,8 +6804,6 @@ body textarea {
 /* Shared fine-pointer perspective for every interactive card outside ServicesGrid. */
 .cursor-tilt-card {
   --cursor-card-lift-y: 0px;
-  --cursor-card-pointer-x: 58%;
-  --cursor-card-pointer-y: 42%;
   --cursor-card-rotate-x: 0deg;
   --cursor-card-rotate-y: 0deg;
 
@@ -6871,33 +6869,12 @@ body textarea {
   color: var(--color-page);
 }
 
-.cursor-tilt-card::before {
-  position: absolute;
-  z-index: 20;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(
-    circle at var(--cursor-card-pointer-x) var(--cursor-card-pointer-y),
-    rgb(255 255 255 / 40%),
-    transparent 34%
-  );
-  content: "";
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 220ms ease;
-}
-
-.cursor-tilt-card[data-cursor-tilt="active"]::before,
-.cursor-tilt-card:is(:hover, :focus-within)::before {
-  opacity: 1;
-}
-
 .cursor-tilt-card[data-cursor-tilt="active"],
 .cursor-tilt-card:is(:hover, :focus-within) {
   box-shadow: 0 1.25rem 3rem rgb(45 42 38 / 10%);
 }
 
-/* Important stories keep the cursor glare, but the full-width card stays flat. */
+/* Important stories keep the shared shadow, but the full-width card stays flat. */
 .important-state.cursor-tilt-card {
   transform: none;
   transform-style: flat;
@@ -6949,9 +6926,5 @@ body textarea {
 
     transform: none !important;
     will-change: auto;
-  }
-
-  .cursor-tilt-card::before {
-    display: none;
   }
 }

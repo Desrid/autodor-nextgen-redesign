@@ -1,6 +1,6 @@
 "use client";
 
-import type { MouseEvent, PointerEvent } from "react";
+import type { FocusEvent, MouseEvent, PointerEvent } from "react";
 
 import Image from "next/image";
 
@@ -90,21 +90,11 @@ function updateServicePerspective(event: PointerEvent<HTMLDetailsElement>) {
       2,
     )}deg`,
   );
-  card.style.setProperty(
-    "--service-pointer-x",
-    `${((normalizedX + 0.5) * 100).toFixed(1)}%`,
-  );
-  card.style.setProperty(
-    "--service-pointer-y",
-    `${((normalizedY + 0.5) * 100).toFixed(1)}%`,
-  );
 }
 
 function resetServicePerspective(event: PointerEvent<HTMLDetailsElement>) {
   event.currentTarget.style.setProperty("--service-rotate-x", "0deg");
   event.currentTarget.style.setProperty("--service-rotate-y", "0deg");
-  event.currentTarget.style.setProperty("--service-pointer-x", "58%");
-  event.currentTarget.style.setProperty("--service-pointer-y", "42%");
 
   if (
     event.pointerType !== "mouse" ||
@@ -134,6 +124,81 @@ function resetServicePerspective(event: PointerEvent<HTMLDetailsElement>) {
   routeExitTimers.set(card, exitTimer);
 }
 
+function activateServiceCard(grid: HTMLDivElement, card: HTMLDetailsElement) {
+  const row = card.closest<HTMLDivElement>("[data-services-row]");
+  const rowPosition = card.dataset.rowPosition;
+
+  if (!row || !rowPosition || !grid.contains(row)) {
+    return;
+  }
+
+  for (const serviceRow of grid.querySelectorAll<HTMLElement>("[data-services-row]")) {
+    if (serviceRow === row) {
+      if (serviceRow.dataset.activeCard !== rowPosition) {
+        serviceRow.dataset.activeCard = rowPosition;
+      }
+    } else if (serviceRow.dataset.activeCard !== undefined) {
+      delete serviceRow.dataset.activeCard;
+    }
+  }
+}
+
+function clearActiveServiceCards(grid: HTMLDivElement) {
+  for (const serviceRow of grid.querySelectorAll<HTMLElement>("[data-services-row]")) {
+    if (serviceRow.dataset.activeCard !== undefined) {
+      delete serviceRow.dataset.activeCard;
+    }
+  }
+}
+
+function updateActiveServiceCard(event: PointerEvent<HTMLDivElement>) {
+  if (event.pointerType !== "mouse") {
+    return;
+  }
+
+  const target = event.target as HTMLElement;
+  const card = target.closest<HTMLDetailsElement>("[data-row-position]");
+
+  if (!card || !event.currentTarget.contains(card)) {
+    return;
+  }
+
+  activateServiceCard(event.currentTarget, card);
+}
+
+function syncActiveServiceCardFromFocus(event: FocusEvent<HTMLDivElement>) {
+  const target = event.target as HTMLElement;
+  const card = target.closest<HTMLDetailsElement>("[data-row-position]");
+
+  if (card && event.currentTarget.contains(card)) {
+    activateServiceCard(event.currentTarget, card);
+  }
+}
+
+function clearActiveServiceCard(event: PointerEvent<HTMLDivElement>) {
+  clearActiveServiceCards(event.currentTarget);
+}
+
+function clearActiveServiceCardOnPointerOut(event: PointerEvent<HTMLDivElement>) {
+  if (event.pointerType !== "mouse") {
+    return;
+  }
+
+  const nextTarget = event.relatedTarget as Node | null;
+
+  if (!nextTarget || !event.currentTarget.contains(nextTarget)) {
+    clearActiveServiceCards(event.currentTarget);
+  }
+}
+
+function clearActiveServiceCardOnBlur(event: FocusEvent<HTMLDivElement>) {
+  const nextTarget = event.relatedTarget as Node | null;
+
+  if (!nextTarget || !event.currentTarget.contains(nextTarget)) {
+    clearActiveServiceCards(event.currentTarget);
+  }
+}
+
 function openServiceOnClick(event: MouseEvent<HTMLDetailsElement>, href: string) {
   const target = event.target as HTMLElement;
   const isDirectMouseClick =
@@ -151,6 +216,14 @@ function RouteArtwork() {
   return (
     <span className={styles.expandMap}>
       <span className={styles.expandMapGradient} />
+      <Image
+        className={styles.expandMapDefaultMap}
+        src="/media/services/route-map-russia.svg"
+        alt=""
+        width={3160}
+        height={2058}
+        unoptimized
+      />
 
       <span className={styles.expandMapExpanded}>
         <span className={styles.expandMapSurface} />
@@ -729,17 +802,27 @@ export function ServicesGrid() {
   const rows = [SERVICES.slice(0, ROW_SIZE), SERVICES.slice(ROW_SIZE)];
 
   return (
-    <div className={`services-grid ${styles.grid}`} data-testid="services-grid">
+    <div
+      className={`services-grid ${styles.grid}`}
+      data-testid="services-grid"
+      onPointerMove={updateActiveServiceCard}
+      onPointerOut={clearActiveServiceCardOnPointerOut}
+      onPointerLeave={clearActiveServiceCard}
+      onFocusCapture={syncActiveServiceCardFromFocus}
+      onBlurCapture={clearActiveServiceCardOnBlur}
+    >
       {rows.map((row, rowIndex) => (
         <div
           className={`services-row ${styles.row}`}
+          data-services-row
           key={`services-row-${rowIndex + 1}`}
         >
-          {row.map((service) => (
+          {row.map((service, cardIndex) => (
             <details
               key={service.id}
               className={`service-card ${styles.card}`}
               data-service-id={service.id}
+              data-row-position={cardIndex + 1}
               data-testid={`service-${service.id}`}
               data-node-id={service.nodeId}
               data-card-system={SERVICES_CARD_HARNESS_CONTRACT.id}

@@ -23,8 +23,6 @@ export const CARD_TILT_MOTION = {
 } as const;
 
 const TILT_CLASS_NAME = "cursor-tilt-card";
-const DEFAULT_POINTER_X = "58%";
-const DEFAULT_POINTER_Y = "42%";
 
 function findTiltCard(target: EventTarget | null) {
   if (!(target instanceof Element)) {
@@ -39,8 +37,6 @@ function findTiltCard(target: EventTarget | null) {
 function resetCard(card: HTMLElement) {
   card.style.setProperty("--cursor-card-rotate-x", "0deg");
   card.style.setProperty("--cursor-card-rotate-y", "0deg");
-  card.style.setProperty("--cursor-card-pointer-x", DEFAULT_POINTER_X);
-  card.style.setProperty("--cursor-card-pointer-y", DEFAULT_POINTER_Y);
   delete card.dataset.cursorTilt;
 }
 
@@ -100,14 +96,6 @@ export function CardTiltController() {
       card.style.setProperty(
         "--cursor-card-rotate-y",
         `${(normalizedX * CARD_TILT_MOTION.maxRotateYDeg).toFixed(2)}deg`,
-      );
-      card.style.setProperty(
-        "--cursor-card-pointer-x",
-        `${(pointerX * 100).toFixed(1)}%`,
-      );
-      card.style.setProperty(
-        "--cursor-card-pointer-y",
-        `${(pointerY * 100).toFixed(1)}%`,
       );
       card.dataset.cursorTilt = "active";
     }

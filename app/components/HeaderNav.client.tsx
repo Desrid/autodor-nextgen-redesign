@@ -20,6 +20,8 @@ import {
   PRIMARY_NAVIGATION,
 } from "@/app/data/header-navigation";
 
+import styles from "./HeaderNav.module.css";
+
 type HeaderLayer = "closed" | "megaMenu" | "search" | "language" | "mobileMenu";
 
 type OpenHeaderLayer = Exclude<HeaderLayer, "closed">;
@@ -381,7 +383,7 @@ export function HeaderNav() {
         <div className="language-control">
           <button
             ref={languageButtonRef}
-            className="language-button"
+            className={`language-button ${styles.squareAction}`}
             type="button"
             aria-label="Выбрать язык"
             aria-expanded={activeLayer === "language"}
@@ -409,16 +411,24 @@ export function HeaderNav() {
                 href="https://russianhighways.ru/"
                 aria-current="page"
               >
-                <span
-                  className="language-option__flag language-option__flag--ru"
-                  aria-hidden="true"
+                <Image
+                  className={styles.flagIcon}
+                  src="/brand/header/flags/ru.svg"
+                  alt=""
+                  width={24}
+                  height={18}
+                  unoptimized
                 />
                 РУС
               </a>
               <a href="https://russianhighways.ru/en/" hrefLang="en" lang="en">
-                <span
-                  className="language-option__flag language-option__flag--en"
-                  aria-hidden="true"
+                <Image
+                  className={styles.flagIcon}
+                  src="/brand/header/flags/gb.svg"
+                  alt=""
+                  width={24}
+                  height={18}
+                  unoptimized
                 />
                 ENG
               </a>
@@ -427,7 +437,7 @@ export function HeaderNav() {
         </div>
         <button
           ref={searchButtonRef}
-          className="icon-button search-button"
+          className={`icon-button search-button ${styles.squareAction}`}
           type="button"
           aria-label={activeLayer === "search" ? "Закрыть поиск" : "Открыть поиск"}
           aria-expanded={activeLayer === "search"}
@@ -600,10 +610,35 @@ export function HeaderNav() {
                   ))}
                 </ul>
                 <div className="mobile-utilities">
-                  <a href="https://russianhighways.ru/" aria-current="page">
+                  <a
+                    className={styles.mobileLanguageLink}
+                    href="https://russianhighways.ru/"
+                    aria-current="page"
+                  >
+                    <Image
+                      className={styles.flagIcon}
+                      src="/brand/header/flags/ru.svg"
+                      alt=""
+                      width={24}
+                      height={18}
+                      unoptimized
+                    />
                     РУС
                   </a>
-                  <a href="https://russianhighways.ru/en/" hrefLang="en" lang="en">
+                  <a
+                    className={styles.mobileLanguageLink}
+                    href="https://russianhighways.ru/en/"
+                    hrefLang="en"
+                    lang="en"
+                  >
+                    <Image
+                      className={styles.flagIcon}
+                      src="/brand/header/flags/gb.svg"
+                      alt=""
+                      width={24}
+                      height={18}
+                      unoptimized
+                    />
                     ENG
                   </a>
                   <a href="https://avtodor-tr.ru/account/">Личный кабинет</a>
