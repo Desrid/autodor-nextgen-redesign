@@ -1780,30 +1780,10 @@
   stroke-width: 3.5;
 }
 
-.plateBody text {
+.plateGlyph {
   fill: #111;
-  font-family: "Arial Narrow", "Roboto Condensed", "PT Sans Narrow", Arial, sans-serif;
-  font-size: 50px;
-  font-stretch: condensed;
-  font-weight: 700;
-  font-feature-settings: "tnum" 1;
-  letter-spacing: 0.015em;
-}
-
-.plateBody .plateNumber {
-  font-size: 50px;
-}
-
-.plateBody .plateRegion {
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-}
-
-.plateBody .plateCountry {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 .plateSeparator {
@@ -1896,7 +1876,7 @@
   animation: plateScanAcross 2.8s linear 280ms infinite;
 }
 
-.card:where(:hover, :focus-within, [open]) .plateBody text {
+.card:where(:hover, :focus-within, [open]) .plateGlyph {
   animation: plateTextAcquire 680ms ease 210ms both;
 }
 
@@ -2557,7 +2537,7 @@
   .card:hover:not([open]) .plateTarget path,
   .card:hover:not([open]) .plateScannerTrail,
   .card:hover:not([open]) .plateScanner,
-  .card:hover:not([open]) .plateBody text,
+  .card:hover:not([open]) .plateGlyph,
   .card:hover:not([open]) .plateSuccess {
     animation: none;
   }
@@ -3274,7 +3254,7 @@
   .plateTarget path,
   .plateScannerTrail,
   .plateScanner,
-  .plateBody text,
+  .plateGlyph,
   .plateSuccess,
   .expandMap,
   .expandMapDefaultMap,
