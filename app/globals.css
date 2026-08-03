@@ -6386,19 +6386,27 @@ a:focus-visible > .inline-arrow-icon {
 }
 
 .loyalty-rail {
-  grid-auto-columns: calc((100% - 48px) / 3);
-  padding-inline: 0;
+  --loyalty-tilt-bleed: clamp(1.25rem, 2vw, 2rem);
+  --loyalty-rail-gap: calc(max(var(--card-gap), var(--loyalty-tilt-bleed)) + 0.125rem);
+  align-items: stretch;
+  column-gap: var(--loyalty-rail-gap);
+  grid-auto-columns: calc((100% - (2 * var(--loyalty-rail-gap))) / 3);
+  padding: var(--loyalty-tilt-bleed);
+  scroll-padding-inline: var(--loyalty-tilt-bleed);
 }
 
 @media (max-width: 1023px) {
   .loyalty-rail {
-    grid-auto-columns: calc((100% - var(--card-gap)) / 2);
+    grid-auto-columns: calc((100% - var(--loyalty-rail-gap)) / 2);
   }
 }
 
 @media (max-width: 767px) {
   .loyalty-rail {
-    grid-auto-columns: clamp(280px, 88vw, 384px);
+    grid-auto-columns: min(
+      calc(88vw - (2 * var(--loyalty-tilt-bleed))),
+      calc(24rem - (2 * var(--loyalty-tilt-bleed)))
+    );
   }
 }
 
@@ -6866,9 +6874,10 @@ body textarea {
  */
 .loyalty-card {
   display: block;
+  height: 100%;
   border: 0;
   border-radius: var(--radius-card);
-  overflow: hidden;
+  overflow: visible;
   isolation: isolate;
   background: transparent;
   transition: none;
@@ -6876,6 +6885,7 @@ body textarea {
 
 .loyalty-card__tilt {
   display: flex;
+  height: 100%;
   min-height: inherit;
   flex-direction: column;
   border: 1px solid transparent;
@@ -6883,8 +6893,11 @@ body textarea {
   overflow: hidden;
   background: var(--color-surface-subtle);
   transition:
-    background-color 240ms ease,
-    color 240ms ease;
+    transform 180ms ease-out,
+    box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 180ms ease,
+    flex-basis 640ms cubic-bezier(0.22, 1, 0.36, 1),
+    height 640ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .loyalty-card:hover,
@@ -6898,9 +6911,9 @@ body textarea {
 .loyalty-card:focus-within .loyalty-card__tilt {
   background: linear-gradient(
     135deg,
-    var(--color-brand-orange) 0%,
-    var(--color-brand-orange) 42%,
-    var(--color-brand-orange-hover) 100%
+    #d84200 0%,
+    var(--color-brand-orange) 46%,
+    var(--color-brand-orange-light) 100%
   );
   color: var(--color-page);
 }
@@ -6919,9 +6932,10 @@ body textarea {
 
 .loyalty-card .loyalty-card__tilt.cursor-tilt-card[data-cursor-tilt="active"],
 .loyalty-card .loyalty-card__tilt.cursor-tilt-card:is(:hover, :focus-within) {
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 28%),
-    inset 0 -1.75rem 3rem rgb(var(--color-brand-black-rgb) / 22%);
+  transform: perspective(62.5rem)
+    rotateX(clamp(-6deg, var(--cursor-card-rotate-x), 6deg))
+    rotateY(clamp(-7deg, var(--cursor-card-rotate-y), 7deg));
+  box-shadow: 0 1.25rem 3rem rgb(45 42 38 / 16%);
 }
 
 .news-bento__all.cursor-tilt-card:active {

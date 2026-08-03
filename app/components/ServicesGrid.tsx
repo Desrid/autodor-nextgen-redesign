@@ -749,14 +749,6 @@ function LegalAccountArtwork() {
 function StoreArtwork() {
   return (
     <svg className={styles.storeScene} viewBox="0 0 380 240" aria-hidden="true">
-      <defs>
-        <filter id="tpass-logo-smooth" x="-4%" y="-10%" width="108%" height="120%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="0.3" result="softened" />
-          <feComponentTransfer in="softened">
-            <feFuncA type="linear" slope="1.6" intercept="-0.25" />
-          </feComponentTransfer>
-        </filter>
-      </defs>
       <g className={styles.storeTransponder}>
         <rect
           className={styles.storeTransponderShadow}
@@ -782,12 +774,14 @@ function StoreArtwork() {
           height="54"
           rx="14"
         />
-        <path
+        <image
           className={styles.storeTransponderLogo}
-          d={TPASS_LOGO_PATH}
-          filter="url(#tpass-logo-smooth)"
-          shapeRendering="geometricPrecision"
-          transform="translate(138.5 58)"
+          href="/media/brand/tpass-figma.svg"
+          x="138"
+          y="58"
+          width="102"
+          height="40"
+          preserveAspectRatio="xMidYMid meet"
         />
       </g>
 

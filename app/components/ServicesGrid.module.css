@@ -1732,10 +1732,6 @@
   stroke-width: 1.2;
 }
 
-.storeTransponderLogo {
-  fill: #000;
-}
-
 .storeTransponder {
   transform: translate3d(0, 2.5rem, 0) scale(1.2);
 }
