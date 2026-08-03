@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import LoyaltyRail, { LOYALTY_PROGRAMS } from "./LoyaltyRail.client";
@@ -34,6 +34,20 @@ describe("LoyaltyRail", () => {
 
     fireEvent.keyDown(rail, { key: "ArrowLeft" });
     expect(scrollBy).toHaveBeenLastCalledWith({ left: -320, behavior: "smooth" });
+  });
+
+  it("makes each complete card a single program link", () => {
+    render(<LoyaltyRail />);
+
+    screen.getAllByRole("article").forEach((card, index) => {
+      const links = within(card).getAllByRole("link");
+
+      expect(links).toHaveLength(1);
+      expect(links[0]).toHaveClass("loyalty-card__link");
+      expect(links[0]).toHaveAttribute("href", LOYALTY_PROGRAMS[index].href);
+      expect(links[0]).toContainElement(card.querySelector(".loyalty-card__media"));
+      expect(links[0]).toContainElement(card.querySelector(".loyalty-card__content"));
+    });
   });
 
   it.each(["loading", "empty", "error"] as const)(

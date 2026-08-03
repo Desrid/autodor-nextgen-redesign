@@ -162,22 +162,24 @@ export default function LoyaltyRail({ state = "ready", onRetry }: LoyaltyRailPro
             key={program.id}
           >
             <div className="loyalty-card__tilt">
-              <div className="loyalty-card__media">
-                <Image
-                  className="loyalty-card__image"
-                  src={program.image}
-                  alt={program.imageAlt}
-                  width={1600}
-                  height={1000}
-                  sizes="(max-width: 767px) 88vw, (max-width: 1023px) 50vw, 33vw"
-                />
-              </div>
-              <div className="loyalty-card__content">
-                <p className="loyalty-card__meta">{program.meta}</p>
-                <h3>{program.title}</h3>
-                <p className="loyalty-card__description">{program.description}</p>
-                <a href={program.href}>{program.linkLabel}</a>
-              </div>
+              <a className="loyalty-card__link" href={program.href}>
+                <div className="loyalty-card__media">
+                  <Image
+                    className="loyalty-card__image"
+                    src={program.image}
+                    alt={program.imageAlt}
+                    width={1600}
+                    height={1000}
+                    sizes="(max-width: 767px) 88vw, (max-width: 1023px) 50vw, 33vw"
+                  />
+                </div>
+                <div className="loyalty-card__content">
+                  <p className="loyalty-card__meta">{program.meta}</p>
+                  <h3>{program.title}</h3>
+                  <p className="loyalty-card__description">{program.description}</p>
+                  <span className="loyalty-card__cta">{program.linkLabel}</span>
+                </div>
+              </a>
             </div>
           </article>
         ))}
