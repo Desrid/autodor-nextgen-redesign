@@ -60,8 +60,12 @@
   --layer-toast: 80;
   --page-gutter: clamp(1rem, 3.2vw, 4rem);
   --page-width: 1480px;
-  --section-space: 208px;
-  --heading-content-space: 64px;
+  --section-space: 72px;
+  --heading-content-space: 48px;
+  --section-heading-size: 64px;
+  --media-expanded-gap: 64px;
+  --media-shadow-bleed-start: 48px;
+  --media-shadow-bleed-end: 64px;
   --card-gap: 24px;
   --header-height: 104px;
 }
@@ -380,8 +384,8 @@ h3 {
   line-height: 1.3;
   text-decoration: none;
   transition:
-    color 160ms ease,
-    transform 160ms ease;
+    color 160ms ease-in-out,
+    transform 160ms ease-in-out;
 }
 
 .desktop-navigation a::after {
@@ -393,7 +397,7 @@ h3 {
   content: "";
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 160ms ease-in-out;
 }
 
 .desktop-navigation a:hover {
@@ -428,8 +432,8 @@ h3 {
   font-weight: 600;
   line-height: 1.3;
   transition:
-    background-color 160ms ease,
-    transform 160ms ease;
+    background-color 160ms ease-in-out,
+    transform 160ms ease-in-out;
 }
 
 .more-button:hover,
@@ -479,9 +483,9 @@ h3 {
   color: var(--color-text);
   cursor: pointer;
   transition:
-    transform 160ms ease,
-    background-color 160ms ease,
-    color 160ms ease;
+    transform 160ms ease-in-out,
+    background-color 160ms ease-in-out,
+    color 160ms ease-in-out;
 }
 
 .icon-button:hover,
@@ -549,8 +553,8 @@ h3 {
   font-size: 12px;
   line-height: 20px;
   transition:
-    background-color 160ms ease,
-    transform 160ms ease;
+    background-color 160ms ease-in-out,
+    transform 160ms ease-in-out;
 }
 
 .language-button:hover,
@@ -902,8 +906,8 @@ h3 {
   line-height: 18px;
   text-decoration: none;
   transition:
-    color 160ms ease,
-    transform 160ms ease;
+    color 160ms ease-in-out,
+    transform 160ms ease-in-out;
 }
 
 .header-mega-group a::after {
@@ -915,7 +919,7 @@ h3 {
   content: "";
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 160ms ease-in-out;
 }
 
 .header-mega-group a:hover {
@@ -995,8 +999,8 @@ h3 {
   height: 48px;
   border-radius: 50%;
   transition:
-    transform 160ms ease,
-    opacity 160ms ease;
+    transform 160ms ease-in-out,
+    opacity 160ms ease-in-out;
 }
 
 .header-social-links a:hover {
@@ -1641,9 +1645,9 @@ h3 {
   font-weight: 600;
   white-space: nowrap;
   transition:
-    color 180ms ease,
-    border-color 180ms ease,
-    background-color 180ms ease;
+    color 180ms ease-in-out,
+    border-color 180ms ease-in-out,
+    background-color 180ms ease-in-out;
 }
 
 .road-tabs button:hover {
@@ -1774,9 +1778,9 @@ h3 {
 
 .hero-detail-link {
   transition:
-    background-color 180ms ease,
-    border-color 180ms ease,
-    color 180ms ease;
+    background-color 180ms ease-in-out,
+    border-color 180ms ease-in-out,
+    color 180ms ease-in-out;
   transform: translateY(60px);
 }
 
@@ -1872,9 +1876,9 @@ h3 {
   line-height: 1.25;
   text-decoration: none;
   transition:
-    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
-    background-color 180ms ease,
-    box-shadow 180ms ease;
+    transform 180ms ease-in-out,
+    background-color 180ms ease-in-out,
+    box-shadow 180ms ease-in-out;
 }
 
 .road-hero__notch .hero-actions a:hover,
@@ -2426,7 +2430,7 @@ h3 {
 
 .section-heading h2 {
   max-width: 18ch;
-  font-size: clamp(2.15rem, 4.2vw, 4.75rem);
+  font-size: var(--section-heading-size);
   line-height: 1;
   letter-spacing: -0.04em;
 }
@@ -2438,7 +2442,8 @@ h3 {
 
 @media (max-width: 480px) {
   .social-section .section-heading h2 {
-    font-size: clamp(1.4rem, 7vw, 2.15rem);
+    font-size: var(--section-heading-size);
+    white-space: normal;
   }
 }
 
@@ -2456,7 +2461,7 @@ h3 {
 
 .services-heading h2 {
   max-width: 18ch;
-  font-size: clamp(2.15rem, 4.2vw, 4.75rem);
+  font-size: var(--section-heading-size);
   line-height: 1;
   letter-spacing: -0.04em;
 }
@@ -2474,7 +2479,7 @@ h3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   height: var(--service-row-height);
   gap: var(--service-gap);
-  transition: grid-template-columns 360ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: grid-template-columns 360ms ease-in-out;
 }
 
 .services-row:has(.service-card:nth-child(1):is(:hover, :focus-within, [open])) {
@@ -2506,9 +2511,9 @@ h3 {
   box-shadow: 0 1.25rem 3.5rem rgb(45 42 38 / 0);
   transform-origin: top left;
   transition:
-    border-color 180ms ease,
-    box-shadow 240ms ease,
-    background-color 180ms ease;
+    border-color 180ms ease-in-out,
+    box-shadow 240ms ease-in-out,
+    background-color 180ms ease-in-out;
   contain: layout paint;
 }
 
@@ -2522,8 +2527,8 @@ h3 {
   transform: scaleX(0.4);
   transform-origin: left;
   transition:
-    opacity 180ms ease,
-    transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 180ms ease-in-out,
+    transform 360ms ease-in-out;
 }
 
 .service-card:hover,
@@ -2579,9 +2584,9 @@ h3 {
   color: var(--color-brand-orange-light);
   pointer-events: none;
   transition:
-    inset 360ms cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 180ms ease,
-    transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
+    inset 360ms ease-in-out,
+    opacity 180ms ease-in-out,
+    transform 360ms ease-in-out;
 }
 
 .service-card__visual > span {
@@ -2622,8 +2627,8 @@ h3 {
   opacity: 0;
   transform: translateY(0.75rem);
   transition:
-    opacity 160ms ease 60ms,
-    transform 240ms cubic-bezier(0.16, 1, 0.3, 1) 40ms;
+    opacity 160ms ease-in-out 60ms,
+    transform 240ms ease-in-out 40ms;
 }
 
 .service-card:hover .service-card__teaser,
@@ -2649,8 +2654,8 @@ h3 {
   pointer-events: none;
   transform: translateY(0.75rem);
   transition:
-    opacity 160ms ease 60ms,
-    transform 240ms cubic-bezier(0.16, 1, 0.3, 1) 40ms;
+    opacity 160ms ease-in-out 60ms,
+    transform 240ms ease-in-out 40ms;
 }
 
 .service-card[open] .service-card__body {
@@ -2874,7 +2879,7 @@ h3 {
   width: 1.5rem;
   height: 1.5rem;
   flex: 0 0 1.5rem;
-  transition: transform 180ms ease;
+  transition: transform 180ms ease-in-out;
 }
 
 a:hover > .inline-arrow-icon,
@@ -2925,9 +2930,9 @@ a:focus-visible > .inline-arrow-icon {
   color: var(--color-brand-black);
   cursor: pointer;
   transition:
-    color 180ms ease,
-    background-color 180ms ease,
-    transform 180ms ease;
+    color 180ms ease-in-out,
+    background-color 180ms ease-in-out,
+    transform 180ms ease-in-out;
 }
 
 .loyalty-controls button:hover:not(:disabled) {
@@ -2988,8 +2993,8 @@ a:focus-visible > .inline-arrow-icon {
   scroll-snap-align: start;
   background: var(--color-surface-subtle);
   transition:
-    background-color 240ms ease,
-    color 240ms ease;
+    background-color 240ms ease-in-out,
+    color 240ms ease-in-out;
 }
 
 .loyalty-card__media {
@@ -3003,7 +3008,7 @@ a:focus-visible > .inline-arrow-icon {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 420ms ease-in-out;
 }
 
 .loyalty-card__content {
@@ -3229,7 +3234,7 @@ a:focus-visible > .inline-arrow-icon {
 
 .news-card__image {
   object-fit: cover;
-  transition: transform 280ms ease;
+  transition: transform 280ms ease-in-out;
 }
 
 .news-card__shade {
@@ -3336,7 +3341,7 @@ a:focus-visible > .inline-arrow-icon {
   width: 1.5rem;
   height: 1.5rem;
   flex: 0 0 1.5rem;
-  transition: transform 220ms ease;
+  transition: transform 220ms ease-in-out;
 }
 
 .news-card__link:hover .news-card__image {
@@ -3378,8 +3383,8 @@ a:focus-visible > .inline-arrow-icon {
   font-weight: 750;
   text-decoration: none;
   transition:
-    background-color 220ms ease,
-    transform 220ms ease;
+    background-color 220ms ease-in-out,
+    transform 220ms ease-in-out;
 }
 
 .news-bento__all:hover {
@@ -3396,7 +3401,7 @@ a:focus-visible > .inline-arrow-icon {
 }
 
 .future-section {
-  margin-block-end: 208px;
+  margin-block-end: var(--section-space);
 }
 
 .important-header {
@@ -3436,9 +3441,9 @@ a:focus-visible > .inline-arrow-icon {
   color: var(--color-brand-black);
   cursor: pointer;
   transition:
-    color 180ms ease,
-    background-color 180ms ease,
-    transform 180ms ease;
+    color 180ms ease-in-out,
+    background-color 180ms ease-in-out,
+    transform 180ms ease-in-out;
 }
 
 .important-stories__controls button:hover {
@@ -3495,7 +3500,7 @@ a:focus-visible > .inline-arrow-icon {
   object-fit: cover;
   filter: saturate(0.84) contrast(1.02);
   opacity: 0.82;
-  transition: transform 480ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 480ms ease-in-out;
 }
 
 .important-state:hover .important-state__image,
@@ -3561,8 +3566,14 @@ a:focus-visible > .inline-arrow-icon {
 }
 
 .media-section {
-  padding-block-start: var(--section-space);
+  padding-block-start: calc(
+    var(--media-expanded-gap) - var(--media-shadow-bleed-start)
+  );
   scroll-margin-top: 7rem;
+}
+
+.media-section + .section-shell {
+  padding-block-start: calc(var(--media-expanded-gap) - var(--media-shadow-bleed-end));
 }
 
 .media-gallery {
@@ -3575,8 +3586,9 @@ a:focus-visible > .inline-arrow-icon {
   display: flex;
   overflow-x: auto;
   box-sizing: border-box;
-  height: 472px;
-  padding: 36px var(--page-gutter);
+  height: calc(472px + var(--media-shadow-bleed-start) + var(--media-shadow-bleed-end));
+  padding: calc(36px + var(--media-shadow-bleed-start)) var(--page-gutter)
+    calc(36px + var(--media-shadow-bleed-end));
   align-items: center;
   gap: 0;
   scrollbar-width: none;
@@ -3601,7 +3613,7 @@ a:focus-visible > .inline-arrow-icon {
 
 .media-gallery__set {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   flex: none;
   height: 400px;
   gap: 0.75rem;
@@ -3619,9 +3631,9 @@ a:focus-visible > .inline-arrow-icon {
   background: transparent;
   cursor: inherit;
   transition:
-    flex-basis 640ms cubic-bezier(0.16, 1, 0.3, 1),
-    height 640ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 640ms cubic-bezier(0.16, 1, 0.3, 1);
+    flex-basis 640ms ease-in-out,
+    height 640ms ease-in-out,
+    transform 640ms ease-in-out;
 }
 
 .media-gallery__caption {
@@ -3643,8 +3655,8 @@ a:focus-visible > .inline-arrow-icon {
   pointer-events: none;
   transform: translateY(0.5rem);
   transition:
-    opacity 180ms ease,
-    transform 180ms ease;
+    opacity 180ms ease-in-out,
+    transform 180ms ease-in-out;
 }
 
 .media-gallery__caption span {
@@ -3662,13 +3674,11 @@ a:focus-visible > .inline-arrow-icon {
 .media-gallery__item:focus-visible {
   flex-basis: clamp(29rem, 48vw, 46rem);
   height: 472px;
-  transform: translateY(-36px);
 }
 
 .media-gallery__item:has(+ .media-gallery__item:hover),
 .media-gallery__item:hover + .media-gallery__item {
   height: 432px;
-  transform: translateY(-16px);
 }
 
 .media-gallery__item:focus-visible {
@@ -3807,9 +3817,9 @@ a:focus-visible > .inline-arrow-icon {
   cursor: pointer;
   backdrop-filter: blur(0.5rem);
   transition:
-    background-color 180ms ease,
-    border-color 180ms ease,
-    transform 160ms ease;
+    background-color 180ms ease-in-out,
+    border-color 180ms ease-in-out,
+    transform 160ms ease-in-out;
 }
 
 .media-lightbox__navigation button:hover,
@@ -3859,8 +3869,8 @@ a:focus-visible > .inline-arrow-icon {
   line-height: 1.25;
   text-align: start;
   transition:
-    background-color 180ms ease,
-    color 180ms ease;
+    background-color 180ms ease-in-out,
+    color 180ms ease-in-out;
 }
 
 .contacts-tabs button:last-child {
@@ -4070,8 +4080,8 @@ a:focus-visible > .inline-arrow-icon {
   pointer-events: none;
   transform: translateY(0.25rem);
   transition:
-    opacity 160ms ease,
-    transform 160ms ease;
+    opacity 160ms ease-in-out,
+    transform 160ms ease-in-out;
 }
 
 .tariff-tooltip:hover [role="tooltip"],
@@ -4140,9 +4150,9 @@ a:focus-visible > .inline-arrow-icon {
   border-radius: var(--radius-card);
   box-shadow: 0 0.75rem 1.5rem rgb(var(--color-brand-black-rgb) / 4%);
   transition:
-    border-color 160ms ease,
-    box-shadow 160ms ease,
-    transform 160ms ease;
+    border-color 160ms ease-in-out,
+    box-shadow 160ms ease-in-out,
+    transform 160ms ease-in-out;
 }
 
 .subsidiary-card:hover {
@@ -4348,7 +4358,7 @@ a:focus-visible > .inline-arrow-icon {
 
 @media (hover: hover) and (pointer: fine) {
   .social-card__media img {
-    transition: transform 280ms ease;
+    transition: transform 280ms ease-in-out;
   }
 
   .social-card:hover .social-card__media img {
@@ -4444,7 +4454,7 @@ a:focus-visible > .inline-arrow-icon {
   background: var(--color-brand-black);
   color: var(--color-page);
   isolation: isolate;
-  transition: transform 220ms ease;
+  transition: transform 220ms ease-in-out;
 }
 
 .future-projects__image,
@@ -4458,7 +4468,7 @@ a:focus-visible > .inline-arrow-icon {
 .future-projects__image {
   z-index: 0;
   object-fit: cover;
-  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 420ms ease-in-out;
 }
 
 .future-projects__shade {
@@ -4646,8 +4656,8 @@ a:focus-visible > .inline-arrow-icon {
 .footer-social a {
   border-radius: 50%;
   transition:
-    transform 160ms ease,
-    opacity 160ms ease;
+    transform 160ms ease-in-out,
+    opacity 160ms ease-in-out;
 }
 
 .footer-social a:hover {
@@ -5281,7 +5291,8 @@ a:focus-visible > .inline-arrow-icon {
 
 @media (max-width: 767px) {
   :root {
-    --section-space: 5rem;
+    --section-space: 72px;
+    --section-heading-size: clamp(2.25rem, 10vw, 4rem);
     --header-height: 72px;
   }
 
@@ -5292,7 +5303,7 @@ a:focus-visible > .inline-arrow-icon {
   }
 
   .loyalty-header .section-heading h2 {
-    font-size: clamp(1.4rem, 6.2vw, 2rem);
+    font-size: var(--section-heading-size);
   }
 
   .loyalty-controls {
@@ -5608,8 +5619,11 @@ a:focus-visible > .inline-arrow-icon {
   }
 
   .media-rail {
-    height: 472px;
-    padding: 36px var(--page-gutter);
+    height: calc(
+      472px + var(--media-shadow-bleed-start) + var(--media-shadow-bleed-end)
+    );
+    padding: calc(36px + var(--media-shadow-bleed-start)) var(--page-gutter)
+      calc(36px + var(--media-shadow-bleed-end));
   }
 
   .media-gallery__item {
@@ -6108,9 +6122,9 @@ a:focus-visible > .inline-arrow-icon {
   color: var(--color-brand-black);
   cursor: pointer;
   transition:
-    color 180ms ease,
-    background-color 180ms ease,
-    transform 180ms ease;
+    color 180ms ease-in-out,
+    background-color 180ms ease-in-out,
+    transform 180ms ease-in-out;
 }
 
 .statistics-controls button:hover,
@@ -6269,8 +6283,8 @@ a:focus-visible > .inline-arrow-icon {
   border-radius: 0.75rem;
   background: rgb(255 255 255 / 5%);
   transition:
-    border-color 160ms ease,
-    background 160ms ease;
+    border-color 160ms ease-in-out,
+    background 160ms ease-in-out;
 }
 
 .tariff-chart__row:hover,
@@ -6411,6 +6425,8 @@ a:focus-visible > .inline-arrow-icon {
   grid-auto-columns: calc((100% - (2 * var(--loyalty-rail-gap))) / 3);
   inline-size: calc(100% + (2 * var(--loyalty-tilt-bleed)));
   margin-inline: calc(-1 * var(--loyalty-tilt-bleed));
+  margin-block: calc(-1 * var(--loyalty-tilt-bleed))
+    calc(-1 * var(--loyalty-tilt-bleed-block-end));
   padding: var(--loyalty-tilt-bleed) var(--loyalty-tilt-bleed)
     var(--loyalty-tilt-bleed-block-end);
   scroll-padding-inline: var(--loyalty-tilt-bleed);
@@ -6627,9 +6643,9 @@ body textarea {
   color: #fff;
   text-align: center;
   transition:
-    border-color 160ms ease,
-    background-color 160ms ease,
-    transform 160ms ease;
+    border-color 160ms ease-in-out,
+    background-color 160ms ease-in-out,
+    transform 160ms ease-in-out;
 }
 
 .statistics-bars__trigger:hover,
@@ -6693,9 +6709,9 @@ body textarea {
   pointer-events: none;
   transform: translateY(0.25rem);
   transition:
-    opacity 160ms ease,
-    transform 160ms ease,
-    visibility 160ms ease;
+    opacity 160ms ease-in-out,
+    transform 160ms ease-in-out,
+    visibility 160ms ease-in-out;
   visibility: hidden;
 }
 
@@ -6879,13 +6895,13 @@ body textarea {
   transform-origin: center;
   transform-style: preserve-3d;
   transition:
-    transform 180ms ease-out,
-    box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 180ms ease,
-    background-color 220ms ease,
-    color 220ms ease,
-    flex-basis 640ms cubic-bezier(0.22, 1, 0.36, 1),
-    height 640ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform 180ms ease-in-out,
+    box-shadow 300ms ease-in-out,
+    border-color 180ms ease-in-out,
+    background-color 220ms ease-in-out,
+    color 220ms ease-in-out,
+    flex-basis 640ms ease-in-out,
+    height 640ms ease-in-out;
   will-change: transform;
 }
 
@@ -6914,11 +6930,11 @@ body textarea {
   overflow: hidden;
   background: var(--color-surface-subtle);
   transition:
-    transform 180ms ease-out,
-    box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 180ms ease,
-    flex-basis 640ms cubic-bezier(0.22, 1, 0.36, 1),
-    height 640ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform 180ms ease-in-out,
+    box-shadow 300ms ease-in-out,
+    border-color 180ms ease-in-out,
+    flex-basis 640ms ease-in-out,
+    height 640ms ease-in-out;
 }
 
 .loyalty-card:hover,
@@ -6966,7 +6982,7 @@ body textarea {
 .media-gallery__item.cursor-tilt-card[data-cursor-tilt="active"],
 .media-gallery__item.cursor-tilt-card:hover,
 .media-gallery__item.cursor-tilt-card:focus-visible {
-  --cursor-card-lift-y: -36px;
+  --cursor-card-lift-y: 0px;
 }
 
 .media-gallery__item.cursor-tilt-card:has(
@@ -6975,7 +6991,7 @@ body textarea {
 .media-gallery__item[data-cursor-tilt="active"] + .media-gallery__item.cursor-tilt-card,
 .media-gallery__item.cursor-tilt-card:has(+ .media-gallery__item:hover),
 .media-gallery__item:hover + .media-gallery__item.cursor-tilt-card {
-  --cursor-card-lift-y: -16px;
+  --cursor-card-lift-y: 0px;
 }
 
 .subsidiary-card.cursor-tilt-card[data-cursor-tilt="active"],

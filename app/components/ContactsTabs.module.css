@@ -70,11 +70,11 @@
   line-height: 1.25;
   text-align: start;
   transition:
-    background-color 180ms ease,
-    border-color 180ms ease,
-    color 180ms ease,
-    margin-inline-start 180ms ease,
-    width 180ms ease;
+    background-color 180ms ease-in-out,
+    border-color 180ms ease-in-out,
+    color 180ms ease-in-out,
+    margin-inline-start 180ms ease-in-out,
+    width 180ms ease-in-out;
 }
 
 .directory .tab::before,
@@ -87,7 +87,7 @@
   content: "";
   opacity: 0;
   pointer-events: none;
-  transition: opacity 180ms ease;
+  transition: opacity 180ms ease-in-out;
 }
 
 .directory .tab::before {

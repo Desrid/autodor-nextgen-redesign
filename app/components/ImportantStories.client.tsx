@@ -5,6 +5,8 @@ import { useState } from "react";
 
 import { ArrowIcon } from "@/app/components/ArrowIcon";
 
+import styles from "./ImportantStories.module.css";
+
 const IMPORTANT_STORIES = [
   {
     id: "transport-complex",
@@ -70,7 +72,7 @@ export default function ImportantStories() {
       </div>
 
       <article
-        className="important-state"
+        className={`important-state ${styles.compactCard}`}
         aria-labelledby={`important-story-${story.id}`}
       >
         <Image
@@ -83,7 +85,7 @@ export default function ImportantStories() {
           sizes="(max-width: 767px) 100vw, 90vw"
           unoptimized
         />
-        <div className="important-state__content">
+        <div className={`important-state__content ${styles.compactContent}`}>
           <p className="important-state__meta">{story.eyebrow}</p>
           <h3 id={`important-story-${story.id}`}>{story.title}</h3>
           <p>{story.description}</p>
