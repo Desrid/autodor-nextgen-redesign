@@ -1,0 +1,456 @@
+.atlas {
+  --map-orange: #ff5100;
+  --map-green: #20a55b;
+  --map-ink: #151719;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1rem, 2.4vw, 2rem);
+  align-items: start;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.atlas[data-has-stage="true"] {
+  grid-template-columns: minmax(0, 1fr) minmax(17rem, 21rem);
+}
+
+.mapColumn {
+  min-width: 0;
+}
+
+.mapFrame {
+  position: relative;
+  min-height: 31rem;
+  aspect-ratio: 3517 / 2421;
+  overflow: visible;
+}
+
+.mapObject {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+}
+
+.mapSvg,
+.mapSvg svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.mapSvg {
+  transform: scale(1);
+  transform-origin: 50% 50%;
+  transition: transform 360ms ease-in-out;
+}
+
+.atlas[data-road-hover="true"] .mapSvg {
+  transform: scale(1.2);
+  will-change: transform;
+}
+
+.mapSvg svg {
+  overflow: hidden;
+}
+
+.mapStatus {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 3;
+  right: 1rem;
+  bottom: 6rem;
+  width: min(29rem, calc(100% - 2rem));
+  pointer-events: auto;
+}
+
+.tooltip[data-cursor-follow="true"] {
+  top: var(--tooltip-top);
+  right: auto;
+  bottom: auto;
+  left: var(--tooltip-left);
+}
+
+.tooltipCard {
+  display: grid;
+  grid-template-columns: minmax(7.5rem, 0.9fr) minmax(0, 1.45fr);
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 74%);
+  border-radius: 1.125rem;
+  color: #fff;
+  background: rgb(21 23 25 / 92%);
+  box-shadow: 0 1rem 3rem rgb(21 23 25 / 28%);
+  backdrop-filter: blur(18px);
+  animation: tooltip-in 240ms ease-out both;
+}
+
+.tooltipImage {
+  position: relative;
+  min-height: 10.5rem;
+  overflow: hidden;
+}
+
+.tooltipImage img {
+  object-fit: cover;
+}
+
+.tooltipImage::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(180deg, transparent 45%, rgb(10 11 12 / 70%));
+}
+
+.tooltipImage span {
+  position: absolute;
+  z-index: 1;
+  right: 0.625rem;
+  bottom: 0.5rem;
+  left: 0.625rem;
+  color: rgb(255 255 255 / 78%);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cityImage img {
+  object-position: 48% 42%;
+  transform: scale(1.55);
+}
+
+.tooltipBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: 1rem;
+}
+
+.tooltipBody h3,
+.tooltipBody p,
+.tooltipBody dl {
+  margin: 0;
+}
+
+.tooltipBody h3 {
+  margin-top: 0.2rem;
+  font-size: clamp(1rem, 1.8vw, 1.35rem);
+  line-height: 1.08;
+}
+
+.tooltipBody > p:not(.tooltipEyebrow) {
+  margin-top: 0.5rem;
+  color: rgb(255 255 255 / 72%);
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+.tooltipEyebrow {
+  color: #ff8b57;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tooltipBody dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.tooltipBody dl div {
+  min-width: 0;
+}
+
+.tooltipBody dt {
+  color: rgb(255 255 255 / 50%);
+  font-size: 0.5625rem;
+  text-transform: uppercase;
+}
+
+.tooltipBody dd {
+  margin: 0.125rem 0 0;
+  font-size: 0.6875rem;
+  line-height: 1.2;
+}
+
+.tooltipBody a {
+  align-self: flex-start;
+  margin-top: 0.75rem;
+  color: #ff8b57;
+  font-size: 0.6875rem;
+  font-weight: 650;
+  text-underline-offset: 0.2em;
+}
+
+.timelineWrap {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 0 0 clamp(0.25rem, 1vw, 0.75rem);
+  border: 0;
+  background: transparent;
+}
+
+.timeline {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(4.5rem, 1fr));
+  gap: 0;
+  width: 100%;
+  min-width: 0;
+}
+
+.timeline::before {
+  position: absolute;
+  top: 1.3rem;
+  right: 2.2rem;
+  left: 2.2rem;
+  height: 2px;
+  content: "";
+  background: linear-gradient(90deg, rgb(32 165 91 / 30%), var(--map-green));
+}
+
+.timeline button {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  min-height: 4rem;
+  place-items: start center;
+  padding: 0;
+  border: 0;
+  color: rgb(21 23 25 / 62%);
+  background: transparent;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.timeline button::before {
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-top: 0.9rem;
+  border: 3px solid var(--color-page);
+  border-radius: 50%;
+  content: "";
+  background: var(--map-green);
+  box-shadow: 0 0 0 1px rgb(32 165 91 / 35%);
+  transition:
+    transform 180ms ease-in-out,
+    box-shadow 180ms ease-in-out;
+}
+
+.timeline button span {
+  margin-top: 0.35rem;
+}
+
+.timeline button:hover::before,
+.timeline button:focus-visible::before,
+.timeline button[aria-pressed="true"]::before {
+  transform: scale(1.4);
+  box-shadow: 0 0 0 5px rgb(32 165 91 / 18%);
+}
+
+.timeline button:hover,
+.timeline button:focus-visible,
+.timeline button[aria-pressed="true"] {
+  color: var(--map-green);
+  outline: none;
+}
+
+.stagePanel {
+  position: sticky;
+  top: 7rem;
+  min-height: 25rem;
+  padding: clamp(1.25rem, 2.8vw, 2rem);
+  border: 1px solid rgb(21 23 25 / 12%);
+  border-radius: clamp(1.25rem, 2.8vw, 2rem);
+  color: var(--map-ink);
+  background: rgb(255 255 255 / 88%);
+  box-shadow: 0 1.25rem 4rem rgb(26 32 35 / 10%);
+  backdrop-filter: blur(16px);
+  animation: stage-in 260ms ease-out both;
+}
+
+.stagePanel::before {
+  display: block;
+  width: 3.5rem;
+  height: 0.3rem;
+  margin-bottom: 2.25rem;
+  border-radius: 999px;
+  content: "";
+  background: var(--map-green);
+}
+
+.stagePanel h3,
+.stagePanel p {
+  margin: 0;
+}
+
+.stagePanel h3 {
+  margin-top: 0.5rem;
+  font-size: clamp(1.55rem, 3vw, 2.4rem);
+  line-height: 1.02;
+}
+
+.stagePanel > p:not(.stageYear, .stageLabel, .stageSource) {
+  margin-top: 1.25rem;
+  color: rgb(21 23 25 / 68%);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.stageYear {
+  color: var(--map-green);
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
+  font-weight: 750;
+  letter-spacing: -0.06em;
+  line-height: 0.9;
+}
+
+.stageLabel {
+  margin-top: 1rem !important;
+  color: rgb(21 23 25 / 48%);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.stageSource {
+  margin-top: 2rem !important;
+  padding-top: 1rem;
+  border-top: 1px solid rgb(21 23 25 / 10%);
+  color: rgb(21 23 25 / 48%);
+  font-size: 0.6875rem;
+  line-height: 1.45;
+}
+
+@keyframes tooltip-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes stage-in {
+  from {
+    opacity: 0;
+    transform: translateX(0.75rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 960px) {
+  .atlas {
+    grid-template-columns: 1fr;
+  }
+
+  .atlas[data-has-stage="true"] {
+    grid-template-columns: 1fr;
+  }
+
+  .stagePanel {
+    position: relative;
+    top: auto;
+    min-height: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .mapFrame {
+    min-height: 29rem;
+    aspect-ratio: auto;
+  }
+
+  .tooltip {
+    right: 0.625rem;
+    bottom: 5.5rem;
+    width: calc(100% - 1.25rem);
+  }
+
+  .tooltipCard {
+    grid-template-columns: 7rem minmax(0, 1fr);
+  }
+
+  .tooltipImage {
+    min-height: 11rem;
+  }
+
+  .tooltipBody dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .timelineWrap {
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 440px) {
+  .tooltipCard {
+    grid-template-columns: 1fr;
+  }
+
+  .tooltipImage {
+    min-height: 6.5rem;
+  }
+
+  .tooltipBody {
+    padding: 0.875rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mapSvg,
+  .timeline button::before,
+  .tooltipCard,
+  .stagePanel {
+    transition: none;
+    animation: none;
+  }
+
+  .atlas[data-road-hover="true"] .mapSvg {
+    transform: none;
+    will-change: auto;
+  }
+}
+
+@media print {
+  .timelineWrap {
+    break-inside: avoid;
+  }
+
+  .stagePanel {
+    position: static;
+    box-shadow: none;
+  }
+}

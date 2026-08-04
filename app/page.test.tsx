@@ -134,17 +134,23 @@ describe("HomePage", () => {
     });
   });
 
-  it("presents the future-project map as a single accessible image", async () => {
+  it("presents the future-project map as an interactive Figma atlas with a static fallback", async () => {
     const { container } = render(await HomePage());
     const futureSection = container.querySelector("[data-section='future']");
+    const atlas = futureSection?.querySelector("[data-testid='future-map-atlas']");
+    const mapSurface = atlas?.querySelector("[data-map-asset]");
 
     expect(screen.getByText("КАД-2")).toBeInTheDocument();
     expect(screen.getByText("А-108")).toBeInTheDocument();
     expect(screen.getByText("Краснодар")).toBeInTheDocument();
-    expect(futureSection?.querySelector(".future-map__image")).toHaveAttribute(
-      "src",
-      expect.stringContaining("autodor-official-network-overlay.png"),
+    expect(atlas).toHaveAttribute("data-fallback", "no-webgl");
+    expect(mapSurface).toHaveAttribute(
+      "data-map-asset",
+      "/brand/figma-road-map-2011-25273.svg",
     );
+    expect(screen.getByRole("group", { name: "Шкала 2026–2030" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "2026" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "2030" })).toBeInTheDocument();
     const sourceLinks = screen.getAllByRole("link", {
       name: /Открыть: Проспект ценных бумаг Государственной компании «Автодор», стр. 36/,
     });

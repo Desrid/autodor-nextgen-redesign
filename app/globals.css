@@ -4134,8 +4134,8 @@ a:focus-visible > .inline-arrow-icon {
 .subsidiary-bento {
   display: grid;
   grid-template-columns: 1.25fr 0.75fr 0.75fr;
-  grid-template-rows: repeat(2, minmax(16rem, auto));
-  gap: 1rem;
+  grid-template-rows: repeat(2, minmax(9.6rem, auto));
+  gap: 0.6rem;
 }
 
 .subsidiary-card {
@@ -4144,10 +4144,11 @@ a:focus-visible > .inline-arrow-icon {
   align-items: flex-start;
   justify-content: space-between;
   min-height: 100%;
-  padding: clamp(1.5rem, 3vw, 2.5rem);
-  gap: 1.25rem;
+  padding: clamp(0.9rem, 1.8vw, 1.5rem);
+  gap: 0.75rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
+  background: var(--color-page);
   box-shadow: 0 0.75rem 1.5rem rgb(var(--color-brand-black-rgb) / 4%);
   transition:
     border-color 160ms ease-in-out,
@@ -4165,51 +4166,43 @@ a:focus-visible > .inline-arrow-icon {
 .subsidiary-card__details {
   display: grid;
   width: 100%;
-  gap: 0.75rem;
+  gap: 0.45rem;
 }
 
 .subsidiary-card__category {
-  margin: 0;
-  color: var(--color-brand-orange);
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  line-height: 1.2;
-  text-transform: uppercase;
+  display: none;
 }
 
 .subsidiary-card__company {
   margin: 0;
   color: var(--color-text-muted);
-  font-size: 0.9375rem;
+  font-size: 0.8125rem;
   font-weight: 650;
   line-height: 1.35;
 }
 
 .subsidiary-card--1 {
   grid-row: 1 / 3;
-  background: var(--color-surface-subtle);
 }
 
 .subsidiary-card--4 {
   grid-column: 2 / 4;
-  background: var(--color-brand-black);
-  color: var(--color-page);
 }
 
 .subsidiary-card--4 .subsidiary-card__company {
-  color: rgb(255 255 255 / 74%);
+  color: var(--color-text-muted);
 }
 
 .subsidiary-card h3 {
-  font-size: clamp(1.45rem, 2.6vw, 2.65rem);
+  font-size: clamp(1.125rem, 1.56vw, 1.59rem);
   line-height: 1.08;
 }
 
 .subsidiary-card__details > p {
   margin: 0;
   max-width: 42ch;
-  line-height: 1.5;
+  font-size: 0.875rem;
+  line-height: 1.4;
 }
 
 .subsidiary-card__details ul {
@@ -4217,31 +4210,44 @@ a:focus-visible > .inline-arrow-icon {
   flex-wrap: wrap;
   margin: 0;
   padding: 0;
-  gap: 0.5rem;
+  gap: 0.3rem;
   list-style: none;
 }
 
 .subsidiary-card__details li {
-  padding: 0.3rem 0.55rem;
+  padding: 0.18rem 0.33rem;
   border: 1px solid currentColor;
   border-radius: 999px;
   color: inherit;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 650;
   line-height: 1.2;
   opacity: 0.78;
 }
 
 .subsidiary-card a {
-  gap: 0.5rem;
-  padding-bottom: 0.2rem;
-  border-bottom: 1px solid currentColor;
+  gap: 0.3rem;
+  padding-bottom: 0;
+  border-bottom: 0;
+  font-size: 0.875rem;
   font-weight: 750;
   text-decoration: none;
 }
 
 .subsidiary-card a:hover {
   color: var(--color-brand-orange);
+}
+
+.subsidiary-section {
+  padding-block-start: 2.7rem;
+}
+
+.subsidiary-section .subsidiary-bento {
+  gap: 0.6rem;
+}
+
+.subsidiary-section .section-heading {
+  margin-block-end: 1.8rem;
 }
 
 .subsidiary-card a:focus-visible {

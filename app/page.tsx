@@ -2,6 +2,7 @@ import { ContactsTabs } from "@/app/components/ContactsTabs.client";
 import { CardTiltController } from "@/app/components/CardTiltController.client";
 import { ArrowIcon } from "@/app/components/ArrowIcon";
 import { FloatingUtilities } from "@/app/components/FloatingUtilities.client";
+import { FutureProjectsMap } from "@/app/components/FutureProjectsMap.client";
 import { HeaderNav } from "@/app/components/HeaderNav.client";
 import ImportantStories from "@/app/components/ImportantStories.client";
 import LoyaltyRail from "@/app/components/LoyaltyRail.client";
@@ -427,16 +428,7 @@ export default function HomePage() {
         >
           <SectionHeading id="future-title">Будущие проекты</SectionHeading>
           <div className="future-layout" data-testid="future-projects">
-            <figure className="future-map">
-              <Image
-                className="future-map__image"
-                src="/brand/autodor-official-network-overlay.png"
-                alt="Схема сети дорог Автодора с обозначениями действующих и перспективных маршрутов"
-                width="2580"
-                height="1500"
-                loading="lazy"
-              />
-            </figure>
+            <FutureProjectsMap />
             <div className="future-projects">
               {FUTURE_PROJECTS.map((project, index) => (
                 <article
