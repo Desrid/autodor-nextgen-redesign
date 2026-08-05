@@ -123,15 +123,29 @@ describe("HomePage", () => {
 
     expect(section).toHaveAttribute("aria-labelledby", "subsidiary-title");
     expect(cards).toHaveLength(4);
+    expect(
+      Array.from(cards ?? []).map((card) => card.querySelector("h3")?.textContent),
+    ).toEqual([
+      "Реализация транспондеров",
+      "КАСКО",
+      "ОСАГО",
+      "Подключение к API (для юридических лиц)",
+    ]);
     cards?.forEach((card) => {
       expect(card.querySelector("h3")).toBeInTheDocument();
-      expect(card.querySelectorAll("li")).toHaveLength(2);
-      expect(card.querySelector("a")).toHaveAttribute("target", "_blank");
-      expect(card.querySelector("a")).toHaveAttribute("rel", "noreferrer");
-      expect(card.querySelector("a")).toHaveAccessibleName(
-        /откроется в новой вкладке/i,
-      );
+      expect(card.querySelectorAll("li").length).toBeGreaterThan(0);
     });
+
+    const links = section?.querySelectorAll("a");
+    expect(links).toHaveLength(3);
+    links?.forEach((link) => {
+      expect(link).toHaveAttribute("target", "_blank");
+      expect(link).toHaveAttribute("rel", "noreferrer");
+      expect(link).toHaveAccessibleName(/откроется в новой вкладке/i);
+    });
+    expect(
+      section?.querySelector("[data-subsidiary-link-status='unavailable']"),
+    ).toHaveTextContent("Ссылка уточняется");
   });
 
   it("presents the future-project map as an interactive Figma atlas with a static fallback", async () => {

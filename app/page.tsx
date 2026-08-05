@@ -363,15 +363,24 @@ export default function HomePage() {
                     ))}
                   </ul>
                 </div>
-                <a
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`${item.linkLabel}: ${item.company} (откроется в новой вкладке)`}
-                >
-                  {item.linkLabel}
-                  <ArrowIcon className="inline-arrow-icon" direction="right" />
-                </a>
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`${item.linkLabel}: ${item.company} (откроется в новой вкладке)`}
+                  >
+                    {item.linkLabel}
+                    <ArrowIcon className="inline-arrow-icon" direction="right" />
+                  </a>
+                ) : (
+                  <span
+                    className="subsidiary-card__link-status"
+                    data-subsidiary-link-status="unavailable"
+                  >
+                    {item.linkLabel}
+                  </span>
+                )}
               </article>
             ))}
           </div>

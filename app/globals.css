@@ -4234,20 +4234,18 @@ a:focus-visible > .inline-arrow-icon {
   text-decoration: none;
 }
 
+.subsidiary-card__link-status {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  font-weight: 750;
+}
+
 .subsidiary-card a:hover {
   color: var(--color-brand-orange);
 }
 
-.subsidiary-section {
-  padding-block-start: 2.7rem;
-}
-
 .subsidiary-section .subsidiary-bento {
   gap: 0.6rem;
-}
-
-.subsidiary-section .section-heading {
-  margin-block-end: 1.8rem;
 }
 
 .subsidiary-card a:focus-visible {

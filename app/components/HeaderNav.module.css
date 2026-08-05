@@ -1,5 +1,447 @@
+:global(.site-header):has(.liquidHeader) {
+  inset-block-start: 16px;
+  width: calc(100% - 96px);
+  margin-block-start: 16px;
+  margin-inline: 48px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none !important;
+  transition: filter 220ms ease-in-out;
+}
+
+:global(.site-header):has(
+  .liquidHeader[data-header-state]:not([data-header-state="closed"])
+) {
+  z-index: var(--layer-overlay);
+}
+
+.liquidHeader.liquidHeader {
+  isolation: isolate;
+  height: 88px;
+  padding-inline: 20px;
+  gap: 24px;
+  overflow: visible;
+  border: 1px solid rgb(255 255 255 / 76%);
+  border-radius: 28px;
+  background:
+    linear-gradient(
+      118deg,
+      rgb(255 255 255 / 78%),
+      rgb(255 255 255 / 42%) 54%,
+      rgb(255 242 232 / 56%)
+    ),
+    rgb(255 255 255 / 46%);
+  box-shadow:
+    0 22px 56px rgb(35 42 50 / 14%),
+    0 4px 16px rgb(35 42 50 / 7%),
+    inset 0 1px 0 rgb(255 255 255 / 96%),
+    inset 0 -1px 0 rgb(255 255 255 / 34%);
+  backdrop-filter: blur(28px) saturate(155%);
+  transition:
+    border-color 220ms ease-in-out,
+    box-shadow 220ms ease-in-out,
+    background-color 220ms ease-in-out,
+    transform 220ms ease-in-out;
+}
+
+.liquidHeader::before,
+.liquidHeader::after {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+}
+
+.liquidHeader::before {
+  inset: 1px;
+  border-radius: 27px;
+  background:
+    radial-gradient(circle at 12% 0%, rgb(255 255 255 / 74%), transparent 30%),
+    linear-gradient(
+      105deg,
+      rgb(255 255 255 / 16%),
+      transparent 42% 68%,
+      rgb(241 95 34 / 8%)
+    );
+}
+
+.liquidHeader::after {
+  inset-inline-start: 24%;
+  inset-block-end: -1px;
+  width: 52%;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgb(241 95 34 / 72%), transparent);
+  box-shadow: 0 0 18px rgb(241 95 34 / 38%);
+  opacity: 0.54;
+  transition:
+    opacity 220ms ease-in-out,
+    transform 220ms ease-in-out;
+}
+
+.liquidHeader:global(.header-shell--scrolled) {
+  border-color: rgb(255 255 255 / 86%);
+  box-shadow:
+    0 28px 72px rgb(35 42 50 / 18%),
+    0 6px 20px rgb(35 42 50 / 9%),
+    inset 0 1px 0 #fff;
+  transform: translateY(-2px);
+}
+
+.liquidHeader[data-header-state]:not([data-header-state="closed"])::after {
+  opacity: 1;
+  transform: scaleX(1.12);
+}
+
+.liquidHeader[data-header-state="megaMenu"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.liquidHeader :global(.brand-lockup) {
+  flex: 0 1 clamp(180px, 14vw, 250px);
+  width: clamp(180px, 14vw, 250px);
+  height: 42px;
+}
+
+.liquidHeader :global(.brand-lockup img) {
+  width: 100%;
+  height: auto;
+  max-height: 42px;
+}
+
+.liquidHeader :global(.desktop-navigation) {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.liquidHeader :global(.desktop-navigation ul) {
+  gap: 2px;
+}
+
+.liquidHeader :global(.desktop-navigation a) {
+  min-height: 46px;
+  padding-inline: clamp(8px, 0.72vw, 14px);
+  border-radius: 16px;
+  font-size: clamp(12px, 0.82vw, 15px);
+  transition:
+    color 180ms ease-in-out,
+    background-color 180ms ease-in-out,
+    box-shadow 180ms ease-in-out;
+}
+
+.liquidHeader :global(.desktop-navigation a)::after {
+  display: none;
+}
+
+.liquidHeader :global(.desktop-navigation a:hover),
+.liquidHeader :global(.desktop-navigation a:focus-visible) {
+  background: rgb(255 255 255 / 72%);
+  color: var(--color-header-action);
+  box-shadow:
+    0 8px 20px rgb(45 42 38 / 8%),
+    inset 0 1px 0 #fff;
+}
+
+.liquidHeader :global(.more-button),
+.liquidHeader :global(.language-button),
+.liquidHeader :global(.search-button),
+.liquidHeader :global(.menu-button) {
+  border: 1px solid rgb(255 255 255 / 74%);
+  background: rgb(255 255 255 / 44%);
+  box-shadow:
+    0 9px 22px rgb(45 42 38 / 8%),
+    inset 0 1px 0 rgb(255 255 255 / 92%);
+  backdrop-filter: blur(18px) saturate(140%);
+}
+
+.liquidHeader :global(.more-button) {
+  width: 88px;
+  min-width: 88px;
+  height: 52px;
+  padding-inline: 12px;
+  border-radius: 18px;
+  color: var(--color-text);
+}
+
+.liquidHeader :global(.language-control) {
+  display: flex;
+  flex: 0 0 52px;
+  align-items: center;
+  width: 52px;
+  height: 52px;
+}
+
 .squareAction.squareAction {
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+  min-height: 52px;
+  border-radius: 18px;
+}
+
+.liquidHeader :global(.more-button:hover),
+.liquidHeader :global(.more-button[aria-expanded="true"]),
+.liquidHeader :global(.language-button:hover),
+.liquidHeader :global(.language-button[aria-expanded="true"]),
+.liquidHeader :global(.search-button:hover),
+.liquidHeader :global(.search-button[aria-expanded="true"]),
+.liquidHeader :global(.menu-button:hover),
+.liquidHeader :global(.menu-button[aria-expanded="true"]) {
+  border-color: rgb(241 95 34 / 34%);
+  background: rgb(255 237 227 / 76%);
+  color: var(--color-header-action);
+  box-shadow:
+    0 12px 28px rgb(241 95 34 / 16%),
+    inset 0 1px 0 #fff;
+  transform: none;
+}
+
+.liquidHeader :global(.account-link) {
+  display: inline-flex;
+  box-sizing: border-box;
+  flex: 0 0 172px;
+  align-items: center;
+  justify-content: center;
+  width: 172px;
+  min-width: 172px;
+  height: 52px;
+  margin: 0;
+  padding: 0 18px;
+  border: 1px solid rgb(255 255 255 / 34%);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgb(255 124 67 / 96%), rgb(241 95 34 / 98%)),
+    var(--color-header-action);
+  box-shadow:
+    0 14px 30px rgb(241 95 34 / 24%),
+    inset 0 1px 0 rgb(255 255 255 / 42%);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.liquidHeader :global(.account-link:hover),
+.liquidHeader :global(.account-link:focus-visible) {
+  background: linear-gradient(135deg, #ff884f, #e94f13);
+  box-shadow:
+    0 18px 36px rgb(241 95 34 / 32%),
+    inset 0 1px 0 rgb(255 255 255 / 52%);
+  transform: none;
+}
+
+.liquidHeader :global(.header-actions) {
+  flex: 0 0 auto;
+  align-items: center;
+  width: auto;
+  min-height: 52px;
+  gap: 8px;
+}
+
+.liquidHeader :global(a:focus-visible),
+.liquidHeader :global(button:focus-visible),
+.liquidLayer :global(a:focus-visible),
+.liquidLayer :global(button:focus-visible),
+.liquidLayer :global(input:focus-visible) {
+  outline: 3px solid rgb(241 95 34 / 48%);
+  outline-offset: 3px;
+}
+
+.liquidLayer.liquidLayer {
+  position: absolute;
+  inset: calc(100% + 12px) 0 auto;
+  width: 100%;
+  height: min(calc(100dvh - 132px), 780px);
+  max-height: calc(100dvh - 132px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 1px solid rgb(255 255 255 / 76%);
+  border-radius: 28px;
+  background:
+    linear-gradient(
+      126deg,
+      rgb(255 255 255 / 86%),
+      rgb(255 255 255 / 64%) 58%,
+      rgb(255 244 237 / 76%)
+    ),
+    rgb(255 255 255 / 70%);
+  box-shadow:
+    0 34px 90px rgb(35 42 50 / 22%),
+    0 10px 28px rgb(35 42 50 / 10%),
+    inset 0 1px 0 #fff;
+  backdrop-filter: blur(32px) saturate(155%);
+  -webkit-backdrop-filter: blur(32px) saturate(155%);
+}
+
+.liquidLayer[data-layer="megaMenu"] {
+  background: rgb(250 250 248 / 70%);
+  backdrop-filter: blur(54px) saturate(135%);
+  -webkit-backdrop-filter: blur(54px) saturate(135%);
+}
+
+.liquidLayer :global(.header-layer__inner) {
+  width: 100%;
+  min-height: 0;
+  padding: 28px 32px 40px;
+}
+
+.liquidLayer[data-layer="language"] {
+  inset-block-start: calc(100% + 10px);
+  width: 196px;
+  height: auto;
+  max-height: none;
+  padding: 8px;
+  border-radius: 20px;
+}
+
+.liquidLayer[data-layer="language"] :global(a) {
+  border: 1px solid transparent;
   border-radius: 14px;
+  transition:
+    border-color 160ms ease-in-out,
+    background-color 160ms ease-in-out,
+    transform 160ms ease-in-out;
+}
+
+.liquidLayer[data-layer="language"] :global(a:hover),
+.liquidLayer[data-layer="language"] :global(a:focus-visible) {
+  border-color: rgb(255 255 255 / 82%);
+  background: rgb(255 255 255 / 64%);
+  transform: none;
+}
+
+.liquidLayer[data-layer="search"] {
+  height: auto;
+  max-height: min(70dvh, 620px);
+  overflow: visible;
+}
+
+.liquidLayer[data-layer="search"] :global(.header-layer__inner) {
+  padding-block: 22px;
+}
+
+.liquidLayer :global(.header-search-form) {
+  width: min(100%, 1040px);
+}
+
+.liquidLayer :global(.header-search-form input) {
+  height: 56px;
+  min-height: 56px;
+  padding-inline: 20px 60px;
+  border: 1px solid rgb(255 255 255 / 82%);
+  border-radius: 18px;
+  background: rgb(255 255 255 / 62%);
+  box-shadow:
+    0 12px 30px rgb(45 42 38 / 7%),
+    inset 0 1px 0 #fff;
+  backdrop-filter: blur(18px);
+}
+
+.liquidLayer :global(.header-search-results) {
+  margin-block-start: 12px;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 78%);
+  border-radius: 18px;
+  background: rgb(255 255 255 / 56%);
+  box-shadow: 0 16px 36px rgb(45 42 38 / 9%);
+}
+
+.liquidLayer :global(.header-search-results a:hover),
+.liquidLayer :global(.header-search-results a:focus-visible) {
+  background: rgb(255 237 227 / 68%);
+  color: var(--color-header-action);
+}
+
+.liquidLayer :global(.header-mega-grid) {
+  margin-block-start: 12px;
+  gap: 16px;
+}
+
+@media (min-width: 1280px) {
+  .liquidLayer[data-layer="megaMenu"] :global(.header-mega-grid) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    width: 100%;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1599px) {
+  .liquidLayer[data-layer="megaMenu"] :global(.header-mega-group) {
+    padding-inline: 16px;
+  }
+
+  .liquidLayer[data-layer="megaMenu"] :global(.header-mega-group h2) {
+    font-size: clamp(13px, 0.92vw, 15px);
+    line-height: 1.25;
+  }
+
+  .liquidLayer[data-layer="megaMenu"] :global(.header-mega-group a) {
+    font-size: clamp(9px, 0.64vw, 10.5px);
+    line-height: 1.35;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1359px) {
+  .liquidLayer[data-layer="megaMenu"] :global(.header-mega-group) {
+    padding-inline: 10px;
+  }
+
+  .liquidLayer[data-layer="megaMenu"] :global(.header-mega-group h2) {
+    font-size: 12px;
+  }
+
+  .liquidLayer[data-layer="megaMenu"] :global(.header-mega-group a) {
+    font-size: 8.2px;
+  }
+}
+
+.liquidLayer :global(.header-mega-group) {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid rgb(255 255 255 / 68%);
+  border-radius: 22px;
+  background: rgb(255 255 255 / 76%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 72%);
+}
+
+.liquidLayer :global(.header-mega-group h2) {
+  color: #d94c14;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.liquidLayer :global(.header-mega-group a) {
+  border-radius: 10px;
+  text-align: left;
+  white-space: nowrap;
+  transition:
+    color 160ms ease-in-out,
+    background-color 160ms ease-in-out;
+}
+
+.liquidLayer :global(.header-mega-group a:hover),
+.liquidLayer :global(.header-mega-group a:focus-visible) {
+  background: rgb(255 255 255 / 54%);
+  color: var(--color-header-action);
+  transform: none;
+}
+
+.liquidLayer :global(.header-contact-row) {
+  margin-block-start: 28px;
+  padding: 20px;
+  border: 1px solid rgb(255 255 255 / 64%);
+  border-radius: 22px;
+  background: rgb(255 255 255 / 30%);
+}
+
+@media (min-width: 1280px) {
+  .liquidLayer[data-layer="megaMenu"] :global(.header-contact-row) {
+    inset-inline: 12px;
+    inset-block-end: 12px;
+  }
 }
 
 .flagIcon {
@@ -7,8 +449,8 @@
   width: 24px;
   height: 18px;
   border: 1px solid rgb(45 42 38 / 14%);
-  border-radius: 3px;
-  box-shadow: 0 1px 2px rgb(45 42 38 / 12%);
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgb(45 42 38 / 14%);
   object-fit: cover;
 }
 
@@ -16,14 +458,218 @@
   gap: 10px;
 }
 
-@media (max-width: 768px) {
-  .squareAction.squareAction {
-    border-radius: 12px;
+@supports not ((backdrop-filter: blur(1px))) {
+  .liquidHeader.liquidHeader,
+  .liquidLayer.liquidLayer {
+    background: rgb(255 255 255 / 96%);
   }
 }
 
-@media (max-width: 479px) {
-  .squareAction.squareAction {
-    border-radius: 10px;
+@media (min-width: 1280px) and (max-width: 1439px) {
+  .liquidHeader.liquidHeader {
+    padding-inline: 14px;
+    gap: 14px;
+  }
+
+  .liquidHeader :global(.brand-lockup) {
+    flex-basis: 180px;
+    width: 180px;
+  }
+
+  .liquidHeader :global(.desktop-navigation a) {
+    padding-inline: 7px;
+    font-size: 12px;
+  }
+
+  .liquidHeader :global(.more-button) {
+    width: 76px;
+    min-width: 76px;
+    padding-inline: 8px;
+  }
+
+  .liquidHeader :global(.account-link) {
+    width: 150px;
+    min-width: 150px;
+    padding-inline: 12px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 1279px) {
+  :global(.site-header):has(.liquidHeader) {
+    width: calc(100% - 48px);
+    margin-inline: 24px;
+  }
+
+  .liquidHeader.liquidHeader {
+    height: 72px;
+    padding-inline: 14px;
+    gap: 12px;
+    border-radius: 24px;
+  }
+
+  .liquidHeader::before {
+    border-radius: 23px;
+  }
+
+  .liquidHeader :global(.brand-lockup) {
+    flex-basis: min(220px, 38vw);
+    width: min(220px, 38vw);
+    height: 40px;
+  }
+
+  .liquidHeader :global(.brand-lockup img) {
+    max-height: 40px;
+  }
+
+  .liquidHeader :global(.search-button) {
+    flex-basis: 48px;
+    width: 48px;
+    height: 48px;
+    min-height: 48px;
+    border-radius: 16px;
+  }
+
+  .liquidHeader :global(.menu-button) {
+    min-width: 68px;
+    min-height: 48px;
+    border-radius: 16px;
+  }
+
+  .liquidLayer.liquidLayer {
+    height: calc(100dvh - 116px);
+    max-height: calc(100dvh - 116px);
+    border-radius: 24px;
+  }
+
+  .liquidLayer :global(.header-layer__inner) {
+    width: 100%;
+    padding: 24px;
+  }
+
+  .liquidLayer :global(.header-mega-grid) {
+    gap: 16px;
+  }
+
+  .liquidLayer :global(.header-contact-row) {
+    margin-block-start: 24px;
+  }
+}
+
+@media (max-width: 767px) {
+  :global(.site-header):has(.liquidHeader) {
+    width: calc(100% - 24px);
+    margin-inline: 12px;
+  }
+
+  .liquidHeader.liquidHeader {
+    height: 64px;
+    padding-inline: 10px;
+    gap: 6px;
+    border-radius: 21px;
+  }
+
+  .liquidHeader::before {
+    border-radius: 20px;
+  }
+
+  .liquidHeader :global(.brand-lockup) {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+    height: 36px;
+  }
+
+  .liquidHeader :global(.brand-lockup img) {
+    width: min(164px, 44vw);
+    height: auto;
+    max-height: 36px;
+  }
+
+  .liquidHeader :global(.header-actions) {
+    gap: 5px;
+  }
+
+  .liquidHeader :global(.search-button) {
+    flex-basis: 44px;
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    border-radius: 14px;
+  }
+
+  .liquidHeader :global(.search-button img) {
+    width: 22px;
+    height: 22px;
+  }
+
+  .liquidHeader :global(.menu-button) {
+    min-width: 58px;
+    min-height: 44px;
+    padding-inline: 8px;
+    border-radius: 14px;
+    font-size: 13px;
+  }
+
+  .liquidLayer.liquidLayer {
+    inset-block-start: calc(100% + 8px);
+    height: calc(100dvh - 104px);
+    max-height: calc(100dvh - 104px);
+    border-radius: 21px;
+  }
+
+  .liquidLayer[data-layer="search"] {
+    height: auto;
+    max-height: calc(100dvh - 104px);
+  }
+
+  .liquidLayer :global(.header-layer__inner) {
+    padding: 18px 14px max(28px, env(safe-area-inset-bottom));
+  }
+
+  .liquidLayer :global(.header-search-form input) {
+    height: 52px;
+    min-height: 52px;
+    border-radius: 16px;
+  }
+
+  .liquidLayer :global(.header-mega-group),
+  .liquidLayer :global(.header-contact-row) {
+    padding: 16px;
+    border-radius: 18px;
+  }
+}
+
+@media (max-width: 374px) {
+  :global(.site-header):has(.liquidHeader) {
+    width: calc(100% - 16px);
+    margin-inline: 8px;
+  }
+
+  .liquidHeader :global(.brand-lockup img) {
+    width: min(140px, 42vw);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .liquidHeader.liquidHeader,
+  .liquidLayer.liquidLayer,
+  .liquidHeader :global(.more-button),
+  .liquidHeader :global(.language-button),
+  .liquidHeader :global(.search-button),
+  .liquidHeader :global(.menu-button) {
+    background: rgb(255 255 255 / 98%);
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquidHeader.liquidHeader,
+  .liquidHeader::after,
+  .liquidHeader :global(a),
+  .liquidHeader :global(button),
+  .liquidLayer :global(a),
+  .liquidLayer :global(button) {
+    transition: none;
   }
 }

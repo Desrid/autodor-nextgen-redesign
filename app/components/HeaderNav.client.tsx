@@ -319,6 +319,7 @@ export function HeaderNav() {
 
   const panelClassName = [
     "header-layer",
+    styles.liquidLayer,
     isClosing ? "header-layer--closing" : "header-layer--open",
     renderedLayer === "mobileMenu" ? "header-layer--mobile" : "",
   ]
@@ -328,7 +329,9 @@ export function HeaderNav() {
   return (
     <div
       ref={headerRef}
-      className={`header-shell${isScrolled ? " header-shell--scrolled" : ""}`}
+      className={`header-shell ${styles.liquidHeader}${
+        isScrolled ? " header-shell--scrolled" : ""
+      }`}
       data-header-state={activeLayer}
     >
       <a

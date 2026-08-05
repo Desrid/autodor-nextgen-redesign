@@ -23,12 +23,15 @@ import {
   type FutureMapStage,
   type MapCityName,
 } from "@/app/data/future-projects-map";
+import { CITY_PHOTOS } from "@/app/data/city-photos";
 import { getRoadById, type RoadId, type RoadRecord } from "@/app/data/roads";
 
 import styles from "./FutureProjectsMap.module.css";
 
 const MAP_ASSET = "/brand/figma-road-map-2011-25273.svg";
 const FALLBACK_MAP_ASSET = "/brand/autodor-official-network-overlay.png";
+const MAP_ASSET_SIZE = 4097;
+const FUTURE_STAGE_FILL_RATIO = 0.6;
 
 const DEFAULT_VIEW_BOX = {
   x: 610.94,
@@ -54,7 +57,13 @@ type ViewBox = Readonly<{
 }>;
 
 type RouteSelection =
-  | Readonly<{ kind: "road"; id: RoadId; svgIds: readonly string[] }>
+  | Readonly<{
+      kind: "road";
+      id: RoadId;
+      svgIds: readonly string[];
+      nearbyCities: readonly MapCityName[];
+      nearbyCityMarkerSvgIds: readonly string[];
+    }>
   | Readonly<{ kind: "stage"; id: string; svgIds: readonly string[] }>;
 
 type TooltipState =
@@ -66,6 +75,34 @@ type TooltipPosition = Readonly<{
   left: number;
   top: number;
 }>;
+
+type BleedGeometry = Readonly<{
+  viewportLeft: number;
+  viewportTop: number;
+  viewportWidth: number;
+  viewportHeight: number;
+  imageLeft: number;
+  imageTop: number;
+  imageSize: number;
+  featherX: number;
+  featherY: number;
+  clipPath: string;
+}>;
+
+const EXISTING_ROUTE_SVG_IDS = new Set(MAP_ROUTES.flatMap((route) => route.svgIds));
+const FUTURE_STAGE_SVG_IDS = new Set([
+  ...ALL_ROUTE_SVG_IDS.filter((svgId) => !EXISTING_ROUTE_SVG_IDS.has(svgId)),
+  ...FUTURE_MAP_STAGES.flatMap((stage) => stage.svgIds),
+]);
+const MAP_LAYER_SVG_IDS = [
+  ...new Set([
+    ...ALL_ROUTE_SVG_IDS,
+    ...FUTURE_MAP_STAGES.flatMap((stage) => stage.svgIds),
+  ]),
+];
+const MAP_CITY_SVG_ALIASES: Partial<Record<MapCityName, string>> = {
+  Новороссийск: "Новоросийск",
+};
 
 const toViewBoxString = ({ x, y, width, height }: ViewBox) =>
   `${x} ${y} ${width} ${height}`;
@@ -82,8 +119,8 @@ function unionBoxes(boxes: readonly DOMRect[]): DOMRect | null {
 }
 
 function fitViewBox(box: DOMRect, aspectRatio: number): ViewBox {
-  let width = Math.max(box.width / 0.8, 38);
-  let height = Math.max(box.height / 0.8, 38);
+  let width = Math.max(box.width / FUTURE_STAGE_FILL_RATIO, 38);
+  let height = Math.max(box.height / FUTURE_STAGE_FILL_RATIO, 38);
 
   if (width / height > aspectRatio) {
     height = width / aspectRatio;
@@ -105,7 +142,9 @@ type MapHit =
   | Readonly<{ kind: "city"; city: MapCityName }>;
 
 function getMapHitById(id: string): MapHit | null {
-  const route = MAP_ROUTES.find((item) => item.svgIds.includes(id));
+  const route = MAP_ROUTES.find(
+    (item) => item.svgIds.includes(id) || item.labelSvgIds.includes(id),
+  );
   if (route) return { kind: "road", id: route.id };
 
   const stage = FUTURE_MAP_STAGES.find((item) => item.svgIds.includes(id));
@@ -124,6 +163,20 @@ function repairFigmaSvgId(id: string) {
   return new TextDecoder("utf-8", { fatal: false }).decode(bytes);
 }
 
+function getSvgTransformPoint(transform: string | null) {
+  if (!transform) return null;
+  const translate = transform.match(
+    /translate\(\s*(-?[\d.]+)(?:[\s,]+)(-?[\d.]+)\s*\)/,
+  );
+  if (translate?.[1] && translate[2]) {
+    return `${translate[1]},${translate[2]}`;
+  }
+  const matrix = transform.match(
+    /matrix\(\s*-?[\d.]+[\s,]+-?[\d.]+[\s,]+-?[\d.]+[\s,]+-?[\d.]+[\s,]+(-?[\d.]+)[\s,]+(-?[\d.]+)\s*\)/,
+  );
+  return matrix?.[1] && matrix[2] ? `${matrix[1]},${matrix[2]}` : null;
+}
+
 function findMapHit(
   target: EventTarget | null,
   boundary: Element | null,
@@ -131,6 +184,10 @@ function findMapHit(
   let element = target instanceof Element ? target : null;
 
   while (element && element !== boundary) {
+    const roadId = element.getAttribute("data-road-id") as RoadId | null;
+    if (roadId && MAP_ROUTES.some((route) => route.id === roadId)) {
+      return { kind: "road", id: roadId };
+    }
     const cityName = element.getAttribute("data-city-name") as MapCityName | null;
     if (cityName && MAP_CITY_NAMES.includes(cityName)) {
       return { kind: "city", city: cityName };
@@ -175,6 +232,13 @@ function prepareMapMarkup(markup: string) {
       element.setAttribute("aria-label", getRoadById(route.id).label);
       element.setAttribute("data-map-hit", "road");
     });
+
+    route.labelSvgIds.forEach((svgId) => {
+      const element = document.getElementById(svgId);
+      if (!element) return;
+      element.setAttribute("aria-label", getRoadById(route.id).label);
+      element.setAttribute("data-map-hit", "road-label");
+    });
   });
 
   FUTURE_MAP_STAGES.forEach((stage) => {
@@ -189,14 +253,14 @@ function prepareMapMarkup(markup: string) {
   });
 
   const semanticGroups = new Map(
-    Array.from(document.querySelectorAll("g[id]"), (element) => [
+    Array.from(document.querySelectorAll("[id]"), (element) => [
       repairFigmaSvgId(element.id),
       element,
     ]),
   );
 
   MAP_CITY_NAMES.forEach((city) => {
-    const element = semanticGroups.get(city);
+    const element = semanticGroups.get(MAP_CITY_SVG_ALIASES[city] ?? city);
     if (!element) return;
     element.setAttribute("tabindex", "0");
     element.setAttribute("role", "button");
@@ -204,6 +268,68 @@ function prepareMapMarkup(markup: string) {
     element.setAttribute("data-map-hit", "city");
     element.setAttribute("data-city-name", city);
   });
+
+  const hitLayer = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  hitLayer.setAttribute("data-road-hit-layer", "true");
+  hitLayer.setAttribute("aria-hidden", "true");
+
+  MAP_ROUTES.forEach((route) => {
+    route.svgIds.forEach((svgId) => {
+      const source = document.getElementById(svgId);
+      if (!source) return;
+      const routePoints = Array.from(source.querySelectorAll("use"))
+        .map((element) => getSvgTransformPoint(element.getAttribute("transform")))
+        .filter((point): point is string => Boolean(point));
+
+      if (routePoints.length > 1) {
+        const polyline = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "polyline",
+        );
+        polyline.setAttribute("points", routePoints.join(" "));
+        polyline.setAttribute("fill", "none");
+        polyline.setAttribute("stroke", "transparent");
+        polyline.setAttribute("stroke-width", "30");
+        polyline.setAttribute("stroke-linecap", "round");
+        polyline.setAttribute("stroke-linejoin", "round");
+        polyline.setAttribute("vector-effect", "non-scaling-stroke");
+        polyline.setAttribute("pointer-events", "stroke");
+        polyline.setAttribute("data-road-id", route.id);
+        polyline.setAttribute("cursor", "pointer");
+        hitLayer.append(polyline);
+        return;
+      }
+
+      const clone = source.cloneNode(true) as SVGElement;
+      const cloneNodes = [clone, ...Array.from(clone.querySelectorAll("*"))];
+      cloneNodes.forEach((node) => {
+        node.removeAttribute("id");
+        node.removeAttribute("tabindex");
+        node.removeAttribute("role");
+        node.removeAttribute("aria-label");
+        node.removeAttribute("data-map-hit");
+      });
+      cloneNodes
+        .filter((node) => node.matches("path, line, polyline, use"))
+        .forEach((node) => {
+          node.setAttribute("fill", "none");
+          node.setAttribute("stroke", "transparent");
+          node.setAttribute("stroke-width", "30");
+          node.setAttribute("vector-effect", "non-scaling-stroke");
+          node.setAttribute("pointer-events", "stroke");
+          node.setAttribute("data-road-id", route.id);
+          node.setAttribute("cursor", "pointer");
+        });
+      hitLayer.append(clone);
+    });
+  });
+
+  const firstCityMarker = document.getElementById("Ellipse 2");
+  if (firstCityMarker?.parentNode) {
+    firstCityMarker.parentNode.insertBefore(hitLayer, firstCityMarker);
+  } else {
+    root.append(hitLayer);
+  }
 
   return new XMLSerializer().serializeToString(root);
 }
@@ -245,16 +371,36 @@ function RoadTooltip({ road }: Readonly<{ road: RoadRecord }>) {
 }
 
 function CityTooltip({ city }: Readonly<{ city: MapCityName }>) {
+  const photo = CITY_PHOTOS[city];
+
   return (
     <article className={styles.tooltipCard} data-testid="map-city-tooltip">
       <div className={`${styles.tooltipImage} ${styles.cityImage}`}>
         <Image
-          src={FALLBACK_MAP_ASSET}
-          alt={`Фрагмент исходной дорожной схемы рядом с городом ${city}`}
+          src={photo.src}
+          alt={photo.alt}
           fill
+          unoptimized
           sizes="(max-width: 720px) 38vw, 150px"
+          onError={(event) => {
+            event.currentTarget.srcset = "";
+            event.currentTarget.src = FALLBACK_MAP_ASSET;
+          }}
         />
-        <span>Фрагмент схемы</span>
+        <span className={styles.photoCredit}>
+          Фото:{" "}
+          <a href={photo.sourceUrl} target="_blank" rel="noreferrer">
+            {photo.author}
+          </a>{" "}
+          ·{" "}
+          {photo.licenseUrl ? (
+            <a href={photo.licenseUrl} target="_blank" rel="noreferrer">
+              {photo.license}
+            </a>
+          ) : (
+            photo.license
+          )}
+        </span>
       </div>
       <div className={styles.tooltipBody}>
         <p className={styles.tooltipEyebrow}>Город на карте</p>
@@ -288,6 +434,7 @@ export function FutureProjectsMap() {
   const [selectedStageId, setSelectedStageId] = useState<string | null>(null);
   const [cityPreview, setCityPreview] = useState<MapCityName | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState<TooltipPosition | null>(null);
+  const [bleedGeometry, setBleedGeometry] = useState<BleedGeometry | null>(null);
   const [svgMarkup, setSvgMarkup] = useState<string | null>(null);
   const [mapLoadFailed, setMapLoadFailed] = useState(false);
 
@@ -302,11 +449,19 @@ export function FutureProjectsMap() {
   );
 
   const activeSelection = useMemo<RouteSelection | null>(() => {
-    if (previewSelection) return previewSelection;
+    if (previewSelection?.kind === "stage") return previewSelection;
 
     if (selectedRoadId) {
       const route = MAP_ROUTES.find((item) => item.id === selectedRoadId);
-      return route ? { kind: "road", id: route.id, svgIds: route.svgIds } : null;
+      return route
+        ? {
+            kind: "road",
+            id: route.id,
+            svgIds: [...route.svgIds, ...route.labelSvgIds],
+            nearbyCities: route.nearbyCities,
+            nearbyCityMarkerSvgIds: route.nearbyCityMarkerSvgIds,
+          }
+        : null;
     }
 
     if (selectedStage) {
@@ -386,6 +541,14 @@ export function FutureProjectsMap() {
     setTooltipPosition(null);
   }, []);
 
+  const resetMapTo2026 = useCallback(() => {
+    setPreviewSelection(null);
+    setSelectedRoadId(null);
+    setSelectedStageId(null);
+    setCityPreview(null);
+    setTooltipPosition(null);
+  }, []);
+
   const positionTooltipNearPointer = useCallback((clientX: number, clientY: number) => {
     const frame = frameRef.current;
     if (!frame) return;
@@ -414,7 +577,13 @@ export function FutureProjectsMap() {
       setSelectedStageId(null);
       setPreviewSelection(null);
     } else {
-      setPreviewSelection({ kind: "road", id, svgIds: route.svgIds });
+      setPreviewSelection({
+        kind: "road",
+        id,
+        svgIds: [...route.svgIds, ...route.labelSvgIds],
+        nearbyCities: route.nearbyCities,
+        nearbyCityMarkerSvgIds: route.nearbyCityMarkerSvgIds,
+      });
     }
   }, []);
 
@@ -448,6 +617,7 @@ export function FutureProjectsMap() {
   const handleMapPreview = (
     event: ReactPointerEvent<HTMLDivElement> | ReactFocusEvent<HTMLDivElement>,
   ) => {
+    if (selectedStage) return;
     const hit = findMapHit(event.target, mapSurfaceRef.current);
     if (!hit) return;
     if ("clientX" in event && (hit.kind === "road" || hit.kind === "city")) {
@@ -459,6 +629,7 @@ export function FutureProjectsMap() {
   };
 
   const handleMapPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (selectedStage) return;
     const hit = findMapHit(event.target, mapSurfaceRef.current);
     if (hit?.kind === "road" || hit?.kind === "city") {
       positionTooltipNearPointer(event.clientX, event.clientY);
@@ -468,6 +639,7 @@ export function FutureProjectsMap() {
   const handleMapExit = (
     event: ReactPointerEvent<HTMLDivElement> | ReactFocusEvent<HTMLDivElement>,
   ) => {
+    if (selectedStage) return;
     const from = findMapHit(event.target, mapSurfaceRef.current);
     const to = findMapHit(event.relatedTarget, mapSurfaceRef.current);
     if (isSameMapHit(from, to)) return;
@@ -475,11 +647,13 @@ export function FutureProjectsMap() {
   };
 
   const handleMapClick = (event: ReactSyntheticEvent<HTMLDivElement>) => {
+    if (selectedStage) return;
     const hit = findMapHit(event.target, mapSurfaceRef.current);
     if (hit) activateMapHit(hit, hit.kind !== "city");
   };
 
   const handleMapKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
+    if (selectedStage) return;
     if (event.key === "Escape") {
       clearTransientState();
       return;
@@ -513,6 +687,56 @@ export function FutureProjectsMap() {
   }, []);
 
   useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+
+    const measureBleed = () => {
+      const bounds = frame.getBoundingClientRect();
+      if (bounds.width <= 0 || bounds.height <= 0) return;
+
+      const scale = Math.min(
+        bounds.width / DEFAULT_VIEW_BOX.width,
+        bounds.height / DEFAULT_VIEW_BOX.height,
+      );
+      const fittedWidth = DEFAULT_VIEW_BOX.width * scale;
+      const fittedHeight = DEFAULT_VIEW_BOX.height * scale;
+      const overflowY = Math.min(Math.max(bounds.height * 0.34, 112), 240);
+      const featherX = Math.min(Math.max(bounds.width * 0.06, 48), 88);
+      const featherY = Math.min(Math.max(bounds.height * 0.1, 56), 96);
+      const holeLeft = bounds.left + featherX;
+      const holeTop = overflowY + featherY;
+      const holeRight = bounds.right - featherX;
+      const holeBottom = overflowY + bounds.height - featherY;
+
+      setBleedGeometry({
+        viewportLeft: -bounds.left,
+        viewportTop: -overflowY,
+        viewportWidth: window.innerWidth,
+        viewportHeight: bounds.height + overflowY * 2,
+        imageLeft:
+          bounds.left + (bounds.width - fittedWidth) / 2 - DEFAULT_VIEW_BOX.x * scale,
+        imageTop:
+          overflowY + (bounds.height - fittedHeight) / 2 - DEFAULT_VIEW_BOX.y * scale,
+        imageSize: MAP_ASSET_SIZE * scale,
+        featherX,
+        featherY,
+        clipPath: `polygon(evenodd, 0 0, 100% 0, 100% 100%, 0 100%, 0 0, ${holeLeft}px ${holeTop}px, ${holeLeft}px ${holeBottom}px, ${holeRight}px ${holeBottom}px, ${holeRight}px ${holeTop}px, ${holeLeft}px ${holeTop}px)`,
+      });
+    };
+
+    measureBleed();
+    const observer =
+      typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measureBleed);
+    observer?.observe(frame);
+    window.addEventListener("resize", measureBleed);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", measureBleed);
+    };
+  }, []);
+
+  useEffect(() => {
     const root = mapSurfaceRef.current?.querySelector("svg");
     if (!root) return;
     svgRootRef.current = root;
@@ -526,19 +750,48 @@ export function FutureProjectsMap() {
         element.getAttribute("data-road-color-overlay") !== "true",
     );
     if (baseMapLayer) {
-      baseMapLayer.style.transition = "filter 320ms ease-in-out";
+      baseMapLayer.style.transition = "filter 560ms ease-in-out";
       baseMapLayer.style.filter = "none";
     }
 
     const activeIds = new Set(activeSelection?.svgIds ?? []);
 
-    ALL_ROUTE_SVG_IDS.forEach((svgId) => {
+    MAP_LAYER_SVG_IDS.forEach((svgId) => {
       const element = findSvgElement<SVGElement>(svgId);
       if (!element) return;
 
       const isActive = activeIds.has(svgId);
-      element.style.cursor = "pointer";
-      element.style.transition = "opacity 280ms ease-in-out, filter 280ms ease-in-out";
+      const isFutureStage = FUTURE_STAGE_SVG_IDS.has(svgId);
+      if (isFutureStage) {
+        const isVisible = activeSelection?.kind === "stage" && isActive;
+        element.style.cursor = "default";
+        element.style.pointerEvents = "none";
+        element.style.transition =
+          "opacity 520ms ease-in-out, filter 520ms ease-in-out";
+        element.style.opacity = isVisible ? "1" : "0";
+        element.style.filter = isVisible
+          ? "drop-shadow(0 0 5px rgba(32,165,91,.45))"
+          : "none";
+        element.setAttribute("tabindex", "-1");
+        if (isVisible) {
+          element.removeAttribute("aria-hidden");
+          element.setAttribute("aria-disabled", "true");
+        } else {
+          element.setAttribute("aria-hidden", "true");
+          element.removeAttribute("aria-disabled");
+        }
+        return;
+      }
+
+      element.style.cursor = selectedStage ? "default" : "pointer";
+      element.style.pointerEvents = selectedStage ? "none" : "auto";
+      element.setAttribute("tabindex", selectedStage ? "-1" : "0");
+      if (selectedStage) {
+        element.setAttribute("aria-disabled", "true");
+      } else {
+        element.removeAttribute("aria-disabled");
+      }
+      element.style.transition = "opacity 520ms ease-in-out, filter 520ms ease-in-out";
       element.style.opacity =
         activeSelection?.kind === "stage" ? (isActive ? "1" : "0.22") : "1";
       element.style.filter =
@@ -552,10 +805,22 @@ export function FutureProjectsMap() {
     MAP_CITY_NAMES.forEach((city) => {
       const element = root.querySelector<SVGElement>(`[data-city-name="${city}"]`);
       if (!element) return;
-      element.style.cursor = "pointer";
+      element.style.cursor = selectedStage ? "default" : "pointer";
+      element.style.pointerEvents = selectedStage ? "none" : "auto";
+      element.setAttribute("tabindex", selectedStage ? "-1" : "0");
+      if (selectedStage) {
+        element.setAttribute("aria-disabled", "true");
+      } else {
+        element.removeAttribute("aria-disabled");
+      }
+      element.style.transformBox = "fill-box";
+      element.style.transformOrigin = "center";
+      element.style.transition =
+        "opacity 520ms ease-in-out, filter 520ms ease-in-out, transform 320ms ease-in-out";
       element.style.opacity = cityPreview && cityPreview !== city ? "0.42" : "1";
       element.style.filter =
         cityPreview === city ? "drop-shadow(0 0 4px #ff5100)" : "none";
+      element.style.transform = cityPreview === city ? "scale(2)" : "scale(1)";
     });
 
     if (activeSelection?.kind === "road") {
@@ -570,10 +835,10 @@ export function FutureProjectsMap() {
         overlay.setAttribute("aria-hidden", "true");
         overlay.style.pointerEvents = "none";
         overlay.style.filter = "drop-shadow(0 0 5px rgba(255,81,0,.42))";
+        overlay.style.opacity = "0";
+        overlay.style.transition = "opacity 560ms ease-in-out";
 
-        activeSelection.svgIds.forEach((svgId) => {
-          const element = findSvgElement<SVGElement>(svgId);
-          if (!element) return;
+        const appendCleanClone = (element: SVGElement) => {
           const clone = element.cloneNode(true) as SVGElement;
           [clone, ...Array.from(clone.querySelectorAll("*"))].forEach((node) => {
             node.removeAttribute("id");
@@ -581,11 +846,34 @@ export function FutureProjectsMap() {
             node.removeAttribute("role");
             node.removeAttribute("aria-label");
             node.removeAttribute("data-map-hit");
+            node.removeAttribute("data-city-name");
+            node.removeAttribute("data-road-id");
           });
           overlay.append(clone);
+        };
+
+        activeSelection.svgIds.forEach((svgId) => {
+          const element = findSvgElement<SVGElement>(svgId);
+          if (!element) return;
+          appendCleanClone(element);
+        });
+
+        activeSelection.nearbyCities.forEach((city) => {
+          const element = root.querySelector<SVGElement>(`[data-city-name="${city}"]`);
+          if (!element) return;
+          appendCleanClone(element);
+        });
+
+        activeSelection.nearbyCityMarkerSvgIds.forEach((svgId) => {
+          const element = findSvgElement<SVGElement>(svgId);
+          if (!element) return;
+          appendCleanClone(element);
         });
 
         root.append(overlay);
+        requestAnimationFrame(() => {
+          if (overlay.isConnected) overlay.style.opacity = "1";
+        });
       }
 
       animateViewBox(DEFAULT_VIEW_BOX);
@@ -609,7 +897,14 @@ export function FutureProjectsMap() {
       ? frame.clientWidth / Math.max(frame.clientHeight, 1)
       : 1.5;
     animateViewBox(fitViewBox(box, aspectRatio));
-  }, [activeSelection, animateViewBox, cityPreview, svgMarkup]);
+  }, [
+    activeSelection,
+    animateViewBox,
+    bleedGeometry,
+    cityPreview,
+    selectedStage,
+    svgMarkup,
+  ]);
 
   useEffect(
     () => () => {
@@ -635,7 +930,6 @@ export function FutureProjectsMap() {
     event.preventDefault();
     const nextStage = FUTURE_MAP_STAGES[nextIndex];
     if (!nextStage) return;
-    activateStage(nextStage, true);
     document.getElementById(`future-map-year-${nextStage.year}`)?.focus();
   };
 
@@ -644,16 +938,55 @@ export function FutureProjectsMap() {
       className={styles.atlas}
       data-fallback="no-webgl"
       data-has-stage={selectedStage ? "true" : "false"}
-      data-road-hover={previewSelection?.kind === "road" ? "true" : "false"}
+      data-active-year={selectedStage?.year ?? 2026}
       data-testid="future-map-atlas"
     >
       <div className={styles.mapColumn}>
         <div className={styles.mapFrame} ref={frameRef}>
+          {bleedGeometry ? (
+            <div
+              className={styles.mapBleed}
+              style={{
+                left: `${bleedGeometry.viewportLeft}px`,
+                top: `${bleedGeometry.viewportTop}px`,
+                width: `${bleedGeometry.viewportWidth}px`,
+                height: `${bleedGeometry.viewportHeight}px`,
+                clipPath: bleedGeometry.clipPath,
+              }}
+              aria-hidden="true"
+            >
+              <Image
+                className={styles.mapBleedImage}
+                src={MAP_ASSET}
+                alt=""
+                width={MAP_ASSET_SIZE}
+                height={MAP_ASSET_SIZE}
+                unoptimized
+                style={{
+                  left: `${bleedGeometry.imageLeft}px`,
+                  top: `${bleedGeometry.imageTop}px`,
+                  width: `${bleedGeometry.imageSize}px`,
+                  height: `${bleedGeometry.imageSize}px`,
+                }}
+              />
+            </div>
+          ) : null}
+
           <div
             ref={mapSurfaceRef}
             className={styles.mapObject}
             data-map-asset={MAP_ASSET}
+            data-interaction-disabled={selectedStage ? "true" : "false"}
+            style={
+              bleedGeometry
+                ? ({
+                    "--map-feather-x": `${bleedGeometry.featherX}px`,
+                    "--map-feather-y": `${bleedGeometry.featherY}px`,
+                  } as CSSProperties)
+                : undefined
+            }
             role="group"
+            aria-disabled={selectedStage ? "true" : undefined}
             aria-label="Интерактивная схема дорог из Figma"
           >
             {svgMarkup ? (
@@ -719,12 +1052,14 @@ export function FutureProjectsMap() {
                   id={`future-map-year-${stage.year}`}
                   key={stage.id}
                   type="button"
-                  aria-pressed={selectedStageId === stage.id}
-                  onMouseEnter={() => activateStage(stage, false)}
-                  onMouseLeave={clearTransientState}
-                  onFocus={() => activateStage(stage, false)}
-                  onBlur={clearTransientState}
-                  onClick={() => activateStage(stage, true)}
+                  aria-pressed={
+                    stage.year === 2026
+                      ? selectedStageId === null
+                      : selectedStageId === stage.id
+                  }
+                  onClick={() =>
+                    stage.year === 2026 ? resetMapTo2026() : activateStage(stage, true)
+                  }
                   onKeyDown={(event) => handleTimelineKeyDown(event, index)}
                 >
                   <span>{stage.year}</span>

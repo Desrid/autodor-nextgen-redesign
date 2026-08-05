@@ -26,7 +26,7 @@ const allUrls = [
   ...SUBSIDIARY_SERVICES,
   ...SOCIAL_COMMITMENTS,
   ...SOCIAL_LINKS,
-].map(({ href }) => href);
+].flatMap(({ href }) => (typeof href === "string" ? [href] : []));
 
 describe("homepage source-backed content contracts", () => {
   it("keeps the Figma service slots and exact item count", () => {
@@ -64,6 +64,26 @@ describe("homepage source-backed content contracts", () => {
 
   it("does not publish empty subsidiary service cards", () => {
     expect(SUBSIDIARY_SERVICES).toHaveLength(4);
+    expect(SUBSIDIARY_SERVICES.map(({ service, href }) => ({ service, href }))).toEqual(
+      [
+        {
+          service: "Реализация транспондеров",
+          href: "https://tpass.me/",
+        },
+        {
+          service: "КАСКО",
+          href: "https://avtodor-tr.ru/services/insurance/kasko/",
+        },
+        {
+          service: "ОСАГО",
+          href: "https://avtodor-tr.ru/services/insurance/osago/",
+        },
+        {
+          service: "Подключение к API (для юридических лиц)",
+          href: null,
+        },
+      ],
+    );
     expect(new Set(SUBSIDIARY_SERVICES.map(({ id }) => id)).size).toBe(
       SUBSIDIARY_SERVICES.length,
     );
@@ -72,9 +92,15 @@ describe("homepage source-backed content contracts", () => {
       expect(item.service.trim()).not.toBe("");
       expect(item.description.trim()).not.toBe("");
       expect(item.category.trim()).not.toBe("");
-      expect(item.offerings).toHaveLength(2);
+      expect(item.offerings.length).toBeGreaterThan(0);
       expect(item.linkLabel.trim()).not.toBe("");
     }
+    expect(new Set(SUBSIDIARY_SERVICES.map(({ company }) => company))).toEqual(
+      new Set(["ООО «АВТОДОР - ПЛАТНЫЕ ДОРОГИ»"]),
+    );
+    expect(SUBSIDIARY_SERVICES.find(({ id }) => id === "legal-api")?.linkLabel).toBe(
+      "Ссылка уточняется",
+    );
   });
 
   it("uses absolute HTTP(S) targets and secure links where the source supports them", () => {

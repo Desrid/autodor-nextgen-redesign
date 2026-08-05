@@ -128,7 +128,7 @@ export const HEADER_NAVIGATION_GROUPS = [
           href: "https://russianhighways.ru/tenders/procurement/small-business-info/",
         },
         {
-          label: "Программа партерства с субъеткати МСП",
+          label: "Партнерство с субъектами МСП",
           href: "https://russianhighways.ru/msp/program/",
         },
         {

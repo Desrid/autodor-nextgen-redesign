@@ -148,12 +148,32 @@
 }
 
 .panel {
+  position: relative;
   display: flex;
+  isolation: isolate;
   min-width: 0;
   min-height: var(--contact-panel-height);
+  overflow: hidden;
   padding: clamp(1.5rem, 3vw, 2.5rem);
   border-radius: 1.5rem;
   background: var(--color-surface-subtle);
+}
+
+.panel::before {
+  position: absolute;
+  z-index: 0;
+  inset: 32.73% -11.38% -3.33% 33.01%;
+  background: var(--color-brand-orange);
+  content: "";
+  opacity: 0.1;
+  pointer-events: none;
+  -webkit-mask: url("/brand/contact-card-mark.svg") center / 100% 100% no-repeat;
+  mask: url("/brand/contact-card-mark.svg") center / 100% 100% no-repeat;
+}
+
+.panel > * {
+  position: relative;
+  z-index: 1;
 }
 
 .directory .panel h3 {
@@ -170,7 +190,7 @@
 
 .directory .row,
 .directory .address {
-  border-color: color-mix(in srgb, var(--color-text) 14%, transparent);
+  border-top: 0;
 }
 
 .actions {

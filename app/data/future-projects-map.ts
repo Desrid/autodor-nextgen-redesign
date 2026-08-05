@@ -3,15 +3,84 @@ import type { RoadId } from "./roads";
 export type MapRoute = Readonly<{
   id: RoadId;
   svgIds: readonly string[];
+  labelSvgIds: readonly string[];
+  nearbyCities: readonly MapCityName[];
+  nearbyCityMarkerSvgIds: readonly string[];
 }>;
 
 export const MAP_ROUTES: readonly MapRoute[] = [
-  { id: "m-11", svgIds: ["Vector 41"] },
-  { id: "m-1", svgIds: ["Vector 42"] },
-  { id: "m-3", svgIds: ["Vector 43"] },
-  { id: "m-4", svgIds: ["Vector 44"] },
-  { id: "m-12", svgIds: ["Vector 45"] },
-  { id: "a-113", svgIds: ["Vector 40", "Vector 10"] },
+  {
+    id: "m-11",
+    svgIds: ["Vector 41"],
+    labelSvgIds: ["Frame 3133"],
+    nearbyCities: ["Санкт-Петербург", "Великий Новгород", "Тверь", "Торжок", "Москва"],
+    nearbyCityMarkerSvgIds: [
+      "Ellipse 3",
+      "Ellipse 17",
+      "Ellipse 16",
+      "Ellipse 50",
+      "Ellipse 2",
+    ],
+  },
+  {
+    id: "m-1",
+    svgIds: ["Vector 42"],
+    labelSvgIds: ["Frame 3137"],
+    nearbyCities: ["Москва", "Смоленск"],
+    nearbyCityMarkerSvgIds: ["Ellipse 2", "Ellipse 19"],
+  },
+  {
+    id: "m-3",
+    svgIds: ["Vector 43"],
+    labelSvgIds: ["Frame 3138"],
+    nearbyCities: ["Москва", "Калуга", "Брянск"],
+    nearbyCityMarkerSvgIds: ["Ellipse 2", "Ellipse 41", "Ellipse 20"],
+  },
+  {
+    id: "m-4",
+    svgIds: ["Vector 44"],
+    labelSvgIds: ["Frame 334"],
+    nearbyCities: ["Москва", "Воронеж", "Ростов-на-Дону", "Краснодар", "Новороссийск"],
+    nearbyCityMarkerSvgIds: [
+      "Ellipse 2",
+      "Ellipse 15",
+      "Ellipse 4",
+      "Ellipse 11",
+      "Ellipse 10",
+    ],
+  },
+  {
+    id: "m-12",
+    svgIds: ["Vector 45"],
+    labelSvgIds: [],
+    nearbyCities: [
+      "Москва",
+      "Орехово-Зуево",
+      "Владимир",
+      "Муром",
+      "Арзамас",
+      "Казань",
+      "Набережные Челны",
+      "Екатеринбург",
+    ],
+    nearbyCityMarkerSvgIds: [
+      "Ellipse 2",
+      "Ellipse 27",
+      "Ellipse 21",
+      "Ellipse 55",
+      "Ellipse 56",
+      "Ellipse 48",
+      "Ellipse 73",
+      "Ellipse 28",
+    ],
+  },
+  {
+    id: "a-113",
+    svgIds: ["Vector 40", "Vector 10"],
+    labelSvgIds: ["Frame 3144"],
+    nearbyCities: ["Москва", "Тверь", "Владимир", "Калуга"],
+    nearbyCityMarkerSvgIds: ["Ellipse 2", "Ellipse 16", "Ellipse 21", "Ellipse 41"],
+  },
 ] as const;
 
 export type FutureMapStage = Readonly<{
@@ -37,7 +106,7 @@ export const FUTURE_MAP_STAGES: readonly FutureMapStage[] = [
     description:
       "Новый скоростной обход Санкт-Петербурга показан на карте как перспективное направление.",
     sourceNote: "Этап шкалы просмотра; отдельный срок ввода не заявлен.",
-    svgIds: ["Vector 48"],
+    svgIds: ["Vector 48", "Frame 3134"],
   },
   {
     id: "orekhovo-bypass",
@@ -47,7 +116,7 @@ export const FUTURE_MAP_STAGES: readonly FutureMapStage[] = [
       "На исходной схеме выделен перспективный обход городов Орехово-Зуево и Ликино-Дулёво.",
     sourceNote:
       "Подпись из Figma; календарный срок требует официального подтверждения.",
-    svgIds: ["Vector 59"],
+    svgIds: ["Vector 59", "Frame 3142"],
   },
   {
     id: "krasnodar-bypass",
@@ -56,7 +125,7 @@ export const FUTURE_MAP_STAGES: readonly FutureMapStage[] = [
     description:
       "Перспективная дорога показана к югу от Краснодара и входит в три подтверждённых проекта блока.",
     sourceNote: "Общий подтверждённый ориентир трёх проектов — к 2030 году.",
-    svgIds: ["Vector 54"],
+    svgIds: ["Vector 54", "Frame 3139"],
   },
   {
     id: "m4-sochi",
@@ -65,7 +134,7 @@ export const FUTURE_MAP_STAGES: readonly FutureMapStage[] = [
     description:
       "Зелёный слой Figma показывает перспективное продолжение дорожного коридора в направлении Сочи.",
     sourceNote: "Этап шкалы просмотра; отдельный срок ввода не заявлен.",
-    svgIds: ["Vector 56"],
+    svgIds: ["Vector 56", "Frame 3140"],
   },
   {
     id: "southwest-chord",
@@ -74,7 +143,7 @@ export const FUTURE_MAP_STAGES: readonly FutureMapStage[] = [
     description:
       "На карте направление показано пунктирной зелёной линией как перспективный проект дорожной сети.",
     sourceNote: "Схематичное направление из Figma, не навигационная геометрия.",
-    svgIds: ["Vector 61"],
+    svgIds: ["Vector 61", "Frame 3143"],
   },
 ] as const;
 
