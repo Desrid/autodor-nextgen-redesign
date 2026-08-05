@@ -174,31 +174,12 @@
   inset: 0;
   content: "";
   background: linear-gradient(180deg, transparent 45%, rgb(10 11 12 / 70%));
+  pointer-events: none;
 }
 
-.tooltipImage span {
+.cityPhotoSource {
   position: absolute;
-  z-index: 1;
-  right: 0.625rem;
-  bottom: 0.5rem;
-  left: 0.625rem;
-  color: rgb(255 255 255 / 78%);
-  font-size: 0.625rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.tooltipImage .photoCredit {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-transform: none;
-  white-space: nowrap;
-}
-
-.photoCredit a {
-  color: inherit;
-  text-decoration-color: rgb(255 255 255 / 42%);
-  text-underline-offset: 0.16em;
+  inset: 0;
 }
 
 .cityImage img {
@@ -220,24 +201,15 @@
 }
 
 .tooltipBody h3 {
-  margin-top: 0.2rem;
   font-size: clamp(1rem, 1.8vw, 1.35rem);
   line-height: 1.08;
 }
 
-.tooltipBody > p:not(.tooltipEyebrow) {
+.tooltipBody > p {
   margin-top: 0.5rem;
   color: rgb(255 255 255 / 72%);
   font-size: 0.75rem;
   line-height: 1.35;
-}
-
-.tooltipEyebrow {
-  color: #ff8b57;
-  font-size: 0.625rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 .tooltipBody dl {
@@ -261,15 +233,6 @@
   margin: 0.125rem 0 0;
   font-size: 0.6875rem;
   line-height: 1.2;
-}
-
-.tooltipBody a {
-  align-self: flex-start;
-  margin-top: 0.75rem;
-  color: #ff8b57;
-  font-size: 0.6875rem;
-  font-weight: 650;
-  text-underline-offset: 0.2em;
 }
 
 .timelineWrap {

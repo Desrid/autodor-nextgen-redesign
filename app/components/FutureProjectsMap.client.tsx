@@ -18,6 +18,7 @@ import {
   ALL_ROUTE_SVG_IDS,
   FUTURE_MAP_STAGES,
   getMapCityDescription,
+  MAP_CITY_MARKER_IDS,
   MAP_CITY_NAMES,
   MAP_ROUTES,
   type FutureMapStage,
@@ -260,13 +261,35 @@ function prepareMapMarkup(markup: string) {
   );
 
   MAP_CITY_NAMES.forEach((city) => {
-    const element = semanticGroups.get(MAP_CITY_SVG_ALIASES[city] ?? city);
-    if (!element) return;
-    element.setAttribute("tabindex", "0");
-    element.setAttribute("role", "button");
-    element.setAttribute("aria-label", `Город ${city}`);
-    element.setAttribute("data-map-hit", "city");
-    element.setAttribute("data-city-name", city);
+    const label = semanticGroups.get(MAP_CITY_SVG_ALIASES[city] ?? city);
+    const marker = document.getElementById(MAP_CITY_MARKER_IDS[city]);
+    if (!label || marker?.tagName.toLowerCase() !== "circle") return;
+
+    label.setAttribute("data-city-label-name", city);
+    label.setAttribute("pointer-events", "none");
+
+    marker.setAttribute("data-city-marker-name", city);
+    marker.setAttribute("fill", "#FFFFFF");
+    marker.setAttribute("stroke", "#FF5100");
+    marker.setAttribute("stroke-width", "3");
+    marker.setAttribute("vector-effect", "non-scaling-stroke");
+    marker.setAttribute("pointer-events", "none");
+    marker.setAttribute("aria-hidden", "true");
+
+    const hitTarget = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    hitTarget.setAttribute("cx", marker.getAttribute("cx") ?? "0");
+    hitTarget.setAttribute("cy", marker.getAttribute("cy") ?? "0");
+    hitTarget.setAttribute("r", "14");
+    hitTarget.setAttribute("fill", "transparent");
+    hitTarget.setAttribute("pointer-events", "all");
+    hitTarget.setAttribute("tabindex", "0");
+    hitTarget.setAttribute("role", "button");
+    hitTarget.setAttribute("aria-label", `Город ${city}`);
+    hitTarget.setAttribute("data-map-hit", "city");
+    hitTarget.setAttribute("data-city-name", city);
+    hitTarget.setAttribute("data-city-hit-target", "true");
+    hitTarget.setAttribute("cursor", "pointer");
+    marker.parentNode?.insertBefore(hitTarget, marker.nextSibling);
   });
 
   const hitLayer = document.createElementNS("http://www.w3.org/2000/svg", "g");
@@ -344,10 +367,8 @@ function RoadTooltip({ road }: Readonly<{ road: RoadRecord }>) {
           fill
           sizes="(max-width: 720px) 38vw, 150px"
         />
-        <span>Иллюстрация</span>
       </div>
       <div className={styles.tooltipBody}>
-        <p className={styles.tooltipEyebrow}>Дорога в управлении Автодора</p>
         <h3>{road.label}</h3>
         <p>{road.fact.extent}</p>
         <dl>
@@ -364,7 +385,6 @@ function RoadTooltip({ road }: Readonly<{ road: RoadRecord }>) {
             <dd>до {road.fact.speedKmhMax} км/ч</dd>
           </div>
         </dl>
-        <a href={road.detailsUrl}>Подробнее о дороге</a>
       </div>
     </article>
   );
@@ -376,34 +396,28 @@ function CityTooltip({ city }: Readonly<{ city: MapCityName }>) {
   return (
     <article className={styles.tooltipCard} data-testid="map-city-tooltip">
       <div className={`${styles.tooltipImage} ${styles.cityImage}`}>
-        <Image
-          src={photo.src}
-          alt={photo.alt}
-          fill
-          unoptimized
-          sizes="(max-width: 720px) 38vw, 150px"
-          onError={(event) => {
-            event.currentTarget.srcset = "";
-            event.currentTarget.src = FALLBACK_MAP_ASSET;
-          }}
-        />
-        <span className={styles.photoCredit}>
-          Фото:{" "}
-          <a href={photo.sourceUrl} target="_blank" rel="noreferrer">
-            {photo.author}
-          </a>{" "}
-          ·{" "}
-          {photo.licenseUrl ? (
-            <a href={photo.licenseUrl} target="_blank" rel="noreferrer">
-              {photo.license}
-            </a>
-          ) : (
-            photo.license
-          )}
-        </span>
+        <a
+          className={styles.cityPhotoSource}
+          href={photo.sourceUrl}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`Источник фотографии города ${city}`}
+          title={`${photo.author} · ${photo.license}`}
+        >
+          <Image
+            src={photo.src}
+            alt={photo.alt}
+            fill
+            unoptimized
+            sizes="(max-width: 720px) 38vw, 150px"
+            onError={(event) => {
+              event.currentTarget.srcset = "";
+              event.currentTarget.src = FALLBACK_MAP_ASSET;
+            }}
+          />
+        </a>
       </div>
       <div className={styles.tooltipBody}>
-        <p className={styles.tooltipEyebrow}>Город на карте</p>
         <h3>{city}</h3>
         <p>{getMapCityDescription(city)}</p>
       </div>
@@ -803,24 +817,25 @@ export function FutureProjectsMap() {
     });
 
     MAP_CITY_NAMES.forEach((city) => {
-      const element = root.querySelector<SVGElement>(`[data-city-name="${city}"]`);
-      if (!element) return;
-      element.style.cursor = selectedStage ? "default" : "pointer";
-      element.style.pointerEvents = selectedStage ? "none" : "auto";
-      element.setAttribute("tabindex", selectedStage ? "-1" : "0");
+      const hitTarget = root.querySelector<SVGElement>(`[data-city-name="${city}"]`);
+      const marker = root.querySelector<SVGElement>(
+        `[data-city-marker-name="${city}"]`,
+      );
+      if (!hitTarget || !marker) return;
+      hitTarget.style.cursor = selectedStage ? "default" : "pointer";
+      hitTarget.style.pointerEvents = selectedStage ? "none" : "all";
+      hitTarget.setAttribute("tabindex", selectedStage ? "-1" : "0");
       if (selectedStage) {
-        element.setAttribute("aria-disabled", "true");
+        hitTarget.setAttribute("aria-disabled", "true");
       } else {
-        element.removeAttribute("aria-disabled");
+        hitTarget.removeAttribute("aria-disabled");
       }
-      element.style.transformBox = "fill-box";
-      element.style.transformOrigin = "center";
-      element.style.transition =
-        "opacity 520ms ease-in-out, filter 520ms ease-in-out, transform 320ms ease-in-out";
-      element.style.opacity = cityPreview && cityPreview !== city ? "0.42" : "1";
-      element.style.filter =
+      marker.style.fill = "#fff";
+      marker.style.stroke = "#ff5100";
+      marker.style.strokeWidth = "3";
+      marker.style.transition = "filter 240ms ease-in-out";
+      marker.style.filter =
         cityPreview === city ? "drop-shadow(0 0 4px #ff5100)" : "none";
-      element.style.transform = cityPreview === city ? "scale(2)" : "scale(1)";
     });
 
     if (activeSelection?.kind === "road") {
@@ -859,7 +874,9 @@ export function FutureProjectsMap() {
         });
 
         activeSelection.nearbyCities.forEach((city) => {
-          const element = root.querySelector<SVGElement>(`[data-city-name="${city}"]`);
+          const element = root.querySelector<SVGElement>(
+            `[data-city-label-name="${city}"]`,
+          );
           if (!element) return;
           appendCleanClone(element);
         });
@@ -876,12 +893,12 @@ export function FutureProjectsMap() {
         });
       }
 
-      animateViewBox(DEFAULT_VIEW_BOX);
+      root.setAttribute("viewBox", toViewBoxString(DEFAULT_VIEW_BOX));
       return;
     }
 
     if (!activeSelection) {
-      animateViewBox(DEFAULT_VIEW_BOX);
+      root.setAttribute("viewBox", toViewBoxString(DEFAULT_VIEW_BOX));
       return;
     }
 

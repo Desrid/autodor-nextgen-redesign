@@ -91,10 +91,10 @@ describe("homepage source-backed content contracts", () => {
       expect(item.company.trim()).not.toBe("");
       expect(item.service.trim()).not.toBe("");
       expect(item.description.trim()).not.toBe("");
-      expect(item.category.trim()).not.toBe("");
-      expect(item.offerings.length).toBeGreaterThan(0);
+      expect(item.image).toMatch(/^\/media\/subsidiary\/[a-z-]+\.webp$/);
       expect(item.linkLabel.trim()).not.toBe("");
     }
+    expect(new Set(SUBSIDIARY_SERVICES.map(({ image }) => image)).size).toBe(4);
     expect(new Set(SUBSIDIARY_SERVICES.map(({ company }) => company))).toEqual(
       new Set(["ООО «АВТОДОР - ПЛАТНЫЕ ДОРОГИ»"]),
     );

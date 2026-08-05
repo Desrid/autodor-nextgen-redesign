@@ -4123,8 +4123,7 @@ a:focus-visible > .inline-arrow-icon {
   flex-basis: 100%;
 }
 
-.tariff-sources a,
-.future-projects a {
+.tariff-sources a {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
@@ -4139,27 +4138,72 @@ a:focus-visible > .inline-arrow-icon {
 }
 
 .subsidiary-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
+  isolation: isolate;
+  overflow: hidden;
   min-height: 100%;
   padding: clamp(0.9rem, 1.8vw, 1.5rem);
   gap: 0.75rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid rgb(255 255 255 / 22%);
   border-radius: var(--radius-card);
-  background: var(--color-page);
-  box-shadow: 0 0.75rem 1.5rem rgb(var(--color-brand-black-rgb) / 4%);
+  background: var(--color-brand-black);
+  color: var(--color-page);
+  box-shadow: 0 0.75rem 1.5rem rgb(var(--color-brand-black-rgb) / 16%);
   transition:
-    border-color 160ms ease-in-out,
     box-shadow 160ms ease-in-out,
     transform 160ms ease-in-out;
 }
 
-.subsidiary-card:hover {
-  border-color: var(--color-brand-orange);
+.subsidiary-card:hover,
+.subsidiary-card[data-cursor-tilt="active"] {
   box-shadow: 0 1rem 2rem rgb(var(--color-brand-black-rgb) / 12%);
-  transform: translateY(-0.2rem);
+}
+
+.subsidiary-card--linked {
+  cursor: pointer;
+}
+
+.subsidiary-card__media {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+}
+
+.subsidiary-card__media::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgb(0 0 0 / 32%) 0%,
+      rgb(0 0 0 / 68%) 72%,
+      rgb(0 0 0 / 88%) 100%
+    ),
+    linear-gradient(90deg, rgb(0 0 0 / 46%) 0%, rgb(0 0 0 / 8%) 78%);
+  content: "";
+}
+
+.subsidiary-card__media img {
+  object-fit: cover;
+  transition: transform 480ms ease-in-out;
+}
+
+.subsidiary-card:hover .subsidiary-card__media img,
+.subsidiary-card[data-cursor-tilt="active"] .subsidiary-card__media img {
+  transform: scale(1.045);
+}
+
+.subsidiary-card__header,
+.subsidiary-card__details,
+.subsidiary-card__cta,
+.subsidiary-card__link-status {
+  position: relative;
+  z-index: 2;
 }
 
 .subsidiary-card__header,
@@ -4169,13 +4213,9 @@ a:focus-visible > .inline-arrow-icon {
   gap: 0.45rem;
 }
 
-.subsidiary-card__category {
-  display: none;
-}
-
 .subsidiary-card__company {
   margin: 0;
-  color: var(--color-text-muted);
+  color: rgb(255 255 255 / 74%);
   font-size: 0.8125rem;
   font-weight: 650;
   line-height: 1.35;
@@ -4189,58 +4229,61 @@ a:focus-visible > .inline-arrow-icon {
   grid-column: 2 / 4;
 }
 
-.subsidiary-card--4 .subsidiary-card__company {
-  color: var(--color-text-muted);
+.subsidiary-card--1 .subsidiary-card__media img {
+  object-position: 58% center;
+}
+
+.subsidiary-card--2 .subsidiary-card__media img,
+.subsidiary-card--3 .subsidiary-card__media img {
+  object-position: 64% center;
+}
+
+.subsidiary-card--4 .subsidiary-card__media img {
+  object-position: center 38%;
 }
 
 .subsidiary-card h3 {
   font-size: clamp(1.125rem, 1.56vw, 1.59rem);
   line-height: 1.08;
+  text-shadow: 0 0.08rem 0.8rem rgb(0 0 0 / 30%);
 }
 
 .subsidiary-card__details > p {
   margin: 0;
   max-width: 42ch;
+  color: rgb(255 255 255 / 90%);
   font-size: 0.875rem;
   line-height: 1.4;
 }
 
-.subsidiary-card__details ul {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0;
-  padding: 0;
+.subsidiary-card__cta {
+  display: inline-flex;
+  align-items: center;
   gap: 0.3rem;
-  list-style: none;
-}
-
-.subsidiary-card__details li {
-  padding: 0.18rem 0.33rem;
-  border: 1px solid currentColor;
-  border-radius: 999px;
-  color: inherit;
-  font-size: 0.7rem;
-  font-weight: 650;
-  line-height: 1.2;
-  opacity: 0.78;
-}
-
-.subsidiary-card a {
-  gap: 0.3rem;
-  padding-bottom: 0;
-  border-bottom: 0;
+  color: var(--color-page);
   font-size: 0.875rem;
   font-weight: 750;
-  text-decoration: none;
+}
+
+.subsidiary-card__stretched-link {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  display: block;
+  min-height: 0;
+  border: 0;
+  border-radius: inherit;
 }
 
 .subsidiary-card__link-status {
-  color: var(--color-text-muted);
+  color: rgb(255 255 255 / 74%);
   font-size: 0.875rem;
   font-weight: 750;
 }
 
-.subsidiary-card a:hover {
+.subsidiary-card:hover .subsidiary-card__cta,
+.subsidiary-card[data-cursor-tilt="active"] .subsidiary-card__cta,
+.subsidiary-card:focus-within .subsidiary-card__cta {
   color: var(--color-brand-orange);
 }
 
@@ -4248,13 +4291,14 @@ a:focus-visible > .inline-arrow-icon {
   gap: 0.6rem;
 }
 
-.subsidiary-card a:focus-visible {
+.subsidiary-card__stretched-link:focus-visible {
   outline: 3px solid var(--color-brand-orange);
-  outline-offset: 0.35rem;
+  outline-offset: -4px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .subsidiary-card {
+  .subsidiary-card,
+  .subsidiary-card__media img {
     transition: none;
   }
 
@@ -4452,7 +4496,7 @@ a:focus-visible > .inline-arrow-icon {
 .future-projects article {
   position: relative;
   display: grid;
-  height: 400px;
+  height: 240px;
   overflow: hidden;
   border-radius: var(--radius-card);
   background: var(--color-brand-black);
@@ -4490,7 +4534,7 @@ a:focus-visible > .inline-arrow-icon {
   display: flex;
   min-height: 0;
   flex-direction: column;
-  padding: clamp(1.15rem, 2vw, 1.5rem);
+  padding: clamp(1rem, 2vw, 1.5rem);
 }
 
 .future-projects article:hover,
@@ -4531,7 +4575,7 @@ a:focus-visible > .inline-arrow-icon {
   font-size: clamp(1.2rem, 1.7vw, 1.75rem);
   line-height: 1.1;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -4553,7 +4597,21 @@ a:focus-visible > .inline-arrow-icon {
   font-weight: 800;
 }
 
-.future-projects a {
+.future-projects__stretched-link {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  display: block;
+  min-height: 0;
+  border-radius: inherit;
+}
+
+.future-projects__stretched-link:focus-visible {
+  outline: 3px solid var(--color-brand-orange);
+  outline-offset: -4px;
+}
+
+.future-projects__cta {
   margin-block-start: auto;
   display: inline-flex;
   align-items: center;
@@ -7000,7 +7058,7 @@ body textarea {
 
 .subsidiary-card.cursor-tilt-card[data-cursor-tilt="active"],
 .subsidiary-card.cursor-tilt-card:hover {
-  --cursor-card-lift-y: -0.2rem;
+  --cursor-card-lift-y: 0px;
 }
 
 .future-projects article.cursor-tilt-card[data-cursor-tilt="active"],

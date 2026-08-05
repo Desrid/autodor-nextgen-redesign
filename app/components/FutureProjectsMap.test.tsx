@@ -10,7 +10,7 @@ describe("FutureProjectsMap", () => {
       vi.fn().mockResolvedValue({
         ok: true,
         text: async () =>
-          '<svg viewBox="0 0 4097 4097"><rect width="4096.33" height="4096.33" fill="#D1D1D1"/><g id="map-root"><g id="Vector 41"><path d="M0 0L100 100" /></g><g id="Vector 54"><path d="M10 10L90 90" /></g><g id="&#208;&#156;&#208;&#190;&#209;&#129;&#208;&#186;&#208;&#178;&#208;&#176;"><path d="M20 20L30 30" /></g></g></svg>',
+          '<svg viewBox="0 0 4097 4097"><rect width="4096.33" height="4096.33" fill="#D1D1D1"/><g id="map-root"><g id="Vector 41"><path d="M0 0L100 100" /></g><g id="Vector 54"><path d="M10 10L90 90" /></g><circle id="Ellipse 2" cx="24" cy="24" r="5" fill="#FF5100"/><g id="&#208;&#156;&#208;&#190;&#209;&#129;&#208;&#186;&#208;&#178;&#208;&#176;"><path d="M20 20L30 30" /></g></g></svg>',
       }),
     );
   });
@@ -29,6 +29,7 @@ describe("FutureProjectsMap", () => {
 
     const tooltip = screen.getByTestId("map-road-tooltip");
     const atlas = screen.getByTestId("future-map-atlas");
+    const initialViewBox = atlas.querySelector("svg")?.getAttribute("viewBox");
     const baseMapLayer = atlas.querySelector<SVGGElement>("#map-root");
     expect(atlas).not.toHaveAttribute("data-road-hover");
     expect(baseMapLayer?.style.filter).not.toBe("grayscale(1)");
@@ -44,31 +45,45 @@ describe("FutureProjectsMap", () => {
     expect(tooltip).toHaveTextContent("Категория");
     expect(tooltip).toHaveTextContent("Полос");
     expect(tooltip).toHaveTextContent("Скорость");
-    expect(
-      screen.getByRole("link", { name: "Подробнее о дороге" }),
-    ).toBeInTheDocument();
+    expect(tooltip).not.toHaveTextContent("Дорога в управлении Автодора");
+    expect(tooltip).not.toHaveTextContent("Иллюстрация");
+    expect(tooltip).not.toHaveTextContent("Подробнее о дороге");
 
     fireEvent.keyDown(road, { key: "Enter" });
     await waitFor(() =>
       expect(screen.getByTestId("map-road-tooltip")).toBeInTheDocument(),
     );
+    expect(atlas.querySelector("svg")?.getAttribute("viewBox")).toBe(initialViewBox);
   });
 
   it("repairs Figma city identifiers and shows the city tooltip", async () => {
-    render(<FutureProjectsMap />);
+    const { container } = render(<FutureProjectsMap />);
 
     const city = await screen.findByRole("button", { name: "Город Москва" });
+    const label = container.querySelector<SVGElement>(
+      '[data-city-label-name="Москва"]',
+    );
+    const marker = container.querySelector<SVGElement>(
+      '[data-city-marker-name="Москва"]',
+    );
+    expect(city).toHaveAttribute("data-city-hit-target", "true");
+    expect(label).toHaveAttribute("pointer-events", "none");
+    expect(label).not.toHaveAttribute("role");
+    expect(marker).toHaveAttribute("fill", "#FFFFFF");
+    expect(marker).toHaveAttribute("stroke", "#FF5100");
+    expect(marker).toHaveAttribute("stroke-width", "3");
     fireEvent.pointerOver(city);
-    await waitFor(() =>
-      expect(screen.getByRole("button", { name: "Город Москва" })).toHaveStyle({
-        transform: "scale(2)",
-      }),
-    );
 
-    expect(screen.getByTestId("map-city-tooltip")).toHaveTextContent("Москва");
-    expect(screen.getByTestId("map-city-tooltip")).toHaveTextContent(
-      /центральный узел схемы/i,
-    );
+    const tooltip = screen.getByTestId("map-city-tooltip");
+    expect(tooltip).toHaveTextContent("Москва");
+    expect(tooltip).toHaveTextContent(/центральный узел схемы/i);
+    expect(tooltip).not.toHaveTextContent("Город на карте");
+    expect(tooltip).not.toHaveTextContent(/Фото:/i);
+    expect(label?.style.opacity).toBe("");
+    expect(label?.style.filter).toBe("");
+    expect(
+      screen.getByRole("link", { name: "Источник фотографии города Москва" }),
+    ).toBeInTheDocument();
   });
 
   it("uses the year scale as visual navigation without presenting it as a deadline", async () => {

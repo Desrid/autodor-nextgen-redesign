@@ -133,12 +133,15 @@ describe("HomePage", () => {
     ]);
     cards?.forEach((card) => {
       expect(card.querySelector("h3")).toBeInTheDocument();
-      expect(card.querySelectorAll("li").length).toBeGreaterThan(0);
+      expect(card.querySelector("[data-subsidiary-media] img")).toBeInTheDocument();
+      expect(card.querySelectorAll("li")).toHaveLength(0);
     });
 
     const links = section?.querySelectorAll("a");
     expect(links).toHaveLength(3);
     links?.forEach((link) => {
+      expect(link).toHaveClass("subsidiary-card__stretched-link");
+      expect(link.parentElement).toHaveAttribute("data-subsidiary-item");
       expect(link).toHaveAttribute("target", "_blank");
       expect(link).toHaveAttribute("rel", "noreferrer");
       expect(link).toHaveAccessibleName(/откроется в новой вкладке/i);
@@ -166,11 +169,13 @@ describe("HomePage", () => {
     expect(screen.getByRole("button", { name: "2026" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "2030" })).toBeInTheDocument();
     const sourceLinks = screen.getAllByRole("link", {
-      name: /Открыть: Проспект ценных бумаг Государственной компании «Автодор», стр. 36/,
+      name: /^Подробнее:/,
     });
 
     expect(sourceLinks).toHaveLength(3);
     sourceLinks.forEach((link) => {
+      expect(link).toHaveClass("future-projects__stretched-link");
+      expect(link.closest("[data-future-project]")).toHaveTextContent("Подробнее");
       expect(link).toHaveAttribute("href", expect.stringMatching(/\.pdf$/));
     });
   });

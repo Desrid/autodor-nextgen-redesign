@@ -346,33 +346,39 @@ export default function HomePage() {
             {SUBSIDIARY_SERVICES.map((item, index) => (
               <article
                 key={item.id}
-                className={`subsidiary-card subsidiary-card--${index + 1}`}
+                className={`subsidiary-card subsidiary-card--${index + 1}${item.href ? " subsidiary-card--linked" : ""}`}
                 data-subsidiary-item
                 data-subsidiary-service={item.id}
               >
+                <div className="subsidiary-card__media" data-subsidiary-media>
+                  <Image
+                    src={item.image}
+                    alt=""
+                    fill
+                    sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 40vw"
+                  />
+                </div>
                 <div className="subsidiary-card__header">
-                  <p className="subsidiary-card__category">{item.category}</p>
                   <h3>{item.service}</h3>
                   <p className="subsidiary-card__company">{item.company}</p>
                 </div>
                 <div className="subsidiary-card__details">
                   <p>{item.description}</p>
-                  <ul aria-label={`Направления: ${item.company}`}>
-                    {item.offerings.map((offering) => (
-                      <li key={offering}>{offering}</li>
-                    ))}
-                  </ul>
                 </div>
                 {item.href ? (
-                  <a
-                    href={item.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`${item.linkLabel}: ${item.company} (откроется в новой вкладке)`}
-                  >
-                    {item.linkLabel}
-                    <ArrowIcon className="inline-arrow-icon" direction="right" />
-                  </a>
+                  <>
+                    <a
+                      className="subsidiary-card__stretched-link"
+                      href={item.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`${item.linkLabel}: ${item.company} (откроется в новой вкладке)`}
+                    />
+                    <span className="subsidiary-card__cta" aria-hidden="true">
+                      {item.linkLabel}
+                      <ArrowIcon className="inline-arrow-icon" direction="right" />
+                    </span>
+                  </>
                 ) : (
                   <span
                     className="subsidiary-card__link-status"
@@ -455,6 +461,13 @@ export default function HomePage() {
                     loading="lazy"
                   />
                   <div className="future-projects__shade" aria-hidden="true" />
+                  {project.publicationStatus === "verified" ? (
+                    <a
+                      className="future-projects__stretched-link"
+                      href={project.detailsUrl}
+                      aria-label={`Подробнее: ${project.title}`}
+                    />
+                  ) : null}
                   <div className="future-projects__content">
                     <div className="future-projects__meta">
                       <p>Проект {index + 1}</p>
@@ -472,13 +485,10 @@ export default function HomePage() {
                             {project.deadlineLabel}
                           </time>
                         </p>
-                        <a
-                          href={project.detailsUrl}
-                          aria-label={`Открыть: ${project.factSource.label}`}
-                        >
-                          Официальный источник, стр. 36
+                        <span className="future-projects__cta" aria-hidden="true">
+                          Подробнее
                           <ArrowIcon className="inline-arrow-icon" direction="right" />
-                        </a>
+                        </span>
                       </>
                     ) : (
                       <>
