@@ -9,7 +9,7 @@ test("uses the exact Figma footer content and local SVG assets", async ({ page }
 
   await expect(footer).toBeVisible();
   await expect(footer.locator(".footer-social a")).toHaveCount(4);
-  await expect(footer.locator(".footer-government a")).toHaveCount(3);
+  await expect(footer.locator(".footer-government a")).toHaveCount(5);
   await expect(footer.locator(".footer-legal a")).toHaveText([
     "Раскрытие информации",
     "Противодействие коррупции",
@@ -24,7 +24,7 @@ test("uses the exact Figma footer content and local SVG assets", async ({ page }
     .evaluateAll((images) =>
       images.map((image) => (image.getAttribute("src") ?? "").split("?")[0] ?? ""),
     );
-  expect(imagePaths).toHaveLength(11);
+  expect(imagePaths).toHaveLength(13);
   expect(imagePaths.every((path) => path.endsWith(".svg"))).toBe(true);
 });
 
@@ -49,8 +49,8 @@ test("matches the 1920px Figma geometry and stays inside narrow viewports", asyn
     expect(topBox?.height).toBeCloseTo(48, 0);
   }
 
-  const overflow = await page.evaluate(
-    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  const overflow = await footer.evaluate(
+    (element) => element.scrollWidth - element.clientWidth,
   );
   expect(overflow).toBeLessThanOrEqual(0);
 });

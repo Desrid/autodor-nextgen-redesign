@@ -313,6 +313,20 @@ export const GOVERNMENT_LINKS = [
     width: 103,
     nodeId: "1767:9202",
   },
+  {
+    label: "Ространснадзор",
+    href: "https://rostransnadzor.gov.ru/",
+    image: "/brand/rostransnadzor.svg",
+    width: 57,
+    nodeId: "1767:8085",
+  },
+  {
+    label: "Официальный сайт Президента РФ",
+    href: "https://kremlin.ru/",
+    image: "/brand/president-russia.svg",
+    width: 58,
+    nodeId: "1767:8085",
+  },
 ] as const;
 
 type FooterContact = Readonly<{

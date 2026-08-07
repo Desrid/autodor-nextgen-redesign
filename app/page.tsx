@@ -360,7 +360,6 @@ export default function HomePage() {
                 </div>
                 <div className="subsidiary-card__header">
                   <h3>{item.service}</h3>
-                  <p className="subsidiary-card__company">{item.company}</p>
                 </div>
                 <div className="subsidiary-card__details">
                   <p>{item.description}</p>
@@ -372,10 +371,10 @@ export default function HomePage() {
                       href={item.href}
                       target="_blank"
                       rel="noreferrer"
-                      aria-label={`${item.linkLabel}: ${item.company} (откроется в новой вкладке)`}
+                      aria-label={`Подробнее: ${item.service} (откроется в новой вкладке)`}
                     />
                     <span className="subsidiary-card__cta" aria-hidden="true">
-                      {item.linkLabel}
+                      Подробнее
                       <ArrowIcon className="inline-arrow-icon" direction="right" />
                     </span>
                   </>
@@ -413,7 +412,6 @@ export default function HomePage() {
                   <MediaPicture src={item.src} alt={item.imageAlt} />
                 </div>
                 <div className="social-card__content">
-                  <p className="social-card__eyebrow">{item.eyebrow}</p>
                   <h3 id={`social-${item.id}-title`}>{item.title}</h3>
                   <p>{item.description}</p>
                   <a

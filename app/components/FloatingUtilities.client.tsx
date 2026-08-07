@@ -92,7 +92,17 @@ export function FloatingUtilities() {
         <div className="chat-dialog__header">
           <h2 id="chat-title">Чем помочь?</h2>
           <button type="button" onClick={closeChat} aria-label="Закрыть чат">
-            <span aria-hidden="true">×</span>
+            <svg
+              className="chat-dialog__close-icon"
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              strokeWidth="1.5"
+            >
+              <path d="M6 6l12 12M18 6 6 18" />
+            </svg>
           </button>
         </div>
         <p className="chat-dialog__intro" id="chat-intro">

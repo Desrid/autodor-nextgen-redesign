@@ -22,6 +22,18 @@ describe("FloatingUtilities", () => {
       "aria-describedby",
       "chat-intro",
     );
+    expect(container.querySelector(".chat-dialog__close-icon")).toHaveAttribute(
+      "width",
+      "24",
+    );
+    expect(container.querySelector(".chat-dialog__close-icon")).toHaveAttribute(
+      "height",
+      "24",
+    );
+    expect(container.querySelector(".chat-dialog__close-icon")).toHaveAttribute(
+      "stroke-width",
+      "1.5",
+    );
     expect(container.querySelector(".primary-button")).toHaveTextContent(
       "Перейти в чат",
     );

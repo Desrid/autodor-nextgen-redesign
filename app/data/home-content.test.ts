@@ -109,7 +109,7 @@ describe("homepage source-backed content contracts", () => {
       expect(href).toMatch(/^https:\/\//);
     }
 
-    expect(GOVERNMENT_LINKS).toHaveLength(3);
+    expect(GOVERNMENT_LINKS).toHaveLength(5);
     for (const { href } of GOVERNMENT_LINKS) {
       expect(() => new URL(href)).not.toThrow();
     }
@@ -123,12 +123,27 @@ describe("homepage source-backed content contracts", () => {
       "1767:8082",
     ]);
     expect(SOCIAL_LINKS.every(({ image }) => image.endsWith(".svg"))).toBe(true);
-    expect(GOVERNMENT_LINKS.map(({ nodeId }) => nodeId)).toEqual([
+    expect(GOVERNMENT_LINKS.slice(0, 3).map(({ nodeId }) => nodeId)).toEqual([
       "1767:8086",
       "1767:8249",
       "1767:9202",
     ]);
     expect(GOVERNMENT_LINKS.every(({ image }) => image.endsWith(".svg"))).toBe(true);
+  });
+
+  it("adds the requested official resources with local SVG emblems", () => {
+    expect(GOVERNMENT_LINKS.slice(-2)).toMatchObject([
+      {
+        label: "Ространснадзор",
+        href: "https://rostransnadzor.gov.ru/",
+        image: "/brand/rostransnadzor.svg",
+      },
+      {
+        label: "Официальный сайт Президента РФ",
+        href: "https://kremlin.ru/",
+        image: "/brand/president-russia.svg",
+      },
+    ]);
   });
 
   it("keeps the two verified social commitments in Figma order", () => {
