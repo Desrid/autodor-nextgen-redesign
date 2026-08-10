@@ -151,7 +151,7 @@ describe("HomePage", () => {
     ).toHaveTextContent("Ссылка уточняется");
   });
 
-  it("presents the future-project map as an interactive Figma atlas with a static fallback", async () => {
+  it("presents the future-project map as a static Figma atlas with a fallback", async () => {
     const { container } = render(await HomePage());
     const futureSection = container.querySelector("[data-section='future']");
     const atlas = futureSection?.querySelector("[data-testid='future-map-atlas']");
@@ -165,16 +165,19 @@ describe("HomePage", () => {
       "data-map-asset",
       "/brand/figma-road-map-2011-25273.svg",
     );
-    expect(screen.getByRole("group", { name: "Шкала 2026–2030" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "2026" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "2030" })).toBeInTheDocument();
-    const sourceLinks = screen.getAllByRole("link", {
-      name: /^Подробнее:/,
-    });
+    expect(atlas).toHaveAttribute("data-static-map", "true");
+    expect(mapSurface).toHaveAttribute("data-interaction-disabled", "true");
+    expect(screen.queryByRole("group", { name: "Шкала 2026–2030" })).toBeNull();
+    const sourceLinks = Array.from(
+      futureSection?.querySelectorAll<HTMLAnchorElement>(
+        ".future-projects__stretched-link",
+      ) ?? [],
+    );
 
     expect(sourceLinks).toHaveLength(3);
     sourceLinks.forEach((link) => {
       expect(link).toHaveClass("future-projects__stretched-link");
+      expect(link).toHaveAccessibleName(/^Подробнее:/);
       expect(link.closest("[data-future-project]")).toHaveTextContent("Подробнее");
       expect(link).toHaveAttribute("href", expect.stringMatching(/\.pdf$/));
     });

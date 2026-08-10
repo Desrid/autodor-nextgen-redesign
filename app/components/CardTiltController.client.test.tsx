@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { CardTiltController } from "./CardTiltController.client";
 
 describe("CardTiltController", () => {
-  it("applies the shared card perspective from the pointer position", async () => {
+  it("keeps loyalty cards free from the shared tilt treatment", async () => {
     const { container } = render(
       <>
         <CardTiltController />
@@ -14,24 +14,8 @@ describe("CardTiltController", () => {
       </>,
     );
     const card = container.querySelector<HTMLElement>(".loyalty-card__tilt");
-    const layoutSlot = container.querySelector<HTMLElement>(".loyalty-card");
-
     expect(card).not.toBeNull();
-    await waitFor(() => expect(card).toHaveClass("cursor-tilt-card"));
-    expect(layoutSlot).not.toHaveClass("cursor-tilt-card");
-
-    card!.getBoundingClientRect = () =>
-      ({
-        bottom: 100,
-        height: 100,
-        left: 0,
-        right: 200,
-        top: 0,
-        width: 200,
-        x: 0,
-        y: 0,
-        toJSON: () => undefined,
-      }) as DOMRect;
+    await waitFor(() => expect(card).not.toHaveClass("cursor-tilt-card"));
 
     fireEvent.pointerMove(card!, {
       clientX: 200,
@@ -39,16 +23,8 @@ describe("CardTiltController", () => {
       pointerType: "mouse",
     });
 
-    expect(card!.style.getPropertyValue("--cursor-card-rotate-x")).toBe("5.00deg");
-    expect(card!.style.getPropertyValue("--cursor-card-rotate-y")).toBe("6.00deg");
-    expect(card).toHaveAttribute("data-cursor-tilt", "active");
-
-    fireEvent.pointerOut(card!, {
-      relatedTarget: document.body,
-    });
-
-    expect(card!.style.getPropertyValue("--cursor-card-rotate-x")).toBe("0deg");
-    expect(card!.style.getPropertyValue("--cursor-card-rotate-y")).toBe("0deg");
+    expect(card!.style.getPropertyValue("--cursor-card-rotate-x")).toBe("");
+    expect(card!.style.getPropertyValue("--cursor-card-rotate-y")).toBe("");
     expect(card).not.toHaveAttribute("data-cursor-tilt");
   });
 
@@ -64,6 +40,27 @@ describe("CardTiltController", () => {
     const serviceCard = container.querySelector<HTMLElement>(".service-card");
 
     await waitFor(() => expect(serviceCard).not.toHaveClass("cursor-tilt-card"));
+  });
+
+  it("keeps media gallery cards on direct CSS hover", async () => {
+    const { container } = render(
+      <>
+        <CardTiltController />
+        <button className="media-gallery__item" type="button">
+          Media item
+        </button>
+      </>,
+    );
+    const mediaCard = container.querySelector<HTMLElement>(".media-gallery__item");
+
+    await waitFor(() => expect(mediaCard).not.toHaveClass("cursor-tilt-card"));
+    fireEvent.pointerMove(mediaCard!, {
+      clientX: 16,
+      clientY: 16,
+      pointerType: "mouse",
+    });
+
+    expect(mediaCard).not.toHaveAttribute("data-cursor-tilt");
   });
 
   it("keeps contact panels free from the shared hover treatment", async () => {

@@ -2793,6 +2793,9 @@
   --accent-soft: var(--color-brand-orange-soft);
   --companion: var(--color-brand-orange-light);
   --scene-ink: var(--color-brand-black);
+  --service-calm-primary: #ff5b24;
+  --service-calm-secondary: #ffb184;
+  --service-calm-surface: #fff5ee;
   --service-rotate-x: 0deg;
   --service-rotate-y: 0deg;
   height: 18.75rem;
@@ -2806,6 +2809,36 @@
   cursor: pointer;
 }
 
+.card.card[data-card-system="services-card-system-v1"][data-service-id="mobile-app"] {
+  --service-calm-primary: #4389ee;
+  --service-calm-secondary: #9ed4ff;
+  --service-calm-surface: #f1f8ff;
+}
+
+.card.card[data-card-system="services-card-system-v1"][data-service-id="max"] {
+  --service-calm-primary: #7657f4;
+  --service-calm-secondary: #65c8ff;
+  --service-calm-surface: #f6f2ff;
+}
+
+.card.card[data-card-system="services-card-system-v1"][data-service-id="legal-account"] {
+  --service-calm-primary: #416bc9;
+  --service-calm-secondary: #a7c5ff;
+  --service-calm-surface: #f2f6ff;
+}
+
+.card.card[data-card-system="services-card-system-v1"][data-service-id="online-store"] {
+  --service-calm-primary: #f28a2f;
+  --service-calm-secondary: #ffd178;
+  --service-calm-surface: #fff7e9;
+}
+
+.card.card[data-card-system="services-card-system-v1"][data-service-id="plate-payment"] {
+  --service-calm-primary: #19a779;
+  --service-calm-secondary: #95dec7;
+  --service-calm-surface: #effaf6;
+}
+
 .card.card[data-card-system="services-card-system-v1"] .summary {
   position: relative;
   display: block;
@@ -2814,7 +2847,7 @@
   min-height: 100%;
   padding: 0;
   overflow: hidden;
-  border: 1px solid rgb(45 42 38 / 0.12);
+  border: 1px solid color-mix(in srgb, var(--service-calm-primary) 14%, #dedbd8);
   border-radius: 1rem;
   background: #fff;
   box-shadow: none;
@@ -2870,7 +2903,19 @@
   place-items: stretch center;
   border: 0;
   border-radius: 1rem;
-  background: var(--color-surface-subtle);
+  background:
+    radial-gradient(
+      ellipse 84% 72% at 72% 18%,
+      color-mix(in srgb, var(--service-calm-primary) 25%, transparent) 0%,
+      color-mix(in srgb, var(--service-calm-secondary) 14%, transparent) 46%,
+      transparent 74%
+    ),
+    linear-gradient(
+      145deg,
+      #fff 0%,
+      color-mix(in srgb, var(--service-calm-surface) 74%, white) 52%,
+      var(--service-calm-surface) 100%
+    );
   color: var(--color-brand-orange);
   transform: none;
 }
@@ -2890,10 +2935,10 @@
     linear-gradient(
       135deg,
       rgb(255 255 255 / 8%),
-      rgb(var(--color-brand-orange-rgb) / 3.5%)
+      color-mix(in srgb, var(--service-calm-primary) 5%, transparent)
     );
   content: "";
-  opacity: 0.66;
+  opacity: 0.48;
   pointer-events: none;
   transition: opacity 250ms ease-in-out 90ms;
 }
@@ -2936,8 +2981,8 @@
   margin-top: 0.3rem;
   background: linear-gradient(
     90deg,
-    rgb(var(--color-brand-orange-rgb) / 56%),
-    rgb(var(--color-brand-orange-rgb) / 34%),
+    color-mix(in srgb, var(--service-calm-primary) 76%, transparent),
+    color-mix(in srgb, var(--service-calm-secondary) 62%, transparent),
     transparent
   );
   content: "";

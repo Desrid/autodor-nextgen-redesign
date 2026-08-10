@@ -1,7 +1,9 @@
 .directory {
   --contact-curve: 1.25rem;
   --contact-panel-height: 28rem;
-  --contact-tabs-height: 24rem;
+  --contact-tab-height: 2.4rem;
+  --contact-active-tab-height: 3rem;
+  --contact-tabs-height: 24.6rem;
 
   position: relative;
   display: grid;
@@ -52,12 +54,12 @@
 .directory .tab {
   position: relative;
   display: flex;
-  flex: 1 1 0;
+  flex: 0 0 var(--contact-tab-height);
   align-items: center;
   width: calc(100% - 1rem);
-  min-height: 3rem;
+  min-height: var(--contact-tab-height);
   margin-inline-start: 1rem;
-  padding: 0.75rem 1.25rem;
+  padding: 0.5rem 1.25rem;
   border: 0;
   border-inline-start: 3px solid transparent;
   border-radius: 1rem 0 0 1rem;
@@ -68,7 +70,9 @@
   font-size: 0.9375rem;
   font-weight: 600;
   line-height: 1.25;
+  overflow: visible;
   text-align: start;
+  white-space: nowrap;
   transition:
     background-color 180ms ease-in-out,
     border-color 180ms ease-in-out,
@@ -115,8 +119,11 @@
 
 .directory .tab[aria-selected="true"] {
   z-index: 2;
+  flex-basis: var(--contact-active-tab-height);
   width: 100%;
+  min-height: var(--contact-active-tab-height);
   margin-inline-start: 0;
+  border-radius: 1rem 0 0 1rem;
   background: var(--color-surface-subtle);
   color: var(--color-brand-orange);
   font-weight: 700;
@@ -162,7 +169,10 @@
 .panel::before {
   position: absolute;
   z-index: 0;
-  inset: 32.73% -11.38% -3.33% 33.01%;
+  right: -14%;
+  bottom: 0;
+  width: 54.86%;
+  height: 49.42%;
   background: var(--color-brand-orange);
   content: "";
   opacity: 0.1;
@@ -193,12 +203,23 @@
   border-top: 0;
 }
 
+.directory .unavailable,
+.directory .unavailable:hover {
+  color: color-mix(in srgb, var(--color-text) 58%, transparent);
+}
+
 .actions {
   margin-top: auto;
 }
 
 .more {
   color: var(--color-brand-orange);
+}
+
+.conceptNote {
+  color: color-mix(in srgb, var(--color-text) 58%, transparent);
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
 @keyframes contacts-border-travel {
@@ -238,7 +259,7 @@
 
   .directory .tab {
     width: 100%;
-    min-height: 3rem;
+    min-height: var(--contact-tab-height);
     margin-inline-start: 0;
     border-inline-start: 0;
     border-block-end: 1px solid var(--color-border);

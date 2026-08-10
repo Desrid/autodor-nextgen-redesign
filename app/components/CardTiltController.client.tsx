@@ -4,11 +4,9 @@ import { useEffect } from "react";
 
 export const CARD_TILT_TARGETS = [
   ".hero-actions a",
-  ".loyalty-card__tilt",
   ".news-card",
   ".news-bento__all",
   ".important-state",
-  ".media-gallery__item:not(:disabled)",
   ".subsidiary-card",
   ".social-card",
   ".future-projects article",

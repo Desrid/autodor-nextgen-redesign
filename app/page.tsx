@@ -359,6 +359,7 @@ export default function HomePage() {
                   />
                 </div>
                 <div className="subsidiary-card__header">
+                  <p className="subsidiary-card__eyebrow">{item.company}</p>
                   <h3>{item.service}</h3>
                 </div>
                 <div className="subsidiary-card__details">
@@ -412,6 +413,7 @@ export default function HomePage() {
                   <MediaPicture src={item.src} alt={item.imageAlt} />
                 </div>
                 <div className="social-card__content">
+                  <p className="social-card__eyebrow">{item.eyebrow}</p>
                   <h3 id={`social-${item.id}-title`}>{item.title}</h3>
                   <p>{item.description}</p>
                   <a

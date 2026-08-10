@@ -196,7 +196,7 @@ export const CONTACT_TABS = [
 export const SUBSIDIARY_SERVICES = [
   {
     id: "transponders",
-    image: "/media/subsidiary/transponders.webp",
+    image: "/media/subsidiary/transponders-bright.webp",
     company: "ООО «АВТОДОР - ПЛАТНЫЕ ДОРОГИ»",
     service: "Реализация транспондеров",
     description:
@@ -206,7 +206,7 @@ export const SUBSIDIARY_SERVICES = [
   },
   {
     id: "kasko",
-    image: "/media/subsidiary/kasko.webp",
+    image: "/media/subsidiary/kasko-bright.webp",
     company: "ООО «АВТОДОР - ПЛАТНЫЕ ДОРОГИ»",
     service: "КАСКО",
     description: "Услуга КАСКО.",
@@ -215,7 +215,7 @@ export const SUBSIDIARY_SERVICES = [
   },
   {
     id: "osago",
-    image: "/media/subsidiary/osago.webp",
+    image: "/media/subsidiary/osago-bright.webp",
     company: "ООО «АВТОДОР - ПЛАТНЫЕ ДОРОГИ»",
     service: "ОСАГО",
     description: "Услуга ОСАГО.",
@@ -224,7 +224,7 @@ export const SUBSIDIARY_SERVICES = [
   },
   {
     id: "legal-api",
-    image: "/media/subsidiary/legal-api.webp",
+    image: "/media/subsidiary/legal-api-bright.webp",
     company: "ООО «АВТОДОР - ПЛАТНЫЕ ДОРОГИ»",
     service: "Подключение к API (для юридических лиц)",
     description: "Подключение к API для юридических лиц.",

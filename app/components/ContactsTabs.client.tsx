@@ -8,6 +8,50 @@ import styles from "./ContactsTabs.module.css";
 
 const HEAD_OFFICE_ADDRESS = "127006, Москва, Страстной бульвар, 9";
 
+const CONCEPT_CONTACT_TABS = [
+  {
+    id: "concept-logistics",
+    label: "Концепт «Автодор Логистика»",
+    name: "«Автодор Логистика» — концептуальное ДЗО",
+    phone: "",
+    email: "",
+    href: "",
+  },
+  {
+    id: "concept-digital",
+    label: "Концепт «Автодор Цифра»",
+    name: "«Автодор Цифра» — концептуальное ДЗО",
+    phone: "",
+    email: "",
+    href: "",
+  },
+  {
+    id: "concept-infrastructure",
+    label: "Концепт «Автодор Инфраструктура»",
+    name: "«Автодор Инфраструктура» — концептуальное ДЗО",
+    phone: "",
+    email: "",
+    href: "",
+  },
+] as const;
+
+const OFFICIAL_WEBSITES = {
+  "state-company": { href: "https://russianhighways.ru/", label: "russianhighways.ru" },
+  "management-company": { href: "https://avtodor-mc.ru/", label: "avtodor-mc.ru" },
+  "avtodor-tp": { href: "https://etp-avtodor.ru/", label: "etp-avtodor.ru" },
+  "toll-roads": { href: "https://avtodor-tr.ru/", label: "avtodor-tr.ru" },
+  engineering: { href: "https://avtodor-eng.ru/", label: "avtodor-eng.ru" },
+  "sk-avtodor": { href: "https://skavtodor.ru/", label: "skavtodor.ru" },
+} as const;
+
+const DISPLAY_CONTACT_TABS = [
+  ...CONTACT_TABS.map((contact) => ({
+    ...contact,
+    website: OFFICIAL_WEBSITES[contact.id as keyof typeof OFFICIAL_WEBSITES] ?? null,
+  })),
+  ...CONCEPT_CONTACT_TABS.map((contact) => ({ ...contact, website: null })),
+] as const;
+
 type BorderGeometry = {
   height: number;
   path: string;
@@ -119,7 +163,7 @@ export function ContactsTabs() {
   }, [activeIndex]);
 
   const select = (index: number, focus = false) => {
-    const next = (index + CONTACT_TABS.length) % CONTACT_TABS.length;
+    const next = (index + DISPLAY_CONTACT_TABS.length) % DISPLAY_CONTACT_TABS.length;
     setActiveIndex(next);
     if (focus) tabRefs.current[next]?.focus();
   };
@@ -142,12 +186,12 @@ export function ContactsTabs() {
 
           event.preventDefault();
           if (event.key === "Home") select(0, true);
-          if (event.key === "End") select(CONTACT_TABS.length - 1, true);
+          if (event.key === "End") select(DISPLAY_CONTACT_TABS.length - 1, true);
           if (event.key === "ArrowUp") select(activeIndex - 1, true);
           if (event.key === "ArrowDown") select(activeIndex + 1, true);
         }}
       >
-        {CONTACT_TABS.map((contact, index) => (
+        {DISPLAY_CONTACT_TABS.map((contact, index) => (
           <button
             key={contact.id}
             ref={(node) => {
@@ -160,6 +204,7 @@ export function ContactsTabs() {
             aria-controls={`contact-panel-${contact.id}`}
             tabIndex={activeIndex === index ? 0 : -1}
             className={styles.tab}
+            title={contact.label}
             onClick={() => select(index)}
           >
             {contact.id === "state-company" ? "ГК «АВТОДОР»" : contact.label}
@@ -199,7 +244,7 @@ export function ContactsTabs() {
         />
       </svg>
 
-      {CONTACT_TABS.map((contact, index) => (
+      {DISPLAY_CONTACT_TABS.map((contact, index) => (
         <div
           key={contact.id}
           ref={(node) => {
@@ -213,38 +258,94 @@ export function ContactsTabs() {
         >
           <h3>{contact.name}</h3>
           <div className={`contact-panel__details ${styles.details}`}>
-            <a
-              className={`contact-panel__row ${styles.row}`}
-              href={`tel:${contact.phone.replace(/[^+\d]/g, "")}`}
-            >
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path
-                  d="M6 3h3l2 5-2 1a11 11 0 0 0 5 5l1-2 5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2Z"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              {contact.phone}
-            </a>
-            <a
-              className={`contact-panel__row ${styles.row}`}
-              href={`mailto:${contact.email}`}
-            >
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect
-                  x="3"
-                  y="5"
-                  width="18"
-                  height="14"
-                  rx="2"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                />
-                <path d="m4 7 8 6 8-6" stroke="currentColor" strokeWidth="1.8" />
-              </svg>
-              {contact.email}
-            </a>
+            {contact.phone ? (
+              <a
+                className={`contact-panel__row ${styles.row}`}
+                href={`tel:${contact.phone.replace(/[^+\d]/g, "")}`}
+              >
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M6 3h3l2 5-2 1a11 11 0 0 0 5 5l1-2 5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2Z"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                {contact.phone}
+              </a>
+            ) : (
+              <div className={`contact-panel__row ${styles.row} ${styles.unavailable}`}>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M6 3h3l2 5-2 1a11 11 0 0 0 5 5l1-2 5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2Z"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                Телефон не предоставлен
+              </div>
+            )}
+            {contact.email ? (
+              <a
+                className={`contact-panel__row ${styles.row}`}
+                href={`mailto:${contact.email}`}
+              >
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <rect
+                    x="3"
+                    y="5"
+                    width="18"
+                    height="14"
+                    rx="2"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                  />
+                  <path d="m4 7 8 6 8-6" stroke="currentColor" strokeWidth="1.8" />
+                </svg>
+                {contact.email}
+              </a>
+            ) : (
+              <div className={`contact-panel__row ${styles.row} ${styles.unavailable}`}>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <rect
+                    x="3"
+                    y="5"
+                    width="18"
+                    height="14"
+                    rx="2"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                  />
+                  <path d="m4 7 8 6 8-6" stroke="currentColor" strokeWidth="1.8" />
+                </svg>
+                Email не предоставлен
+              </div>
+            )}
+            {contact.website ? (
+              <a
+                className={`contact-panel__row ${styles.row}`}
+                href={contact.website.href}
+                aria-label={`Сайт ${contact.name}: ${contact.website.label}`}
+              >
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="9"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                  />
+                  <path
+                    d="M3 12h18M12 3c2.4 2.5 3.6 5.5 3.6 9S14.4 18.5 12 21M12 3c-2.4 2.5-3.6 5.5-3.6 9S9.6 18.5 12 21"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                {contact.website.label}
+              </a>
+            ) : null}
             {contact.id === "state-company" ? (
               <address className={`contact-panel__address ${styles.address}`}>
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -266,18 +367,22 @@ export function ContactsTabs() {
             ) : null}
           </div>
           <div className={`contact-panel__actions ${styles.actions}`}>
-            <a className={`contact-panel__more ${styles.more}`} href={contact.href}>
-              Подробнее
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path
-                  d="M5 12h14M13 6l6 6-6 6"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </a>
+            {contact.href ? (
+              <a className={`contact-panel__more ${styles.more}`} href={contact.href}>
+                Подробнее
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M5 12h14M13 6l6 6-6 6"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </a>
+            ) : (
+              <span className={styles.conceptNote}>Концептуальная карточка</span>
+            )}
           </div>
         </div>
       ))}

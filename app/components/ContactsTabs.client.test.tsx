@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { ContactsTabs } from "./ContactsTabs.client";
@@ -28,7 +28,7 @@ describe("ContactsTabs", () => {
       "aria-orientation",
       "vertical",
     );
-    expect(screen.getAllByRole("tab")).toHaveLength(7);
+    expect(screen.getAllByRole("tab")).toHaveLength(10);
     expect(screen.getByTestId("contacts-border-effect")).toHaveAttribute(
       "aria-hidden",
       "true",
@@ -47,6 +47,11 @@ describe("ContactsTabs", () => {
     expect(
       screen.getByRole("link", { name: "info@russianhighways.ru" }),
     ).toHaveAttribute("href", "mailto:info@russianhighways.ru");
+    expect(
+      screen.getByRole("link", {
+        name: /Сайт Государственная компания «Автодор»: russianhighways\.ru/,
+      }),
+    ).toHaveAttribute("href", "https://russianhighways.ru/");
     expect(screen.getByText("127006, Москва, Страстной бульвар, 9")).toBeVisible();
   });
 
@@ -65,8 +70,49 @@ describe("ContactsTabs", () => {
     expect(tabs[0]).toHaveFocus();
 
     fireEvent.keyDown(tabs[0]!, { key: "ArrowUp" });
-    expect(tabs[6]).toHaveFocus();
-    expect(tabs[6]).toHaveAttribute("aria-selected", "true");
+    expect(tabs[9]).toHaveFocus();
+    expect(tabs[9]).toHaveAttribute("aria-selected", "true");
+  });
+
+  it("marks invented DZO entries as concepts without fabricated contacts", () => {
+    render(<ContactsTabs />);
+
+    fireEvent.click(screen.getByRole("tab", { name: "Концепт «Автодор Логистика»" }));
+
+    const panel = screen.getByRole("tabpanel");
+
+    expect(panel).toHaveTextContent("«Автодор Логистика» — концептуальное ДЗО");
+    expect(within(panel).getByText("Телефон не предоставлен")).toBeVisible();
+    expect(within(panel).getByText("Email не предоставлен")).toBeVisible();
+    expect(
+      within(panel).queryByRole("link", { name: "Подробнее" }),
+    ).not.toBeInTheDocument();
+    expect(
+      within(panel).queryByRole("link", { name: /^Сайт / }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("shows only the verified official company websites", () => {
+    const { container } = render(<ContactsTabs />);
+
+    const websiteHrefs = Array.from(
+      container.querySelectorAll<HTMLAnchorElement>('a[aria-label^="Сайт "]'),
+      (link) => link.getAttribute("href"),
+    );
+
+    expect(websiteHrefs).toEqual([
+      "https://russianhighways.ru/",
+      "https://avtodor-mc.ru/",
+      "https://etp-avtodor.ru/",
+      "https://avtodor-tr.ru/",
+      "https://avtodor-eng.ru/",
+      "https://skavtodor.ru/",
+    ]);
+
+    fireEvent.click(screen.getByRole("tab", { name: "ООО «АВТОДОР-УП»" }));
+    expect(
+      within(screen.getByRole("tabpanel")).queryByRole("link", { name: /^Сайт / }),
+    ).not.toBeInTheDocument();
   });
 
   it("leaves horizontal arrow keys to the browser for a vertical tablist", () => {
@@ -115,7 +161,9 @@ describe("ContactsTabs", () => {
       );
     });
 
-    fireEvent.click(screen.getByRole("tab", { name: "ООО «СК АВТОДОР»" }));
+    fireEvent.click(
+      screen.getByRole("tab", { name: "Концепт «Автодор Инфраструктура»" }),
+    );
 
     await waitFor(() => {
       expect(outline).toHaveAttribute(
