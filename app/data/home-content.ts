@@ -197,7 +197,7 @@ export const SUBSIDIARY_SERVICES = [
   {
     id: "transponders",
     image: "/media/subsidiary/transponders-bright.webp",
-    company: "ООО «АВТОДОР - ПЛАТНЫЕ ДОРОГИ»",
+    company: "Электронный проезд",
     service: "Реализация транспондеров",
     description:
       "Транспондеры T-pass для электронной регистрации проезда и оплаты на платных участках.",
@@ -207,29 +207,30 @@ export const SUBSIDIARY_SERVICES = [
   {
     id: "kasko",
     image: "/media/subsidiary/kasko-bright.webp",
-    company: "ООО «АВТОДОР - ПЛАТНЫЕ ДОРОГИ»",
+    company: "Защита автомобиля",
     service: "КАСКО",
-    description: "Услуга КАСКО.",
+    description: "Платите только за пройденные километры, не больше!",
     linkLabel: "КАСКО",
     href: "https://avtodor-tr.ru/services/insurance/kasko/",
   },
   {
     id: "osago",
     image: "/media/subsidiary/osago-bright.webp",
-    company: "ООО «АВТОДОР - ПЛАТНЫЕ ДОРОГИ»",
+    company: "Автострахование",
     service: "ОСАГО",
-    description: "Услуга ОСАГО.",
+    description:
+      "Сравни предложения страховых за 3 минуты и сэкономь до 5000 ₽ за счет разницы цен",
     linkLabel: "ОСАГО",
     href: "https://avtodor-tr.ru/services/insurance/osago/",
   },
   {
     id: "legal-api",
     image: "/media/subsidiary/legal-api-bright.webp",
-    company: "ООО «АВТОДОР - ПЛАТНЫЕ ДОРОГИ»",
+    company: "Интеграция для бизнеса",
     service: "Подключение к API (для юридических лиц)",
     description: "Подключение к API для юридических лиц.",
-    linkLabel: "Ссылка уточняется",
-    href: null,
+    linkLabel: "Подробнее",
+    href: "https://avtodor-tr.ru/business/",
   },
 ] as const;
 

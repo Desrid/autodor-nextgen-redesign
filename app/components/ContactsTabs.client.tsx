@@ -8,7 +8,25 @@ import styles from "./ContactsTabs.module.css";
 
 const HEAD_OFFICE_ADDRESS = "127006, Москва, Страстной бульвар, 9";
 
-const CONCEPT_CONTACT_TABS = [
+const ADDITIONAL_CONTACT_TABS = [
+  {
+    id: "development",
+    label: "ООО «АВТОДОР - ДЕВЕЛОПМЕНТ»",
+    name: "ООО «АВТОДОР - ДЕВЕЛОПМЕНТ»",
+    phone: "+7 (495) 249-06-95",
+    email: "",
+    href: "",
+    isConcept: false,
+  },
+  {
+    id: "operation",
+    label: "ООО «АВТОДОР - ЭКСПЛУАТАЦИЯ»",
+    name: "ООО «АВТОДОР - ЭКСПЛУАТАЦИЯ»",
+    phone: "+7 (495) 727-11-95 (доб. 6115)",
+    email: "",
+    href: "",
+    isConcept: false,
+  },
   {
     id: "concept-logistics",
     label: "Концепт «Автодор Логистика»",
@@ -16,22 +34,7 @@ const CONCEPT_CONTACT_TABS = [
     phone: "",
     email: "",
     href: "",
-  },
-  {
-    id: "concept-digital",
-    label: "Концепт «Автодор Цифра»",
-    name: "«Автодор Цифра» — концептуальное ДЗО",
-    phone: "",
-    email: "",
-    href: "",
-  },
-  {
-    id: "concept-infrastructure",
-    label: "Концепт «Автодор Инфраструктура»",
-    name: "«Автодор Инфраструктура» — концептуальное ДЗО",
-    phone: "",
-    email: "",
-    href: "",
+    isConcept: true,
   },
 ] as const;
 
@@ -47,9 +50,10 @@ const OFFICIAL_WEBSITES = {
 const DISPLAY_CONTACT_TABS = [
   ...CONTACT_TABS.map((contact) => ({
     ...contact,
+    isConcept: false,
     website: OFFICIAL_WEBSITES[contact.id as keyof typeof OFFICIAL_WEBSITES] ?? null,
   })),
-  ...CONCEPT_CONTACT_TABS.map((contact) => ({ ...contact, website: null })),
+  ...ADDITIONAL_CONTACT_TABS.map((contact) => ({ ...contact, website: null })),
 ] as const;
 
 type BorderGeometry = {
@@ -65,6 +69,14 @@ const EMPTY_BORDER_GEOMETRY: BorderGeometry = {
 };
 
 const round = (value: number) => Math.round(value * 100) / 100;
+
+const telephoneHref = (phone: string) => {
+  const [number = "", extension] = phone.split(/\s*\(доб\.\s*/i);
+  const normalizedNumber = number.replace(/[^+\d]/g, "");
+  const normalizedExtension = extension?.replace(/\D/g, "");
+
+  return `tel:${normalizedNumber}${normalizedExtension ? `;ext=${normalizedExtension}` : ""}`;
+};
 
 export function ContactsTabs() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -261,7 +273,7 @@ export function ContactsTabs() {
             {contact.phone ? (
               <a
                 className={`contact-panel__row ${styles.row}`}
-                href={`tel:${contact.phone.replace(/[^+\d]/g, "")}`}
+                href={telephoneHref(contact.phone)}
               >
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                   <path
@@ -380,9 +392,9 @@ export function ContactsTabs() {
                   />
                 </svg>
               </a>
-            ) : (
+            ) : contact.isConcept ? (
               <span className={styles.conceptNote}>Концептуальная карточка</span>
-            )}
+            ) : null}
           </div>
         </div>
       ))}

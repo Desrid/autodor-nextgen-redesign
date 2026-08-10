@@ -80,7 +80,7 @@ describe("homepage source-backed content contracts", () => {
         },
         {
           service: "Подключение к API (для юридических лиц)",
-          href: null,
+          href: "https://avtodor-tr.ru/business/",
         },
       ],
     );
@@ -96,10 +96,15 @@ describe("homepage source-backed content contracts", () => {
     }
     expect(new Set(SUBSIDIARY_SERVICES.map(({ image }) => image)).size).toBe(4);
     expect(new Set(SUBSIDIARY_SERVICES.map(({ company }) => company))).toEqual(
-      new Set(["ООО «АВТОДОР - ПЛАТНЫЕ ДОРОГИ»"]),
+      new Set([
+        "Электронный проезд",
+        "Защита автомобиля",
+        "Автострахование",
+        "Интеграция для бизнеса",
+      ]),
     );
     expect(SUBSIDIARY_SERVICES.find(({ id }) => id === "legal-api")?.linkLabel).toBe(
-      "Ссылка уточняется",
+      "Подробнее",
     );
   });
 

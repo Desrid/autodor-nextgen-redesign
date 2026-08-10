@@ -29,6 +29,9 @@ describe("ContactsTabs", () => {
       "vertical",
     );
     expect(screen.getAllByRole("tab")).toHaveLength(10);
+    expect(screen.getAllByRole("tab").at(-1)).toHaveAccessibleName(
+      "Концепт «Автодор Логистика»",
+    );
     expect(screen.getByTestId("contacts-border-effect")).toHaveAttribute(
       "aria-hidden",
       "true",
@@ -74,7 +77,7 @@ describe("ContactsTabs", () => {
     expect(tabs[9]).toHaveAttribute("aria-selected", "true");
   });
 
-  it("marks invented DZO entries as concepts without fabricated contacts", () => {
+  it("keeps the remaining invented DZO marked as a concept", () => {
     render(<ContactsTabs />);
 
     fireEvent.click(screen.getByRole("tab", { name: "Концепт «Автодор Логистика»" }));
@@ -89,6 +92,39 @@ describe("ContactsTabs", () => {
     ).not.toBeInTheDocument();
     expect(
       within(panel).queryByRole("link", { name: /^Сайт / }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("renders the two additional DZO from the Contacts sheet", () => {
+    render(<ContactsTabs />);
+
+    fireEvent.click(screen.getByRole("tab", { name: "ООО «АВТОДОР - ДЕВЕЛОПМЕНТ»" }));
+
+    let panel = screen.getByRole("tabpanel");
+    expect(panel).toHaveTextContent("ООО «АВТОДОР - ДЕВЕЛОПМЕНТ»");
+    expect(
+      within(panel).getByRole("link", { name: "+7 (495) 249-06-95" }),
+    ).toHaveAttribute("href", "tel:+74952490695");
+    expect(within(panel).getByText("Email не предоставлен")).toBeVisible();
+    expect(
+      within(panel).queryByText("Концептуальная карточка"),
+    ).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("tab", { name: "ООО «АВТОДОР - ЭКСПЛУАТАЦИЯ»" }));
+
+    panel = screen.getByRole("tabpanel");
+    expect(panel).toHaveTextContent("ООО «АВТОДОР - ЭКСПЛУАТАЦИЯ»");
+    expect(
+      within(panel).getByRole("link", {
+        name: "+7 (495) 727-11-95 (доб. 6115)",
+      }),
+    ).toHaveAttribute("href", "tel:+74957271195;ext=6115");
+    expect(within(panel).getByText("Email не предоставлен")).toBeVisible();
+    expect(
+      within(panel).queryByRole("link", { name: /^Сайт / }),
+    ).not.toBeInTheDocument();
+    expect(
+      within(panel).queryByText("Концептуальная карточка"),
     ).not.toBeInTheDocument();
   });
 
@@ -161,9 +197,7 @@ describe("ContactsTabs", () => {
       );
     });
 
-    fireEvent.click(
-      screen.getByRole("tab", { name: "Концепт «Автодор Инфраструктура»" }),
-    );
+    fireEvent.click(screen.getByRole("tab", { name: "Концепт «Автодор Логистика»" }));
 
     await waitFor(() => {
       expect(outline).toHaveAttribute(

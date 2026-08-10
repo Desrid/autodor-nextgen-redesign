@@ -150,9 +150,16 @@ const FUTURE_PROJECT_MEDIA = [
   "/media/source/bridge-viaduct.png",
 ] as const;
 
-function SectionHeading({ id, children }: Readonly<{ id: string; children: string }>) {
+function SectionHeading({
+  id,
+  children,
+  layer,
+}: Readonly<{ id: string; children: string; layer?: number }>) {
   return (
-    <div className="section-heading">
+    <div
+      className="section-heading"
+      style={layer === undefined ? undefined : { position: "relative", zIndex: layer }}
+    >
       <h2 id={id}>{children}</h2>
     </div>
   );
@@ -365,28 +372,17 @@ export default function HomePage() {
                 <div className="subsidiary-card__details">
                   <p>{item.description}</p>
                 </div>
-                {item.href ? (
-                  <>
-                    <a
-                      className="subsidiary-card__stretched-link"
-                      href={item.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={`Подробнее: ${item.service} (откроется в новой вкладке)`}
-                    />
-                    <span className="subsidiary-card__cta" aria-hidden="true">
-                      Подробнее
-                      <ArrowIcon className="inline-arrow-icon" direction="right" />
-                    </span>
-                  </>
-                ) : (
-                  <span
-                    className="subsidiary-card__link-status"
-                    data-subsidiary-link-status="unavailable"
-                  >
-                    {item.linkLabel}
-                  </span>
-                )}
+                <a
+                  className="subsidiary-card__stretched-link"
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Подробнее: ${item.service} (откроется в новой вкладке)`}
+                />
+                <span className="subsidiary-card__cta" aria-hidden="true">
+                  Подробнее
+                  <ArrowIcon className="inline-arrow-icon" direction="right" />
+                </span>
               </article>
             ))}
           </div>
@@ -441,7 +437,9 @@ export default function HomePage() {
           data-section="future"
           data-node-id="1767:7508"
         >
-          <SectionHeading id="future-title">Будущие проекты</SectionHeading>
+          <SectionHeading id="future-title" layer={3}>
+            Будущие проекты
+          </SectionHeading>
           <div className="future-layout" data-testid="future-projects">
             <FutureProjectsMap />
             <div className="future-projects">

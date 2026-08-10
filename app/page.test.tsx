@@ -138,7 +138,7 @@ describe("HomePage", () => {
     });
 
     const links = section?.querySelectorAll("a");
-    expect(links).toHaveLength(3);
+    expect(links).toHaveLength(4);
     links?.forEach((link) => {
       expect(link).toHaveClass("subsidiary-card__stretched-link");
       expect(link.parentElement).toHaveAttribute("data-subsidiary-item");
@@ -148,7 +148,10 @@ describe("HomePage", () => {
     });
     expect(
       section?.querySelector("[data-subsidiary-link-status='unavailable']"),
-    ).toHaveTextContent("Ссылка уточняется");
+    ).toBeNull();
+    expect(
+      section?.querySelector("[data-subsidiary-service='legal-api'] a"),
+    ).toHaveAttribute("href", "https://avtodor-tr.ru/business/");
   });
 
   it("presents the future-project map as a static Figma atlas with a fallback", async () => {
