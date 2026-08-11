@@ -609,6 +609,7 @@ export default function HomePage() {
                   height={64}
                   loading="lazy"
                 />
+                <span className="footer-government__label">{item.caption}</span>
               </a>
             ))}
           </nav>

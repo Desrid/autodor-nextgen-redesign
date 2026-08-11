@@ -4829,7 +4829,7 @@ a:focus-visible > .inline-arrow-icon {
   position: relative;
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  min-height: 128px;
+  min-height: 164px;
   margin-block-start: 24px;
   padding: 24px 48px;
   gap: 16px;
@@ -4837,10 +4837,14 @@ a:focus-visible > .inline-arrow-icon {
 
 .footer-government a {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   min-width: 0;
-  height: 64px;
+  min-height: 106px;
+  color: var(--color-brand-black);
+  text-decoration: none;
 }
 
 .footer-government img {
@@ -4849,6 +4853,18 @@ a:focus-visible > .inline-arrow-icon {
   max-width: 100%;
   height: 64px;
   object-fit: contain;
+}
+
+.footer-government__label {
+  display: block;
+  max-width: 100%;
+  color: #233d63;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .footer-legal {
@@ -4985,7 +5001,7 @@ a:focus-visible > .inline-arrow-icon {
   .footer-government {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     height: auto;
-    min-height: 184px;
+    min-height: 260px;
     margin-block-start: 32px;
     padding-block: 20px;
     gap: 16px 0;
@@ -5024,7 +5040,7 @@ a:focus-visible > .inline-arrow-icon {
   }
 
   .footer-government {
-    min-height: 160px;
+    min-height: 232px;
     padding-block: 16px;
     gap: 12px;
   }
@@ -5033,6 +5049,11 @@ a:focus-visible > .inline-arrow-icon {
     width: auto;
     max-width: 72px;
     height: 56px;
+  }
+
+  .footer-government__label {
+    font-size: 0.5625rem;
+    letter-spacing: 0;
   }
 }
 

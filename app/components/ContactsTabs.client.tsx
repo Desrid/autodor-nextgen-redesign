@@ -67,8 +67,9 @@ const CONTACT_TAB_ICONS = {
     path: "M12 7v4M6 13v-2h12v2M4 13h4v4H4zM10 3h4v4h-4zM16 13h4v4h-4zM6 17v3M18 17v3",
   },
   "avtodor-tp": {
-    name: "electronic-procurement-cart",
-    path: "M3 4h2l2.2 10h10.6l2-7H6M10 10l2 2 4-4M9 19a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3ZM17 19a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z",
+    name: "procurement-hammer",
+    path: "M20.344 9.141 20.438 9.891 20.156 10.594 15.328 15.328 14.625 15.469 13.875 15.234 12.422 13.781 12.328 13.219 12.75 12.047 12.516 11.812 11.766 12.516 10.969 12.375 6.938 17.391 4.125 20.156 2.906 20.484 1.547 20.016 0.844 19.078 0.703 17.859 1.172 16.781 3.656 14.297 8.766 10.172 8.625 9.422 9.328 8.578 9 8.438 8.016 8.812 7.266 8.672 5.953 7.312 5.766 6.094 6.047 5.531 10.922 0.844 11.719 0.75 12.328 0.984 13.688 2.297 13.828 2.906 13.453 3.984 13.594 4.359 14.391 3.938 15.281 4.031 16.969 5.578 17.25 6.234 17.203 6.984 16.828 7.547 17.016 7.781 18.609 7.359ZM7.266 6.422 7.969 7.219 9.516 6.797 10.359 7.547 11.297 6.797 12.047 7.031 12.234 7.453 12.094 8.016 10.453 9.609 11.438 10.734 13.125 9.047 13.781 8.906 14.25 9.234 14.344 9.891 13.641 10.781 14.344 11.578 13.969 13.219 14.672 13.922 18.938 9.703 18.234 8.953 16.875 9.375 16.359 9.234 15.047 7.875 15.047 7.219 15.75 6.469 14.719 5.484 14.062 6.094 13.547 6.234 12.234 5.156 11.812 4.547 12.234 3 11.484 2.25ZM21.75 22.688 21.188 23.25 10.312 23.25 9.75 22.688 9.75 20.719 10.266 19.828 11.25 19.5 11.391 18.047 12.281 17.297 18.984 17.25 20.016 17.906 20.25 18.516 20.25 19.5 20.953 19.641 21.516 20.156 21.75 20.766ZM2.25 18 2.297 18.469 2.625 18.844 3.562 18.703 5.766 16.5 9.938 11.344 9.797 11.25 4.594 15.469ZM11.25 21 11.25 21.75 20.25 21.75 20.25 21ZM12.75 18.75 12.75 19.5 18.75 19.5 18.75 18.75Z",
+    filled: true,
   },
   "toll-roads": {
     name: "toll-operator",
@@ -100,11 +101,12 @@ const CONTACT_TAB_ICONS = {
   },
 } as const satisfies Record<
   (typeof DISPLAY_CONTACT_TABS)[number]["id"],
-  { name: string; path: string }
+  { name: string; path: string; filled?: boolean }
 >;
 
 function ContactTabIcon({ id }: { id: keyof typeof CONTACT_TAB_ICONS }) {
   const icon = CONTACT_TAB_ICONS[id];
+  const filled = "filled" in icon && icon.filled;
 
   return (
     <svg
@@ -119,7 +121,10 @@ function ContactTabIcon({ id }: { id: keyof typeof CONTACT_TAB_ICONS }) {
     >
       <path
         d={icon.path}
-        stroke="currentColor"
+        fill={filled ? "currentColor" : "none"}
+        fillRule={filled ? "evenodd" : undefined}
+        clipRule={filled ? "evenodd" : undefined}
+        stroke={filled ? "none" : "currentColor"}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"

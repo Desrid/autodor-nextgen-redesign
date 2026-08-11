@@ -295,6 +295,7 @@ export const SOCIAL_LINKS = [
 export const GOVERNMENT_LINKS = [
   {
     label: "АП",
+    caption: "Администрация Президента",
     href: "https://kremlin.ru/",
     image: "/brand/president-russia.svg",
     width: 58,
@@ -302,6 +303,7 @@ export const GOVERNMENT_LINKS = [
   },
   {
     label: "Правительство",
+    caption: "Правительство России",
     href: "http://government.ru/",
     image: "/brand/government-rf.svg",
     width: 72,
@@ -309,6 +311,7 @@ export const GOVERNMENT_LINKS = [
   },
   {
     label: "Госуслуги",
+    caption: "Госуслуги",
     href: "https://www.gosuslugi.ru/",
     image: "/brand/gosuslugi.svg",
     width: 151,
@@ -316,6 +319,7 @@ export const GOVERNMENT_LINKS = [
   },
   {
     label: "СК",
+    caption: "Стройкомплекс России",
     href: "https://stroi.gov.ru/",
     image: "/brand/construction-rf.svg",
     width: 103,
@@ -323,6 +327,7 @@ export const GOVERNMENT_LINKS = [
   },
   {
     label: "Минтранс",
+    caption: "Минтранс России",
     href: "https://mintrans.gov.ru/",
     image: "/brand/mintrans-rf.svg",
     width: 59,
@@ -330,6 +335,7 @@ export const GOVERNMENT_LINKS = [
   },
   {
     label: "Ространснадзор",
+    caption: "Ространснадзор",
     href: "https://rostransnadzor.gov.ru/",
     image: "/brand/rostransnadzor.svg",
     width: 57,

@@ -189,7 +189,7 @@
   height: 49.42%;
   background: var(--color-brand-orange);
   content: "";
-  opacity: 0.1;
+  opacity: 0.06;
   pointer-events: none;
   -webkit-mask: url("/brand/contact-card-mark.svg") center / 100% 100% no-repeat;
   mask: url("/brand/contact-card-mark.svg") center / 100% 100% no-repeat;

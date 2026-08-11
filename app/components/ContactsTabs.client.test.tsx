@@ -38,7 +38,7 @@ describe("ContactsTabs", () => {
     ).toEqual([
       "state-road-network",
       "subsidiary-management",
-      "electronic-procurement-cart",
+      "procurement-hammer",
       "toll-operator",
       "road-restoration",
       "road-engineering",
@@ -57,6 +57,8 @@ describe("ContactsTabs", () => {
       expect(icon).toHaveAttribute("viewBox", "0 0 24 24");
       expect(icon?.querySelector("path")).toHaveAttribute("stroke-width", "1.5");
     });
+    expect(tabs[2]?.querySelector("path")).toHaveAttribute("fill", "currentColor");
+    expect(tabs[2]?.querySelector("path")).toHaveAttribute("fill-rule", "evenodd");
     expect(screen.getByTestId("contacts-border-effect")).toHaveAttribute(
       "aria-hidden",
       "true",

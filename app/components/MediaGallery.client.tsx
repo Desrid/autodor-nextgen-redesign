@@ -240,12 +240,6 @@ export function MediaGallery({ children, descriptions, label }: MediaGalleryProp
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
-        onFocusCapture={(event) => {
-          pauseRef.current = event.currentTarget !== event.target;
-        }}
-        onBlurCapture={() => {
-          pauseRef.current = false;
-        }}
       >
         <p id={statusId} className="visually-hidden" aria-live="polite">
           Изображение {activeIndex + 1} из {itemCount}
@@ -271,14 +265,6 @@ export function MediaGallery({ children, descriptions, label }: MediaGalleryProp
                     : `Открыть: ${descriptions[index]?.title ?? "изображение"}`
                 }
                 onClick={(event) => openItem(index, event)}
-                onPointerMove={(event) => {
-                  if (event.pointerType === "mouse") {
-                    pauseRef.current = true;
-                  }
-                }}
-                onMouseLeave={() => {
-                  pauseRef.current = false;
-                }}
               >
                 {item}
                 <span className="media-gallery__caption" aria-hidden="true">

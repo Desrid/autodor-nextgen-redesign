@@ -137,30 +137,32 @@ describe("homepage source-backed content contracts", () => {
       "Ространснадзор",
     ]);
     expect(GOVERNMENT_LINKS.every(({ image }) => image.endsWith(".svg"))).toBe(true);
+    expect(GOVERNMENT_LINKS.map(({ caption }) => caption)).toEqual([
+      "Администрация Президента",
+      "Правительство России",
+      "Госуслуги",
+      "Стройкомплекс России",
+      "Минтранс России",
+      "Ространснадзор",
+    ]);
   });
 
   it("adds the requested official resources with local SVG emblems", () => {
-    expect(GOVERNMENT_LINKS[0]).toMatchObject(
-      {
-        label: "АП",
-        href: "https://kremlin.ru/",
-        image: "/brand/president-russia.svg",
-      }
-    );
-    expect(GOVERNMENT_LINKS[2]).toMatchObject(
-      {
-        label: "Госуслуги",
-        href: "https://www.gosuslugi.ru/",
-        image: "/brand/gosuslugi.svg",
-      }
-    );
-    expect(GOVERNMENT_LINKS[5]).toMatchObject(
-      {
-        label: "Ространснадзор",
-        href: "https://rostransnadzor.gov.ru/",
-        image: "/brand/rostransnadzor.svg",
-      }
-    );
+    expect(GOVERNMENT_LINKS[0]).toMatchObject({
+      label: "АП",
+      href: "https://kremlin.ru/",
+      image: "/brand/president-russia.svg",
+    });
+    expect(GOVERNMENT_LINKS[2]).toMatchObject({
+      label: "Госуслуги",
+      href: "https://www.gosuslugi.ru/",
+      image: "/brand/gosuslugi.svg",
+    });
+    expect(GOVERNMENT_LINKS[5]).toMatchObject({
+      label: "Ространснадзор",
+      href: "https://rostransnadzor.gov.ru/",
+      image: "/brand/rostransnadzor.svg",
+    });
   });
 
   it("keeps the two verified social commitments in Figma order", () => {
