@@ -21,7 +21,7 @@ type MediaGalleryProps = Readonly<{
   label: string;
 }>;
 
-const AUTO_SCROLL_PX_PER_SECOND = 50;
+const AUTO_SCROLL_PX_PER_SECOND = 25;
 const MAX_SCROLL_FRAME_MS = 32;
 
 function GalleryArrow({ direction }: Readonly<{ direction: "left" | "right" }>) {
@@ -240,8 +240,8 @@ export function MediaGallery({ children, descriptions, label }: MediaGalleryProp
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
-        onFocusCapture={() => {
-          pauseRef.current = true;
+        onFocusCapture={(event) => {
+          pauseRef.current = event.currentTarget !== event.target;
         }}
         onBlurCapture={() => {
           pauseRef.current = false;
@@ -271,8 +271,10 @@ export function MediaGallery({ children, descriptions, label }: MediaGalleryProp
                     : `Открыть: ${descriptions[index]?.title ?? "изображение"}`
                 }
                 onClick={(event) => openItem(index, event)}
-                onMouseEnter={() => {
-                  pauseRef.current = true;
+                onPointerMove={(event) => {
+                  if (event.pointerType === "mouse") {
+                    pauseRef.current = true;
+                  }
                 }}
                 onMouseLeave={() => {
                   pauseRef.current = false;
