@@ -1,32 +1,28 @@
 .compactCard.compactCard {
-  height: clamp(12rem, 19.2vw, 15.6rem);
+  height: clamp(16rem, 22vw, 19rem);
 }
 
 .compactContent.compactContent {
-  padding: clamp(0.75rem, 1.2vw, 1.25rem);
+  padding: var(--card-feature-padding);
+  gap: var(--card-feature-gap);
 }
 
 .compactContent.compactContent h3 {
   display: block;
   max-width: 100%;
   min-height: 0;
-  margin-block: clamp(0.35rem, 0.7vw, 0.55rem);
+  margin: 0;
   overflow: hidden;
-  font-size: clamp(1.35rem, 1.6vw, 2.1rem);
-  line-height: 1;
+  font-size: var(--card-feature-title-size);
+  line-height: var(--card-title-line-height);
   text-overflow: ellipsis;
-  white-space: nowrap;
-  -webkit-line-clamp: 1;
+  white-space: normal;
+  -webkit-line-clamp: 2;
 }
 
 .compactContent.compactContent > p:first-child {
-  font-size: 0.7rem;
-  line-height: 1.2;
-}
-
-.compactContent.compactContent > p + p {
-  font-size: clamp(0.8rem, 1.1vw, 0.95rem);
-  line-height: 1.35;
+  font-size: var(--card-body-size);
+  line-height: var(--card-body-line-height);
 }
 
 .compactContent.compactContent > a {
@@ -35,34 +31,10 @@
 
 @media (max-width: 767px) {
   .compactCard.compactCard {
-    height: 12.8rem;
-  }
-
-  .compactContent.compactContent {
-    padding: 0.5rem;
-  }
-
-  .compactContent.compactContent h3 {
-    margin-block: 0.25rem;
-    font-size: clamp(0.85rem, 4vw, 1rem);
-  }
-
-  .compactContent.compactContent > p:first-child {
-    font-size: 0.65rem;
-  }
-
-  .compactContent.compactContent > p + p {
-    font-size: 0.75rem;
-    line-height: 1.25;
+    height: 16rem;
   }
 
   .compactContent.compactContent > a {
     font-size: 0.8rem;
-  }
-}
-
-@media (max-width: 374px) {
-  .compactContent.compactContent {
-    padding-inline: 0.5rem;
   }
 }

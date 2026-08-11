@@ -28,10 +28,35 @@ describe("ContactsTabs", () => {
       "aria-orientation",
       "vertical",
     );
-    expect(screen.getAllByRole("tab")).toHaveLength(10);
-    expect(screen.getAllByRole("tab").at(-1)).toHaveAccessibleName(
-      "Концепт «Автодор Логистика»",
-    );
+    const tabs = screen.getAllByRole("tab");
+    expect(tabs).toHaveLength(10);
+    expect(tabs.at(-1)).toHaveAccessibleName("Концепт «Автодор Логистика»");
+    expect(
+      tabs.map((tab) =>
+        tab.querySelector("[data-contact-icon]")?.getAttribute("data-contact-icon"),
+      ),
+    ).toEqual([
+      "state-road-network",
+      "subsidiary-management",
+      "electronic-procurement-cart",
+      "toll-operator",
+      "road-restoration",
+      "road-engineering",
+      "road-construction",
+      "roadside-services",
+      "road-maintenance",
+      "logistics-route",
+    ]);
+    tabs.forEach((tab) => {
+      const icon = tab.querySelector("svg");
+
+      expect(icon).toHaveAttribute("aria-hidden", "true");
+      expect(icon).toHaveAttribute("focusable", "false");
+      expect(icon).toHaveAttribute("width", "24");
+      expect(icon).toHaveAttribute("height", "24");
+      expect(icon).toHaveAttribute("viewBox", "0 0 24 24");
+      expect(icon?.querySelector("path")).toHaveAttribute("stroke-width", "1.5");
+    });
     expect(screen.getByTestId("contacts-border-effect")).toHaveAttribute(
       "aria-hidden",
       "true",
@@ -56,6 +81,9 @@ describe("ContactsTabs", () => {
       }),
     ).toHaveAttribute("href", "https://russianhighways.ru/");
     expect(screen.getByText("127006, Москва, Страстной бульвар, 9")).toBeVisible();
+    const moreLink = screen.getByRole("link", { name: "Подробнее" });
+    expect(moreLink).toHaveClass("card-cta");
+    expect(moreLink.querySelector(".card-cta__icon")).toBeInTheDocument();
   });
 
   it("moves focus, activates tabs and wraps with vertical arrow keys", () => {

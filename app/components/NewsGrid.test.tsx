@@ -14,6 +14,9 @@ describe("NewsGrid", () => {
     ).toBeInTheDocument();
     expect(container.querySelectorAll("[data-news-item]")).toHaveLength(NEWS.length);
     expect(container.querySelectorAll("[data-news-date]")).toHaveLength(NEWS.length);
+    expect(container.querySelectorAll("[data-news-date].card-eyebrow-tab")).toHaveLength(
+      NEWS.length,
+    );
     expect(container.querySelectorAll("[data-news-excerpt]")).toHaveLength(NEWS.length);
     expect(screen.getAllByText("Читать новость")).toHaveLength(NEWS.length);
 

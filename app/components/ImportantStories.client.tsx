@@ -86,17 +86,16 @@ export default function ImportantStories() {
           unoptimized
         />
         <div className={`important-state__content ${styles.compactContent}`}>
-          <p className="important-state__meta">{story.eyebrow}</p>
           <h3 id={`important-story-${story.id}`}>{story.title}</h3>
           <p>{story.description}</p>
           <a
-            className="important-state__link"
+            className="important-state__link card-cta card-stretched-link"
             href={story.href}
             target="_blank"
             rel="noopener noreferrer"
           >
             Открыть источник
-            <ArrowIcon className="inline-arrow-icon" direction="right" />
+            <ArrowIcon className="inline-arrow-icon card-cta__icon" direction="right" />
             <span className="visually-hidden"> (откроется в новой вкладке)</span>
           </a>
         </div>

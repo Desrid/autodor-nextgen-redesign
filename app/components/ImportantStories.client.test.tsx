@@ -5,7 +5,7 @@ import ImportantStories, { IMPORTANT_STORIES } from "./ImportantStories.client";
 
 describe("ImportantStories", () => {
   it("shows the transport complex portal as the first full-width story", () => {
-    render(<ImportantStories />);
+    const { container } = render(<ImportantStories />);
 
     expect(
       screen.getByRole("heading", { name: "Всё о транспортном комплексе России" }),
@@ -13,10 +13,15 @@ describe("ImportantStories", () => {
     expect(screen.getByRole("article")).toHaveAccessibleName(
       "Всё о транспортном комплексе России",
     );
-    expect(screen.getByRole("link", { name: /открыть источник/i })).toHaveAttribute(
+    const link = screen.getByRole("link", { name: /открыть источник/i });
+
+    expect(link).toHaveAttribute(
       "href",
       "https://transport.gov.ru/",
     );
+    expect(link).toHaveClass("card-cta", "card-stretched-link");
+    expect(link.querySelector(".card-cta__icon")).toBeInTheDocument();
+    expect(container.querySelector(".important-state__meta")).toBeNull();
   });
 
   it("switches exactly one visible story with the controls", () => {

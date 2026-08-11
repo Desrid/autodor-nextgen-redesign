@@ -56,7 +56,7 @@ export function StatisticsBlock() {
         className="statistics-panel statistics-panel--summary"
         aria-labelledby="statistics-years-title"
       >
-        <p className="statistics-kicker">Статистика</p>
+        <p className="statistics-kicker card-eyebrow-tab">Статистика</p>
         <h3 id="statistics-years-title">Построено дорог</h3>
         <div className="statistics-year-highlight">
           <strong>{formatDistanceKm(YEARLY_STATISTICS[0].distanceKm)} км</strong>
@@ -86,7 +86,7 @@ export function StatisticsBlock() {
         aria-labelledby="statistics-bars-title"
       >
         <div className="statistics-panel__header">
-          <p>Сравнение по годам</p>
+          <p className="card-eyebrow-tab">Сравнение по годам</p>
           <h3 id="statistics-bars-title">Динамика строительства</h3>
         </div>
         <div
@@ -140,7 +140,7 @@ export function StatisticsBlock() {
         aria-labelledby="statistics-operations-title"
       >
         <div className="statistics-panel__header">
-          <p>Доля видов операций</p>
+          <p className="card-eyebrow-tab">Доля видов операций</p>
           <h3 id="statistics-operations-title">Дорожные работы в 2025 году</h3>
         </div>
         <div className="statistics-operations-layout">

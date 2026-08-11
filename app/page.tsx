@@ -366,22 +366,27 @@ export default function HomePage() {
                   />
                 </div>
                 <div className="subsidiary-card__header">
-                  <p className="subsidiary-card__eyebrow">{item.company}</p>
+                  <p className="subsidiary-card__eyebrow card-eyebrow-tab">
+                    {item.company}
+                  </p>
                   <h3>{item.service}</h3>
                 </div>
                 <div className="subsidiary-card__details">
                   <p>{item.description}</p>
                 </div>
                 <a
-                  className="subsidiary-card__stretched-link"
+                  className="subsidiary-card__stretched-link card-stretched-link"
                   href={item.href}
                   target="_blank"
                   rel="noreferrer"
                   aria-label={`Подробнее: ${item.service} (откроется в новой вкладке)`}
                 />
-                <span className="subsidiary-card__cta" aria-hidden="true">
+                <span className="subsidiary-card__cta card-cta" aria-hidden="true">
                   Подробнее
-                  <ArrowIcon className="inline-arrow-icon" direction="right" />
+                  <ArrowIcon
+                    className="inline-arrow-icon card-cta__icon"
+                    direction="right"
+                  />
                 </span>
               </article>
             ))}
@@ -409,17 +414,23 @@ export default function HomePage() {
                   <MediaPicture src={item.src} alt={item.imageAlt} />
                 </div>
                 <div className="social-card__content">
-                  <p className="social-card__eyebrow">{item.eyebrow}</p>
+                  <p className="social-card__eyebrow card-eyebrow-tab">
+                    {item.eyebrow}
+                  </p>
                   <h3 id={`social-${item.id}-title`}>{item.title}</h3>
                   <p>{item.description}</p>
                   <a
+                    className="card-cta card-stretched-link"
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${item.linkLabel}: ${item.title} (откроется в новой вкладке)`}
                   >
                     {item.linkLabel}
-                    <ArrowIcon className="inline-arrow-icon" direction="right" />
+                    <ArrowIcon
+                      className="inline-arrow-icon card-cta__icon"
+                      direction="right"
+                    />
                     <span className="visually-hidden">
                       {" "}
                       (откроется в новой вкладке)
@@ -461,13 +472,13 @@ export default function HomePage() {
                   <div className="future-projects__shade" aria-hidden="true" />
                   {project.publicationStatus === "verified" ? (
                     <a
-                      className="future-projects__stretched-link"
+                      className="future-projects__stretched-link card-stretched-link"
                       href={project.detailsUrl}
                       aria-label={`Подробнее: ${project.title}`}
                     />
                   ) : null}
                   <div className="future-projects__content">
-                    <div className="future-projects__meta">
+                    <div className="future-projects__meta card-eyebrow-tab">
                       <p>Проект {index + 1}</p>
                       {project.publicationStatus === "verified" ? (
                         <span>{project.shortTitle}</span>
@@ -483,9 +494,15 @@ export default function HomePage() {
                             {project.deadlineLabel}
                           </time>
                         </p>
-                        <span className="future-projects__cta" aria-hidden="true">
+                        <span
+                          className="future-projects__cta card-cta"
+                          aria-hidden="true"
+                        >
                           Подробнее
-                          <ArrowIcon className="inline-arrow-icon" direction="right" />
+                          <ArrowIcon
+                            className="inline-arrow-icon card-cta__icon"
+                            direction="right"
+                          />
                         </span>
                       </>
                     ) : (

@@ -977,9 +977,12 @@ export function ServicesGrid() {
                   >
                     {keepPrepositionsWithNextWord(service.description)}
                   </span>
-                  <span className={styles.serviceCta} aria-hidden="true">
+                  <span className={`${styles.serviceCta} card-cta`} aria-hidden="true">
                     <span>Открыть сервис</span>
-                    <svg className={styles.serviceCtaIcon} viewBox="0 0 24 24">
+                    <svg
+                      className={`${styles.serviceCtaIcon} card-cta__icon`}
+                      viewBox="0 0 24 24"
+                    >
                       <path d="M5 12h14M13 6l6 6-6 6" />
                     </svg>
                   </span>
@@ -994,9 +997,17 @@ export function ServicesGrid() {
               </summary>
               <div className={`service-card__body ${styles.body}`}>
                 <p>{keepPrepositionsWithNextWord(service.description)}</p>
-                <a href={service.href} target="_blank" rel="noreferrer">
+                <a
+                  className="card-cta"
+                  href={service.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   {keepPrepositionsWithNextWord(service.actionLabel)}
-                  <ArrowIcon className="inline-arrow-icon" direction="right" />
+                  <ArrowIcon
+                    className="inline-arrow-icon card-cta__icon"
+                    direction="right"
+                  />
                   <span className="visually-hidden">
                     {
                       " (\u043e\u0442\u043a\u0440\u043e\u0435\u0442\u0441\u044f \u0432 \u043d\u043e\u0432\u043e\u0439 \u0432\u043a\u043b\u0430\u0434\u043a\u0435)"

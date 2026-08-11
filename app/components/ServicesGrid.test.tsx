@@ -36,5 +36,7 @@ describe("ServicesGrid", () => {
     expect(link).toHaveAttribute("href", service.href);
     expect(link).toHaveAttribute("target", "_blank");
     expect(link).toHaveAttribute("rel", "noreferrer");
+    expect(link).toHaveClass("card-cta");
+    expect(link.querySelector(".card-cta__icon")).toBeInTheDocument();
   });
 });

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { ArrowIcon } from "@/app/components/ArrowIcon";
 import { CONTACT_TABS } from "@/app/data/home-content";
 
 import styles from "./ContactsTabs.module.css";
@@ -55,6 +56,77 @@ const DISPLAY_CONTACT_TABS = [
   })),
   ...ADDITIONAL_CONTACT_TABS.map((contact) => ({ ...contact, website: null })),
 ] as const;
+
+const CONTACT_TAB_ICONS = {
+  "state-company": {
+    name: "state-road-network",
+    path: "M4 21V8l8-5 8 5v13M8 21l2-10M16 21l-2-10M12 7v2M12 13v2M12 19v2",
+  },
+  "management-company": {
+    name: "subsidiary-management",
+    path: "M12 7v4M6 13v-2h12v2M4 13h4v4H4zM10 3h4v4h-4zM16 13h4v4h-4zM6 17v3M18 17v3",
+  },
+  "avtodor-tp": {
+    name: "electronic-procurement-cart",
+    path: "M3 4h2l2.2 10h10.6l2-7H6M10 10l2 2 4-4M9 19a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3ZM17 19a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z",
+  },
+  "toll-roads": {
+    name: "toll-operator",
+    path: "M3 21V10h18v11M5 10l2-4h10l2 4M3 14h18M7 21v-4M17 21v-4M10 18h4",
+  },
+  "avtodor-up": {
+    name: "road-restoration",
+    path: "M4 21h16M7 21 9 6h6l2 15M8 15h8M9 10h6M5 18h14",
+  },
+  engineering: {
+    name: "road-engineering",
+    path: "M12 3 9 10 5 21M12 3l3 7 4 11M9 10h6M7 17h10M5 21h14",
+  },
+  "sk-avtodor": {
+    name: "road-construction",
+    path: "M4 15a8 8 0 0 1 16 0M3 15h18v4H3zM9 15V8M15 15V8M8 22h8",
+  },
+  development: {
+    name: "roadside-services",
+    path: "M5 21V5h10v16M7 8h6v5H7zM15 9h2l2 2v7a2 2 0 0 0 2 2V9l-2-2M8 21h5",
+  },
+  operation: {
+    name: "road-maintenance",
+    path: "M14.7 6.3a4 4 0 0 0-5.66 5.66l-6.5 6.5a2.12 2.12 0 0 0 3 3l6.5-6.5a4 4 0 0 0 5.66-5.66l-3 3-3-3 3-3Z",
+  },
+  "concept-logistics": {
+    name: "logistics-route",
+    path: "M3 7h11v9H3zM14 11h4l3 4v1h-7M7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM18 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM3 4h10",
+  },
+} as const satisfies Record<
+  (typeof DISPLAY_CONTACT_TABS)[number]["id"],
+  { name: string; path: string }
+>;
+
+function ContactTabIcon({ id }: { id: keyof typeof CONTACT_TAB_ICONS }) {
+  const icon = CONTACT_TAB_ICONS[id];
+
+  return (
+    <svg
+      className={styles.tabIcon}
+      data-contact-icon={icon.name}
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        d={icon.path}
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
 type BorderGeometry = {
   height: number;
@@ -219,7 +291,10 @@ export function ContactsTabs() {
             title={contact.label}
             onClick={() => select(index)}
           >
-            {contact.id === "state-company" ? "ГК «АВТОДОР»" : contact.label}
+            <ContactTabIcon id={contact.id} />
+            <span className={styles.tabLabel}>
+              {contact.id === "state-company" ? "ГК «АВТОДОР»" : contact.label}
+            </span>
           </button>
         ))}
       </div>
@@ -380,17 +455,12 @@ export function ContactsTabs() {
           </div>
           <div className={`contact-panel__actions ${styles.actions}`}>
             {contact.href ? (
-              <a className={`contact-panel__more ${styles.more}`} href={contact.href}>
+              <a
+                className={`contact-panel__more ${styles.more} card-cta`}
+                href={contact.href}
+              >
                 Подробнее
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M5 12h14M13 6l6 6-6 6"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <ArrowIcon className="card-cta__icon" direction="right" />
               </a>
             ) : contact.isConcept ? (
               <span className={styles.conceptNote}>Концептуальная карточка</span>

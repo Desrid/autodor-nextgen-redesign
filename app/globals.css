@@ -67,6 +67,19 @@
   --media-shadow-bleed-start: 48px;
   --media-shadow-bleed-end: 64px;
   --card-gap: 24px;
+  --card-content-padding: clamp(1.25rem, 1.8vw, 1.5rem);
+  --card-content-gap: 1rem;
+  --card-title-size: clamp(1.25rem, 1.7vw, 1.5rem);
+  --card-title-line-height: 1.2;
+  --card-body-size: clamp(0.8125rem, 0.9vw, 0.875rem);
+  --card-body-line-height: 1.45;
+  --card-tab-size: 0.75rem;
+  --card-tab-padding-block: 0.375rem;
+  --card-tab-padding-inline: 0.625rem;
+  --card-tab-radius: 0.5rem;
+  --card-feature-padding: clamp(1.5rem, 2.2vw, 2rem);
+  --card-feature-gap: clamp(1rem, 1.4vw, 1.25rem);
+  --card-feature-title-size: clamp(1.5rem, 2.2vw, 2rem);
   --header-height: 104px;
 }
 
@@ -4523,7 +4536,7 @@ a:focus-visible > .inline-arrow-icon {
 .future-projects article {
   position: relative;
   display: grid;
-  height: 240px;
+  height: 300px;
   overflow: hidden;
   border-radius: var(--radius-card);
   background: var(--color-brand-black);
@@ -4602,7 +4615,7 @@ a:focus-visible > .inline-arrow-icon {
   font-size: clamp(1.2rem, 1.7vw, 1.75rem);
   line-height: 1.1;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -4815,10 +4828,11 @@ a:focus-visible > .inline-arrow-icon {
 .footer-government {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  height: 124px;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  min-height: 128px;
   margin-block-start: 24px;
-  padding: 30px 78px;
+  padding: 24px 48px;
+  gap: 16px;
 }
 
 .footer-government a {
@@ -4832,6 +4846,7 @@ a:focus-visible > .inline-arrow-icon {
 .footer-government img {
   display: block;
   width: auto;
+  max-width: 100%;
   height: 64px;
   object-fit: contain;
 }
@@ -4970,7 +4985,7 @@ a:focus-visible > .inline-arrow-icon {
   .footer-government {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     height: auto;
-    min-height: 160px;
+    min-height: 184px;
     margin-block-start: 32px;
     padding-block: 20px;
     gap: 16px 0;
@@ -5009,11 +5024,13 @@ a:focus-visible > .inline-arrow-icon {
   }
 
   .footer-government {
-    min-height: 144px;
+    min-height: 160px;
     padding-block: 16px;
+    gap: 12px;
   }
 
   .footer-government img {
+    width: auto;
     max-width: 72px;
     height: 56px;
   }
@@ -6939,6 +6956,7 @@ body textarea {
   display: grid;
   grid-template-columns: minmax(8.8rem, 10.5rem) minmax(0, 1fr);
   align-items: center;
+  min-height: 13.5rem;
   gap: clamp(0.75rem, 1.8vw, 1.5rem);
 }
 
@@ -7064,6 +7082,7 @@ body textarea {
 
   .statistics-operations-layout {
     grid-template-columns: minmax(8.25rem, 9.5rem) minmax(0, 1fr);
+    min-height: 12rem;
   }
 }
 
@@ -7085,6 +7104,7 @@ body textarea {
 
   .statistics-operations-layout {
     grid-template-columns: 1fr;
+    min-height: 0;
   }
 
   .statistics-donut {
@@ -7219,4 +7239,300 @@ body textarea {
     transform: none !important;
     will-change: auto;
   }
+}
+
+/* Unified content rhythm for every text-bearing card. Full-bleed media cards stay edge-to-edge. */
+.loyalty-card__content,
+.news-card__content,
+.important-state__content,
+.social-card__content,
+.future-projects__content {
+  padding: var(--card-content-padding);
+  gap: var(--card-content-gap);
+}
+
+.subsidiary-card {
+  padding: var(--card-content-padding);
+  gap: var(--card-content-gap);
+}
+
+.statistics-dashboard {
+  padding: var(--card-content-padding);
+  gap: 1rem;
+}
+
+.loyalty-card h3,
+.news-card h3,
+.important-state h3,
+.statistics-panel--summary h3,
+.statistics-panel__header h3,
+.subsidiary-card h3,
+.social-card h3,
+.future-projects h3 {
+  margin: 0;
+  font-size: var(--card-title-size);
+  line-height: var(--card-title-line-height);
+  letter-spacing: -0.02em;
+}
+
+.loyalty-card__description,
+.news-card [data-news-excerpt],
+.important-state__content > p,
+.subsidiary-card__details > p,
+.social-card__content > p:not(.social-card__eyebrow) {
+  margin: 0;
+  font-size: var(--card-body-size);
+  line-height: var(--card-body-line-height);
+}
+
+.card-eyebrow-tab,
+.loyalty-card__meta,
+.news-card__meta time,
+.subsidiary-card__eyebrow,
+.social-card p.social-card__eyebrow,
+.future-projects__meta,
+.statistics-kicker,
+.statistics-panel__header > p {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 1.75rem;
+  margin: 0;
+  padding: var(--card-tab-padding-block) var(--card-tab-padding-inline);
+  align-items: center;
+  gap: 0.4rem;
+  border: 0 !important;
+  border-radius: var(--card-tab-radius);
+  background: var(--color-brand-orange);
+  color: var(--color-page);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 12%) inset;
+  font-size: var(--card-tab-size);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.future-projects__meta {
+  justify-content: flex-start;
+}
+
+.future-projects__meta > span {
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.loyalty-card h3,
+.loyalty-card__description {
+  max-width: none;
+}
+
+.loyalty-card__description {
+  margin-block-end: var(--card-content-gap);
+}
+
+.subsidiary-card__header,
+.subsidiary-card__details,
+.news-card__copy,
+.statistics-panel__header {
+  gap: var(--card-content-gap);
+}
+
+.statistics-panel__header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.statistics-panel--summary > h3 {
+  margin-top: var(--card-content-gap);
+}
+
+@media (min-width: 1181px) {
+  .statistics-panel--summary h3,
+  .statistics-panel__header h3 {
+    font-size: 1.875rem;
+    white-space: nowrap;
+  }
+}
+
+.road-hero .road-hero__notch .hero-actions > a {
+  padding: var(--card-content-padding);
+}
+
+.road-hero .road-hero__notch .hero-actions .hero-action-label {
+  font-size: var(--card-body-size);
+  line-height: var(--card-body-line-height);
+}
+
+.media-gallery__caption {
+  padding: var(--card-content-padding);
+}
+
+.media-gallery__caption strong {
+  font-size: var(--card-title-size);
+  line-height: var(--card-title-line-height);
+}
+
+/* Spacious scale for primary cards; News, Services and Contacts keep their own scale. */
+.loyalty-card__content,
+.social-card__content,
+.future-projects__content,
+.media-gallery__caption {
+  padding: var(--card-feature-padding);
+  gap: var(--card-feature-gap);
+}
+
+.statistics-dashboard,
+.subsidiary-card {
+  padding: var(--card-feature-padding);
+  gap: var(--card-feature-gap);
+}
+
+.loyalty-card h3,
+.important-state h3,
+.statistics-panel--summary h3,
+.statistics-panel__header h3,
+.subsidiary-card h3,
+.social-card h3,
+.future-projects h3,
+.media-gallery__caption strong {
+  font-size: var(--card-feature-title-size);
+  line-height: var(--card-title-line-height);
+}
+
+.loyalty-card {
+  min-height: 34rem;
+}
+
+.statistics-dashboard {
+  min-height: 28rem;
+}
+
+.social-card {
+  min-height: 24rem;
+}
+
+.future-projects article {
+  height: 20rem;
+}
+
+@media (min-width: 64rem) {
+  .subsidiary-bento {
+    grid-template-rows: repeat(2, minmax(18rem, auto));
+  }
+}
+
+@media (max-width: 47.9375rem) {
+  .loyalty-card {
+    min-height: 32rem;
+  }
+}
+
+/* One interaction language for card actions and full-surface links. */
+.card-cta {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 2.75rem;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  color: var(--color-brand-orange) !important;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none !important;
+  transition:
+    color 180ms ease-in-out,
+    opacity 180ms ease-in-out;
+}
+
+.card-cta__icon {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: 0 0 1.5rem;
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+  transition: transform 180ms ease-in-out;
+}
+
+.service-card .card-cta,
+.loyalty-card .card-cta,
+.news-card .card-cta,
+.important-state .card-cta,
+.contact-panel .card-cta,
+.subsidiary-card .card-cta,
+.social-card .card-cta,
+[data-future-project] .card-cta {
+  padding: 0;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--color-brand-orange) !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+
+.card-cta:hover,
+.card-cta:focus-visible,
+.service-card:is(:hover, :focus-within, [open]) .card-cta,
+.loyalty-card:is(:hover, :focus-within) .card-cta,
+.news-card:is(:hover, :focus-within) .card-cta,
+.important-state:is(:hover, :focus-within) .card-cta,
+.subsidiary-card:is(:hover, :focus-within) .card-cta,
+.social-card:is(:hover, :focus-within) .card-cta,
+[data-future-project]:is(:hover, :focus-within) .card-cta {
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--color-brand-orange-hover) !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+
+.loyalty-card:is(:hover, :focus-within) .card-cta {
+  color: var(--color-page) !important;
+}
+
+.card-cta:hover .card-cta__icon,
+.card-cta:focus-visible .card-cta__icon,
+.service-card:is(:hover, :focus-within, [open]) .card-cta__icon,
+.loyalty-card:is(:hover, :focus-within) .card-cta__icon,
+.news-card:is(:hover, :focus-within) .card-cta__icon,
+.important-state:is(:hover, :focus-within) .card-cta__icon,
+.subsidiary-card:is(:hover, :focus-within) .card-cta__icon,
+.social-card:is(:hover, :focus-within) .card-cta__icon,
+[data-future-project]:is(:hover, :focus-within) .card-cta__icon {
+  transform: translateX(0.1875rem);
+}
+
+.card-stretched-link {
+  text-decoration: none !important;
+}
+
+.important-state .card-stretched-link::after,
+.social-card .card-stretched-link::after {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  border-radius: inherit;
+  content: "";
+}
+
+.important-state .card-stretched-link:focus-visible::after,
+.social-card .card-stretched-link:focus-visible::after,
+.subsidiary-card .card-stretched-link:focus-visible,
+.future-projects .card-stretched-link:focus-visible {
+  outline: 3px solid var(--color-brand-orange);
+  outline-offset: -4px;
 }

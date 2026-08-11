@@ -56,10 +56,11 @@
   display: flex;
   flex: 0 0 var(--contact-tab-height);
   align-items: center;
+  gap: 0.625rem;
   width: calc(100% - 1rem);
   min-height: var(--contact-tab-height);
   margin-inline-start: 1rem;
-  padding: 0.5rem 1.25rem;
+  padding: 0.375rem 1.25rem;
   border: 0;
   border-inline-start: 3px solid transparent;
   border-radius: 1rem 0 0 1rem;
@@ -79,6 +80,19 @@
     color 180ms ease-in-out,
     margin-inline-start 180ms ease-in-out,
     width 180ms ease-in-out;
+}
+
+.tabIcon {
+  flex: 0 0 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.tabLabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .directory .tab::before,

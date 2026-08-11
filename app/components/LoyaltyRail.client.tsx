@@ -174,10 +174,15 @@ export default function LoyaltyRail({ state = "ready", onRetry }: LoyaltyRailPro
                   />
                 </div>
                 <div className="loyalty-card__content">
-                  <p className="loyalty-card__meta">{program.meta}</p>
+                  <p className="loyalty-card__meta card-eyebrow-tab">
+                    {program.meta}
+                  </p>
                   <h3>{program.title}</h3>
                   <p className="loyalty-card__description">{program.description}</p>
-                  <span className="loyalty-card__cta">{program.linkLabel}</span>
+                  <span className="loyalty-card__cta card-cta">
+                    {program.linkLabel}
+                    <ArrowIcon className="card-cta__icon" direction="right" />
+                  </span>
                 </div>
               </a>
             </div>

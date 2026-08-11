@@ -1,14 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type KeyboardEvent as ReactKeyboardEvent,
+} from "react";
 
 import {
-  ALL_ROUTE_SVG_IDS,
   FUTURE_MAP_STAGES,
   MAP_CITY_MARKER_IDS,
   MAP_CITY_NAMES,
   MAP_ROUTES,
+  type FutureMapStage,
   type MapCityName,
 } from "@/app/data/future-projects-map";
 
@@ -16,12 +23,20 @@ import styles from "./FutureProjectsMap.module.css";
 
 const MAP_ASSET = "/brand/figma-road-map-2011-25273.svg";
 const FALLBACK_MAP_ASSET = "/brand/autodor-official-network-overlay.png";
-const MAP_ASSET_SIZE = 4097;
 const STATIC_MAP_SCALE = 0.7;
 const STATIC_LABEL_SCALE = 1.3;
 const MAP_EDGE_SPACING_PX = 36;
+const TIMELINE_HEADING_SPACING_PX = 48;
+const FUTURE_STAGE_ZOOM = 2;
 const SAINT_PETERSBURG_TOP_Y = 2692.72 - 4.86491;
 const SOCHI_BOTTOM_Y = 3483.91 + 3.69371;
+
+const STAGE_FOCUS: Record<string, Readonly<{ x: number; y: number }>> = {
+  "orekhovo-bypass": { x: 38, y: 35 },
+  "krasnodar-bypass": { x: 37, y: 91 },
+  "m4-sochi": { x: 41, y: 95 },
+  "southwest-chord": { x: 48, y: 82 },
+};
 
 const DEFAULT_VIEW_BOX = {
   x: 610.94,
@@ -37,17 +52,9 @@ type ViewBox = Readonly<{
   height: number;
 }>;
 
-type BleedGeometry = Readonly<{
-  viewportLeft: number;
-  viewportTop: number;
-  viewportWidth: number;
-  viewportHeight: number;
-  imageLeft: number;
-  imageTop: number;
-  imageSize: number;
+type FeatherGeometry = Readonly<{
   featherX: number;
   featherY: number;
-  clipPath: string;
 }>;
 
 const STATIC_VIEW_BOX: ViewBox = (() => {
@@ -61,12 +68,6 @@ const STATIC_VIEW_BOX: ViewBox = (() => {
     height,
   };
 })();
-
-const EXISTING_ROUTE_SVG_IDS = new Set(MAP_ROUTES.flatMap((route) => route.svgIds));
-const FUTURE_STAGE_SVG_IDS = new Set([
-  ...ALL_ROUTE_SVG_IDS.filter((svgId) => !EXISTING_ROUTE_SVG_IDS.has(svgId)),
-  ...FUTURE_MAP_STAGES.flatMap((stage) => stage.svgIds),
-]);
 
 const MAP_CITY_SVG_ALIASES: Partial<Record<MapCityName, string>> = {
   Новороссийск: "Новоросийск",
@@ -101,11 +102,14 @@ function prepareStaticMapMarkup(markup: string) {
   root.setAttribute("data-static-map-root", "true");
   root.setAttribute("style", "pointer-events:none;user-select:none");
 
-  FUTURE_STAGE_SVG_IDS.forEach((svgId) => {
-    const element = document.getElementById(svgId);
-    if (!element) return;
-    element.setAttribute("aria-hidden", "true");
-    element.setAttribute("style", "display:none;pointer-events:none");
+  FUTURE_MAP_STAGES.forEach((stage) => {
+    stage.svgIds.forEach((svgId) => {
+      const element = document.getElementById(svgId);
+      if (!element) return;
+      element.setAttribute("aria-hidden", "true");
+      element.setAttribute("data-future-stage", stage.id);
+      element.setAttribute("style", "opacity:0;visibility:hidden;pointer-events:none");
+    });
   });
 
   const semanticGroups = new Map(
@@ -165,12 +169,30 @@ function prepareStaticMapMarkup(markup: string) {
   return new XMLSerializer().serializeToString(root);
 }
 
+function StagePanel({ stage }: Readonly<{ stage: FutureMapStage }>) {
+  return (
+    <aside className={styles.stagePanel} aria-live="polite" aria-atomic="true">
+      <p className={styles.stageYear}>{stage.year}</p>
+      <p className={styles.stageLabel}>Проект на схеме</p>
+      <h3>{stage.title}</h3>
+      <p>{stage.description}</p>
+      <p className={styles.stageSource}>{stage.sourceNote}</p>
+    </aside>
+  );
+}
+
 export function FutureProjectsMap() {
   const frameRef = useRef<HTMLDivElement>(null);
-  const [bleedGeometry, setBleedGeometry] = useState<BleedGeometry | null>(null);
-  const [visibleViewBox, setVisibleViewBox] = useState<ViewBox>(STATIC_VIEW_BOX);
+  const [featherGeometry, setFeatherGeometry] = useState<FeatherGeometry | null>(null);
+  const [baseViewBox, setBaseViewBox] = useState<ViewBox>(STATIC_VIEW_BOX);
+  const [selectedStageId, setSelectedStageId] = useState<string | null>(null);
   const [svgMarkup, setSvgMarkup] = useState<string | null>(null);
   const [mapLoadFailed, setMapLoadFailed] = useState(false);
+
+  const selectedStage = useMemo(
+    () => FUTURE_MAP_STAGES.find((stage) => stage.id === selectedStageId) ?? null,
+    [selectedStageId],
+  );
 
   useEffect(() => {
     const controller = new AbortController();
@@ -196,7 +218,7 @@ export function FutureProjectsMap() {
     const frame = frameRef.current;
     if (!frame) return;
 
-    const measureBleed = () => {
+    const measureMap = () => {
       const atlas = frame.closest<HTMLElement>('[data-testid="future-map-atlas"]');
       const layout = frame.closest<HTMLElement>(".future-layout");
       const heading = document.getElementById("future-title");
@@ -204,7 +226,7 @@ export function FutureProjectsMap() {
       if (atlas && layout && heading) {
         const layoutOffset =
           layout.getBoundingClientRect().top - heading.getBoundingClientRect().bottom;
-        atlas.style.marginTop = `${-layoutOffset}px`;
+        atlas.style.marginTop = `${TIMELINE_HEADING_SPACING_PX - layoutOffset}px`;
       }
 
       const bounds = frame.getBoundingClientRect();
@@ -227,7 +249,7 @@ export function FutureProjectsMap() {
       const frameHeight = nextViewBox.height * scale;
       frame.style.height = `${frameHeight}px`;
       frame.style.aspectRatio = "auto";
-      setVisibleViewBox((current) =>
+      setBaseViewBox((current) =>
         Math.abs(current.y - nextViewBox.y) < 0.01 &&
         Math.abs(current.height - nextViewBox.height) < 0.01
           ? current
@@ -235,49 +257,48 @@ export function FutureProjectsMap() {
       );
 
       const adjustedBounds = frame.getBoundingClientRect();
-      const fittedWidth = nextViewBox.width * scale;
-      const fittedHeight = nextViewBox.height * scale;
-      const overflowY = Math.min(Math.max(frameHeight * 0.34, 112), 240);
       const featherX = Math.min(Math.max(adjustedBounds.width * 0.06, 48), 88);
       const featherY = Math.min(Math.max(frameHeight * 0.1, 36), 72);
-      const holeLeft = adjustedBounds.left + featherX;
-      const holeTop = overflowY + featherY;
-      const holeRight = adjustedBounds.right - featherX;
-      const holeBottom = overflowY + frameHeight - featherY;
-
-      setBleedGeometry({
-        viewportLeft: -adjustedBounds.left,
-        viewportTop: -overflowY,
-        viewportWidth: window.innerWidth,
-        viewportHeight: frameHeight + overflowY * 2,
-        imageLeft:
-          adjustedBounds.left +
-          (adjustedBounds.width - fittedWidth) / 2 -
-          nextViewBox.x * scale,
-        imageTop: overflowY + (frameHeight - fittedHeight) / 2 - nextViewBox.y * scale,
-        imageSize: MAP_ASSET_SIZE * scale,
-        featherX,
-        featherY,
-        clipPath: `polygon(evenodd, 0 0, 100% 0, 100% 100%, 0 100%, 0 0, ${holeLeft}px ${holeTop}px, ${holeLeft}px ${holeBottom}px, ${holeRight}px ${holeBottom}px, ${holeRight}px ${holeTop}px, ${holeLeft}px ${holeTop}px)`,
-      });
+      setFeatherGeometry({ featherX, featherY });
     };
 
-    measureBleed();
+    measureMap();
     const observer =
-      typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measureBleed);
+      typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measureMap);
     observer?.observe(frame);
-    window.addEventListener("resize", measureBleed);
+    window.addEventListener("resize", measureMap);
 
     return () => {
       observer?.disconnect();
-      window.removeEventListener("resize", measureBleed);
+      window.removeEventListener("resize", measureMap);
     };
   }, [svgMarkup]);
 
+  const handleTimelineKeyDown = (
+    event: ReactKeyboardEvent<HTMLButtonElement>,
+    index: number,
+  ) => {
+    let nextIndex = index;
+    if (event.key === "ArrowRight") {
+      nextIndex = Math.min(index + 1, FUTURE_MAP_STAGES.length - 1);
+    }
+    if (event.key === "ArrowLeft") nextIndex = Math.max(index - 1, 0);
+    if (event.key === "Home") nextIndex = 0;
+    if (event.key === "End") nextIndex = FUTURE_MAP_STAGES.length - 1;
+    if (nextIndex === index) return;
+
+    event.preventDefault();
+    const nextStage = FUTURE_MAP_STAGES[nextIndex];
+    if (!nextStage) return;
+    setSelectedStageId(nextStage.year === 2026 ? null : nextStage.id);
+    document.getElementById(`future-map-year-${nextStage.year}`)?.focus();
+  };
+
   const renderedSvgMarkup = svgMarkup?.replace(
     /viewBox="[^"]+"/,
-    `viewBox="${toViewBoxString(visibleViewBox)}"`,
+    `viewBox="${toViewBoxString(baseViewBox)}"`,
   );
+  const stageFocus = selectedStage ? STAGE_FOCUS[selectedStage.id] : null;
 
   return (
     <div
@@ -287,68 +308,86 @@ export function FutureProjectsMap() {
       data-map-scale={STATIC_MAP_SCALE}
       data-label-scale={STATIC_LABEL_SCALE}
       data-edge-spacing={MAP_EDGE_SPACING_PX}
+      data-stage-zoom={FUTURE_STAGE_ZOOM}
+      data-active-year={selectedStage?.year ?? 2026}
+      data-active-stage={selectedStage?.id ?? "base"}
+      data-has-stage={selectedStage ? "true" : "false"}
+      data-timeline-enabled="true"
       data-testid="future-map-atlas"
     >
-      <div className={styles.mapFrame} ref={frameRef}>
-        {bleedGeometry ? (
+      <div className={styles.mapColumn}>
+        <div className={styles.mapFrame} ref={frameRef}>
           <div
-            className={styles.mapBleed}
-            style={{
-              left: `${bleedGeometry.viewportLeft}px`,
-              top: `${bleedGeometry.viewportTop}px`,
-              width: `${bleedGeometry.viewportWidth}px`,
-              height: `${bleedGeometry.viewportHeight}px`,
-              clipPath: bleedGeometry.clipPath,
-            }}
-            aria-hidden="true"
+            className={styles.mapObject}
+            data-map-asset={MAP_ASSET}
+            data-interaction-disabled="true"
+            style={
+              featherGeometry
+                ? ({
+                    "--map-feather-x": `${featherGeometry.featherX}px`,
+                    "--map-feather-y": `${featherGeometry.featherY}px`,
+                  } as CSSProperties)
+                : undefined
+            }
+            role="img"
+            aria-label={
+              selectedStage
+                ? `Схема сети дорог Автодора: выбран проект ${selectedStage.title}`
+                : "Статическая схема сети дорог Автодора"
+            }
           >
-            <Image
-              className={styles.mapBleedImage}
-              src={MAP_ASSET}
-              alt=""
-              width={MAP_ASSET_SIZE}
-              height={MAP_ASSET_SIZE}
-              unoptimized
-              style={{
-                left: `${bleedGeometry.imageLeft}px`,
-                top: `${bleedGeometry.imageTop}px`,
-                width: `${bleedGeometry.imageSize}px`,
-                height: `${bleedGeometry.imageSize}px`,
-              }}
-            />
+            {renderedSvgMarkup ? (
+              <div
+                className={styles.mapSvg}
+                style={
+                  stageFocus
+                    ? ({
+                        "--stage-focus-x": `${stageFocus.x}%`,
+                        "--stage-focus-y": `${stageFocus.y}%`,
+                      } as CSSProperties)
+                    : undefined
+                }
+                // The markup is a bundled, immutable export of the specified Figma node.
+                dangerouslySetInnerHTML={{ __html: renderedSvgMarkup }}
+              />
+            ) : (
+              <Image
+                src={mapLoadFailed ? FALLBACK_MAP_ASSET : MAP_ASSET}
+                alt=""
+                fill
+                unoptimized
+                sizes="(max-width: 960px) 100vw, 70vw"
+              />
+            )}
           </div>
-        ) : null}
 
-        <div
-          className={styles.mapObject}
-          data-map-asset={MAP_ASSET}
-          data-interaction-disabled="true"
-          style={
-            bleedGeometry
-              ? ({
-                  "--map-feather-x": `${bleedGeometry.featherX}px`,
-                  "--map-feather-y": `${bleedGeometry.featherY}px`,
-                } as CSSProperties)
-              : undefined
-          }
-          role="img"
-          aria-label="Статическая схема сети дорог Автодора"
-        >
-          {renderedSvgMarkup ? (
-            <div
-              className={styles.mapSvg}
-              // The markup is a bundled, immutable export of the specified Figma node.
-              dangerouslySetInnerHTML={{ __html: renderedSvgMarkup }}
-            />
-          ) : (
-            <Image
-              src={mapLoadFailed ? FALLBACK_MAP_ASSET : MAP_ASSET}
-              alt=""
-              fill
-              unoptimized
-              sizes="(max-width: 960px) 100vw, 70vw"
-            />
-          )}
+          <div className={styles.timelineWrap}>
+            <div className={styles.timeline} role="group" aria-label="Шкала 2026–2030">
+              {FUTURE_MAP_STAGES.map((stage, index) => {
+                const isSelected =
+                  stage.year === 2026
+                    ? selectedStageId === null
+                    : selectedStageId === stage.id;
+
+                return (
+                  <button
+                    id={`future-map-year-${stage.year}`}
+                    key={stage.id}
+                    type="button"
+                    aria-pressed={isSelected}
+                    onClick={() =>
+                      setSelectedStageId(stage.year === 2026 ? null : stage.id)
+                    }
+                    onKeyDown={(event) => handleTimelineKeyDown(event, index)}
+                  >
+                    <span>{stage.year}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {selectedStage ? <StagePanel stage={selectedStage} /> : null}
         </div>
       </div>
     </div>

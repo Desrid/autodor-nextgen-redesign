@@ -2961,7 +2961,7 @@
   .copy {
   position: absolute;
   z-index: 12;
-  inset: auto 1.25rem 1.25rem;
+  inset: auto var(--card-content-padding) var(--card-content-padding);
   display: flex;
   width: auto;
   min-width: 0;
@@ -2996,9 +2996,9 @@
   max-width: min(19rem, calc(100% - 1rem));
   color: var(--color-brand-black);
   font-family: var(--font-montserrat), Montserrat, Arial, sans-serif;
-  font-size: 1.5rem;
+  font-size: var(--card-title-size);
   font-weight: 600;
-  line-height: 1.2;
+  line-height: var(--card-title-line-height);
   letter-spacing: -0.02em;
   text-wrap: balance;
 }
@@ -3031,8 +3031,8 @@
   overflow: hidden;
   color: var(--color-brand-black);
   font-family: var(--font-montserrat), Montserrat, Arial, sans-serif;
-  font-size: 1rem;
-  line-height: 1.35;
+  font-size: var(--card-body-size);
+  line-height: var(--card-body-line-height);
   opacity: 0;
   transform: translate3d(0, -0.55rem, 0);
   transition:
@@ -3722,5 +3722,22 @@
   .card[data-service-id="route-calculator"] .copy,
   .card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open]) .copy {
     inset: auto 1rem 1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .card.card[data-card-system="services-card-system-v1"] .title {
+    font-size: var(--card-title-size);
+    line-height: var(--card-title-line-height);
+  }
+
+  .card.card[data-card-system="services-card-system-v1"] .copy,
+  .card.card[data-card-system="services-card-system-v1"]:where(
+      :hover,
+      :focus-within,
+      [open]
+    )
+    .copy {
+    inset: auto var(--card-content-padding) var(--card-content-padding);
   }
 }

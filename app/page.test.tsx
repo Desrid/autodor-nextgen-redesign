@@ -110,6 +110,7 @@ describe("HomePage", () => {
       socialSection?.querySelectorAll<HTMLAnchorElement>("[data-social-item] a");
     expect(links).toHaveLength(2);
     links?.forEach((link) => {
+      expect(link).toHaveClass("card-cta", "card-stretched-link");
       expect(link).toHaveAttribute("target", "_blank");
       expect(link).toHaveAttribute("rel", "noopener noreferrer");
       expect(link).toHaveAccessibleName(/откроется в новой вкладке/);
@@ -140,7 +141,10 @@ describe("HomePage", () => {
     const links = section?.querySelectorAll("a");
     expect(links).toHaveLength(4);
     links?.forEach((link) => {
-      expect(link).toHaveClass("subsidiary-card__stretched-link");
+      expect(link).toHaveClass(
+        "subsidiary-card__stretched-link",
+        "card-stretched-link",
+      );
       expect(link.parentElement).toHaveAttribute("data-subsidiary-item");
       expect(link).toHaveAttribute("target", "_blank");
       expect(link).toHaveAttribute("rel", "noreferrer");
@@ -154,7 +158,7 @@ describe("HomePage", () => {
     ).toHaveAttribute("href", "https://avtodor-tr.ru/business/");
   });
 
-  it("presents the future-project map as a static Figma atlas with a fallback", async () => {
+  it("presents the future-project map as a timeline-controlled Figma atlas", async () => {
     const { container } = render(await HomePage());
     const futureSection = container.querySelector("[data-section='future']");
     const atlas = futureSection?.querySelector("[data-testid='future-map-atlas']");
@@ -169,8 +173,10 @@ describe("HomePage", () => {
       "/brand/figma-road-map-2011-25273.svg",
     );
     expect(atlas).toHaveAttribute("data-static-map", "true");
+    expect(atlas).toHaveAttribute("data-stage-zoom", "2");
+    expect(atlas).toHaveAttribute("data-timeline-enabled", "true");
     expect(mapSurface).toHaveAttribute("data-interaction-disabled", "true");
-    expect(screen.queryByRole("group", { name: "Шкала 2026–2030" })).toBeNull();
+    expect(screen.getByRole("group", { name: "Шкала 2026–2030" })).toBeVisible();
     const sourceLinks = Array.from(
       futureSection?.querySelectorAll<HTMLAnchorElement>(
         ".future-projects__stretched-link",
@@ -179,7 +185,10 @@ describe("HomePage", () => {
 
     expect(sourceLinks).toHaveLength(3);
     sourceLinks.forEach((link) => {
-      expect(link).toHaveClass("future-projects__stretched-link");
+      expect(link).toHaveClass(
+        "future-projects__stretched-link",
+        "card-stretched-link",
+      );
       expect(link).toHaveAccessibleName(/^Подробнее:/);
       expect(link.closest("[data-future-project]")).toHaveTextContent("Подробнее");
       expect(link).toHaveAttribute("href", expect.stringMatching(/\.pdf$/));

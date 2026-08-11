@@ -17,7 +17,7 @@ describe("FutureProjectsMap", () => {
 
   afterEach(() => vi.unstubAllGlobals());
 
-  it("renders a reduced static map with enlarged labels and no controls", async () => {
+  it("renders the reduced static map with a click-controlled year scale", async () => {
     const { container } = render(<FutureProjectsMap />);
     const atlas = screen.getByTestId("future-map-atlas");
     const map = screen.getByRole("img", {
@@ -28,9 +28,16 @@ describe("FutureProjectsMap", () => {
     expect(atlas).toHaveAttribute("data-map-scale", "0.7");
     expect(atlas).toHaveAttribute("data-label-scale", "1.3");
     expect(atlas).toHaveAttribute("data-edge-spacing", "36");
+    expect(atlas).toHaveAttribute("data-stage-zoom", "2");
+    expect(atlas).toHaveAttribute("data-active-year", "2026");
+    expect(atlas).toHaveAttribute("data-timeline-enabled", "true");
     expect(map).toHaveAttribute("data-interaction-disabled", "true");
-    expect(screen.queryByRole("group", { name: "Шкала 2026–2030" })).toBeNull();
-    expect(screen.queryByRole("button")).toBeNull();
+    expect(screen.getByRole("group", { name: "Шкала 2026–2030" })).toBeVisible();
+    expect(screen.getAllByRole("button")).toHaveLength(5);
+    expect(screen.getByRole("button", { name: "2026" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
 
     await waitFor(() => expect(atlas.querySelector("svg")).toBeInTheDocument());
     const svg = atlas.querySelector("svg");
@@ -42,7 +49,7 @@ describe("FutureProjectsMap", () => {
     expect(viewBox[2]).toBeCloseTo(1299.07 / 0.7, 5);
     expect(viewBox[3]).toBeCloseTo(894.31 / 0.7, 5);
     expect(label).toBeInTheDocument();
-    expect(futureRoad?.style.display).toBe("none");
+    expect(futureRoad?.style.visibility).toBe("hidden");
     expect(cityMarker).toHaveAttribute("fill", "#FFFFFF");
     expect(cityMarker).toHaveAttribute("stroke", "#FF5100");
     expect(atlas.querySelector("[tabindex]")).toBeNull();
@@ -55,6 +62,37 @@ describe("FutureProjectsMap", () => {
     expect(screen.queryByTestId("map-road-tooltip")).toBeNull();
     expect(screen.queryByTestId("map-city-tooltip")).toBeNull();
     expect(container.querySelector("aside")).toBeNull();
+
+    fireEvent.click(screen.getByRole("button", { name: "2028" }));
+    expect(atlas).toHaveAttribute("data-active-year", "2028");
+    expect(atlas).toHaveAttribute("data-active-stage", "krasnodar-bypass");
+    expect(screen.getByRole("button", { name: "2028" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(container.querySelector('[class*="mapSvg"]')).toHaveStyle({
+      "--stage-focus-x": "37%",
+      "--stage-focus-y": "91%",
+    });
+    expect(container.querySelector("aside")).toHaveTextContent(
+      "Южный обход Краснодара",
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "2026" }));
+    expect(atlas).toHaveAttribute("data-active-year", "2026");
+    expect(atlas).toHaveAttribute("data-active-stage", "base");
+    expect(container.querySelector("aside")).toBeNull();
+  });
+
+  it("supports keyboard navigation on the restored timeline", () => {
+    render(<FutureProjectsMap />);
+
+    const year2026 = screen.getByRole("button", { name: "2026" });
+    const year2027 = screen.getByRole("button", { name: "2027" });
+    fireEvent.keyDown(year2026, { key: "ArrowRight" });
+
+    expect(year2027).toHaveAttribute("aria-pressed", "true");
+    expect(year2027).toHaveFocus();
   });
 
   it("keeps a non-interactive image fallback when the SVG cannot load", async () => {
@@ -70,6 +108,6 @@ describe("FutureProjectsMap", () => {
         "/brand/autodor-official-network-overlay.png",
       ),
     );
-    expect(screen.queryByRole("button")).toBeNull();
+    expect(screen.getAllByRole("button")).toHaveLength(5);
   });
 });

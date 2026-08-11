@@ -55,7 +55,11 @@ export function NewsGrid() {
             <span className="news-card__shade" aria-hidden="true" />
             <div className={`news-card__content ${styles.content}`}>
               <div className={`news-card__meta ${styles.meta}`}>
-                <time className={styles.date} data-news-date dateTime={item.dateTime}>
+                <time
+                  className={`${styles.date} card-eyebrow-tab`}
+                  data-news-date
+                  dateTime={item.dateTime}
+                >
                   {item.date}
                 </time>
               </div>
@@ -64,9 +68,15 @@ export function NewsGrid() {
                 <p className={styles.excerpt} data-news-excerpt>
                   {NEWS_EXCERPTS[item.href]}
                 </p>
-                <span className={`news-card__cta ${styles.cta}`} aria-hidden="true">
+                <span
+                  className={`news-card__cta ${styles.cta} card-cta`}
+                  aria-hidden="true"
+                >
                   Читать новость
-                  <ArrowIcon className="news-card__cta-icon" direction="right" />
+                  <ArrowIcon
+                    className="news-card__cta-icon card-cta__icon"
+                    direction="right"
+                  />
                 </span>
               </div>
             </div>
@@ -75,7 +85,10 @@ export function NewsGrid() {
       ))}
       <a className="news-bento__all" href={ALL_NEWS_URL}>
         <span>Все новости</span>
-        <ArrowIcon className="news-card__cta-icon" direction="right" />
+        <ArrowIcon
+          className="news-card__cta-icon card-cta__icon"
+          direction="right"
+        />
         <span className="visually-hidden">на официальном сайте Автодора</span>
       </a>
     </div>

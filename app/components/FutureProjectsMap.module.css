@@ -1,7 +1,19 @@
 .atlas {
+  --map-orange: var(--color-brand-orange, #ff5100);
+  --map-ink: var(--color-brand-black, #2d2a26);
   position: relative;
   isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  min-height: clamp(31rem, 43vw, 42rem);
   margin-top: -3rem;
+  gap: clamp(1rem, 2.4vw, 2rem);
+}
+
+.mapColumn {
+  min-width: 0;
+  overflow: hidden;
 }
 
 .mapFrame {
@@ -9,41 +21,7 @@
   isolation: isolate;
   min-height: 0;
   aspect-ratio: 2.04;
-  overflow: visible;
-}
-
-.mapBleed {
-  position: absolute;
-  z-index: 0;
   overflow: hidden;
-  pointer-events: none;
-  opacity: 0.62;
-  -webkit-mask-image:
-    linear-gradient(
-      to right,
-      transparent 0,
-      #000 clamp(3rem, 9vw, 9rem),
-      #000 calc(100% - clamp(3rem, 9vw, 9rem)),
-      transparent 100%
-    ),
-    linear-gradient(to bottom, transparent 0, #000 22%, #000 78%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(
-      to right,
-      transparent 0,
-      #000 clamp(3rem, 9vw, 9rem),
-      #000 calc(100% - clamp(3rem, 9vw, 9rem)),
-      transparent 100%
-    ),
-    linear-gradient(to bottom, transparent 0, #000 22%, #000 78%, transparent 100%);
-  mask-composite: intersect;
-}
-
-.mapBleedImage {
-  position: absolute;
-  display: block;
-  max-width: none;
 }
 
 .mapObject {
@@ -98,6 +76,17 @@
   pointer-events: none;
 }
 
+.mapSvg {
+  transform: none;
+  transform-origin: 0 0;
+  transition: transform 520ms ease-in-out;
+}
+
+.atlas[data-has-stage="true"] .mapSvg {
+  transform: scale(2);
+  transform-origin: var(--stage-focus-x, 50%) var(--stage-focus-y, 50%);
+}
+
 .mapSvg svg {
   overflow: hidden;
 }
@@ -108,14 +97,242 @@
   transform-origin: center;
 }
 
+.mapSvg [data-future-stage] {
+  transition:
+    opacity 360ms ease-in-out,
+    visibility 360ms ease-in-out;
+}
+
+.atlas[data-active-stage="orekhovo-bypass"]
+  .mapSvg
+  [data-future-stage="orekhovo-bypass"],
+.atlas[data-active-stage="krasnodar-bypass"]
+  .mapSvg
+  [data-future-stage="krasnodar-bypass"],
+.atlas[data-active-stage="m4-sochi"] .mapSvg [data-future-stage="m4-sochi"],
+.atlas[data-active-stage="southwest-chord"]
+  .mapSvg
+  [data-future-stage="southwest-chord"] {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.timelineWrap {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  bottom: auto;
+  left: 0;
+  width: 100%;
+  padding: clamp(0.25rem, 1vw, 0.75rem) 0 clamp(2.25rem, 5vw, 4rem);
+  border: 0;
+  background: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 98%) 0%,
+    rgb(255 255 255 / 78%) 50%,
+    rgb(255 255 255 / 0%) 100%
+  );
+  pointer-events: none;
+}
+
+.timeline {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(4.5rem, 1fr));
+  width: 100%;
+  min-width: 0;
+  pointer-events: auto;
+}
+
+.timeline::before {
+  position: absolute;
+  top: 1.3rem;
+  right: 2.2rem;
+  left: 2.2rem;
+  height: 2px;
+  content: "";
+  background: linear-gradient(90deg, rgb(45 42 38 / 18%), rgb(45 42 38 / 48%));
+}
+
+.timeline button {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  min-height: 4rem;
+  place-items: start center;
+  padding: 0;
+  border: 0;
+  color: var(--map-ink);
+  background: transparent;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.timeline button::before {
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-top: 0.9rem;
+  border: 3px solid var(--color-page, #fff);
+  border-radius: 50%;
+  content: "";
+  background: var(--map-ink);
+  box-shadow: 0 0 0 1px rgb(45 42 38 / 28%);
+}
+
+.timeline button span {
+  margin-top: 0.35rem;
+}
+
+.timeline button:focus-visible {
+  outline: 2px solid var(--map-orange);
+  outline-offset: -0.2rem;
+}
+
+.timeline button[aria-pressed="true"] {
+  color: var(--map-orange);
+}
+
+.timeline button[aria-pressed="true"]::before {
+  background: var(--map-orange);
+  box-shadow: 0 0 0 5px rgb(255 81 0 / 16%);
+  transform: scale(1.4);
+}
+
+.stagePanel {
+  position: absolute;
+  z-index: 3;
+  top: 5.5rem;
+  right: auto;
+  left: clamp(1rem, 2vw, 2rem);
+  width: min(21rem, calc(100% - 2rem));
+  height: calc(100% - 6.5rem);
+  box-sizing: border-box;
+  padding: clamp(1.5rem, 2.8vw, 2rem);
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgb(var(--color-brand-orange-rgb) / 18%),
+      transparent 31%
+    ),
+    linear-gradient(
+      120deg,
+      var(--color-brand-black) 0%,
+      color-mix(in srgb, var(--color-brand-black) 96%, var(--color-gray-7)) 68%,
+      color-mix(in srgb, var(--color-brand-black) 90%, var(--color-brand-orange)) 100%
+    );
+  color: #fff;
+  box-shadow: 0 1.25rem 4rem rgb(26 32 35 / 18%);
+  animation: stage-in 260ms ease-out both;
+}
+
+.atlas + :global(.future-projects) :global(.future-projects__content) {
+  gap: 0.75rem;
+}
+
+.atlas + :global(.future-projects) h3 {
+  max-width: 100%;
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  line-height: 1.08;
+  -webkit-line-clamp: 2;
+}
+
+.stagePanel::before {
+  display: block;
+  width: 3.5rem;
+  height: 0.3rem;
+  margin-bottom: 1.5rem;
+  border-radius: 999px;
+  content: "";
+  background: var(--map-orange);
+}
+
+.stagePanel h3,
+.stagePanel p {
+  margin: 0;
+}
+
+.stagePanel h3 {
+  margin-top: 0.5rem;
+  color: #fff;
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.stagePanel > p:not(.stageYear, .stageLabel, .stageSource) {
+  margin-top: 1rem;
+  color: rgb(255 255 255 / 74%);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.stageYear {
+  color: var(--map-orange);
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+}
+
+.stageLabel {
+  margin-top: 1rem !important;
+  color: rgb(255 255 255 / 60%);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.stageSource {
+  margin-top: 1rem !important;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgb(255 255 255 / 15%);
+  color: rgb(255 255 255 / 60%);
+  font-size: 0.6875rem;
+  line-height: 1.45;
+}
+
+@keyframes stage-in {
+  from {
+    opacity: 0;
+    transform: translateX(0.75rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @media (max-width: 700px) {
-  .mapBleed {
-    opacity: 0.46;
+  .timelineWrap {
+    overflow-x: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mapSvg [data-future-stage],
+  .stagePanel {
+    transition: none;
+    animation: none;
   }
 }
 
 @media print {
-  .mapBleed {
-    display: none;
+  .timelineWrap {
+    break-inside: avoid;
+  }
+
+  .stagePanel {
+    position: static;
+    box-shadow: none;
   }
 }

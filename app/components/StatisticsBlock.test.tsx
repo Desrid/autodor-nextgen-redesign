@@ -6,7 +6,7 @@ import { StatisticsBlock } from "./StatisticsBlock";
 
 describe("StatisticsBlock", () => {
   it("renders the donut and both visible tables without a source footer", () => {
-    render(<StatisticsBlock />);
+    const { container } = render(<StatisticsBlock />);
 
     expect(
       screen.getByRole("img", {
@@ -22,6 +22,7 @@ describe("StatisticsBlock", () => {
       }),
     ).toBeInTheDocument();
     expect(screen.queryByText(/^Источник:/i)).not.toBeInTheDocument();
+    expect(container.querySelectorAll(".statistics-dashboard .card-eyebrow-tab")).toHaveLength(3);
   });
 
   it("connects exact-value tooltips to keyboard-focusable controls", () => {
