@@ -1,5 +1,6 @@
 import { HeaderNav } from "@/app/components/HeaderNav.client";
 import { ArrowIcon } from "@/app/components/ArrowIcon";
+import Link from "next/link";
 
 import "./page.css";
 
@@ -20,7 +21,7 @@ export default function AccountPage() {
       <div className="account-prototype">
         <aside className="account-sidebar" aria-label="Разделы личного кабинета">
           <div className="account-profile"><strong>Алексей Смирнов</strong><span>Лицевой счёт № 4230 7812</span></div>
-          <a className="account-home" href="/account" aria-current="page"><ArrowIcon className="account-home__icon" direction="left" />Главная</a>
+          <Link className="account-home" href="/account" aria-current="page"><ArrowIcon className="account-home__icon" direction="left" />Главная</Link>
           <nav><ul>{accountNavigation.map((item) => <li key={item}><a href="#account-content">{item}</a></li>)}</ul></nav>
         </aside>
         <section className="account-workspace" id="account-content" aria-label="Личный кабинет">

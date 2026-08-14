@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/role-supports-aria-props -- Preserve the production Sites v3 search combobox contract. */
 
 import Image from "next/image";
+import Link from "next/link";
 import {
   useCallback,
   useEffect,
@@ -334,7 +335,7 @@ export function HeaderNav() {
       }`}
       data-header-state={activeLayer}
     >
-      <a
+      <Link
         className="brand-lockup"
         href="/"
         aria-label="Государственная компания Автодор, главная"
@@ -348,13 +349,17 @@ export function HeaderNav() {
           priority
           unoptimized
         />
-      </a>
+      </Link>
 
       <nav className="desktop-navigation" aria-label="Основная навигация">
         <ul>
           {PRIMARY_NAVIGATION.map((item) => (
             <li key={item.label}>
-              <a href={item.href}>{item.label}</a>
+              {item.href.startsWith("/") ? (
+                <Link href={item.href}>{item.label}</Link>
+              ) : (
+                <a href={item.href}>{item.label}</a>
+              )}
             </li>
           ))}
           <li>
@@ -455,9 +460,9 @@ export function HeaderNav() {
             unoptimized
           />
         </button>
-        <a className="account-link" href="/account">
+        <Link className="account-link" href="/account">
           Личный кабинет
-        </a>
+        </Link>
         <button
           ref={mobileButtonRef}
           className="menu-button"
@@ -573,7 +578,7 @@ export function HeaderNav() {
                     <ul id="header-search-suggestions" aria-label="Подсказки поиска">
                       {searchSuggestions.map((item, index) => (
                         <li key={`${item.label}-${item.href}`}>
-                          <a
+                          <Link
                             ref={(element) => {
                               searchSuggestionRefs.current[index] = element;
                             }}
@@ -584,7 +589,7 @@ export function HeaderNav() {
                             }
                           >
                             {item.label}
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>
@@ -606,9 +611,9 @@ export function HeaderNav() {
                 <ul>
                   {PRIMARY_NAVIGATION.map((item) => (
                     <li key={item.label}>
-                      <a href={item.href} onClick={closeAfterNavigation}>
+                      <Link href={item.href} onClick={closeAfterNavigation}>
                         {item.label}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -644,7 +649,7 @@ export function HeaderNav() {
                     />
                     ENG
                   </a>
-                  <a href="/account">Личный кабинет</a>
+                  <Link href="/account">Личный кабинет</Link>
                 </div>
               </nav>
             ) : null}
