@@ -336,7 +336,7 @@ export function HeaderNav() {
     >
       <a
         className="brand-lockup"
-        href="https://russianhighways.ru/"
+        href="/"
         aria-label="Государственная компания Автодор, главная"
         aria-current="page"
       >
@@ -455,7 +455,7 @@ export function HeaderNav() {
             unoptimized
           />
         </button>
-        <a className="account-link" href="https://avtodor-tr.ru/account/">
+        <a className="account-link" href="/account">
           Личный кабинет
         </a>
         <button
@@ -644,7 +644,7 @@ export function HeaderNav() {
                     />
                     ENG
                   </a>
-                  <a href="https://avtodor-tr.ru/account/">Личный кабинет</a>
+                  <a href="/account">Личный кабинет</a>
                 </div>
               </nav>
             ) : null}

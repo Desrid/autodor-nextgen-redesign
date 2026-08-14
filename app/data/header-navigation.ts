@@ -1,4 +1,4 @@
-export type HeaderHref = `https://${string}` | `mailto:${string}` | `tel:${string}`;
+export type HeaderHref = `/${string}` | `https://${string}` | `mailto:${string}` | `tel:${string}`;
 
 export type HeaderLink = Readonly<{
   label: string;
@@ -11,11 +11,11 @@ export type HeaderNavigationGroup = Readonly<{
 }>;
 
 export const PRIMARY_NAVIGATION = [
-  { label: "О компании", href: "https://russianhighways.ru/about/" },
+  { label: "О компании", href: "/about" },
   { label: "Пресс-центр", href: "https://russianhighways.ru/press/" },
   {
     label: "Пользователям автодорог",
-    href: "https://russianhighways.ru/for_drivers/",
+    href: "/road-users",
   },
   { label: "Партнёрам", href: "https://russianhighways.ru/for_investor/" },
   { label: "Закупки", href: "https://russianhighways.ru/tenders/?tab=1" },
