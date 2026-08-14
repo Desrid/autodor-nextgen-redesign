@@ -1,7 +1,11 @@
 import { ArrowIcon } from "@/app/components/ArrowIcon";
 import { HeaderNav } from "@/app/components/HeaderNav.client";
+import LoyaltyRail from "@/app/components/LoyaltyRail.client";
+import { ServicesGrid } from "@/app/components/ServicesGrid";
+import { SiteFooter } from "@/app/components/SiteFooter";
 
 import styles from "./RoadUsersPage.module.css";
+import { UsefulStories } from "./UsefulStories.client";
 
 const ROAD_STATUS = [
   { road: "М-4 «Дон»", status: "Свободно", detail: "Без существенных задержек", tone: "free" },
@@ -9,17 +13,13 @@ const ROAD_STATUS = [
   { road: "ЦКАД", status: "Свободно", detail: "Без существенных задержек", tone: "free" },
 ] as const;
 
-const USEFUL_LINKS = [
-  ["Тарифы и способы оплаты", "Оплата проезда и пополнение счёта"],
-  ["Помощь на дороге", "Аварийный комиссар и техническая поддержка"],
-  ["Транспондер", "Преимущества T-PASS и оформление"],
-  ["Документы и правила", "Правила пользования платными дорогами"],
-] as const;
-
 export default function RoadUsersPage() {
   return (
     <>
-      <HeaderNav />
+      <header className="site-header">
+        <HeaderNav />
+      </header>
+      <div id="header-scroll-sentinel" className="header-scroll-sentinel" aria-hidden="true" />
       <main id="main-content" className={styles.page} tabIndex={-1}>
         <section className={`${styles.hero} section-shell`} aria-labelledby="road-users-title">
           <p className={styles.eyebrow}>Пользователям автодорог</p>
@@ -27,6 +27,13 @@ export default function RoadUsersPage() {
           <p className={styles.intro}>
             Планируйте маршрут, оплачивайте проезд и получайте помощь в пути.
           </p>
+        </section>
+
+        <section className="section-shell services-section" aria-labelledby="services-title">
+          <div className="services-heading">
+            <h2 id="services-title">Сервисы</h2>
+          </div>
+          <ServicesGrid />
         </section>
 
         <section className={`${styles.section} section-shell`} aria-labelledby="calculator-title">
@@ -69,11 +76,21 @@ export default function RoadUsersPage() {
           <aside className={styles.help}><div><h3>Помощь на дороге <a href="tel:2323">*2323</a></h3><p>Вызвать аварийного комиссара или техническую помощь</p></div><a href="tel:2323" className={styles.call}>Позвонить <ArrowIcon direction="right" /></a></aside>
         </section>
 
+        <section className="section-shell loyalty-section" aria-labelledby="loyalty-title">
+          <div className="loyalty-header">
+            <div className="section-heading">
+              <h2 id="loyalty-title">Программа лояльности</h2>
+            </div>
+            <LoyaltyRail />
+          </div>
+        </section>
+
         <section id="useful" className={`${styles.section} section-shell`} aria-labelledby="useful-title">
           <div className={styles.heading}><h2 id="useful-title">Полезное</h2><p>Актуальная информация для поездки</p></div>
-          <div className={styles.usefulRail}>{USEFUL_LINKS.map(([title, description], index) => <a href="#calculator-title" className={`${styles.usefulCard} ${styles[`usefulCard${index + 1}`]}`} key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{description}</p><ArrowIcon direction="right" /></a>)}</div>
+          <UsefulStories />
         </section>
       </main>
+      <SiteFooter />
     </>
   );
 }
