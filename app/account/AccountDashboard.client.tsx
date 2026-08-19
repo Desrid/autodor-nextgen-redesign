@@ -114,6 +114,7 @@ export function AccountDashboard() {
       if (from < 0 || to < 0) return items;
       const next = [...items];
       const [moved] = next.splice(from, 1);
+      if (!moved) return items;
       next.splice(to, 0, moved);
       return next;
     });
