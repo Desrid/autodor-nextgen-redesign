@@ -4099,6 +4099,16 @@ a:focus-visible > .inline-arrow-icon {
   cursor: help;
 }
 
+.tariff-tooltip button svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+}
+
 .tariff-tooltip [role="tooltip"] {
   position: absolute;
   z-index: 3;
@@ -6393,7 +6403,7 @@ a:focus-visible > .inline-arrow-icon {
   stroke: currentcolor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.75;
+  stroke-width: 1.5;
 }
 
 .tariff-statistics__route-switcher {

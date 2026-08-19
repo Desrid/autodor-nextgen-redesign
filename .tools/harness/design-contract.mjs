@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
 
 import { designContract } from "./config.mjs";
@@ -24,6 +24,16 @@ function requireRegex(source, pattern, label) {
   if (!pattern.test(source)) {
     failures.push(`${label}: missing pattern ${pattern}`);
   }
+}
+
+function listUiSources(directory) {
+  return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const entryPath = resolve(directory, entry.name);
+    if (entry.isDirectory()) return listUiSources(entryPath);
+    return /\.(?:tsx|jsx)$/u.test(entry.name) && !/\.test\.(?:tsx|jsx)$/u.test(entry.name)
+      ? [entryPath]
+      : [];
+  });
 }
 
 const page = read("app/page.tsx");
@@ -102,8 +112,25 @@ requireText(designSystem, "WCAG 2.2 AA", "accessibility contract");
 requireText(designSystem, "reduced motion", "reduced-motion contract");
 requireText(designSystem, "no-WebGL", "WebGL fallback contract");
 requireText(designSystem, "no-JS", "no-JS fallback contract");
+requireText(designSystem, "Every UI pictogram is an SVG", "SVG icon contract");
+requireText(designSystem, "24×24px with a 1.5px stroke", "SVG icon geometry");
 requireRegex(globals, /prefers-reduced-motion:\s*reduce/, "CSS reduced motion");
 requireRegex(globals, /@media\s+print/, "CSS print fallback");
+
+const textIconPattern = />\s*(?:i|!|\?|✓|✦|T|↗|←|→|↑|↓)\s*</gu;
+for (const sourcePath of listUiSources(resolve(process.cwd(), "app"))) {
+  const relativePath = sourcePath.slice(process.cwd().length + 1).replaceAll("\\", "/");
+  let source = readFileSync(sourcePath, "utf8");
+  // This route keeps a non-rendered historic reference below this marker. It is
+  // intentionally excluded; the actual route renders AccountDashboard.
+  if (relativePath === "app/account/page.tsx") {
+    source = source.split("// Kept as the route's static reference")[0];
+  }
+  if (textIconPattern.test(source)) {
+    failures.push(`SVG icon contract: text or emoji UI icon in ${relativePath}`);
+  }
+  textIconPattern.lastIndex = 0;
+}
 
 for (const viewport of designContract.viewports) {
   requireText(playwright, viewport, `Playwright viewport ${viewport}`);

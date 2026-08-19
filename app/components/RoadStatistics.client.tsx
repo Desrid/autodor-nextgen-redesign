@@ -20,6 +20,10 @@ function Arrow({ direction }: Readonly<{ direction: "previous" | "next" }>) {
   );
 }
 
+function InfoIcon() {
+  return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" /><path d="M12 10.5v5M12 7.5h.01" /></svg>;
+}
+
 export function RoadStatistics() {
   const initialIndex = Math.max(
     ROADS.findIndex((road) => road.id === "m-12"),
@@ -115,7 +119,7 @@ export function RoadStatistics() {
                     aria-describedby={`tariff-tip-${item.category}`}
                     aria-label={`Состав категории ${item.category}`}
                   >
-                    i
+                    <InfoIcon />
                   </button>
                   <span id={`tariff-tip-${item.category}`} role="tooltip">
                     {VEHICLE_CATEGORY_DETAILS[item.category]}

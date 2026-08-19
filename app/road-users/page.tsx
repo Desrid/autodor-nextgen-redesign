@@ -5,6 +5,7 @@ import { ServicesGrid } from "@/app/components/ServicesGrid";
 import { SiteFooter } from "@/app/components/SiteFooter";
 
 import styles from "./RoadUsersPage.module.css";
+import { RoutePlanner } from "./RoutePlanner.client";
 import { UsefulStories } from "./UsefulStories.client";
 
 const ROAD_STATUS = [
@@ -41,24 +42,7 @@ export default function RoadUsersPage() {
             <h2 id="calculator-title">Рассчитать стоимость</h2>
             <p>Маршрут, стоимость проезда и полезная информация по дороге</p>
           </div>
-          <div className={styles.calculator}>
-            <form className={styles.routeForm} aria-label="Параметры поездки">
-              <h3>Параметры поездки</h3>
-              <div className={styles.fields}>
-                <label>Откуда<select defaultValue="Москва"><option>Москва</option><option>Санкт-Петербург</option></select></label>
-                <label>Куда<select defaultValue="Краснодар"><option>Краснодар</option><option>Ростов-на-Дону</option></select></label>
-                <label>Дата поездки<input type="text" defaultValue="12 августа" /></label>
-                <label>Транспорт<select defaultValue="Легковой автомобиль"><option>Легковой автомобиль</option><option>Мотоцикл</option></select></label>
-              </div>
-              <button type="button">Рассчитать маршрут <ArrowIcon direction="right" /></button>
-            </form>
-            <article className={styles.result} aria-labelledby="result-title">
-              <h3 id="result-title">Результат расчёта</h3>
-              <dl><div><dt>протяжённость маршрута</dt><dd>1 346 км</dd></div><div><dt>ориентировочная стоимость</dt><dd>3 240 ₽</dd></div></dl>
-              <p className={styles.route}>М-4 «Дон» <span>•</span> 15 ч 40 мин</p>
-              <ul className={styles.facts}><li>Ремонт: 2 участка</li><li>МФЗ: 8</li><li>АЗС: 24</li></ul>
-            </article>
-          </div>
+          <RoutePlanner />
         </section>
 
         <section className={`${styles.section} section-shell`} aria-labelledby="rules-title">

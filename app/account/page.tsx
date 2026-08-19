@@ -1,6 +1,8 @@
 import { HeaderNav } from "@/app/components/HeaderNav.client";
 import Link from "next/link";
 
+import { AccountDashboard } from "./AccountDashboard.client";
+
 import "./page.css";
 
 const accountNavigation = ["Поездки", "Финансы", "Абонементы", "Транспондеры", "Госномера", "Дополнительные услуги", "Выписка"] as const;
@@ -13,6 +15,12 @@ const plates = [
 const transponders = ["3041655 0000 4725 2066", "3041655 0000 4725 2066"] as const;
 
 export default function AccountPage() {
+  return <><header className="site-header"><HeaderNav /></header><div id="header-scroll-sentinel" className="header-scroll-sentinel" aria-hidden="true" /><AccountDashboard /></>;
+}
+
+// Kept as the route's static reference while interactive states live in AccountDashboard.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function LegacyAccountPage() {
   return <>
     <header className="site-header"><HeaderNav /></header>
     <div id="header-scroll-sentinel" className="header-scroll-sentinel" aria-hidden="true" />
