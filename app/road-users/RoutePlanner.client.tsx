@@ -206,7 +206,7 @@ export function RoutePlanner() {
         map.fitBounds(routeLine.getBounds(), { padding: [72, 72] });
         map.setZoom(Math.max(map.getZoom(), 5));
       } else {
-        map.setView([56, 55], 4);
+        map.setView([56.2, 41], 5);
       }
       const cluster = L.markerClusterGroup({ maxClusterRadius: 64, showCoverageOnHover: false });
       const points = (hasCalculated ? routePois(route.coordinates) : []).filter((poi) => activeFilters.includes(poi.kind)).map((poi) => {

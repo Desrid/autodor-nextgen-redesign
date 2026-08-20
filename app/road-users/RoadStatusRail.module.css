@@ -1,0 +1,20 @@
+.root { position: relative; min-width: 0; }
+.controls { position: absolute; top: -4.75rem; right: 0; z-index: 1; display: flex; gap: .5rem; }
+.controls button { display: grid; width: 3.5rem; height: 3.5rem; padding: 0; border: 1px solid var(--color-brand-black); border-radius: var(--radius-control); place-items: center; background: var(--color-page); color: var(--color-brand-black); cursor: pointer; transition: color 180ms ease-in-out, background-color 180ms ease-in-out, transform 180ms ease-in-out; }
+.controls button svg { width: 1.5rem; height: 1.5rem; }
+.controls button:disabled { border-color: var(--color-border); color: var(--color-gray-5); cursor: not-allowed; }
+.controls button:not(:disabled):hover { background: var(--color-brand-black); color: var(--color-page); }
+.controls button:not(:disabled):active { transform: translateY(1px); }
+.controls button:focus-visible, .rail:focus-visible { outline: 3px solid var(--color-brand-orange); outline-offset: 3px; }
+.rail { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 3rem) / 3); gap: 1.5rem; min-width: 0; overflow-x: auto; padding: .25rem; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.rail::-webkit-scrollbar { display: none; }
+.card { position: relative; display: flex; min-height: 13.125rem; padding: 1.5rem; flex-direction: column; align-items: flex-start; border: 1px solid var(--color-border); border-radius: var(--radius-card); background: var(--color-surface-subtle); scroll-snap-align: start; }
+.card h3 { margin: 0; font-size: 1.5rem; line-height: 1.15; letter-spacing: -.035em; }
+.card > p { display: inline-flex; margin: 1.35rem 0 .7rem; padding: .45rem .7rem; border-radius: 999px; font-size: .75rem; font-weight: 800; }
+.free { background: #dff6e9; color: #17663d; }
+.work { background: var(--color-brand-orange-soft); color: #a73200; }
+.card > span { display: block; color: var(--color-text-muted); font-size: .9rem; }
+.card > svg { position: absolute; right: 1.25rem; bottom: 1.25rem; width: 1.25rem; height: 1.25rem; color: var(--color-brand-orange); }
+@media (max-width: 1023px) { .rail { grid-auto-columns: calc((100% - 1.5rem) / 2); } }
+@media (max-width: 767px) { .controls { position: static; margin: 0 0 1rem; justify-content: flex-end; }.controls button { width: 3rem; height: 3rem; }.rail { grid-auto-columns: min(82vw, 20rem); gap: 1rem; margin-inline: -.25rem; }.card { min-height: 12.5rem; padding: 1.35rem; } }
+@media (prefers-reduced-motion: reduce) { .controls button, .rail { transition: none; scroll-behavior: auto; } }

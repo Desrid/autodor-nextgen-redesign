@@ -20,11 +20,11 @@ const directions = [
 ] as const;
 
 const compliance = [
-  { title: "Раскрытие информации", href: "https://russianhighways.ru/about/regulatory-information/disc_inform/", image: "/media/news/government-meeting.png" },
-  { title: "Инсайдерам", href: "https://russianhighways.ru/for_investor/disclosure/insayderam", image: "/media/news/perm-development.png" },
-  { title: "Антимонопольный комплаенс", href: "https://russianhighways.ru/about/antimonopolnyy-komplaens/", image: "/media/news/ckad-traffic.png" },
-  { title: "Отозванные доверенности", href: "https://russianhighways.ru/about/otozvannye-doverennosti/", image: "/media/news/pskov-roadside.png" },
-  { title: "Нормативно-правовая документация", href: "https://russianhighways.ru/about/regulatory-information/", image: "/media/important/road-infrastructure.png" },
+  { title: "Раскрытие информации", href: "https://russianhighways.ru/about/regulatory-information/disc_inform/", image: "/media/about-cards/disclosure.png" },
+  { title: "Инсайдерам", href: "https://russianhighways.ru/for_investor/disclosure/insayderam", image: "/media/about-cards/insiders.png" },
+  { title: "Антимонопольный комплаенс", href: "https://russianhighways.ru/about/antimonopolnyy-komplaens/", image: "/media/about-cards/antimonopoly.png" },
+  { title: "Отозванные доверенности", href: "https://russianhighways.ru/about/otozvannye-doverennosti/", image: "/media/about-cards/revoked-powers.png" },
+  { title: "Нормативно-правовая документация", href: "https://russianhighways.ru/about/regulatory-information/", image: "/media/about-cards/legal-documentation.png" },
 ] as const;
 
 function SectionHeading({ id, children, lead }: Readonly<{ id: string; children: string; lead: string }>) {
@@ -55,6 +55,14 @@ export default function AboutPage() {
           <p className="about-hero__lead">Мы создаём современную дорожную инфраструктуру, которая объединяет регионы и открывает возможности.</p>
           <aside className="about-mission"><span>Миссия</span><p>Безопасные дороги, развитие территорий и комфорт пользователей.</p></aside>
         </div>
+        <aside className="about-quote" aria-label="Слово председателя правления">
+          <div className="about-quote__copy">
+            <svg className="about-quote__mark" aria-hidden="true" viewBox="0 0 96 66" focusable="false"><path d="M0 66V42.5L18.5 0H39L25.5 39H42V66H0Z" /><path d="M0 66V42.5L18.5 0H39L25.5 39H42V66H0Z" transform="translate(54)" /></svg>
+            <blockquote>«Скорость — отличительная черта дорог Автодора. Комфорт, безопасность, экологичность — ключевые требования наших клиентов — пользователей дорог»</blockquote>
+            <footer><span>Председатель правления Государственной компании «Автодор»</span><strong>Вячеслав Петушенко</strong></footer>
+          </div>
+          <Image className="about-quote__portrait" src="/media/about-petushenko.png" alt="Вячеслав Петушенко, председатель правления Государственной компании «Автодор»" width={560} height={690} sizes="(max-width: 767px) 44vw, 32vw" />
+        </aside>
       </section>
 
       <section className="about-section future-section" aria-labelledby="future-title">
@@ -69,7 +77,7 @@ export default function AboutPage() {
 
       <section className="about-section" aria-labelledby="structure-title">
         <SectionHeading id="structure-title" lead="Переход к структуре дочерних обществ и филиалов">Структура ГК</SectionHeading>
-        <div className="about-grid about-grid--structure"><Card title="Дочерние общества" text="Компании группы и направления работы" href="https://russianhighways.ru/about/affiliates/" image="/media/optimized/federal-highway-aerial-hero/federal-highway-aerial-hero-desktop-960.avif" /><Card title="Филиалы" text="Региональная структура Государственной компании" href="https://russianhighways.ru/about/structure/" image="/media/optimized/tunnel-portal/tunnel-portal-desktop-960.avif" /></div>
+        <div className="about-grid about-grid--structure"><Card title="Дочерние общества" text="Компании группы и направления работы" href="https://russianhighways.ru/about/affiliates/" image="/media/about-cards/subsidiaries.png" /><Card title="Филиалы" text="Региональная структура Государственной компании" href="https://russianhighways.ru/about/structure/" image="/media/about-cards/branches.png" /></div>
       </section>
 
       <section className="about-section" aria-labelledby="compliance-title">

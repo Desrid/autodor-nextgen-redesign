@@ -8,14 +8,19 @@ import { ServicesGrid } from "@/app/components/ServicesGrid";
 import { SiteFooter } from "@/app/components/SiteFooter";
 
 import styles from "./RoadUsersPage.module.css";
+import { RoadStatusRail, type RoadStatus } from "./RoadStatusRail.client";
 import { RoutePlanner } from "./RoutePlanner.client";
 import { UsefulStories } from "./UsefulStories.client";
 
-const ROAD_STATUS = [
+const ROAD_STATUS: readonly RoadStatus[] = [
+  { road: "М-1 «Беларусь»", status: "Свободно", detail: "Без существенных задержек", tone: "free" },
+  { road: "М-3 «Украина»", status: "Свободно", detail: "Без существенных задержек", tone: "free" },
   { road: "М-4 «Дон»", status: "Свободно", detail: "Без существенных задержек", tone: "free" },
+  { road: "М-11 «Нева»", status: "Свободно", detail: "Без существенных задержек", tone: "free" },
   { road: "М-12 «Восток»", status: "Ремонт", detail: "2 участка, задержка 18 мин", tone: "work" },
   { road: "ЦКАД", status: "Свободно", detail: "Без существенных задержек", tone: "free" },
-] as const;
+  { road: "А-289", status: "Ремонт", detail: "Один участок, движение открыто", tone: "work" },
+];
 
 export default function RoadUsersPage() {
   return (
@@ -34,7 +39,7 @@ export default function RoadUsersPage() {
               <ArrowIcon direction="right" />
               <span aria-current="page">Пользователям автодорог</span>
             </nav>
-            <h1 id="road-users-title">Всё для уверенной поездки</h1>
+            <h1 id="road-users-title"><span>Всё для уверенной</span><span>поездки</span></h1>
             <p className={styles.heroLead}>Планируйте маршрут, оплачивайте проезд и получайте помощь в пути.</p>
             <aside className={styles.heroNote}><span>В дороге</span><p>Маршрут, стоимость проезда и важная информация — в одном месте.</p></aside>
           </div>
@@ -66,7 +71,7 @@ export default function RoadUsersPage() {
 
         <section className={`${styles.section} section-shell`} aria-labelledby="status-title">
           <div className={styles.heading}><h2 id="status-title">Ситуация на дороге</h2><p>Оперативная информация и помощь на маршруте</p></div>
-          <div className={styles.statusGrid}>{ROAD_STATUS.map((item) => <article key={item.road} className={styles.statusCard}><h3>{item.road}</h3><p className={item.tone === "free" ? styles.free : styles.work}>{item.status}</p><span>{item.detail}</span><ArrowIcon direction="right" /></article>)}</div>
+          <RoadStatusRail items={ROAD_STATUS} />
           <aside className={styles.help}><div><h3>Помощь на дороге <a href="tel:2323">*2323</a></h3><p>Вызвать аварийного комиссара или техническую помощь</p></div><a href="tel:2323" className={styles.call}>Позвонить <ArrowIcon direction="right" /></a></aside>
         </section>
 

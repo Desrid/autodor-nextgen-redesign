@@ -11,13 +11,14 @@ type Story = {
   lead: string;
   image: string;
   description: string;
+  href: string;
 };
 
 const stories: Story[] = [
-  { title: "Тарифы и способы оплаты", lead: "Оплата проезда без лишних остановок", image: "/media/road-user-stories/toll-payment.png", description: "Проверьте способ оплаты до поездки и сохраните время на пункте взимания платы." },
-  { title: "Помощь на дороге", lead: "Поддержка рядом, когда она нужна", image: "/media/road-user-stories/roadside-help.png", description: "При нештатной ситуации остановитесь безопасно и позвоните *2323." },
-  { title: "Транспондер", lead: "Быстрее на полосе T-PASS", image: "/media/road-user-stories/transponder.png", description: "Транспондер помогает проезжать пункты оплаты без остановки." },
-  { title: "Документы и правила", lead: "Спокойная поездка начинается с правил", image: "/media/road-user-stories/travel-rules.png", description: "Выбирайте подходящую полосу и следите за дорожной обстановкой." },
+  { title: "Тарифы и способы оплаты", lead: "Оплата проезда без лишних остановок", image: "/media/road-user-stories/toll-payment.png", description: "Проверьте способ оплаты до поездки и сохраните время на пункте взимания платы.", href: "#calculator-title" },
+  { title: "Помощь на дороге", lead: "Поддержка рядом, когда она нужна", image: "/media/road-user-stories/roadside-help.png", description: "При нештатной ситуации остановитесь безопасно и позвоните *2323.", href: "#status-title" },
+  { title: "Транспондер", lead: "Быстрее на полосе T-PASS", image: "/media/road-user-stories/transponder.png", description: "Транспондер помогает проезжать пункты оплаты без остановки.", href: "#loyalty-title" },
+  { title: "Документы и правила", lead: "Спокойная поездка начинается с правил", image: "/media/road-user-stories/travel-rules.png", description: "Выбирайте подходящую полосу и следите за дорожной обстановкой.", href: "#rules-title" },
 ];
 
 function CloseIcon() {
@@ -77,10 +78,10 @@ export function UsefulStories() {
             </div>
             <button className={styles.close} type="button" onClick={close} aria-label="Закрыть историю"><CloseIcon /></button>
             <div className={styles.copy}>
-              <p>0{open + 1} / 0{stories.length}</p>
               <h3>{currentStory.title}</h3>
               <strong>{currentStory.lead}</strong>
               <span>{currentStory.description}</span>
+              <a className={styles.more} href={currentStory.href} onClick={close}>Подробнее <ArrowIcon direction="right" /></a>
             </div>
             <button className={styles.prev} type="button" onClick={() => goTo(open - 1)} aria-label="Предыдущая история"><ArrowIcon direction="left" /></button>
             <button className={styles.next} type="button" onClick={() => goTo(open + 1)} aria-label="Следующая история"><ArrowIcon direction="right" /></button>
