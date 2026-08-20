@@ -10,8 +10,8 @@ type Poi = { id: string; kind: PoiKind; name: string; description: string; image
 type RouteData = { distance: number; duration: number; coordinates: [number, number][] };
 type Stop = { id: string; value: string };
 type RouteField = "origin" | "destination" | `stop-${number}`;
-type LeafletMarker = { bindTooltip: (html: string, options: unknown) => void };
-type LeafletMap = { fitBounds: (bounds: unknown, options: unknown) => void; setZoom: (zoom: number) => void; getZoom: () => number; setView: (coordinates: [number, number], zoom: number) => void; remove: () => void; removeLayer: (marker: LeafletMarker) => void };
+type LeafletMarker = { addTo: (map: LeafletMap) => LeafletMarker; bindTooltip: (html: string, options: unknown) => void };
+type LeafletMap = { fitBounds: (bounds: unknown, options: unknown) => void; setZoom: (zoom: number) => void; getZoom: () => number; zoomIn: () => void; zoomOut: () => void; setView: (coordinates: [number, number], zoom: number) => void; remove: () => void; removeLayer: (marker: LeafletMarker) => void };
 type LeafletApi = {
   map: (element: HTMLElement, options: unknown) => LeafletMap;
   tileLayer: (url: string, options: unknown) => { addTo: (map: LeafletMap) => void };
