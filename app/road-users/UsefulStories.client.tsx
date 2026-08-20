@@ -30,8 +30,13 @@ function CloseIcon() {
 
 export function UsefulStories() {
   const [open, setOpen] = useState<number | null>(null);
+  const [seen, setSeen] = useState<Set<number>>(() => new Set());
   const close = () => setOpen(null);
   const goTo = (index: number) => setOpen((index + stories.length) % stories.length);
+  const openStory = (index: number) => {
+    setSeen((current) => new Set(current).add(index));
+    setOpen(index);
+  };
   const currentStory = open === null ? null : stories[open]!;
 
   useEffect(() => {
@@ -56,12 +61,9 @@ export function UsefulStories() {
     <>
       <div className={styles.grid}>
         {stories.map((story, index) => (
-          <button key={story.title} className={styles.card} type="button" onClick={() => setOpen(index)}>
-            <img src={story.image} alt="" />
-            <span>0{index + 1}</span>
+          <button key={story.title} className={`${styles.card} ${seen.has(index) ? styles.seen : ""}`} type="button" onClick={() => openStory(index)} aria-label={`Открыть историю: ${story.title}`}>
+            <span className={styles.avatar}><img src={story.image} alt="" /></span>
             <strong>{story.title}</strong>
-            <small>{story.lead}</small>
-            <ArrowIcon direction="right" />
           </button>
         ))}
       </div>

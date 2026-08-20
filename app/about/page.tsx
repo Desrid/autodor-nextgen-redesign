@@ -2,36 +2,37 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ArrowIcon } from "@/app/components/ArrowIcon";
-import { ContactsTabs } from "@/app/components/ContactsTabs.client";
 import { FloatingUtilities } from "@/app/components/FloatingUtilities.client";
 import { HeaderNav } from "@/app/components/HeaderNav.client";
 import { SiteFooter } from "@/app/components/SiteFooter";
 
+import { HistoryMapOverlay } from "./HistoryMapOverlay.client";
+
 import "./page.css";
 
 const directions = [
-  ["Строительство", "Новые автомагистрали и обходы", "https://russianhighways.ru/about/activity/"],
-  ["Эксплуатация", "Содержание и безопасность дорог", "https://russianhighways.ru/for_drivers/"],
-  ["Инвестиции", "Концессии и инфраструктурные проекты", "https://russianhighways.ru/for_investor/"],
-  ["Цифровые сервисы", "ИТС, оплата и пользовательские продукты", "/road-users"],
-  ["Придорожная инфраструктура", "МФЗ, АЗС и сервисные зоны", "https://russianhighways.ru/for_drivers/"],
-  ["Международное сотрудничество", "Партнёрские и отраслевые проекты", "https://russianhighways.ru/about/activity/"],
+  { title: "Строительство", text: "Новые автомагистрали и обходы", href: "https://russianhighways.ru/about/activity/", image: "/media/optimized/road-construction/road-construction-desktop-640.avif" },
+  { title: "Эксплуатация", text: "Содержание и безопасность дорог", href: "https://russianhighways.ru/for_drivers/", image: "/media/optimized/bridge-viaduct/bridge-viaduct-desktop-640.avif" },
+  { title: "Инвестиции", text: "Концессии и инфраструктурные проекты", href: "https://russianhighways.ru/for_investor/", image: "/media/news/government-meeting.png" },
+  { title: "Цифровые сервисы", text: "ИТС, оплата и пользовательские продукты", href: "/road-users", image: "/media/road-user-stories/transponder.png" },
+  { title: "Придорожная инфраструктура", text: "МФЗ, АЗС и сервисные зоны", href: "https://russianhighways.ru/for_drivers/", image: "/media/road-user-stories/roadside-help.png" },
+  { title: "Международное сотрудничество", text: "Партнёрские и отраслевые проекты", href: "https://russianhighways.ru/about/activity/", image: "/media/important/transport-complex.png" },
 ] as const;
 
 const compliance = [
-  ["Раскрытие информации", "https://russianhighways.ru/about/regulatory-information/disc_inform/"],
-  ["Инсайдерам", "https://russianhighways.ru/for_investor/disclosure/insayderam"],
-  ["Антимонопольный комплаенс", "https://russianhighways.ru/about/antimonopolnyy-komplaens/"],
-  ["Отозванные доверенности", "https://russianhighways.ru/about/otozvannye-doverennosti/"],
-  ["Нормативно-правовая документация", "https://russianhighways.ru/about/regulatory-information/"],
+  { title: "Раскрытие информации", href: "https://russianhighways.ru/about/regulatory-information/disc_inform/", image: "/media/news/government-meeting.png" },
+  { title: "Инсайдерам", href: "https://russianhighways.ru/for_investor/disclosure/insayderam", image: "/media/news/perm-development.png" },
+  { title: "Антимонопольный комплаенс", href: "https://russianhighways.ru/about/antimonopolnyy-komplaens/", image: "/media/news/ckad-traffic.png" },
+  { title: "Отозванные доверенности", href: "https://russianhighways.ru/about/otozvannye-doverennosti/", image: "/media/news/pskov-roadside.png" },
+  { title: "Нормативно-правовая документация", href: "https://russianhighways.ru/about/regulatory-information/", image: "/media/important/road-infrastructure.png" },
 ] as const;
 
 function SectionHeading({ id, children, lead }: Readonly<{ id: string; children: string; lead: string }>) {
   return <header className="about-section-heading"><h2 id={id}>{children}</h2><p>{lead}</p></header>;
 }
 
-function Card({ title, text, href }: Readonly<{ title: string; text?: string; href: string }>) {
-  return <a className="about-card" href={href}><span><strong>{title}</strong>{text ? <small>{text}</small> : null}</span><ArrowIcon className="about-card__arrow" direction="right" /></a>;
+function Card({ title, text, href, image }: Readonly<{ title: string; text?: string; href: string; image: string }>) {
+  return <a className="about-card" href={href}><Image className="about-card__image" src={image} alt="" fill sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 33vw" /><span className="about-card__shade" aria-hidden="true" /><span className="about-card__content"><strong>{title}</strong>{text ? <small>{text}</small> : null}</span><ArrowIcon className="about-card__arrow" direction="right" /></a>;
 }
 
 export default function AboutPage() {
@@ -56,32 +57,40 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="about-section about-history" aria-labelledby="history-title">
-        <SectionHeading id="history-title" lead="Развитие дорожной сети по годам">История Автодора</SectionHeading>
-        <div className="about-history__map">
-          <Image src="/media/about-history-map.png" alt="Карта развития дорожной сети Автодора" fill sizes="(max-width: 767px) 100vw, 1464px" />
-          <ol className="about-history__timeline" aria-label="Ключевые годы развития"><li>2018</li><li>2020</li><li>2022</li><li>2024</li><li><strong>2026</strong></li></ol>
-        </div>
+      <section className="about-section future-section" aria-labelledby="future-title">
+        <header className="about-section-heading"><h2 id="future-title">История Автодора</h2></header>
+        <HistoryMapOverlay />
       </section>
 
       <section className="about-section" aria-labelledby="directions-title">
         <SectionHeading id="directions-title" lead="Основные направления одновременно ведут в профильные разделы">Направления деятельности</SectionHeading>
-        <div className="about-grid about-grid--directions">{directions.map(([title, text, href]) => <Card key={title} title={title} text={text} href={href} />)}</div>
+        <div className="about-grid about-grid--directions">{directions.map((card) => <Card key={card.title} {...card} />)}</div>
       </section>
 
       <section className="about-section" aria-labelledby="structure-title">
         <SectionHeading id="structure-title" lead="Переход к структуре дочерних обществ и филиалов">Структура ГК</SectionHeading>
-        <div className="about-grid about-grid--structure"><Card title="Дочерние общества" text="Компании группы и направления работы" href="https://russianhighways.ru/about/affiliates/" /><Card title="Филиалы" text="Региональная структура Государственной компании" href="https://russianhighways.ru/about/structure/" /></div>
+        <div className="about-grid about-grid--structure"><Card title="Дочерние общества" text="Компании группы и направления работы" href="https://russianhighways.ru/about/affiliates/" image="/media/optimized/federal-highway-aerial-hero/federal-highway-aerial-hero-desktop-960.avif" /><Card title="Филиалы" text="Региональная структура Государственной компании" href="https://russianhighways.ru/about/structure/" image="/media/optimized/tunnel-portal/tunnel-portal-desktop-960.avif" /></div>
       </section>
 
       <section className="about-section" aria-labelledby="compliance-title">
         <SectionHeading id="compliance-title" lead="Документы и обязательное раскрытие информации">Комплаенс</SectionHeading>
-        <div className="about-grid about-grid--compliance">{compliance.map(([title, href]) => <Card key={title} title={title} href={href} />)}</div>
+        <div className="about-grid about-grid--compliance">{compliance.map((card) => <Card key={card.title} {...card} />)}</div>
       </section>
 
       <section id="contacts" className="about-section about-contacts" aria-labelledby="contacts-title">
-        <SectionHeading id="contacts-title" lead="Адреса, телефоны и контакты организаций группы">Контакты</SectionHeading>
-        <ContactsTabs />
+        <SectionHeading id="contacts-title" lead="Государственная компания «Автодор»">Контакты</SectionHeading>
+        <div className="about-contact-map">
+          <Image src="/media/about-contacts-map.png" alt="Схема расположения офиса Государственной компании «Автодор» в Москве" fill sizes="(max-width: 767px) 100vw, 1464px" />
+          <div className="about-contact-map__scrim" aria-hidden="true" />
+          <article className="about-contact-card">
+            <dl>
+              <div><dt>Наш адрес</dt><dd>127006, Москва, Страстной бульвар, 9</dd></div>
+              <div><dt>Контактные телефоны</dt><dd><a href="tel:+74957271195">+7 (495) 727-11-95</a><span>/ многоканальный</span></dd><dd><a href="tel:+74955809841">+7 (495) 580-98-41</a><span>/ ситуационный центр</span></dd></div>
+              <div><dt>Электронная почта</dt><dd><a href="mailto:info@russianhighways.ru">info@russianhighways.ru</a></dd></div>
+            </dl>
+          </article>
+          <svg className="about-contact-map__pin" aria-hidden="true" viewBox="0 0 48 56" focusable="false"><path d="M24 0C10.75 0 0 10.75 0 24c0 18 24 32 24 32s24-14 24-32C48 10.75 37.25 0 24 0Zm0 32a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z" /></svg>
+        </div>
       </section>
     </main>
     <SiteFooter />

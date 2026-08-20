@@ -1,3 +1,6 @@
+import Image from "next/image";
+import Link from "next/link";
+
 import { ArrowIcon } from "@/app/components/ArrowIcon";
 import { HeaderNav } from "@/app/components/HeaderNav.client";
 import LoyaltyRail from "@/app/components/LoyaltyRail.client";
@@ -23,11 +26,18 @@ export default function RoadUsersPage() {
       <div id="header-scroll-sentinel" className="header-scroll-sentinel" aria-hidden="true" />
       <main id="main-content" className={styles.page} tabIndex={-1}>
         <section className={`${styles.hero} section-shell`} aria-labelledby="road-users-title">
-          <p className={styles.eyebrow}>Пользователям автодорог</p>
-          <h1 id="road-users-title">Всё для уверенной поездки</h1>
-          <p className={styles.intro}>
-            Планируйте маршрут, оплачивайте проезд и получайте помощь в пути.
-          </p>
+          <Image className={styles.heroImage} src="/media/road-users/road-users-hero-v1.png" alt="Автомобиль на современной федеральной трассе" fill priority sizes="(max-width: 767px) 100vw, 1480px" />
+          <div className={styles.heroScrim} aria-hidden="true" />
+          <div className={styles.heroContent}>
+            <nav className={styles.breadcrumbs} aria-label="Хлебные крошки">
+              <Link href="/">Главная</Link>
+              <ArrowIcon direction="right" />
+              <span aria-current="page">Пользователям автодорог</span>
+            </nav>
+            <h1 id="road-users-title">Всё для уверенной поездки</h1>
+            <p className={styles.heroLead}>Планируйте маршрут, оплачивайте проезд и получайте помощь в пути.</p>
+            <aside className={styles.heroNote}><span>В дороге</span><p>Маршрут, стоимость проезда и важная информация — в одном месте.</p></aside>
+          </div>
         </section>
 
         <section className="section-shell services-section" aria-labelledby="services-title">

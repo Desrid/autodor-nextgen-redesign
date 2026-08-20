@@ -1,5 +1,13 @@
 .page { padding: 3rem 0 6rem; color: var(--color-brand-black); }
-.hero { padding: 5rem 0 4rem; border-bottom: 1px solid var(--color-border); }
+.hero { position: relative; isolation: isolate; display: grid; min-height: 40rem; align-items: end; overflow: hidden; border-radius: 2.5rem; background: var(--color-brand-black); color: #fff; }
+.heroImage { z-index: -2; object-fit: cover; object-position: center; }
+.heroScrim { position: absolute; z-index: -1; inset: 0; background: linear-gradient(90deg, rgb(20 28 31 / 93%) 0%, rgb(20 28 31 / 71%) 46%, rgb(20 28 31 / 15%) 78%); }
+.heroContent { max-width: 47.5rem; padding: 4.875rem 5.125rem; }
+.breadcrumbs { display: flex; gap: .625rem; align-items: center; margin: 0; color: #fff; font-size: .8125rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+.breadcrumbs a { color: inherit; text-decoration: none; }.breadcrumbs a:hover { color: var(--color-brand-orange); }.breadcrumbs a:focus-visible { border-radius: .125rem; outline: 2px solid #fff; outline-offset: .3125rem; }.breadcrumbs svg { width: 1rem; height: 1rem; color: var(--color-brand-orange); }
+.hero h1 { max-width: 40.625rem; margin: 1.375rem 0 1.5rem; font-size: clamp(3rem, 5vw, 4.5rem); font-weight: 500; letter-spacing: -.045em; line-height: .98; }
+.heroLead { max-width: 40.625rem; margin: 0; font-size: 1.375rem; line-height: 1.45; }
+.heroNote { max-width: 38.75rem; margin-top: 2.625rem; padding: 1.5rem 0 0 1.625rem; border-top: 1px solid rgb(255 255 255 / 40%); border-inline-start: 3px solid var(--color-brand-orange); }.heroNote > span { font-size: .8125rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }.heroNote p { margin: .875rem 0 0; font-size: 1.125rem; line-height: 1.42; }
 .eyebrow, .tag { width: fit-content; margin: 0 0 1rem; padding: .5rem .7rem; border-radius: 999px; background: var(--color-brand-orange); color: var(--color-page); font-size: .75rem; font-weight: 800; letter-spacing: .08em; }
 .hero h1, .heading h2 { max-width: 53rem; margin: 0; font-size: clamp(2.5rem, 5vw, 5.5rem); line-height: .96; letter-spacing: -.055em; }
 .intro, .heading > p { max-width: 39rem; margin: 1.25rem 0 0; color: var(--color-text-muted); font-size: 1.125rem; line-height: 1.45; }
@@ -18,19 +26,10 @@
 @media (hover: hover) { .usefulCard:hover { transform: translateY(-.25rem); box-shadow: 0 1rem 2rem rgb(45 42 38 / 12%); }.routeForm button:hover, .call:hover { background: var(--color-brand-orange-hover); } }
 @media (min-width: 1600px) { .calculator { grid-template-columns: minmax(0, 1.18fr) minmax(0, .82fr); } }
 @media (max-width: 1023px) { .rules { grid-template-columns: repeat(2, minmax(0, 1fr)); }.ruleBarrier { grid-column: 1 / -1; }.statusGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }.statusCard:last-child { grid-column: 1 / -1; } }
-@media (max-width: 767px) { .page, .hero, .section, .calculator, .heading, .routeForm, .result { min-width: 0; max-width: 100%; }.page { padding-top: 1.5rem; overflow-x: clip; }.hero { padding: 3rem 0; }.section { padding-top: 4.5rem; }.hero h1, .intro, .routeForm h3 { min-inline-size: 0; max-inline-size: 100%; overflow: visible !important; overflow-wrap: anywhere; text-overflow: clip !important; white-space: normal !important; }.hero h1, .heading h2 { max-width: 100%; word-break: normal; }.hero h1 { font-size: clamp(2rem, 10vw, 2.5rem); line-height: 1; }.intro, .heading > p { max-width: 100%; font-size: 1rem; }.routeForm h3 { font-size: clamp(1.5rem, 8vw, 2rem); line-height: 1.1; }.fields, .rules, .statusGrid { grid-template-columns: minmax(0, 1fr); }.ruleBarrier, .statusCard:last-child { grid-column: auto; }.routeForm, .result, .help { padding: 1.5rem; }.fields select, .fields input { min-width: 0; max-width: 100%; }.result dl { grid-template-columns: 1fr; }.result dl div + div { padding: 1rem 0 0; border-top: 1px solid rgb(255 255 255 / 16%); border-left: 0; }.help { align-items: stretch; flex-direction: column; }.call { width: 100%; }.usefulRail { grid-auto-columns: auto; grid-auto-flow: row; grid-template-columns: minmax(0, 1fr); overflow-x: visible; scroll-snap-type: none; }.usefulCard { min-width: 0; min-height: 14rem; }.usefulCard h3, .usefulCard p { max-inline-size: 100%; overflow: visible; overflow-wrap: anywhere; text-overflow: clip; white-space: normal; }.rule { min-height: 15rem; } }
+@media (max-width: 767px) { .page, .hero, .section, .calculator, .heading, .routeForm, .result { min-width: 0; max-width: 100%; }.page { padding-top: 1rem; overflow-x: clip; }.hero { min-height: 35rem; border-radius: 1.75rem; }.heroImage { object-position: 65% center; }.heroScrim { background: linear-gradient(0deg, rgb(20 28 31 / 95%) 0%, rgb(20 28 31 / 57%) 64%, rgb(20 28 31 / 21%) 100%); }.heroContent { padding: 2rem 1.5rem; }.breadcrumbs { gap: .45rem; font-size: .6875rem; letter-spacing: .035em; }.hero h1, .heroLead, .routeForm h3 { min-inline-size: 0; max-inline-size: 100%; overflow: visible !important; overflow-wrap: anywhere; text-overflow: clip !important; white-space: normal !important; }.hero h1, .heading h2 { max-width: 100%; word-break: normal; }.hero h1 { margin-block: 1rem 1.125rem; font-size: clamp(2.25rem, 10vw, 3rem); line-height: 1; }.heroLead, .heading > p { max-width: 100%; font-size: 1rem; }.heroNote { margin-top: 1.75rem; padding: 1.125rem 0 0 1.125rem; }.heroNote p { margin-top: .625rem; font-size: 1rem; }.routeForm h3 { font-size: clamp(1.5rem, 8vw, 2rem); line-height: 1.1; }.section { padding-top: 4.5rem; }.fields, .rules, .statusGrid { grid-template-columns: minmax(0, 1fr); }.ruleBarrier, .statusCard:last-child { grid-column: auto; }.routeForm, .result, .help { padding: 1.5rem; }.fields select, .fields input { min-width: 0; max-width: 100%; }.result dl { grid-template-columns: 1fr; }.result dl div + div { padding: 1rem 0 0; border-top: 1px solid rgb(255 255 255 / 16%); border-left: 0; }.help { align-items: stretch; flex-direction: column; }.call { width: 100%; }.usefulRail { grid-auto-columns: auto; grid-auto-flow: row; grid-template-columns: minmax(0, 1fr); overflow-x: visible; scroll-snap-type: none; }.usefulCard { min-width: 0; min-height: 14rem; }.usefulCard h3, .usefulCard p { max-inline-size: 100%; overflow: visible; overflow-wrap: anywhere; text-overflow: clip; white-space: normal; }.rule { min-height: 15rem; } }
 @media (prefers-reduced-motion: reduce) { .usefulCard { transition: none !important; } }
 
 @media (max-width: 767px) {
   .hero h1,
-  .hero .intro {
-    box-sizing: border-box;
-    width: calc(100% - 2rem);
-    max-inline-size: 21rem;
-    margin-inline: 1rem;
-  }
-
-  .hero .intro {
-    margin-block-start: 1.25rem;
-  }
+  .hero .heroLead { box-sizing: border-box; width: 100%; margin-inline: 0; }
 }
