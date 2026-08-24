@@ -19,3 +19,6 @@ debug.log
 /dist/
 .vinext/
 .wrangler/
+
+*storybook.log
+storybook-static/

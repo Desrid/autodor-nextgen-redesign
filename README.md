@@ -34,6 +34,16 @@ npm install
 npm run dev
 ```
 
+Каталог компонентов Storybook запускается отдельно от основного preview:
+
+```bash
+npm run storybook
+npm run build-storybook
+```
+
+Storybook использует порт `6006` и собственный browser-only Vite-config, поэтому
+не загружает серверный Vinext + Cloudflare RSC pipeline приложения.
+
 Production-проверка:
 
 ```bash

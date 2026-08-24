@@ -1,7 +1,7 @@
 import { HeaderNav } from "@/app/components/HeaderNav.client";
 import Link from "next/link";
 
-import { AccountDashboard } from "./AccountDashboard.client";
+import { AccountDashboard, AccountHeader } from "./AccountDashboard.client";
 
 import "./page.css";
 
@@ -15,7 +15,7 @@ const plates = [
 const transponders = ["3041655 0000 4725 2066", "3041655 0000 4725 2066"] as const;
 
 export default function AccountPage() {
-  return <><header className="site-header"><HeaderNav /></header><div id="header-scroll-sentinel" className="header-scroll-sentinel" aria-hidden="true" /><AccountDashboard /></>;
+  return <><header className="account-site-header"><AccountHeader /></header><AccountDashboard /></>;
 }
 
 // Kept as the route's static reference while interactive states live in AccountDashboard.

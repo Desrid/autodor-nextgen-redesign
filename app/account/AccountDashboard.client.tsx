@@ -2,9 +2,11 @@
 
 import { FormEvent, Fragment, PointerEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 type Plate = { id: string; number: string; region: string; label: string; debt: string };
 type DragPosition = { id: string; left: number; top: number; width: number; height: number; offsetX: number; offsetY: number };
+type DebtAlert = { level: "low" | "medium" | "high" | "critical"; title: string; days: number; timing: string; detail: string };
 
 function CloseIcon() {
   return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>;
@@ -15,6 +17,11 @@ function WarningIcon() { return <svg className="account-svg-icon" viewBox="0 0 2
 function SparkleIcon() { return <svg className="account-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7L12 3Z" /></svg>; }
 function CheckIcon() { return <svg className="account-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 12 3.2 3.2L17 8.5" /></svg>; }
 function InfoIcon() { return <svg className="account-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" /><path d="M12 11v5m0-8v.01" /></svg>; }
+function DownloadIcon() { return <svg className="account-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v10m0 0 4-4m-4 4-4-4M5 19h14" /></svg>; }
+function ChatIcon() { return <svg className="account-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 5.5h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H11l-4.5 2.8V17.5h0a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z" /><path d="M8.5 10.5h7m-7 3h4.5" /></svg>; }
+function SearchIcon() { return <svg className="account-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="5.8" /><path d="m15.2 15.2 4 4" /></svg>; }
+function BellIcon() { return <svg className="account-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 16.5h11l-1.4-2.1V10a4.1 4.1 0 0 0-8.2 0v4.4l-1.4 2.1ZM10 19a2.2 2.2 0 0 0 4 0" /></svg>; }
+function ChevronIcon() { return <svg className="account-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 10 4 4 4-4" /></svg>; }
 function TransponderIcon() {
   return <svg className="account-svg-icon transponder-device-icon" viewBox="90 45 220 260" aria-hidden="true">
     <rect x="127.90963" y="63.229168" width="163.55885" height="230.33963" ry="13.599422" transform="matrix(1,0,-0.19444649,0.98091313,0,0)" style={{ fill: "#ffffff", stroke: "#fe613b", strokeWidth: 19.224823, strokeLinecap: "round", strokeLinejoin: "round", strokeMiterlimit: 4 }} />
@@ -27,26 +34,57 @@ function TransponderIcon() {
   </svg>;
 }
 
+function EmptyPlatesState() {
+  return <div className="plates-empty-state"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8.5h16v9H4zM8 8.5l1.5-3h5L16 8.5M8 17h.01M16 17h.01" /></svg></span><strong>Госномера не добавлены</strong><p>Добавьте номер автомобиля, чтобы видеть начисления и задолженности.</p></div>;
+}
+
 const MAX_PLATES = 5;
-const navigation = ["Поездки", "Финансы", "Абонементы", "Транспондеры", "Госномера", "Дополнительные услуги", "Выписка"];
+const navigation = ["Детализация", "Мои транспортные средства", "Программа лояльности", "Абонементы", "Аналитика", "Отчёт", "Дополнительные услуги"];
 const initialPlates: Plate[] = [
   { id: "a001", number: "A 001 AA", region: "77", label: "Семейный автомобиль", debt: "Нет задолженности" },
   { id: "m777", number: "M 777 MM", region: "197", label: "Рабочий автомобиль", debt: "1 856 ₽" },
 ];
 const transponders = [
-  { id: "4725", title: "Основной транспондер", number: "3041655 0000 4725 2066", discount: "Скидка 15% на проезд по T-PASS", subscription: "Осталось 5 поездок до 31.08.2026" },
+  { id: "4725", title: "Основной транспондер", number: "3041655 0000 4725 2066", discount: "15% на проезд по T-PASS на период 01.08.2026 – 31.08.2026", subscription: "Осталось 5 поездок до 31.08.2026" },
   { id: "4726", title: "Запасной транспондер", number: "3041655 0000 4725 2084", discount: "Скидка активируется при подключении тарифа" },
 ];
+const debtAlertTimeline = [
+  { daysFromAccrual: 3 },
+  { daysFromAccrual: 12, daysSinceDecision: 8 },
+  { daysFromAccrual: 31, daysSinceDecision: 25 },
+  { daysFromAccrual: 39, daysSinceDecision: 34 },
+];
+
+function getDebtAlert(daysFromAccrual: number, daysSinceDecision?: number): DebtAlert | null {
+  if (daysSinceDecision === undefined) return { level: "low", title: "Задолженность ожидает оплаты", days: daysFromAccrual, timing: "С момента начисления прошло", detail: "Оплатите в течение 5 дней." };
+  if (daysSinceDecision <= 20) return { level: "medium", title: "Есть время оплатить задолженность", days: daysSinceDecision, timing: "С постановления прошло", detail: "При оплате в этот период штраф отменяется." };
+  if (daysSinceDecision <= 30) return { level: "high", title: "На задолженность начислен штраф", days: daysSinceDecision, timing: "С постановления прошло", detail: "На штраф действует скидка 25%." };
+  if (daysSinceDecision <= 60) return { level: "critical", title: "Оплатите задолженность до передачи приставам", days: daysSinceDecision, timing: "С постановления прошло", detail: "После 60 дней материалы будут переданы приставам." };
+  return null;
+}
+
+export function AccountHeader() {
+  const [query, setQuery] = useState("");
+  const [isScrolled, setIsScrolled] = useState(false);
+  useEffect(() => {
+    const updateScrollState = () => setIsScrolled(window.scrollY > 8);
+    updateScrollState();
+    window.addEventListener("scroll", updateScrollState, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrollState);
+  }, []);
+  return <div className={`account-header-shell ${isScrolled ? "account-header-shell--scrolled" : ""}`}><Link className="account-header-brand" href="/" aria-label="Автодор, главная страница"><Image src="/brand/autodor-logo.svg" alt="" width={726} height={123} priority unoptimized /></Link><form className="account-header-search" role="search" onSubmit={(event) => event.preventDefault()}><SearchIcon /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Поиск по госномеру, постановлению…" aria-label="Поиск по личному кабинету" /></form><div className="account-header-actions"><a href="#account-content">Помощь</a><button type="button" aria-label="Уведомления"><BellIcon /></button><button className="account-header-user" type="button" aria-label="Профиль Алексея Смирнова"><span className="account-header-user__copy"><b>Алексей Смирнов</b><small>+7 916 000-00-00</small></span><span className="account-header-user__avatar" aria-hidden="true">АС</span><ChevronIcon /></button></div></div>;
+}
 
 export function AccountDashboard() {
   const [plates, setPlates] = useState(initialPlates);
-  const [toast, setToast] = useState("По номеру M 777 MM обнаружена задолженность 1 856 ₽");
+  const [toast, setToast] = useState("");
   const [noticeVisible, setNoticeVisible] = useState(true);
   const [alternativeBalance, setAlternativeBalance] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
   const [editingPlate, setEditingPlate] = useState<Plate | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
+  const [discountInfoOpen, setDiscountInfoOpen] = useState(false);
   const [interoperable, setInteroperable] = useState(true);
   const [number, setNumber] = useState("");
   const [region, setRegion] = useState("");
@@ -57,8 +95,12 @@ export function AccountDashboard() {
   const [dropTargetId, setDropTargetId] = useState<string | null>(null);
   const [recentlyMovedId, setRecentlyMovedId] = useState<string | null>(null);
   const [dragPosition, setDragPosition] = useState<DragPosition | null>(null);
+  const [debtAlertStageIndex, setDebtAlertStageIndex] = useState(0);
   const dragPositionRef = useRef<DragPosition | null>(null);
   const dropTargetRef = useRef<string | null>(null);
+  const debtAlertStage = debtAlertTimeline[debtAlertStageIndex] ?? debtAlertTimeline[0]!;
+  const debtAlert = getDebtAlert(debtAlertStage.daysFromAccrual, debtAlertStage.daysSinceDecision);
+  const advanceDebtAlert = () => setDebtAlertStageIndex((index) => (index + 1) % debtAlertTimeline.length);
 
   useEffect(() => {
     if (!toast) return;
@@ -164,13 +206,15 @@ export function AccountDashboard() {
   };
 
   return <main id="main-content" className="account-page account-app" tabIndex={-1}>
-    {toast && <div className="account-toast" role="status"><span aria-hidden="true"><WarningIcon /></span><p>{toast}</p><button type="button" aria-label="Закрыть уведомление" onClick={() => setToast("")}><CloseIcon /></button></div>}
+    {debtAlert && <aside className={`account-debt-alert account-debt-alert--${debtAlert.level}`} role="alert" tabIndex={0} aria-label="Уведомление о задолженности. Нажмите, чтобы посмотреть следующий уровень критичности" onClick={advanceDebtAlert} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); advanceDebtAlert(); } }}><span className="account-debt-alert__icon" aria-hidden="true"><WarningIcon /></span><div><strong>{debtAlert.title}</strong><p>По номеру M 777 MM — <b>1 856 ₽</b>. {debtAlert.timing} <b>{debtAlert.days} дн.</b> {debtAlert.detail}</p></div><button type="button" onClick={(event) => { event.stopPropagation(); setToast("Переходим к оплате задолженности"); }}>Оплатить</button></aside>}
+    {toast && <div className="account-toast" role="status"><span aria-hidden="true"><NoticeIcon /></span><p>{toast}</p><button type="button" aria-label="Закрыть уведомление" onClick={() => setToast("")}><CloseIcon /></button></div>}
     <div className="account-prototype">
       <div className="account-sidebar-slot">
       <aside className="account-sidebar" aria-label="Разделы личного кабинета">
         <div className="account-profile"><strong>Алексей Смирнов</strong><span>Лицевой счёт № 4230 7812</span></div>
         <a className="account-home" href="/account" aria-current="page">Главная</a>
         <nav><ul>{navigation.map((item) => <li key={item}><a href="#account-content">{item}</a></li>)}</ul></nav>
+        <a className="account-route-builder" href="/road-users#calculator-title">Конструктор путешествий<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-5 5 5-5 5" /></svg></a>
       </aside>
       </div>
       <section className="account-workspace" id="account-content" aria-label="Личный кабинет">
@@ -180,16 +224,16 @@ export function AccountDashboard() {
             <section className={`account-panel account-balance ${alternativeBalance ? "account-balance--negative" : ""}`} aria-labelledby="balance-title">
               <div className="account-panel__heading"><h1 id="balance-title">Лицевой счёт</h1><span>Сегодня, 18:03</span></div>
               <div className="account-balance__summary"><div className="account-balance__available"><p>Доступно для оплаты</p><strong>{alternativeBalance ? "−1 856,00 ₽" : "1 453,00 ₽"}</strong></div><div className="bonus-badge"><span>Бонусные баллы</span><strong>{alternativeBalance ? "146" : "8 400"}</strong></div></div>
-              <div className={`account-celebration ${alternativeBalance ? "account-celebration--unavailable" : ""}`}><span aria-hidden="true">{alternativeBalance ? <InfoIcon /> : <SparkleIcon />}</span><div><strong>{alternativeBalance ? "Скидка пока недоступна" : "Вам доступна скидка 5%!"}</strong><p>{alternativeBalance ? "Для покупки скидки нужно накопить еще 1 074 балла" : "Активируйте её перед следующей поездкой."}</p></div><button type="button" onClick={() => setToast("Условия скидки доступны в разделе «Финансы»")}>Перейти</button></div>
+              <div className={`account-celebration ${alternativeBalance ? "account-celebration--unavailable" : ""}`}><span aria-hidden="true">{alternativeBalance ? <InfoIcon /> : <SparkleIcon />}</span><div className="discount-message" onMouseLeave={() => setDiscountInfoOpen(false)}><div className="interoperability__title-row discount-message__title"><strong>{alternativeBalance ? "Скидка пока недоступна" : "Вам доступна скидка 5%!"}</strong><span className="discount-info-anchor"><button className="info-button" type="button" onMouseEnter={() => setDiscountInfoOpen(true)} onFocus={() => setDiscountInfoOpen(true)} onBlur={() => setDiscountInfoOpen(false)} onClick={() => setDiscountInfoOpen((isOpen) => !isOpen)} aria-label="Стоимость скидок в баллах" aria-expanded={discountInfoOpen} aria-controls="discount-costs"><InfoIcon /></button>{discountInfoOpen && <div id="discount-costs" className="discount-costs-tooltip" role="tooltip"><strong>Стоимость скидок в баллах</strong><ul><li><span>3%</span><b>500 баллов</b></li><li><span>5%</span><b>1 000 баллов</b></li><li><span>7%</span><b>2 000 баллов</b></li><li><span>10%</span><b>4 000 баллов</b></li><li><span>15%</span><b>6 000 баллов</b></li></ul></div>}</span></div><p>{alternativeBalance ? "Для покупки скидки нужно накопить еще 1 074 балла" : <>Активируйте её перед следующей поездкой.<span className="discount-progress">Осталось 1 000 бонусов до скидки 7%.</span></>}</p></div><button type="button" onClick={() => setToast("Условия скидки доступны в разделе «Финансы»")}>Перейти</button></div>
               <button className="account-button" type="button" onClick={() => setToast("Пополнение счёта будет доступно в следующем шаге")}>Пополнить счёт</button>
             </section>
             <section className="account-panel account-hint"><div><h2>Абонементы</h2><p>Подключайте абонементы для транспондеров — остаток поездок показывается рядом с устройством.</p></div><button type="button" onClick={() => setToast("Подбор абонемента будет доступен в следующем шаге")}>Подобрать</button></section>
           </div>
           <div className="account-secondary">
             <section className="plates-panel" aria-labelledby="plates-title">
-              <div className="section-heading"><div><h2 id="plates-title">Ваши госномера</h2><span>{plates.length} из {MAX_PLATES}</span></div><button className="account-add-button" type="button" onClick={requestAdd} aria-label="Добавить госномер" title="Добавить госномер"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16" /></svg></button></div>
+              <div className="section-heading"><div><h2 id="plates-title">Ваши госномера</h2><span>{alternativeBalance ? 0 : plates.length} из {MAX_PLATES}</span></div><button className="account-add-button" type="button" onClick={requestAdd} aria-label="Добавить госномер" title="Добавить госномер"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16" /></svg></button></div>
               {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
-              <div className="plates-list">{plates.map((plate, index) => { const hasDebt = plate.debt !== "Нет задолженности"; const isDragging = draggingPlateId === plate.id; const sourceIndex = plates.findIndex((item) => item.id === draggingPlateId); const targetIndex = plates.findIndex((item) => item.id === dropTargetId); const placeholderStyle = dragPosition ? { height: `${dragPosition.height}px` } : undefined; const before = dropTargetId === plate.id && sourceIndex > targetIndex; const after = dropTargetId === plate.id && sourceIndex < targetIndex; return <Fragment key={plate.id}>{before && <div className="plate-drop-placeholder" style={placeholderStyle} aria-hidden="true" />} {isDragging && !dropTargetId && <div className="plate-drop-placeholder" style={placeholderStyle} aria-hidden="true" />}<article className={`plate-row ${hasDebt ? "plate-row--debt" : "plate-row--clear"} ${isDragging ? "plate-row--dragging" : ""} ${recentlyMovedId === plate.id ? "plate-row--moved" : ""}`} data-plate-id={plate.id} style={isDragging && dragPosition ? { left: `${dragPosition.left}px`, top: `${dragPosition.top}px`, width: `${dragPosition.width}px`, height: `${dragPosition.height}px` } : undefined} onPointerDown={(event) => startPointerDrag(event, plate.id)} onPointerMove={(event) => movePointerDrag(event, plate.id)} onPointerUp={(event) => endPointerDrag(event, plate.id)} onPointerCancel={finishPlateDrag}><div className="plate-title"><span>{plate.label}</span></div><button className="plate-icon-button plate-edit" type="button" onClick={() => requestEdit(plate)} aria-label={`Редактировать номер ${plate.number}`} title="Изменить"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 4.7 4.6 4.6M4 20l4.2-1 10.7-10.7a1.6 1.6 0 0 0 0-2.2l-1-1a1.6 1.6 0 0 0-2.2 0L5 15.8 4 20Z" /></svg></button><div className="plate-number-line"><div className="license-plate"><strong>{plate.number}</strong><span>{plate.region}<small>RUS</small></span></div></div><button className="plate-icon-button plate-remove" type="button" onClick={() => setRemovingPlate(plate)} aria-label={`Удалить номер ${plate.number}`} title="Удалить"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m-9 0 1 13h10l1-13M10 11v5m4-5v5" /></svg></button><p className="plate-status">{hasDebt ? `Задолженность — ${plate.debt}` : "Нет задолженности"}</p></article>{after && <div className="plate-drop-placeholder" style={placeholderStyle} aria-hidden="true" />}</Fragment>; })}</div>
+              <div className="plates-list">{alternativeBalance ? <EmptyPlatesState /> : plates.map((plate, index) => { const hasDebt = plate.debt !== "Нет задолженности"; const isDragging = draggingPlateId === plate.id; const sourceIndex = plates.findIndex((item) => item.id === draggingPlateId); const targetIndex = plates.findIndex((item) => item.id === dropTargetId); const placeholderStyle = dragPosition ? { height: `${dragPosition.height}px` } : undefined; const before = dropTargetId === plate.id && sourceIndex > targetIndex; const after = dropTargetId === plate.id && sourceIndex < targetIndex; return <Fragment key={plate.id}>{before && <div className="plate-drop-placeholder" style={placeholderStyle} aria-hidden="true" />} {isDragging && !dropTargetId && <div className="plate-drop-placeholder" style={placeholderStyle} aria-hidden="true" />}<article className={`plate-row ${hasDebt ? "plate-row--debt" : "plate-row--clear"} ${isDragging ? "plate-row--dragging" : ""} ${recentlyMovedId === plate.id ? "plate-row--moved" : ""}`} data-plate-id={plate.id} style={isDragging && dragPosition ? { left: `${dragPosition.left}px`, top: `${dragPosition.top}px`, width: `${dragPosition.width}px`, height: `${dragPosition.height}px` } : undefined} onPointerDown={(event) => startPointerDrag(event, plate.id)} onPointerMove={(event) => movePointerDrag(event, plate.id)} onPointerUp={(event) => endPointerDrag(event, plate.id)} onPointerCancel={finishPlateDrag}><div className="plate-title"><span>{plate.label}</span></div><button className="plate-icon-button plate-edit" type="button" onClick={() => requestEdit(plate)} aria-label={`Редактировать номер ${plate.number}`} title="Изменить"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 4.7 4.6 4.6M4 20l4.2-1 10.7-10.7a1.6 1.6 0 0 0 0-2.2l-1-1a1.6 1.6 0 0 0-2.2 0L5 15.8 4 20Z" /></svg></button><div className="plate-number-line"><div className="license-plate"><strong>{plate.number}</strong><span>{plate.region}<small>RUS</small></span></div></div><button className="plate-icon-button plate-remove" type="button" onClick={() => setRemovingPlate(plate)} aria-label={`Удалить номер ${plate.number}`} title="Удалить"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m-9 0 1 13h10l1-13M10 11v5m4-5v5" /></svg></button><p className="plate-status">{hasDebt ? `Задолженность — ${plate.debt}` : "Нет задолженности"}</p></article>{after && <div className="plate-drop-placeholder" style={placeholderStyle} aria-hidden="true" />}</Fragment>; })}</div>
             </section>
             <section className="transponders-panel" aria-labelledby="transponders-title">
               <div className="section-heading"><div><h2 id="transponders-title">Транспондеры</h2><span>2 активных</span></div></div>
@@ -200,6 +244,14 @@ export function AccountDashboard() {
         </div>
       </section>
     </div>
+    <footer className="account-footer" aria-label="Полезные сервисы личного кабинета">
+      <div className="account-footer__frame">
+        <a className="account-footer__help" href="tel:*2323"><strong>*2323</strong><span>Круглосуточная помощь</span></a>
+        <a className="account-footer__application" href="https://tpass.me/" target="_blank" rel="noreferrer"><span><DownloadIcon />Скачать</span><p>Мобильное приложение <b>Автодор</b></p></a>
+        <div className="account-footer__actions"><a href="https://tpass.me/" target="_blank" rel="noreferrer">Интернет-магазин</a><button type="button" onClick={() => setToast("Форма обратной связи будет доступна в следующем шаге")}>Задать вопрос</button></div>
+        <button className="account-footer__chat" type="button" aria-label="Задать вопрос" onClick={() => setToast("Форма обратной связи будет доступна в следующем шаге")}><ChatIcon /></button>
+      </div>
+    </footer>
     {addOpen && <div className="account-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setAddOpen(false); }}><section className="account-dialog" role="dialog" aria-modal="true" aria-labelledby="add-title"><header className="account-dialog__header"><h2 id="add-title">{editingPlate ? "Редактировать госномер" : "Добавить госномер"}</h2><button className="dialog-close" type="button" aria-label="Закрыть" onClick={() => setAddOpen(false)}><CloseIcon /></button></header><div className="account-dialog__body"><p>Сейчас добавлено {plates.length} из {MAX_PLATES} номеров.</p><form onSubmit={addPlate}><label>Госномер<input value={number} onChange={(event) => setNumber(event.target.value.toUpperCase().replace(/[^A-ZА-Я0-9\s]/gu, "").slice(0, 9))} placeholder="А 123 АА" required /></label><label>Регион<input value={region} onChange={(event) => setRegion(event.target.value.replace(/\D/gu, "").slice(0, 3))} inputMode="numeric" placeholder="77" required /></label><label>Подпись<input value={label} onChange={(event) => setLabel(event.target.value.slice(0, 42))} placeholder="Например, семейный автомобиль" /></label>{formError && <p className="form-error" role="alert">{formError}</p>}<div className="dialog-actions"><button type="button" onClick={() => setAddOpen(false)}>Отмена</button><button type="submit">{editingPlate ? "Сохранить" : "Добавить"}</button></div></form></div></section></div>}
     {confirmOpen && <div className="account-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setConfirmOpen(false); }}><section className="account-dialog account-dialog--confirm" role="alertdialog" aria-modal="true" aria-labelledby="disable-title"><header className="account-dialog__header"><h2 id="disable-title">Отключить интероперабельность?</h2><button className="dialog-close" type="button" aria-label="Закрыть" onClick={() => setConfirmOpen(false)}><CloseIcon /></button></header><div className="account-dialog__body"><p>Транспондером T-pass нельзя будет оплачивать проезд по трассам подключённых операторов. Услугу можно включить снова в любой момент.</p><div className="dialog-actions"><button type="button" onClick={() => setConfirmOpen(false)}>Отмена</button><button className="dialog-danger" type="button" onClick={() => { setInteroperable(false); setConfirmOpen(false); setToast("Интероперабельность отключена"); }}>Отключить</button></div></div></section></div>}
     {removingPlate && <div className="account-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setRemovingPlate(null); }}><section className="account-dialog account-dialog--confirm" role="alertdialog" aria-modal="true" aria-labelledby="remove-title"><header className="account-dialog__header"><h2 id="remove-title">Удалить госномер?</h2><button className="dialog-close" type="button" aria-label="Закрыть" onClick={() => setRemovingPlate(null)}><CloseIcon /></button></header><div className="account-dialog__body"><p>Номер {removingPlate.number} будет удалён из личного кабинета. Это действие нельзя отменить.</p><div className="dialog-actions"><button type="button" onClick={() => setRemovingPlate(null)}>Отмена</button><button className="dialog-danger" type="button" onClick={() => removePlate(removingPlate)}>Удалить</button></div></div></section></div>}
