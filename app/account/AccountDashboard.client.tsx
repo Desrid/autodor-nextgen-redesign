@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, Fragment, PointerEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, Fragment, PointerEvent as ReactPointerEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -19,9 +19,9 @@ function CheckIcon() { return <svg className="account-svg-icon" viewBox="0 0 24 
 function InfoIcon() { return <svg className="account-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" /><path d="M12 11v5m0-8v.01" /></svg>; }
 function DownloadIcon() { return <svg className="account-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v10m0 0 4-4m-4 4-4-4M5 19h14" /></svg>; }
 function ChatIcon() { return <svg className="account-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 5.5h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H11l-4.5 2.8V17.5h0a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z" /><path d="M8.5 10.5h7m-7 3h4.5" /></svg>; }
-function SearchIcon() { return <svg className="account-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="5.8" /><path d="m15.2 15.2 4 4" /></svg>; }
 function BellIcon() { return <svg className="account-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 16.5h11l-1.4-2.1V10a4.1 4.1 0 0 0-8.2 0v4.4l-1.4 2.1ZM10 19a2.2 2.2 0 0 0 4 0" /></svg>; }
 function ChevronIcon() { return <svg className="account-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 10 4 4 4-4" /></svg>; }
+function OpenServiceArrowIcon() { return <svg className="account-svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>; }
 function TransponderIcon() {
   return <svg className="account-svg-icon transponder-device-icon" viewBox="90 45 220 260" aria-hidden="true">
     <rect x="127.90963" y="63.229168" width="163.55885" height="230.33963" ry="13.599422" transform="matrix(1,0,-0.19444649,0.98091313,0,0)" style={{ fill: "#ffffff", stroke: "#fe613b", strokeWidth: 19.224823, strokeLinecap: "round", strokeLinejoin: "round", strokeMiterlimit: 4 }} />
@@ -64,21 +64,29 @@ function getDebtAlert(daysFromAccrual: number, daysSinceDecision?: number): Debt
 }
 
 export function AccountHeader() {
-  const [query, setQuery] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const notificationsRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const updateScrollState = () => setIsScrolled(window.scrollY > 8);
     updateScrollState();
     window.addEventListener("scroll", updateScrollState, { passive: true });
     return () => window.removeEventListener("scroll", updateScrollState);
   }, []);
-  return <div className={`account-header-shell ${isScrolled ? "account-header-shell--scrolled" : ""}`}><Link className="account-header-brand" href="/" aria-label="Автодор, главная страница"><Image src="/brand/autodor-logo.svg" alt="" width={726} height={123} priority unoptimized /></Link><form className="account-header-search" role="search" onSubmit={(event) => event.preventDefault()}><SearchIcon /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Поиск по госномеру, постановлению…" aria-label="Поиск по личному кабинету" /></form><div className="account-header-actions"><a href="#account-content">Помощь</a><button type="button" aria-label="Уведомления"><BellIcon /></button><button className="account-header-user" type="button" aria-label="Профиль Алексея Смирнова"><span className="account-header-user__copy"><b>Алексей Смирнов</b><small>+7 916 000-00-00</small></span><span className="account-header-user__avatar" aria-hidden="true">АС</span><ChevronIcon /></button></div></div>;
+  useEffect(() => {
+    if (!notificationsOpen) return;
+    const closeOnOutsideClick = (event: globalThis.PointerEvent) => { if (!notificationsRef.current?.contains(event.target as Node)) setNotificationsOpen(false); };
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") setNotificationsOpen(false); };
+    document.addEventListener("pointerdown", closeOnOutsideClick);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => { document.removeEventListener("pointerdown", closeOnOutsideClick); document.removeEventListener("keydown", closeOnEscape); };
+  }, [notificationsOpen]);
+  return <div className={`account-header-shell ${isScrolled ? "account-header-shell--scrolled" : ""}`}><Link className="account-header-brand" href="/" aria-label="Автодор, главная страница"><Image src="/brand/autodor-logo.svg" alt="" width={726} height={123} priority unoptimized /></Link><div className="account-header-actions"><div className="account-header-notifications" ref={notificationsRef}><button className={notificationsOpen ? "account-header-bell account-header-bell--open" : "account-header-bell"} type="button" aria-label="Уведомления" aria-expanded={notificationsOpen} aria-controls="account-notifications-menu" onClick={() => setNotificationsOpen((isOpen) => !isOpen)}><BellIcon /><span className="account-header-bell__badge" aria-hidden="true">2</span></button>{notificationsOpen && <section id="account-notifications-menu" className="account-notifications-menu" aria-label="Уведомления"><header><strong>Уведомления</strong><button type="button" aria-label="Закрыть уведомления" onClick={() => setNotificationsOpen(false)}><CloseIcon /></button></header><ul><li className="account-notification account-notification--debt"><span aria-hidden="true"><WarningIcon /></span><div><strong>Задолженность 1 856 ₽</strong><p>По номеру M 777 MM. Оплатите до передачи приставам.</p></div></li><li className="account-notification"><span aria-hidden="true"><SparkleIcon /></span><div><strong>Скидка 5% доступна</strong><p>Осталось 1 000 бонусов до скидки 7%.</p></div></li></ul><a href="#balance-title" onClick={() => setNotificationsOpen(false)}>Перейти к лицевому счёту</a></section>}</div><button className="account-header-user" type="button" aria-label="Профиль Алексея Смирнова"><span className="account-header-user__copy"><b>Алексей Смирнов</b><small>+7 916 000-00-00</small></span><span className="account-header-user__avatar" aria-hidden="true">АС</span><ChevronIcon /></button></div></div>;
 }
 
 export function AccountDashboard() {
   const [plates, setPlates] = useState(initialPlates);
   const [toast, setToast] = useState("");
-  const [noticeVisible, setNoticeVisible] = useState(true);
   const [alternativeBalance, setAlternativeBalance] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
   const [editingPlate, setEditingPlate] = useState<Plate | null>(null);
@@ -174,7 +182,7 @@ export function AccountDashboard() {
     setDropTargetId(null);
     setDragPosition(null);
   };
-  const startPointerDrag = (event: PointerEvent<HTMLElement>, id: string) => {
+  const startPointerDrag = (event: ReactPointerEvent<HTMLElement>, id: string) => {
     if ((event.target as HTMLElement).closest("button")) return;
     event.preventDefault();
     const source = event.currentTarget;
@@ -187,7 +195,7 @@ export function AccountDashboard() {
     setDropTargetId(null);
     setDragPosition(position);
   };
-  const movePointerDrag = (event: PointerEvent<HTMLElement>, id: string) => {
+  const movePointerDrag = (event: ReactPointerEvent<HTMLElement>, id: string) => {
     const current = dragPositionRef.current;
     if (!current || current.id !== id) return;
     const next = { ...current, left: event.clientX - current.offsetX, top: event.clientY - current.offsetY };
@@ -199,7 +207,7 @@ export function AccountDashboard() {
       setDropTargetId(targetId);
     }
   };
-  const endPointerDrag = (event: PointerEvent<HTMLElement>, id: string) => {
+  const endPointerDrag = (event: ReactPointerEvent<HTMLElement>, id: string) => {
     if (dragPositionRef.current?.id !== id) return;
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
     finishPlateDrag();
@@ -218,25 +226,43 @@ export function AccountDashboard() {
       </aside>
       </div>
       <section className="account-workspace" id="account-content" aria-label="Личный кабинет">
-        {noticeVisible && <div className="account-notice"><span aria-hidden="true"><NoticeIcon /></span><p>Перемещайте неперсонифицированный транспондер между лицевыми счетами в пару кликов.</p><button className="account-notice__close" type="button" aria-label="Закрыть информационное сообщение" onClick={() => setNoticeVisible(false)}><CloseIcon /></button></div>}
         <div className="account-columns">
           <div className="account-primary">
             <section className={`account-panel account-balance ${alternativeBalance ? "account-balance--negative" : ""}`} aria-labelledby="balance-title">
-              <div className="account-panel__heading"><h1 id="balance-title">Лицевой счёт</h1><span>Сегодня, 18:03</span></div>
-              <div className="account-balance__summary"><div className="account-balance__available"><p>Доступно для оплаты</p><strong>{alternativeBalance ? "−1 856,00 ₽" : "1 453,00 ₽"}</strong></div><div className="bonus-badge"><span>Бонусные баллы</span><strong>{alternativeBalance ? "146" : "8 400"}</strong></div></div>
-              <div className={`account-celebration ${alternativeBalance ? "account-celebration--unavailable" : ""}`}><span aria-hidden="true">{alternativeBalance ? <InfoIcon /> : <SparkleIcon />}</span><div className="discount-message" onMouseLeave={() => setDiscountInfoOpen(false)}><div className="interoperability__title-row discount-message__title"><strong>{alternativeBalance ? "Скидка пока недоступна" : "Вам доступна скидка 5%!"}</strong><span className="discount-info-anchor"><button className="info-button" type="button" onMouseEnter={() => setDiscountInfoOpen(true)} onFocus={() => setDiscountInfoOpen(true)} onBlur={() => setDiscountInfoOpen(false)} onClick={() => setDiscountInfoOpen((isOpen) => !isOpen)} aria-label="Стоимость скидок в баллах" aria-expanded={discountInfoOpen} aria-controls="discount-costs"><InfoIcon /></button>{discountInfoOpen && <div id="discount-costs" className="discount-costs-tooltip" role="tooltip"><strong>Стоимость скидок в баллах</strong><ul><li><span>3%</span><b>500 баллов</b></li><li><span>5%</span><b>1 000 баллов</b></li><li><span>7%</span><b>2 000 баллов</b></li><li><span>10%</span><b>4 000 баллов</b></li><li><span>15%</span><b>6 000 баллов</b></li></ul></div>}</span></div><p>{alternativeBalance ? "Для покупки скидки нужно накопить еще 1 074 балла" : <>Активируйте её перед следующей поездкой.<span className="discount-progress">Осталось 1 000 бонусов до скидки 7%.</span></>}</p></div><button type="button" onClick={() => setToast("Условия скидки доступны в разделе «Финансы»")}>Перейти</button></div>
-              <button className="account-button" type="button" onClick={() => setToast("Пополнение счёта будет доступно в следующем шаге")}>Пополнить счёт</button>
+              <div className="account-balance-card"><div className="account-panel__heading"><h1 id="balance-title">Лицевой счёт</h1><span>Сегодня, 18:03</span></div><div className="account-balance__summary"><div className="account-balance__available"><p>Доступно для оплаты</p><strong>{alternativeBalance ? "−1 856,00 ₽" : "1 453,00 ₽"}</strong></div></div><button className="account-button" type="button" onClick={() => setToast("Пополнение счёта будет доступно в следующем шаге")}>Пополнить счёт</button></div>
+              <div className={`account-loyalty-card ${alternativeBalance ? "account-loyalty-card--unavailable" : ""}`}><div className="bonus-badge"><span>Бонусные баллы</span><strong>{alternativeBalance ? "146" : "8 400"}</strong></div><div className={`account-celebration ${alternativeBalance ? "account-celebration--unavailable" : ""}`}><div className="discount-message" onMouseLeave={() => setDiscountInfoOpen(false)}><div className="interoperability__title-row discount-message__title"><strong>{alternativeBalance ? "Скидка пока недоступна" : "Вам доступна скидка 5%!"}</strong><span className="discount-info-anchor"><button className="info-button" type="button" onMouseEnter={() => setDiscountInfoOpen(true)} onFocus={() => setDiscountInfoOpen(true)} onBlur={() => setDiscountInfoOpen(false)} onClick={() => setDiscountInfoOpen((isOpen) => !isOpen)} aria-label="Стоимость скидок в баллах" aria-expanded={discountInfoOpen} aria-controls="discount-costs"><InfoIcon /></button>{discountInfoOpen && <div id="discount-costs" className="discount-costs-tooltip" role="tooltip"><strong>Стоимость скидок в баллах</strong><ul><li><span>3%</span><b>500 баллов</b></li><li><span>5%</span><b>1 000 баллов</b></li><li><span>7%</span><b>2 000 баллов</b></li><li><span>10%</span><b>4 000 баллов</b></li><li><span>15%</span><b>6 000 баллов</b></li></ul></div>}</span></div><p>{alternativeBalance ? "Для покупки скидки нужно накопить еще 1 074 балла" : <>Активируйте её перед следующей поездкой.</>}<span className="loyalty-progress-track" role="progressbar" aria-label="Прогресс до следующей скидки" aria-valuemin={0} aria-valuemax={100} aria-valuenow={alternativeBalance ? 12 : 50}><span style={{ width: alternativeBalance ? "12%" : "50%" }} /></span>{!alternativeBalance && <span className="discount-progress">Осталось 1 000 бонусов до скидки 7%.</span>}</p></div><button className="loyalty-link-button" type="button" onClick={() => setToast("Условия скидки доступны в разделе «Финансы»")}><span>Перейти</span><OpenServiceArrowIcon /></button></div></div>
             </section>
             <section className="account-panel account-hint"><div><h2>Абонементы</h2><p>Подключайте абонементы для транспондеров — остаток поездок показывается рядом с устройством.</p></div><button type="button" onClick={() => setToast("Подбор абонемента будет доступен в следующем шаге")}>Подобрать</button></section>
           </div>
           <div className="account-secondary">
             <section className="plates-panel" aria-labelledby="plates-title">
-              <div className="section-heading"><div><h2 id="plates-title">Ваши госномера</h2><span>{alternativeBalance ? 0 : plates.length} из {MAX_PLATES}</span></div><button className="account-add-button" type="button" onClick={requestAdd} aria-label="Добавить госномер" title="Добавить госномер"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16" /></svg></button></div>
+              <div className="section-heading"><div><h2 id="plates-title">Ваши транспортные средства</h2><span>{alternativeBalance ? 0 : plates.length} из {MAX_PLATES}</span></div><button className="account-add-button" type="button" onClick={requestAdd} aria-label="Добавить госномер" title="Добавить госномер"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16" /></svg></button></div>
               {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
-              <div className="plates-list">{alternativeBalance ? <EmptyPlatesState /> : plates.map((plate, index) => { const hasDebt = plate.debt !== "Нет задолженности"; const isDragging = draggingPlateId === plate.id; const sourceIndex = plates.findIndex((item) => item.id === draggingPlateId); const targetIndex = plates.findIndex((item) => item.id === dropTargetId); const placeholderStyle = dragPosition ? { height: `${dragPosition.height}px` } : undefined; const before = dropTargetId === plate.id && sourceIndex > targetIndex; const after = dropTargetId === plate.id && sourceIndex < targetIndex; return <Fragment key={plate.id}>{before && <div className="plate-drop-placeholder" style={placeholderStyle} aria-hidden="true" />} {isDragging && !dropTargetId && <div className="plate-drop-placeholder" style={placeholderStyle} aria-hidden="true" />}<article className={`plate-row ${hasDebt ? "plate-row--debt" : "plate-row--clear"} ${isDragging ? "plate-row--dragging" : ""} ${recentlyMovedId === plate.id ? "plate-row--moved" : ""}`} data-plate-id={plate.id} style={isDragging && dragPosition ? { left: `${dragPosition.left}px`, top: `${dragPosition.top}px`, width: `${dragPosition.width}px`, height: `${dragPosition.height}px` } : undefined} onPointerDown={(event) => startPointerDrag(event, plate.id)} onPointerMove={(event) => movePointerDrag(event, plate.id)} onPointerUp={(event) => endPointerDrag(event, plate.id)} onPointerCancel={finishPlateDrag}><div className="plate-title"><span>{plate.label}</span></div><button className="plate-icon-button plate-edit" type="button" onClick={() => requestEdit(plate)} aria-label={`Редактировать номер ${plate.number}`} title="Изменить"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 4.7 4.6 4.6M4 20l4.2-1 10.7-10.7a1.6 1.6 0 0 0 0-2.2l-1-1a1.6 1.6 0 0 0-2.2 0L5 15.8 4 20Z" /></svg></button><div className="plate-number-line"><div className="license-plate"><strong>{plate.number}</strong><span>{plate.region}<small>RUS</small></span></div></div><button className="plate-icon-button plate-remove" type="button" onClick={() => setRemovingPlate(plate)} aria-label={`Удалить номер ${plate.number}`} title="Удалить"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m-9 0 1 13h10l1-13M10 11v5m4-5v5" /></svg></button><p className="plate-status">{hasDebt ? `Задолженность — ${plate.debt}` : "Нет задолженности"}</p></article>{after && <div className="plate-drop-placeholder" style={placeholderStyle} aria-hidden="true" />}</Fragment>; })}</div>
+              <div className="plates-list">{alternativeBalance ? <EmptyPlatesState /> : plates.map((plate, index) => {
+                const hasDebt = plate.debt !== "Нет задолженности";
+                const isDragging = draggingPlateId === plate.id;
+                const sourceIndex = plates.findIndex((item) => item.id === draggingPlateId);
+                const targetIndex = plates.findIndex((item) => item.id === dropTargetId);
+                const placeholderStyle = dragPosition ? { height: `${dragPosition.height}px` } : undefined;
+                const before = dropTargetId === plate.id && sourceIndex > targetIndex;
+                const after = dropTargetId === plate.id && sourceIndex < targetIndex;
+                return <Fragment key={plate.id}>
+                  {before && <div className="plate-drop-placeholder" style={placeholderStyle} aria-hidden="true" />}
+                  {isDragging && !dropTargetId && <div className="plate-drop-placeholder" style={placeholderStyle} aria-hidden="true" />}
+                  <article className={`plate-row ${hasDebt ? "plate-row--debt" : "plate-row--clear"} ${isDragging ? "plate-row--dragging" : ""} ${recentlyMovedId === plate.id ? "plate-row--moved" : ""}`} data-plate-id={plate.id} style={isDragging && dragPosition ? { left: `${dragPosition.left}px`, top: `${dragPosition.top}px`, width: `${dragPosition.width}px`, height: `${dragPosition.height}px` } : undefined} onPointerDown={(event) => startPointerDrag(event, plate.id)} onPointerMove={(event) => movePointerDrag(event, plate.id)} onPointerUp={(event) => endPointerDrag(event, plate.id)} onPointerCancel={finishPlateDrag}>
+                    <div className="plate-title"><span>{plate.label}</span></div>
+                    <button className="plate-icon-button plate-edit" type="button" onClick={() => requestEdit(plate)} aria-label={`Редактировать номер ${plate.number}`} title="Изменить"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 4.7 4.6 4.6M4 20l4.2-1 10.7-10.7a1.6 1.6 0 0 0 0-2.2l-1-1a1.6 1.6 0 0 0-2.2 0L5 15.8 4 20Z" /></svg></button>
+                    <div className="plate-number-line"><div className="license-plate"><strong>{plate.number}</strong><span>{plate.region}<small>RUS</small></span></div></div>
+                    <button className="plate-icon-button plate-remove" type="button" onClick={() => setRemovingPlate(plate)} aria-label={`Удалить номер ${plate.number}`} title="Удалить"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m-9 0 1 13h10l1-13M10 11v5m4-5v5" /></svg></button>
+                    <div className="plate-status-row"><p className="plate-status">{hasDebt ? `Задолженность — ${plate.debt}` : "Нет задолженности"}</p>{hasDebt && <button className="plate-pay-button" type="button" onClick={(event) => { event.stopPropagation(); setToast(`Переходим к оплате задолженности ${plate.debt}`); }}>Оплатить</button>}</div>
+                  </article>
+                  {after && <div className="plate-drop-placeholder" style={placeholderStyle} aria-hidden="true" />}
+                </Fragment>;
+              })}</div>
             </section>
             <section className="transponders-panel" aria-labelledby="transponders-title">
               <div className="section-heading"><div><h2 id="transponders-title">Транспондеры</h2><span>2 активных</span></div></div>
+              <div className="transponders-notice"><span aria-hidden="true"><NoticeIcon /></span><p>Перемещайте неперсонифицированный транспондер между лицевыми счетами в пару кликов.</p></div>
               <div className="transponder-list">{transponders.map((item) => <article className="transponder-card" key={item.id}><div className="transponder-card__top"><span className="transponder-token" aria-hidden="true"><TransponderIcon /></span><div><strong>{item.title}</strong><p>{item.number}</p></div><span className="check-mark" aria-label="Подключено"><CheckIcon /></span></div><div className="transponder-card__benefits"><p><span>Скидка</span>{item.discount}</p>{item.subscription && <p className="subscription-status"><span>Абонемент</span>{item.subscription}</p>}</div></article>)}</div>
               <div className="interoperability" onMouseLeave={() => setInfoOpen(false)}><div><span className="interoperability-icon-slot" aria-hidden="true">{interoperable ? <span className="check-mark interoperability-state--on"><CheckIcon /></span> : <span className="interoperability-state interoperability-state--off"><WarningIcon /></span>}</span><div><div className="interoperability__title-row"><strong>Интероперабельность</strong><button className="info-button" type="button" onMouseEnter={() => setInfoOpen(true)} onFocus={() => setInfoOpen(true)} onBlur={() => setInfoOpen(false)} onClick={() => setInfoOpen((isOpen) => !isOpen)} aria-label="Подробнее об интероперабельности" aria-expanded={infoOpen} aria-controls="interoperability-info"><InfoIcon /></button></div><p>{interoperable ? "Подключена" : "Отключена"}</p></div></div><div className="interoperability__actions"><button className={`switch ${interoperable ? "switch--on" : ""}`} type="button" role="switch" aria-label="Интероперабельность" aria-checked={interoperable} onClick={() => interoperable ? setConfirmOpen(true) : (setInteroperable(true), setToast("Интероперабельность подключена"))}><span /></button></div>{infoOpen && <div id="interoperability-info" className="interoperability__tooltip" role="tooltip"><Image src="/media/account/interoperability-diagram.png" alt="" width={320} height={180} /><p>Интероперабельность транспондера «Автодора» — это бесплатная услуга, которая позволяет одним транспондером T-pass оплачивать проезд по платным дорогам разных операторов. Проще говоря: один транспондер — для всех подключённых платных трасс, без покупки дополнительных устройств.</p></div>}</div>
             </section>
