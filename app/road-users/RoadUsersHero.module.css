@@ -1,0 +1,118 @@
+.root :global(.road-hero__visual) {
+  background: var(--road-users-promotion) center / cover no-repeat;
+}
+
+.root :global(.road-hero__visual picture),
+.root :global(.road-hero__video),
+.root :global(.road-route-map) {
+  display: none;
+}
+
+.root :global(.road-facts),
+.root :global(.hero-detail-link) {
+  display: none;
+}
+
+.root :global(.road-hero__media) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.62fr);
+  align-items: end;
+}
+
+.root :global(.road-hero__content) {
+  grid-column: 1;
+  align-self: stretch;
+}
+
+.promotionContent {
+  display: grid;
+  width: min(100%, 31rem);
+  gap: 1.25rem;
+}
+
+.promotionDescription {
+  max-width: 31rem;
+  margin: 0;
+  color: rgb(255 255 255 / 82%);
+  font-size: 1.05rem;
+  line-height: 1.45;
+}
+
+.promotionAction {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 3rem;
+  padding: 0 1rem;
+  align-items: center;
+  border-radius: 0.65rem;
+  background: var(--color-brand-orange);
+  color: var(--color-page);
+  font-size: 0.875rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.promotionAction:hover {
+  background: var(--color-brand-orange-hover);
+  transform: translateY(-2px);
+}
+
+.promotionAction:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+.trafficPanel {
+  position: relative;
+  z-index: 3;
+  grid-column: 2;
+  align-self: end;
+  width: min(100%, 25rem);
+  margin: 0 clamp(1.5rem, 4vw, 4rem) clamp(17rem, 26.75vw, 21.5rem) 0;
+}
+
+.trafficPanel :global([data-traffic-demo]) {
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .root :global(.road-hero__media) {
+    display: block;
+  }
+
+  .promotionContent {
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .promotionDescription {
+    font-size: 0.95rem;
+  }
+
+  .promotionAction {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .trafficPanel {
+    position: absolute;
+    right: 1.25rem;
+    bottom: 7rem;
+    left: 1.25rem;
+    width: auto;
+    margin: 0;
+  }
+
+  .trafficPanel :global(.description) {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .promotionAction {
+    transition: none;
+  }
+}

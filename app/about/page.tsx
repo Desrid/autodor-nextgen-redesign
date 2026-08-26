@@ -28,6 +28,17 @@ const compliance = [
   { title: "Нормативно-правовая документация", href: "https://russianhighways.ru/about/regulatory-information/", image: "/media/about-cards/legal-documentation.png" },
 ] as const;
 
+const companyFacts = [
+  { value: "5 954,3", unit: "км", label: "Общая протяжённость дорог в доверительном управлении" },
+  { value: "3 679,5", unit: "км", label: "Протяжённость дорог в платной эксплуатации" },
+  { value: "130", unit: "км/ч", label: "Максимальная разрешённая скорость на платных участках" },
+  { value: "164", label: "Экипажа службы аварийных комиссаров" },
+  { value: "Свободный поток", label: "Перспективная технология взимания платы без шлагбаумов и без снижения скорости автомобилей" },
+  { value: "138", label: "Многофункциональных зон сервиса" },
+  { value: "20", label: "Проектов насчитывает инвестиционный портфель" },
+  { value: "*2323", label: "Единый номер вызова помощи на дорогах" },
+] as const;
+
 function SectionHeading({ id, children, lead }: Readonly<{ id: string; children: string; lead: string }>) {
   return <header className="about-section-heading"><h2 id={id}>{children}</h2><p>{lead}</p></header>;
 }
@@ -71,6 +82,16 @@ export default function AboutPage() {
       <section className="about-foundation" aria-labelledby="foundation-date">
         <div className="about-foundation__date"><span className="about-foundation__day" aria-hidden="true">17</span><h2 id="foundation-date" aria-label="17 июля 2009 года">июля</h2><span className="about-foundation__year" aria-hidden="true">2009 года</span></div>
         <p>Вступил в силу Федеральный закон № 145-ФЗ «О Государственной компании „Российские автомобильные дороги“», который стал отправной точкой деятельности Государственной компании и фактическим днём её создания.</p>
+      </section>
+
+      <section className="about-today" aria-labelledby="about-today-title">
+        <h2 id="about-today-title">Автодор сегодня</h2>
+        <div className="about-today__facts">
+          {companyFacts.map((fact) => <article className="about-today__fact" key={fact.value}>
+            <p className="about-today__value"><strong>{fact.value}</strong>{"unit" in fact ? <span>{fact.unit}</span> : null}</p>
+            <p>{fact.label}</p>
+          </article>)}
+        </div>
       </section>
 
       <section className="about-section future-section" aria-labelledby="future-title">
