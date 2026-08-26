@@ -303,7 +303,7 @@ button:focus-visible, .account-sidebar a:focus-visible, .account-home:focus-visi
 
 /* Account dashboard composition: balance spans the workspace; related vehicle data follows below. */
 @media (min-width: 761px) {
-  .account-app .account-columns { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "balance balance" "plates transponders" "plates subscriptions"; gap: 1.75rem clamp(2rem, 3.8vw, 4.5rem); }
+  .account-app .account-columns { grid-template-columns: minmax(0, 1fr); grid-template-areas: "balance" "transponders" "plates" "subscriptions"; gap: 1.75rem; }
   .account-app .account-primary, .account-app .account-secondary { display: contents; }
   .account-app .account-balance { grid-area: balance; }
   .account-app .plates-panel { grid-area: plates; }
@@ -315,8 +315,8 @@ button:focus-visible, .account-sidebar a:focus-visible, .account-home:focus-visi
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
       "balance"
-      "plates"
       "transponders"
+      "plates"
       "subscriptions";
   }
 
@@ -328,6 +328,23 @@ button:focus-visible, .account-sidebar a:focus-visible, .account-home:focus-visi
   .account-app .transponders-panel { grid-area: transponders; }
   .account-app .account-hint { grid-area: subscriptions; }
 }
+
+/* The two account datasets are presented as full-width, sequential tables. */
+.account-app .transponders-panel,
+.account-app .plates-panel {
+  border: 1px solid rgb(45 42 38 / 10%);
+  border-radius: 1rem;
+  background: rgb(255 255 255 / 88%);
+  box-shadow: 0 0.65rem 1.9rem rgb(45 42 38 / 4%);
+  padding: clamp(1.15rem, 2vw, 1.5rem);
+}
+.account-app .transponders-panel .section-heading,
+.account-app .plates-panel .section-heading {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgb(45 42 38 / 10%);
+}
+.account-app .transponder-list,
+.account-app .plates-list { margin-top: 0.9rem; }
 .account-app .plate-row--moved { animation: plate-card-settle 320ms ease-out; }
 @keyframes plate-card-settle { 0% { transform: translateY(-0.55rem); opacity: 0.62; } 100% { transform: translateY(0); opacity: 1; } }
 /* A grid slot permanently reserves the navigation column while the visible
@@ -1318,3 +1335,184 @@ button:focus-visible, .account-sidebar a:focus-visible, .account-home:focus-visi
   letter-spacing: -0.035em;
 }
 .account-app .plates-panel .section-heading h2 { font-size: clamp(1.75rem, 2.35vw, 2rem); }
+
+/* Table-driven vehicle and transponder actions. */
+.account-app .plate-status-row > div { min-width: 0; }
+.account-app .plate-status-row .plate-status { display: block; }
+.account-app .plate-payment-note {
+  display: block;
+  margin-top: 0.15rem;
+  color: #a24920;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.account-app .transponders-panel .section-heading { align-items: center; }
+.account-app .transponders-panel .transponder-add-button {
+  display: inline-grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  margin: 0;
+  border: 1px solid rgb(255 81 0 / 40%);
+  border-radius: 0.625rem;
+  background: #fff;
+  color: var(--color-brand-orange);
+  padding: 0;
+}
+.account-app .transponders-panel .transponder-add-button svg,
+.account-app .transponder-card__actions svg { width: 1.5rem; height: 1.5rem; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; }
+.account-app .transponders-panel .transponder-add-button:hover { border-color: var(--color-brand-orange); background: #fff7f3; }
+.account-app .transponder-card__top { grid-template-columns: 2.1rem minmax(0, 1fr) auto; }
+.account-app .transponder-card__actions { display: flex; align-items: center; gap: 0.35rem; }
+.account-app .transponder-card__actions button {
+  display: inline-grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  place-items: center;
+  border: 0;
+  border-radius: 0.625rem;
+  background: transparent;
+  color: #756e67;
+  padding: 0;
+}
+.account-app .transponder-card__actions button:hover { background: #fff4ee; color: var(--color-brand-orange); }
+.account-app .transponder-card__actions .transponder-card__delete:hover { background: #fff0ed; color: #c13c11; }
+.account-app .transponder-card__benefits .subscription-status button {
+  border: 0;
+  background: transparent;
+  color: #b96a16;
+  padding: 0;
+  font: inherit;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+@media (max-width: 760px) {
+  .account-app .transponder-card__top { grid-template-columns: 2rem minmax(0, 1fr); }
+  .account-app .transponder-card__actions { grid-column: 1 / -1; justify-content: flex-end; margin-top: 0.2rem; }
+}
+
+/* Desktop table geometry: headers and records share the same column rails. */
+.account-app .account-data-table__header {
+  display: grid;
+  align-items: end;
+  gap: 1rem;
+  margin-top: 1rem;
+  border-bottom: 1px solid rgb(45 42 38 / 12%);
+  color: #8f8881;
+  padding: 0 0.25rem 0.65rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.account-app .account-data-table__header--vehicles,
+.account-app .plate-row { grid-template-columns: 7.4rem minmax(10rem, 1.1fr) minmax(11rem, 14rem) minmax(14rem, 1.2fr); }
+.account-app .account-data-table__header--transponders,
+.account-app .transponder-card { grid-template-columns: 7.4rem minmax(13rem, 1.35fr) minmax(12rem, 1.25fr) minmax(8rem, 0.8fr) minmax(10rem, 1fr) minmax(12rem, 1.1fr); }
+.account-app .plate-row {
+  box-sizing: border-box;
+  width: 100%;
+  grid-template-areas: none;
+  grid-template-rows: auto;
+  align-items: center;
+  gap: 1rem;
+  min-height: 0;
+  border: 0;
+  border-bottom: 1px solid rgb(45 42 38 / 10%);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 1rem 0.25rem;
+}
+.account-app .plate-row--debt { border-color: transparent; border-bottom-color: rgb(45 42 38 / 10%); background: transparent; box-shadow: none; }
+.account-app .plate-table-actions { display: flex; align-items: center; gap: 0.35rem; }
+.account-app .plate-table-actions .plate-icon-button { position: static; display: inline-grid; width: 2.25rem; height: 2.25rem; place-items: center; margin: 0; border: 0; border-radius: 0.625rem; background: transparent; padding: 0; }
+.account-app .plate-table-actions .plate-icon-button:hover { background: #fff4ee; color: var(--color-brand-orange); transform: none; }
+.account-app .plate-table-actions .plate-remove:hover { background: #fff0ed; color: #c13c11; }
+.account-app .plate-title,
+.account-app .plate-number-line,
+.account-app .plate-status-row { grid-area: auto; align-self: center; }
+.account-app .plate-title { font-size: 0.88rem; font-weight: 800; }
+.account-app .plate-number-line { align-self: center; }
+.account-app .plate-row .license-plate { width: 100%; height: 3rem; min-height: 3rem; }
+.account-app .plate-status-row { justify-content: space-between; gap: 0.75rem; }
+.account-app .plate-status-row .plate-status { font-size: 0.82rem; }
+.account-app .plate-payment-note { font-size: 0.66rem; }
+.account-app .plate-pay-button { min-width: 6rem; min-height: 2.1rem; font-size: 0.74rem; }
+.account-app .transponder-list { display: grid; gap: 0; margin: 0; padding: 0; }
+.account-app .transponder-card {
+  box-sizing: border-box;
+  width: 100%;
+  display: grid;
+  align-items: center;
+  gap: 1rem;
+  border: 0;
+  border-bottom: 1px solid rgb(45 42 38 / 10%);
+  border-radius: 0;
+  background: transparent;
+  padding: 1rem 0.25rem;
+}
+.account-app .transponder-card__identity { display: flex; min-width: 0; align-items: center; gap: 0.7rem; }
+.account-app .transponder-card__identity strong { display: block; color: var(--color-brand-black); font-size: 0.85rem; }
+.account-app .transponder-card__identity p { margin: 0.18rem 0 0; color: var(--color-text-muted); font-size: 0.72rem; }
+.account-app .transponder-card__actions { display: flex; align-items: center; gap: 0.25rem; }
+.account-app .transponder-card__actions button { width: 2rem; height: 2rem; }
+.account-app .transponder-cell { margin: 0; color: #52655c; font-size: 0.74rem; line-height: 1.35; }
+.account-app .transponder-cell.subscription-status { color: #b96a16; font-weight: 800; }
+.account-app .transponder-interop-cell { display: flex; align-items: center; gap: 0.45rem; color: #52655c; font-size: 0.74rem; }
+.account-app .transponder-interop-cell .check-mark,
+.account-app .transponder-interop-cell .interoperability-state { flex: 0 0 auto; }
+.account-app .transponder-interop-cell .switch { margin-left: auto; }
+.account-app .table-interop-heading { position: relative; display: inline-flex; align-items: center; gap: 0.35rem; }
+.account-app .table-interop-heading .info-button { display: inline-grid; width: 1.25rem; height: 1.25rem; place-items: center; border: 0; background: transparent; color: var(--color-brand-orange); padding: 0; }
+.account-app .table-interop-heading .info-button .account-svg-icon { width: 1.1rem; height: 1.1rem; }
+.account-app .table-interop-heading .interoperability__tooltip { top: auto; right: 0; bottom: calc(100% + 0.65rem); left: auto; width: min(21rem, calc(100vw - 3rem)); }
+.account-app .table-interop-heading .interoperability__tooltip::before { top: auto; right: 1rem; bottom: -0.42rem; left: auto; transform: rotate(45deg); }
+@media (max-width: 1450px) {
+  .account-app .account-data-table__header { display: none; }
+  .account-app .plate-row,
+  .account-app .transponder-card { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.75rem 1rem; padding: 1rem 0; }
+  .account-app .plate-table-actions,
+  .account-app .transponder-card__actions { grid-column: 1 / -1; justify-content: flex-end; }
+  .account-app .plate-title::before,
+  .account-app .plate-number-line::before,
+  .account-app .plate-status-row::before,
+  .account-app .transponder-card__identity::before,
+  .account-app .transponder-cell::before,
+  .account-app .transponder-interop-cell::before { display: block; margin-bottom: 0.25rem; color: #8f8881; font-size: 0.62rem; font-weight: 800; }
+  .account-app .plate-title::before { content: "Транспортное средство"; }
+  .account-app .plate-number-line::before { content: "Государственный номер"; }
+  .account-app .plate-status-row::before { content: "Сумма / статус"; }
+  .account-app .transponder-card__identity::before { content: "Транспондер"; }
+  .account-app .transponder-cell--discount::before { content: "Скидка"; }
+  .account-app .transponder-cell--period::before { content: "Период действия"; }
+  .account-app .transponder-cell--subscription::before { content: "Абонемент"; }
+  .account-app .transponder-interop-cell::before { content: "Интероперабельность"; }
+  .account-app .plate-status-row,
+  .account-app .transponder-interop-cell { align-items: flex-start; flex-direction: column; }
+  .account-app .transponder-interop-cell .switch { margin-left: 0; }
+}
+@media (max-width: 620px) {
+  .account-app .plate-row,
+  .account-app .transponder-card { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Tables read left-to-right by data, with all record actions consistently at
+   the far edge. */
+@media (min-width: 1451px) {
+  .account-app .account-data-table__header--vehicles,
+  .account-app .plate-row { grid-template-columns: minmax(10rem, 1.1fr) minmax(11rem, 14rem) minmax(14rem, 1.2fr) 7.4rem; }
+  .account-app .account-data-table__header--transponders,
+  .account-app .transponder-card { grid-template-columns: minmax(13rem, 1.35fr) minmax(12rem, 1.25fr) minmax(8rem, 0.8fr) minmax(10rem, 1fr) minmax(12rem, 1.1fr) 7.4rem; }
+  .account-app .plate-table-actions,
+  .account-app .transponder-card__actions { order: 10; justify-content: flex-end; }
+  .account-app .plate-title { order: 1; }
+  .account-app .plate-number-line { order: 2; }
+  .account-app .plate-status-row { order: 3; }
+  .account-app .transponder-card__identity { order: 1; }
+  .account-app .transponder-cell--discount { order: 2; }
+  .account-app .transponder-cell--period { order: 3; }
+  .account-app .transponder-cell--subscription { order: 4; }
+  .account-app .transponder-interop-cell { order: 5; }
+}

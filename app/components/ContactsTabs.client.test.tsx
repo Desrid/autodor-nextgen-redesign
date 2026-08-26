@@ -31,34 +31,9 @@ describe("ContactsTabs", () => {
     const tabs = screen.getAllByRole("tab");
     expect(tabs).toHaveLength(10);
     expect(tabs.at(-1)).toHaveAccessibleName("Концепт «Автодор Логистика»");
-    expect(
-      tabs.map((tab) =>
-        tab.querySelector("[data-contact-icon]")?.getAttribute("data-contact-icon"),
-      ),
-    ).toEqual([
-      "state-road-network",
-      "subsidiary-management",
-      "procurement-hammer",
-      "toll-operator",
-      "road-restoration",
-      "road-engineering",
-      "road-construction",
-      "roadside-services",
-      "road-maintenance",
-      "logistics-route",
-    ]);
     tabs.forEach((tab) => {
-      const icon = tab.querySelector("svg");
-
-      expect(icon).toHaveAttribute("aria-hidden", "true");
-      expect(icon).toHaveAttribute("focusable", "false");
-      expect(icon).toHaveAttribute("width", "24");
-      expect(icon).toHaveAttribute("height", "24");
-      expect(icon).toHaveAttribute("viewBox", "0 0 24 24");
-      expect(icon?.querySelector("path")).toHaveAttribute("stroke-width", "1.5");
+      expect(tab.querySelector("[data-contact-icon]")).not.toBeInTheDocument();
     });
-    expect(tabs[2]?.querySelector("path")).toHaveAttribute("fill", "currentColor");
-    expect(tabs[2]?.querySelector("path")).toHaveAttribute("fill-rule", "evenodd");
     expect(screen.getByTestId("contacts-border-effect")).toHaveAttribute(
       "aria-hidden",
       "true",

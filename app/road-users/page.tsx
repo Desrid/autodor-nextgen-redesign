@@ -1,6 +1,3 @@
-import Image from "next/image";
-import Link from "next/link";
-
 import { ArrowIcon } from "@/app/components/ArrowIcon";
 import { HeaderNav } from "@/app/components/HeaderNav.client";
 import LoyaltyRail from "@/app/components/LoyaltyRail.client";
@@ -8,19 +5,8 @@ import { ServicesGrid } from "@/app/components/ServicesGrid";
 import { SiteFooter } from "@/app/components/SiteFooter";
 
 import styles from "./RoadUsersPage.module.css";
-import { RoadStatusRail, type RoadStatus } from "./RoadStatusRail.client";
 import { RoutePlanner } from "./RoutePlanner.client";
-import { UsefulStories } from "./UsefulStories.client";
-
-const ROAD_STATUS: readonly RoadStatus[] = [
-  { road: "М-1 «Беларусь»", status: "Свободно", detail: "Без существенных задержек", tone: "free" },
-  { road: "М-3 «Украина»", status: "Свободно", detail: "Без существенных задержек", tone: "free" },
-  { road: "М-4 «Дон»", status: "Свободно", detail: "Без существенных задержек", tone: "free" },
-  { road: "М-11 «Нева»", status: "Свободно", detail: "Без существенных задержек", tone: "free" },
-  { road: "М-12 «Восток»", status: "Ремонт", detail: "2 участка, задержка 18 мин", tone: "work" },
-  { road: "ЦКАД", status: "Свободно", detail: "Без существенных задержек", tone: "free" },
-  { road: "А-289", status: "Ремонт", detail: "Один участок, движение открыто", tone: "work" },
-];
+import { RoadUsersHero } from "./RoadUsersHero.client";
 
 export default function RoadUsersPage() {
   return (
@@ -30,20 +16,7 @@ export default function RoadUsersPage() {
       </header>
       <div id="header-scroll-sentinel" className="header-scroll-sentinel" aria-hidden="true" />
       <main id="main-content" className={styles.page} tabIndex={-1}>
-        <section className={`${styles.hero} section-shell`} aria-labelledby="road-users-title">
-          <Image className={styles.heroImage} src="/media/road-users/road-users-hero-v1.png" alt="Автомобиль на современной федеральной трассе" fill priority sizes="(max-width: 767px) 100vw, 1480px" />
-          <div className={styles.heroScrim} aria-hidden="true" />
-          <div className={styles.heroContent}>
-            <nav className={styles.breadcrumbs} aria-label="Хлебные крошки">
-              <Link href="/">Главная</Link>
-              <ArrowIcon direction="right" />
-              <span aria-current="page">Пользователям автодорог</span>
-            </nav>
-            <h1 id="road-users-title"><span>Всё для уверенной</span><span>поездки</span></h1>
-            <p className={styles.heroLead}>Планируйте маршрут, оплачивайте проезд и получайте помощь в пути.</p>
-            <aside className={styles.heroNote}><span>В дороге</span><p>Маршрут, стоимость проезда и важная информация — в одном месте.</p></aside>
-          </div>
-        </section>
+        <RoadUsersHero />
 
         <section className="section-shell services-section" aria-labelledby="services-title">
           <div className="services-heading">
@@ -69,12 +42,6 @@ export default function RoadUsersPage() {
           </div>
         </section>
 
-        <section className={`${styles.section} section-shell`} aria-labelledby="status-title">
-          <div className={styles.heading}><h2 id="status-title">Ситуация на дороге</h2><p>Оперативная информация и помощь на маршруте</p></div>
-          <RoadStatusRail items={ROAD_STATUS} />
-          <aside className={styles.help}><div><h3>Помощь на дороге <a href="tel:2323">*2323</a></h3><p>Вызвать аварийного комиссара или техническую помощь</p></div><a href="tel:2323" className={styles.call}>Позвонить <ArrowIcon direction="right" /></a></aside>
-        </section>
-
         <section className="section-shell loyalty-section" aria-labelledby="loyalty-title">
           <div className="loyalty-header">
             <div className="section-heading">
@@ -82,11 +49,6 @@ export default function RoadUsersPage() {
             </div>
             <LoyaltyRail />
           </div>
-        </section>
-
-        <section id="useful" className={`${styles.section} section-shell`} aria-labelledby="useful-title">
-          <div className={styles.heading}><h2 id="useful-title">Полезное</h2><p>Актуальная информация для поездки</p></div>
-          <UsefulStories />
         </section>
       </main>
       <SiteFooter />

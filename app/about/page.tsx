@@ -7,6 +7,7 @@ import { HeaderNav } from "@/app/components/HeaderNav.client";
 import { SiteFooter } from "@/app/components/SiteFooter";
 
 import { HistoryMapOverlay } from "./HistoryMapOverlay.client";
+import { AboutVideo } from "./AboutVideo.client";
 
 import "./page.css";
 
@@ -63,6 +64,13 @@ export default function AboutPage() {
           </div>
           <Image className="about-quote__portrait" src="/media/about-petushenko.png" alt="Вячеслав Петушенко, председатель правления Государственной компании «Автодор»" width={560} height={690} sizes="(max-width: 767px) 44vw, 32vw" />
         </aside>
+      </section>
+
+      <AboutVideo />
+
+      <section className="about-foundation" aria-labelledby="foundation-date">
+        <div className="about-foundation__date"><span className="about-foundation__day" aria-hidden="true">17</span><h2 id="foundation-date" aria-label="17 июля 2009 года">июля</h2><span className="about-foundation__year" aria-hidden="true">2009 года</span></div>
+        <p>Вступил в силу Федеральный закон № 145-ФЗ «О Государственной компании „Российские автомобильные дороги“», который стал отправной точкой деятельности Государственной компании и фактическим днём её создания.</p>
       </section>
 
       <section className="about-section future-section" aria-labelledby="future-title">

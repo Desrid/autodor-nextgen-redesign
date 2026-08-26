@@ -57,82 +57,6 @@ const DISPLAY_CONTACT_TABS = [
   ...ADDITIONAL_CONTACT_TABS.map((contact) => ({ ...contact, website: null })),
 ] as const;
 
-const CONTACT_TAB_ICONS = {
-  "state-company": {
-    name: "state-road-network",
-    path: "M4 21V8l8-5 8 5v13M8 21l2-10M16 21l-2-10M12 7v2M12 13v2M12 19v2",
-  },
-  "management-company": {
-    name: "subsidiary-management",
-    path: "M12 7v4M6 13v-2h12v2M4 13h4v4H4zM10 3h4v4h-4zM16 13h4v4h-4zM6 17v3M18 17v3",
-  },
-  "avtodor-tp": {
-    name: "procurement-hammer",
-    path: "M20.344 9.141 20.438 9.891 20.156 10.594 15.328 15.328 14.625 15.469 13.875 15.234 12.422 13.781 12.328 13.219 12.75 12.047 12.516 11.812 11.766 12.516 10.969 12.375 6.938 17.391 4.125 20.156 2.906 20.484 1.547 20.016 0.844 19.078 0.703 17.859 1.172 16.781 3.656 14.297 8.766 10.172 8.625 9.422 9.328 8.578 9 8.438 8.016 8.812 7.266 8.672 5.953 7.312 5.766 6.094 6.047 5.531 10.922 0.844 11.719 0.75 12.328 0.984 13.688 2.297 13.828 2.906 13.453 3.984 13.594 4.359 14.391 3.938 15.281 4.031 16.969 5.578 17.25 6.234 17.203 6.984 16.828 7.547 17.016 7.781 18.609 7.359ZM7.266 6.422 7.969 7.219 9.516 6.797 10.359 7.547 11.297 6.797 12.047 7.031 12.234 7.453 12.094 8.016 10.453 9.609 11.438 10.734 13.125 9.047 13.781 8.906 14.25 9.234 14.344 9.891 13.641 10.781 14.344 11.578 13.969 13.219 14.672 13.922 18.938 9.703 18.234 8.953 16.875 9.375 16.359 9.234 15.047 7.875 15.047 7.219 15.75 6.469 14.719 5.484 14.062 6.094 13.547 6.234 12.234 5.156 11.812 4.547 12.234 3 11.484 2.25ZM21.75 22.688 21.188 23.25 10.312 23.25 9.75 22.688 9.75 20.719 10.266 19.828 11.25 19.5 11.391 18.047 12.281 17.297 18.984 17.25 20.016 17.906 20.25 18.516 20.25 19.5 20.953 19.641 21.516 20.156 21.75 20.766ZM2.25 18 2.297 18.469 2.625 18.844 3.562 18.703 5.766 16.5 9.938 11.344 9.797 11.25 4.594 15.469ZM11.25 21 11.25 21.75 20.25 21.75 20.25 21ZM12.75 18.75 12.75 19.5 18.75 19.5 18.75 18.75Z",
-    filled: true,
-  },
-  "toll-roads": {
-    name: "toll-operator",
-    path: "M3 21V10h18v11M5 10l2-4h10l2 4M3 14h18M7 21v-4M17 21v-4M10 18h4",
-  },
-  "avtodor-up": {
-    name: "road-restoration",
-    path: "M4 21h16M7 21 9 6h6l2 15M8 15h8M9 10h6M5 18h14",
-  },
-  engineering: {
-    name: "road-engineering",
-    path: "M12 3 9 10 5 21M12 3l3 7 4 11M9 10h6M7 17h10M5 21h14",
-  },
-  "sk-avtodor": {
-    name: "road-construction",
-    path: "M4 15a8 8 0 0 1 16 0M3 15h18v4H3zM9 15V8M15 15V8M8 22h8",
-  },
-  development: {
-    name: "roadside-services",
-    path: "M5 21V5h10v16M7 8h6v5H7zM15 9h2l2 2v7a2 2 0 0 0 2 2V9l-2-2M8 21h5",
-  },
-  operation: {
-    name: "road-maintenance",
-    path: "M14.7 6.3a4 4 0 0 0-5.66 5.66l-6.5 6.5a2.12 2.12 0 0 0 3 3l6.5-6.5a4 4 0 0 0 5.66-5.66l-3 3-3-3 3-3Z",
-  },
-  "concept-logistics": {
-    name: "logistics-route",
-    path: "M3 7h11v9H3zM14 11h4l3 4v1h-7M7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM18 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM3 4h10",
-  },
-} as const satisfies Record<
-  (typeof DISPLAY_CONTACT_TABS)[number]["id"],
-  { name: string; path: string; filled?: boolean }
->;
-
-function ContactTabIcon({ id }: { id: keyof typeof CONTACT_TAB_ICONS }) {
-  const icon = CONTACT_TAB_ICONS[id];
-  const filled = "filled" in icon && icon.filled;
-
-  return (
-    <svg
-      className={styles.tabIcon}
-      data-contact-icon={icon.name}
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <path
-        d={icon.path}
-        fill={filled ? "currentColor" : "none"}
-        fillRule={filled ? "evenodd" : undefined}
-        clipRule={filled ? "evenodd" : undefined}
-        stroke={filled ? "none" : "currentColor"}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 type BorderGeometry = {
   height: number;
   path: string;
@@ -296,7 +220,6 @@ export function ContactsTabs() {
             title={contact.label}
             onClick={() => select(index)}
           >
-            <ContactTabIcon id={contact.id} />
             <span className={styles.tabLabel}>
               {contact.id === "state-company" ? "ГК «АВТОДОР»" : contact.label}
             </span>
