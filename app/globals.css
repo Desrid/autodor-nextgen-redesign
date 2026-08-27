@@ -459,20 +459,9 @@ h3 {
 }
 
 .more-button__icon {
-  display: grid;
-  grid-template-columns: repeat(3, 4px);
-  grid-auto-rows: 4px;
+  display: block;
   width: 24px;
   height: 24px;
-  place-content: center;
-  gap: 3px;
-}
-
-.more-button__icon i {
-  width: 4px;
-  height: 4px;
-  border: 1.5px solid currentcolor;
-  border-radius: 50%;
 }
 
 .header-actions {
@@ -2970,7 +2959,7 @@ a:focus-visible > .inline-arrow-icon {
   stroke: currentcolor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.5;
+  stroke-width: 1.75;
 }
 
 .loyalty-rail {
@@ -3475,7 +3464,7 @@ a:focus-visible > .inline-arrow-icon {
   stroke: currentcolor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.5;
+  stroke-width: 1.75;
 }
 
 .important-state {
@@ -4106,7 +4095,7 @@ a:focus-visible > .inline-arrow-icon {
   stroke: currentcolor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.5;
+  stroke-width: 1.75;
 }
 
 .tariff-tooltip [role="tooltip"] {
@@ -4727,12 +4716,7 @@ a:focus-visible > .inline-arrow-icon {
   width: 52%;
   height: 2px;
   border-radius: 999px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgb(241 95 34 / 72%),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgb(241 95 34 / 72%), transparent);
   box-shadow: 0 0 18px rgb(241 95 34 / 32%);
   opacity: 0.54;
 }
@@ -5121,6 +5105,8 @@ a:focus-visible > .inline-arrow-icon {
 }
 
 .floating-button--chat {
+  --floating-chat-bubble-fill: var(--color-brand-orange);
+
   border: 0;
   background: var(--color-brand-orange);
   color: var(--color-page);
@@ -5128,6 +5114,8 @@ a:focus-visible > .inline-arrow-icon {
 
 .floating-button--chat:hover,
 .floating-button--chat:focus-visible {
+  --floating-chat-bubble-fill: var(--color-brand-orange-hover);
+
   background: var(--color-brand-orange-hover);
 }
 
@@ -5137,7 +5125,11 @@ a:focus-visible > .inline-arrow-icon {
   stroke: currentcolor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.5;
+  stroke-width: 1.75;
+}
+
+.floating-button__dialog-icon .icon-chat__bubble {
+  fill: var(--floating-chat-bubble-fill);
 }
 
 .chat-dialog {
@@ -5175,7 +5167,7 @@ a:focus-visible > .inline-arrow-icon {
   width: 24px;
   height: 24px;
   stroke: currentcolor;
-  stroke-width: 1.5;
+  stroke-width: 1.75;
   stroke-linecap: round;
 }
 
@@ -6403,7 +6395,7 @@ a:focus-visible > .inline-arrow-icon {
   stroke: currentcolor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.5;
+  stroke-width: 1.75;
 }
 
 .tariff-statistics__route-switcher {
@@ -7495,7 +7487,7 @@ body textarea {
   stroke: currentcolor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.5;
+  stroke-width: 1.75;
   transition: transform 180ms ease-in-out;
 }
 

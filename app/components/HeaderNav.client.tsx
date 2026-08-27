@@ -20,6 +20,7 @@ import {
   HEADER_SOCIAL_LINKS,
   PRIMARY_NAVIGATION,
 } from "@/app/data/header-navigation";
+import { Icon } from "@/app/components/icons";
 
 import styles from "./HeaderNav.module.css";
 
@@ -377,9 +378,7 @@ export function HeaderNav() {
               onClick={onLayerButtonClick("megaMenu")}
             >
               <span className="more-button__icon" aria-hidden="true">
-                {Array.from({ length: 9 }, (_, index) => (
-                  <i key={index} />
-                ))}
+                <Icon name="appsGrid" size={24} />
               </span>
               <span>Ещё</span>
             </button>
@@ -452,13 +451,7 @@ export function HeaderNav() {
           aria-controls="header-search-panel"
           onClick={onLayerButtonClick("search")}
         >
-          <Image
-            src="/brand/header/search.svg"
-            alt=""
-            width={24}
-            height={24}
-            unoptimized
-          />
+          <Icon name="search" size={24} />
         </button>
         <Link className="account-link" href="/account">
           Личный кабинет
@@ -553,15 +546,7 @@ export function HeaderNav() {
                         searchInputRef.current?.focus();
                       }}
                     >
-                      <svg aria-hidden="true" viewBox="0 0 24 24">
-                        <path
-                          d="M4 4 20 20M20 4 4 20"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeWidth="1.5"
-                        />
-                      </svg>
+                      <Icon name="close" size={24} />
                     </button>
                   ) : null}
                 </div>
@@ -697,33 +682,15 @@ export function HeaderNav() {
                 <p>{HEADER_CONTACTS.copyright}</p>
                 <div className="header-contact-links">
                   <span>
-                    <Image
-                      src="/brand/header/location.svg"
-                      alt=""
-                      width={24}
-                      height={24}
-                      unoptimized
-                    />
+                    <Icon name="location" size={24} />
                     {HEADER_CONTACTS.address}
                   </span>
                   <a href={HEADER_CONTACTS.email.href}>
-                    <Image
-                      src="/brand/header/email.svg"
-                      alt=""
-                      width={24}
-                      height={24}
-                      unoptimized
-                    />
+                    <Icon name="email" size={24} />
                     {HEADER_CONTACTS.email.label}
                   </a>
                   <a href={HEADER_CONTACTS.phone.href}>
-                    <Image
-                      src="/brand/header/phone.svg"
-                      alt=""
-                      width={24}
-                      height={24}
-                      unoptimized
-                    />
+                    <Icon name="phone" size={24} />
                     {HEADER_CONTACTS.phone.label}
                   </a>
                 </div>

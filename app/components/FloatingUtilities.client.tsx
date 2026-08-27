@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowIcon } from "@/app/components/ArrowIcon";
+import { Icon } from "@/app/components/icons";
 import { SUPPORT_FAQ } from "@/app/data/home-content";
 import { useEffect, useRef, useState } from "react";
 
@@ -56,24 +57,7 @@ export function FloatingUtilities() {
           aria-label="Открыть помощь"
           onClick={openChat}
         >
-          <svg
-            className="floating-button__dialog-icon"
-            aria-hidden="true"
-            viewBox="0 0 32 32"
-            width="32"
-            height="32"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill="var(--color-brand-orange)"
-              d="M12 12.5h12a3.5 3.5 0 0 1 3.5 3.5v6a3.5 3.5 0 0 1-3.5 3.5h-4.5L15 29v-3.5h-3A3.5 3.5 0 0 1 8.5 22v-6a3.5 3.5 0 0 1 3.5-3.5Z"
-            />
-            <path
-              fill="var(--color-brand-orange)"
-              d="M8 4.5h12A3.5 3.5 0 0 1 23.5 8v6a3.5 3.5 0 0 1-3.5 3.5h-6.5L8.5 22v-4.5H8A3.5 3.5 0 0 1 4.5 14V8A3.5 3.5 0 0 1 8 4.5Z"
-            />
-          </svg>
+          <Icon className="floating-button__dialog-icon" name="chat" size={32} />
         </button>
       </aside>
 
@@ -92,17 +76,7 @@ export function FloatingUtilities() {
         <div className="chat-dialog__header">
           <h2 id="chat-title">Чем помочь?</h2>
           <button type="button" onClick={closeChat} aria-label="Закрыть чат">
-            <svg
-              className="chat-dialog__close-icon"
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-              fill="none"
-              strokeWidth="1.5"
-            >
-              <path d="M6 6l12 12M18 6 6 18" />
-            </svg>
+            <Icon className="chat-dialog__close-icon" name="close" size={24} />
           </button>
         </div>
         <p className="chat-dialog__intro" id="chat-intro">

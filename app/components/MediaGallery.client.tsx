@@ -13,6 +13,9 @@ import {
   useState,
 } from "react";
 
+import { ArrowIcon } from "@/app/components/ArrowIcon";
+import { Icon } from "@/app/components/icons";
+
 type GalleryDescription = Readonly<{ title: string; description: string }>;
 
 type MediaGalleryProps = Readonly<{
@@ -23,27 +26,6 @@ type MediaGalleryProps = Readonly<{
 
 const AUTO_SCROLL_PX_PER_SECOND = 25;
 const MAX_SCROLL_FRAME_MS = 32;
-
-function GalleryArrow({ direction }: Readonly<{ direction: "left" | "right" }>) {
-  const path = direction === "left" ? "M19 12H5m6-6-6 6 6 6" : "M5 12h14m-6-6 6 6-6 6";
-
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      width="24"
-      height="24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <path d={path} />
-    </svg>
-  );
-}
 
 export function MediaGallery({ children, descriptions, label }: MediaGalleryProps) {
   const items = Children.toArray(children);
@@ -297,7 +279,7 @@ export function MediaGallery({ children, descriptions, label }: MediaGalleryProp
               autoFocus
               onClick={closeLightbox}
             >
-              ×
+              <Icon name="close" size={24} />
             </button>
             <div className="media-lightbox__image">
               {items[selectedIndex]}
@@ -312,14 +294,14 @@ export function MediaGallery({ children, descriptions, label }: MediaGalleryProp
                     setSelectedIndex((selectedIndex - 1 + itemCount) % itemCount)
                   }
                 >
-                  <GalleryArrow direction="left" />
+                  <ArrowIcon direction="left" />
                 </button>
                 <button
                   type="button"
                   aria-label="Следующее изображение"
                   onClick={() => setSelectedIndex((selectedIndex + 1) % itemCount)}
                 >
-                  <GalleryArrow direction="right" />
+                  <ArrowIcon direction="right" />
                 </button>
               </div>
             </div>

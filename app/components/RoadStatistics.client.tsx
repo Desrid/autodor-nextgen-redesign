@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import { ArrowIcon } from "@/app/components/ArrowIcon";
+import { Icon } from "@/app/components/icons";
 import { ROADS } from "@/app/data/roads";
 import { VEHICLE_CATEGORY_TARIFFS } from "@/app/data/statistics";
 
@@ -11,18 +13,6 @@ const VEHICLE_CATEGORY_DETAILS = {
   III: "Двухосные грузовые автомобили, трейлеры и автобусы. Высота над передней осью — свыше 2,6 м.",
   IV: "Грузовые автомобили, трейлеры, автобусы и специализированные крупногабаритные транспортные средства с тремя и более осями. Высота над передней осью — свыше 2,6 м.",
 } as const;
-
-function Arrow({ direction }: Readonly<{ direction: "previous" | "next" }>) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d={direction === "previous" ? "m14 5-7 7 7 7" : "m10 5 7 7-7 7"} />
-    </svg>
-  );
-}
-
-function InfoIcon() {
-  return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" /><path d="M12 10.5v5M12 7.5h.01" /></svg>;
-}
 
 export function RoadStatistics() {
   const initialIndex = Math.max(
@@ -56,14 +46,14 @@ export function RoadStatistics() {
             onClick={() => selectRoad(-1)}
             aria-label="Предыдущая трасса"
           >
-            <Arrow direction="previous" />
+            <ArrowIcon direction="left" />
           </button>
           <button
             type="button"
             onClick={() => selectRoad(1)}
             aria-label="Следующая трасса"
           >
-            <Arrow direction="next" />
+            <ArrowIcon direction="right" />
           </button>
         </div>
       </div>
@@ -119,7 +109,7 @@ export function RoadStatistics() {
                     aria-describedby={`tariff-tip-${item.category}`}
                     aria-label={`Состав категории ${item.category}`}
                   >
-                    <InfoIcon />
+                    <Icon name="info" size={24} />
                   </button>
                   <span id={`tariff-tip-${item.category}`} role="tooltip">
                     {VEHICLE_CATEGORY_DETAILS[item.category]}

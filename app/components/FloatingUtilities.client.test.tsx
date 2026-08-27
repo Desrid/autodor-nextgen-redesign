@@ -12,8 +12,19 @@ describe("FloatingUtilities", () => {
     expect(screen.getByRole("button", { name: "Открыть помощь" })).toBeVisible();
     expect(container.querySelector(".floating-button__dialog-icon")).toHaveAttribute(
       "viewBox",
-      "0 0 32 32",
+      "0 0 24 24",
     );
+    expect(container.querySelector(".floating-button__dialog-icon")).toHaveAttribute(
+      "stroke-width",
+      "1.75",
+    );
+    expect(container.querySelector(".floating-button__dialog-icon")).toHaveAttribute(
+      "focusable",
+      "false",
+    );
+    expect(
+      container.querySelectorAll(".floating-button__dialog-icon .icon-chat__bubble"),
+    ).toHaveLength(2);
     expect(screen.getByTestId("back-to-top")).toHaveAttribute("hidden");
     expect(container.querySelectorAll(".faq-list details")).toHaveLength(
       SUPPORT_FAQ.length,
@@ -32,7 +43,7 @@ describe("FloatingUtilities", () => {
     );
     expect(container.querySelector(".chat-dialog__close-icon")).toHaveAttribute(
       "stroke-width",
-      "1.5",
+      "1.75",
     );
     expect(container.querySelector(".primary-button")).toHaveTextContent(
       "Перейти в чат",

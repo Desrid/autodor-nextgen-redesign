@@ -106,7 +106,7 @@ describe("header navigation source", () => {
     ]);
   });
 
-  it("uses verified destinations without placeholder hrefs", () => {
+  it("uses verified internal or HTTPS destinations without placeholder hrefs", () => {
     const links = [
       ...PRIMARY_NAVIGATION,
       ...HEADER_NAVIGATION_GROUPS.flatMap((group) => [
@@ -117,7 +117,7 @@ describe("header navigation source", () => {
     ];
 
     for (const link of links) {
-      expect(link.href).toMatch(/^https:\/\//);
+      expect(link.href).toMatch(/^(?:https:\/\/|\/(?!\/))/);
       expect(link.href).not.toContain("#");
     }
   });

@@ -38,7 +38,11 @@
     "start:vinext": "wrangler dev --config dist/server/wrangler.json",
     "deploy:vinext": "vinext-cloudflare deploy --config dist/server/wrangler.json",
     "storybook": "storybook dev -p 6006 --host 127.0.0.1",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "icons:check": "node scripts/validate-icons.mjs",
+    "icons:check:file": "node scripts/validate-icons.mjs",
+    "icons:optimize": "node scripts/optimize-icons.mjs",
+    "icons:visual": "node scripts/run-icons-visual.mjs"
   },
   "dependencies": {
     "next": "16.2.10",

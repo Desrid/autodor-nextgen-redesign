@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { ArrowIcon } from "@/app/components/ArrowIcon";
+import { Icon } from "@/app/components/icons";
 import { CONTACT_TABS } from "@/app/data/home-content";
 
 import styles from "./ContactsTabs.module.css";
@@ -278,26 +279,12 @@ export function ContactsTabs() {
                 className={`contact-panel__row ${styles.row}`}
                 href={telephoneHref(contact.phone)}
               >
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M6 3h3l2 5-2 1a11 11 0 0 0 5 5l1-2 5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2Z"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <Icon name="phone" size={24} />
                 {contact.phone}
               </a>
             ) : (
               <div className={`contact-panel__row ${styles.row} ${styles.unavailable}`}>
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M6 3h3l2 5-2 1a11 11 0 0 0 5 5l1-2 5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2Z"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <Icon name="phone" size={24} />
                 Телефон не предоставлен
               </div>
             )}
@@ -306,34 +293,12 @@ export function ContactsTabs() {
                 className={`contact-panel__row ${styles.row}`}
                 href={`mailto:${contact.email}`}
               >
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <rect
-                    x="3"
-                    y="5"
-                    width="18"
-                    height="14"
-                    rx="2"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                  />
-                  <path d="m4 7 8 6 8-6" stroke="currentColor" strokeWidth="1.8" />
-                </svg>
+                <Icon name="email" size={24} />
                 {contact.email}
               </a>
             ) : (
               <div className={`contact-panel__row ${styles.row} ${styles.unavailable}`}>
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <rect
-                    x="3"
-                    y="5"
-                    width="18"
-                    height="14"
-                    rx="2"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                  />
-                  <path d="m4 7 8 6 8-6" stroke="currentColor" strokeWidth="1.8" />
-                </svg>
+                <Icon name="email" size={24} />
                 Email не предоставлен
               </div>
             )}
@@ -343,40 +308,13 @@ export function ContactsTabs() {
                 href={contact.website.href}
                 aria-label={`Сайт ${contact.name}: ${contact.website.label}`}
               >
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="9"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                  />
-                  <path
-                    d="M3 12h18M12 3c2.4 2.5 3.6 5.5 3.6 9S14.4 18.5 12 21M12 3c-2.4 2.5-3.6 5.5-3.6 9S9.6 18.5 12 21"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                  />
-                </svg>
+                <Icon name="globe" size={24} />
                 {contact.website.label}
               </a>
             ) : null}
             {contact.id === "state-company" ? (
               <address className={`contact-panel__address ${styles.address}`}>
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M12 21s7-5.1 7-12A7 7 0 1 0 5 9c0 6.9 7 12 7 12Z"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                  />
-                  <circle
-                    cx="12"
-                    cy="9"
-                    r="2.25"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                  />
-                </svg>
+                <Icon name="location" size={24} />
                 <span>{HEAD_OFFICE_ADDRESS}</span>
               </address>
             ) : null}

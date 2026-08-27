@@ -8,6 +8,7 @@ import { HERO_ACTIONS } from "@/app/data/home-content";
 import { hasVerifiedGeometry } from "@/app/data/map-contracts";
 import { ROADS } from "@/app/data/roads";
 
+import { ArrowIcon } from "./ArrowIcon";
 import { RoadRouteMap } from "./RoadRouteMap";
 
 export type HeroVariant = "cinematic" | "atlas" | "signal";
@@ -19,7 +20,7 @@ function HeroActionIcon({
 }: Readonly<{ kind: (typeof HERO_ACTION_ICON_KINDS)[number] }>) {
   if (kind === "payment") {
     return (
-      <svg viewBox="0 0 48 48" focusable="false">
+      <svg aria-hidden="true" viewBox="0 0 48 48" focusable="false">
         <rect
           className="hero-action-icon__banknote"
           x="11"
@@ -44,7 +45,7 @@ function HeroActionIcon({
 
   if (kind === "route") {
     return (
-      <svg viewBox="0 0 48 48" focusable="false">
+      <svg aria-hidden="true" viewBox="0 0 48 48" focusable="false">
         <path
           className="hero-action-icon__route-wave"
           d="M11 30c4-11 8 11 13 0s9 11 13-10"
@@ -61,7 +62,7 @@ function HeroActionIcon({
 
   if (kind === "loyalty") {
     return (
-      <svg viewBox="0 0 48 48" focusable="false">
+      <svg aria-hidden="true" viewBox="0 0 48 48" focusable="false">
         <path
           className="hero-action-icon__gift"
           d="M9 22h30v18H9zM7 17h34v6H7zM24 17v23"
@@ -75,34 +76,12 @@ function HeroActionIcon({
   }
 
   return (
-    <svg viewBox="0 0 48 48" focusable="false">
+    <svg aria-hidden="true" viewBox="0 0 48 48" focusable="false">
       <path
         className="hero-action-icon__ticket"
         d="M10 13h28v7a4 4 0 0 0 0 8v7H10v-7a4 4 0 0 0 0-8z"
       />
       <path className="hero-action-icon__detail" d="M24 14v20M29 20l-9 9" />
-    </svg>
-  );
-}
-
-function HeroArrowIcon({ direction }: Readonly<{ direction: "left" | "right" }>) {
-  const path = direction === "left" ? "M19 12H5m6-6-6 6 6 6" : "M5 12h14m-6-6 6 6-6 6";
-
-  return (
-    <svg
-      className="hero-arrow-icon"
-      viewBox="0 0 24 24"
-      width="24"
-      height="24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <path d={path} />
     </svg>
   );
 }
@@ -447,7 +426,7 @@ export function RoadNetworkHero({
             </dl>
             <a className="hero-detail-link" href={activeRoad.detailsUrl}>
               <span>Подробнее о дороге</span>
-              <HeroArrowIcon direction="right" />
+              <ArrowIcon className="hero-arrow-icon" direction="right" />
             </a>
           </div>
         </div>

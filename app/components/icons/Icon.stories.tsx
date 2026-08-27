@@ -84,7 +84,7 @@ export const AllVariants: Story = {
 };
 
 export const SizeVariants: Story = {
-  name: "Размеры 16 / 24 / 32",
+  name: "Размеры 16 / 20 / 24 / 32",
   render: () => (
     <div style={{ display: "grid", gap: 16, maxWidth: 960 }}>
       {iconNames.map((name) => (

@@ -904,7 +904,7 @@
   stroke: currentcolor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.5;
+  stroke-width: 1.75;
 }
 
 .card[data-service-id="route-calculator"]:where(:hover, :focus-within, [open])
@@ -3117,7 +3117,7 @@
   stroke: currentcolor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.5;
+  stroke-width: 1.75;
 }
 
 .card.card[data-card-system="services-card-system-v1"]:where(

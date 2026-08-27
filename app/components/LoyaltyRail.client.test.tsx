@@ -19,9 +19,9 @@ describe("LoyaltyRail", () => {
     expect(screen.getAllByRole("img")).toHaveLength(LOYALTY_PROGRAMS.length);
     expect(screen.getByLabelText("Предыдущие программы")).toBeDisabled();
     expect(screen.getByLabelText("Следующие программы")).toBeInTheDocument();
-    expect(container.querySelectorAll(".loyalty-card__meta.card-eyebrow-tab")).toHaveLength(
-      LOYALTY_PROGRAMS.length,
-    );
+    expect(
+      container.querySelectorAll(".loyalty-card__meta.card-eyebrow-tab"),
+    ).toHaveLength(LOYALTY_PROGRAMS.length);
   });
 
   it("offers keyboard navigation for the focused rail", () => {
@@ -47,7 +47,7 @@ describe("LoyaltyRail", () => {
 
       expect(links).toHaveLength(1);
       expect(links[0]).toHaveClass("loyalty-card__link");
-      expect(links[0]).toHaveAttribute("href", LOYALTY_PROGRAMS[index].href);
+      expect(links[0]).toHaveAttribute("href", LOYALTY_PROGRAMS[index]!.href);
       expect(links[0]).toContainElement(card.querySelector(".loyalty-card__media"));
       expect(links[0]).toContainElement(card.querySelector(".loyalty-card__content"));
       expect(card.querySelector(".loyalty-card__cta")).toHaveClass("card-cta");

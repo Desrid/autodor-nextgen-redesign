@@ -2,6 +2,7 @@ import { HeaderNav } from "@/app/components/HeaderNav.client";
 import LoyaltyRail from "@/app/components/LoyaltyRail.client";
 import { ServicesGrid } from "@/app/components/ServicesGrid";
 import { SiteFooter } from "@/app/components/SiteFooter";
+import { TransponderDeviceIcon } from "@/app/account/TransponderDeviceIcon";
 
 import styles from "./RoadUsersPage.module.css";
 import { RoutePlanner } from "./RoutePlanner.client";
@@ -11,13 +12,7 @@ type LaneKind = "transponder" | "card" | "cash" | "closed";
 
 function LaneSign({ kind }: Readonly<{ kind: LaneKind }>) {
   if (kind === "transponder") {
-    return (
-      <svg viewBox="0 0 64 64" aria-hidden="true">
-        <path d="M13 41h38l-4-13H19zM20 41v7m24-7v7M22 28l4-8h12l4 8M12 15c7 0 12 5 12 12M7 10c11 0 20 9 20 20" />
-        <circle cx="16" cy="48" r="4" />
-        <circle cx="48" cy="48" r="4" />
-      </svg>
-    );
+    return <TransponderDeviceIcon className={styles.transponderLaneIcon!} />;
   }
   if (kind === "card") {
     return (

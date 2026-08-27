@@ -108,10 +108,12 @@ describe("homepage source-backed content contracts", () => {
     );
   });
 
-  it("uses absolute HTTP(S) targets and secure links where the source supports them", () => {
+  it("uses internal routes or secure links where the source supports them", () => {
     for (const href of allUrls) {
-      expect(() => new URL(href)).not.toThrow();
-      expect(href).toMatch(/^https:\/\//);
+      expect(href).toMatch(/^(?:https:\/\/|\/(?!\/))/);
+      if (href.startsWith("https://")) {
+        expect(() => new URL(href)).not.toThrow();
+      }
     }
 
     expect(GOVERNMENT_LINKS).toHaveLength(6);

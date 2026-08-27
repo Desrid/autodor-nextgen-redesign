@@ -21,7 +21,7 @@ export const SERVICES_CARD_HARNESS_CONTRACT = {
     descriptionSizePx: 16,
     ctaHeightPx: 44,
     ctaIconSizePx: 24,
-    ctaIconStrokePx: 1.5,
+    ctaIconStrokePx: 1.75,
   },
   interaction: {
     finePointer: "hover-reveal-and-direct-click",
@@ -979,12 +979,10 @@ export function ServicesGrid() {
                   </span>
                   <span className={`${styles.serviceCta} card-cta`} aria-hidden="true">
                     <span>Открыть сервис</span>
-                    <svg
+                    <ArrowIcon
                       className={`${styles.serviceCtaIcon} card-cta__icon`}
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M5 12h14M13 6l6 6-6 6" />
-                    </svg>
+                      direction="right"
+                    />
                   </span>
                 </span>
                 <span

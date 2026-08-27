@@ -1,7 +1,6 @@
 import { ContactsTabs } from "@/app/components/ContactsTabs.client";
 import { CardTiltController } from "@/app/components/CardTiltController.client";
 import { ArrowIcon } from "@/app/components/ArrowIcon";
-import { FloatingUtilities } from "@/app/components/FloatingUtilities.client";
 import { FutureProjectsMap } from "@/app/components/FutureProjectsMap.client";
 import { HeaderNav } from "@/app/components/HeaderNav.client";
 import ImportantStories from "@/app/components/ImportantStories.client";
@@ -633,7 +632,6 @@ export default function HomePage() {
       </footer>
 
       <CardTiltController />
-      <FloatingUtilities />
     </>
   );
 }

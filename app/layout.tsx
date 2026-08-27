@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 
+import { FloatingUtilities } from "@/app/components/FloatingUtilities.client";
+
 import "./globals.css";
 
 const SITE_URL = "https://russianhighways.ru";
@@ -125,6 +127,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           К основному содержанию
         </a>
         {children}
+        <FloatingUtilities />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

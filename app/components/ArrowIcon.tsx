@@ -1,33 +1,24 @@
+import { Icon, type IconName } from "./icons";
+
 type ArrowDirection = "down" | "left" | "right" | "up";
 
 type ArrowIconProps = Readonly<{
   className?: string;
   direction: ArrowDirection;
+  size?: 16 | 20 | 24 | 32;
 }>;
 
-const ARROW_PATHS: Record<ArrowDirection, string> = {
-  down: "M12 5v14m-6-6 6 6 6-6",
-  left: "M19 12H5m6-6-6 6 6 6",
-  right: "M5 12h14m-6-6 6 6-6 6",
-  up: "M12 19V5m-6 6 6-6 6 6",
+const ARROW_NAMES: Record<ArrowDirection, IconName> = {
+  down: "arrowDown",
+  left: "arrowLeft",
+  right: "arrowRight",
+  up: "arrowUp",
 };
 
-export function ArrowIcon({ className, direction }: ArrowIconProps) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      width="24"
-      height="24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <path d={ARROW_PATHS[direction]} />
-    </svg>
+export function ArrowIcon({ className, direction, size = 24 }: ArrowIconProps) {
+  return className ? (
+    <Icon className={className} name={ARROW_NAMES[direction]} size={size} />
+  ) : (
+    <Icon name={ARROW_NAMES[direction]} size={size} />
   );
 }
