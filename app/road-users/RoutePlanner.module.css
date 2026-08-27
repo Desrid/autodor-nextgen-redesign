@@ -1389,26 +1389,6 @@
   font-size: clamp(1rem, 1.7vw, 1.35rem);
   letter-spacing: -0.035em;
 }
-.tripMetrics {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.25rem 0.45rem;
-  padding: 1rem 1.1rem;
-  border-radius: 0.85rem;
-  background: var(--color-brand-black);
-}
-.tripMetrics strong {
-  grid-column: 1 / -1;
-  color: #ff9f72;
-  font-size: 1.75rem;
-  line-height: 1.05;
-}
-.tripMetrics span {
-  padding: 0;
-  border: 0;
-  color: rgb(255 255 255 / 74%);
-  font-size: 0.76rem;
-}
 .tripAssistantGrid {
   display: grid;
   grid-template-columns: 1fr;
@@ -1466,14 +1446,6 @@
   gap: 1rem;
   align-items: center;
   justify-content: space-between;
-}
-.forecastBadge {
-  padding: 0.35rem 0.55rem;
-  border-radius: 999px;
-  background: #edf6f2;
-  color: #246456;
-  font-size: 0.65rem;
-  font-weight: 800;
 }
 .restAreaList {
   display: grid;
@@ -1541,8 +1513,34 @@
 }
 .promoCard {
   position: relative;
+  overflow: hidden;
   padding-bottom: 3.25rem;
-  background: linear-gradient(135deg, #fff8f3, #fff);
+  border-color: rgb(255 255 255 / 16%);
+  background:
+    linear-gradient(
+      90deg,
+      rgb(15 20 25 / 96%) 0%,
+      rgb(15 20 25 / 86%) 54%,
+      rgb(15 20 25 / 34%) 100%
+    ),
+    url("/media/road-user-stories/transponder.png") center 72% / cover no-repeat;
+  box-shadow: 0 0.75rem 1.8rem rgb(12 18 22 / 22%);
+}
+.promoCard > * {
+  position: relative;
+  z-index: 1;
+}
+.promoCard .cardIcon {
+  background: rgb(255 255 255 / 12%);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 12%);
+  color: #ff8b5d;
+}
+.promoCard small {
+  color: #ffb493;
+}
+.promoCard strong {
+  color: #fff;
+  font-size: 0.92rem;
 }
 .promoCard a {
   position: absolute;
@@ -1559,6 +1557,17 @@
   font-size: 0.7rem;
   font-weight: 800;
   text-decoration: none;
+  transition:
+    background 160ms ease,
+    transform 160ms ease;
+}
+.promoCard a:hover {
+  background: #ff6a31;
+  transform: translateY(-1px);
+}
+.promoCard a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }
 .promoCard a .uiIcon,
 .shareActions .uiIcon {
@@ -1619,7 +1628,7 @@
   top: 1.5rem;
   left: calc(1.5rem + min(23.75rem, calc(100% - 3rem)) + 0.75rem);
   display: grid;
-  grid-template-columns: auto 3rem;
+  grid-template-columns: 3rem auto;
   gap: 0.5rem;
   align-items: start;
 }
@@ -1628,7 +1637,7 @@
   z-index: auto;
   top: auto;
   right: auto;
-  grid-column: 1;
+  grid-column: 2;
   grid-row: 1;
 }
 .mapControls .filterControl .filters {
@@ -1637,12 +1646,12 @@
 }
 .mapControls .expand {
   position: static;
-  grid-column: 2;
+  grid-column: 1;
   grid-row: 1;
 }
 .mapControls .zoomControl {
   position: static;
-  grid-column: 2;
+  grid-column: 1;
   grid-row: 2;
 }
 .mapControls .zoomControl button {
@@ -1739,9 +1748,6 @@
   .tripAssistantHeader {
     display: grid;
   }
-  .tripMetrics {
-    justify-content: space-between;
-  }
   .tripAssistantGrid {
     grid-template-columns: 1fr;
   }
@@ -1756,6 +1762,17 @@
   }
   .breakCard,
   .promoCard {
+    min-height: 0;
+  }
+}
+
+@media (min-width: 901px) {
+  .mapShell:not(.expanded) {
+    height: clamp(35rem, 54vw, 50rem);
+    min-height: 0;
+    overflow: hidden;
+  }
+  .mapShell.calculated:not(.expanded) {
     min-height: 0;
   }
 }

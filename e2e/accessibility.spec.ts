@@ -30,16 +30,24 @@ test("all meaningful images have alternatives and loaded dimensions", async ({
 }) => {
   const images = page.locator("img");
 
-  for (const image of await images.all()) {
-    await expect(image).toHaveAttribute("alt");
-    await image.scrollIntoViewIfNeeded();
-    await expect
-      .poll(() => image.evaluate((node) => (node as HTMLImageElement).complete))
-      .toBe(true);
-    await expect
-      .poll(() => image.evaluate((node) => (node as HTMLImageElement).naturalWidth))
-      .toBeGreaterThan(0);
-  }
+  await images.evaluateAll((nodes: HTMLImageElement[]) => {
+    nodes.forEach((image) => {
+      image.loading = "eager";
+    });
+  });
+
+  await expect
+    .poll(() =>
+      images.evaluateAll((nodes: HTMLImageElement[]) =>
+        nodes
+          .filter(
+            (image) =>
+              !image.hasAttribute("alt") || !image.complete || image.naturalWidth <= 0,
+          )
+          .map((image) => image.currentSrc || image.src),
+      ),
+    )
+    .toEqual([]);
 });
 
 test("interactive controls expose names and visible keyboard focus", async ({

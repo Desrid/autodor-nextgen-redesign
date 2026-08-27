@@ -375,7 +375,7 @@ function VehiclePicker({
   onChange,
 }: Readonly<{ value: string; onChange: (value: string) => void }>) {
   const [open, setOpen] = useState(false);
-  const options = ["Легковой автомобиль", "Мотоцикл", "Автодом"];
+  const options = ["Легковой автомобиль", "Мотоцикл", "Грузовой автомобиль"];
   return (
     <div className={styles.controlWrap}>
       <button
@@ -861,13 +861,6 @@ export function RoutePlanner() {
               <small>Маршрут рассчитан</small>
               <h3>Всё для комфортной поездки</h3>
             </div>
-            <div className={styles.tripMetrics} aria-label="Итоги маршрута">
-              <strong>{route.distance} км</strong>
-              <span>{duration}</span>
-              <span>
-                ~{Math.round(route.distance * 0.2 + 520).toLocaleString("ru-RU")} ₽
-              </span>
-            </div>
           </header>
 
           <div className={styles.tripAssistantGrid}>
@@ -888,7 +881,6 @@ export function RoutePlanner() {
                   <small>Площадки отдыха по пути</small>
                   <strong>Прогноз загрузки</strong>
                 </div>
-                <span className={styles.forecastBadge}>Для фур</span>
               </div>
               <div className={styles.restAreaList}>
                 {restAreas.map((area) => (
@@ -926,7 +918,7 @@ export function RoutePlanner() {
                 <strong>Кешбэк 10% за покупку T-pass</strong>
               </div>
               <a href="https://tpass.me/" target="_blank" rel="noreferrer">
-                Приобрести
+                Приобрести транспондер
                 <UiIcon name="open" />
               </a>
             </article>

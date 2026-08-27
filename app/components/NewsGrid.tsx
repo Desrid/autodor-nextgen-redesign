@@ -22,10 +22,9 @@ const NEWS_EXCERPTS: Record<(typeof NEWS)[number]["href"], string> = {
 
 export function NewsGrid() {
   return (
-    <div
+    <section
       className="news-bento"
       data-testid="news-grid"
-      role="list"
       aria-label="Последние новости Автодора"
     >
       {NEWS.map((item, index) => (
@@ -33,7 +32,6 @@ export function NewsGrid() {
           className={`news-card news-card--${index + 1} ${styles.card}`}
           data-news-item
           key={item.href}
-          role="listitem"
         >
           <a
             className={`news-card__link ${styles.link}`}
@@ -85,12 +83,9 @@ export function NewsGrid() {
       ))}
       <a className="news-bento__all" href={ALL_NEWS_URL}>
         <span>Все новости</span>
-        <ArrowIcon
-          className="news-card__cta-icon card-cta__icon"
-          direction="right"
-        />
+        <ArrowIcon className="news-card__cta-icon card-cta__icon" direction="right" />
         <span className="visually-hidden">на официальном сайте Автодора</span>
       </a>
-    </div>
+    </section>
   );
 }

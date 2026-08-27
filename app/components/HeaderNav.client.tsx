@@ -93,7 +93,8 @@ export function HeaderNav() {
       }
 
       if (restoreFocus) {
-        restoreFocusRef.current?.focus();
+        const trigger = restoreFocusRef.current;
+        requestAnimationFrame(() => trigger?.focus());
       }
 
       closeTimerRef.current = setTimeout(() => {

@@ -116,7 +116,7 @@ const initialPlates: Plate[] = [
     region: "197",
     label: "Рабочий автомобиль",
     debt: "1 800 ₽",
-    paymentNote: "Оплатить штраф со скидкой",
+    paymentNote: "Вынесено постановление",
   },
   {
     id: "a001",
@@ -135,6 +135,7 @@ const transponders = [
     discountPeriod: "с 01.08.2026",
     discountEndsAt: "31.08.2026",
     subscription: "Осталось 5 поездок",
+    subscriptionEndsAt: "31.08.2026",
   },
   {
     id: "4726",
@@ -142,6 +143,7 @@ const transponders = [
     number: "3041655 0000 4725 2084",
     discount: "Скидка не подключена. Нужно накопить ещё 74 балла",
     subscription: "Подобрать",
+    subscriptionEndsAt: undefined,
   },
 ];
 const debtAlertTimeline = [
@@ -235,8 +237,13 @@ export function AccountHeader() {
         />
       </Link>
       <div className="account-header-actions">
-        <a className="account-header-help" href="#account-content">
-          Помощь
+        <a
+          className="account-header-help"
+          href="#account-content"
+          aria-label="Помощь"
+          title="Помощь"
+        >
+          <Icon name="help" size={20} />
         </a>
         <div className="account-header-notifications" ref={notificationsRef}>
           <button
@@ -247,6 +254,7 @@ export function AccountHeader() {
             }
             type="button"
             aria-label="Уведомления"
+            data-hint="Уведомления"
             aria-expanded={notificationsOpen}
             aria-controls="account-notifications-menu"
             onClick={() => setNotificationsOpen((isOpen) => !isOpen)}
@@ -267,6 +275,7 @@ export function AccountHeader() {
                 <button
                   type="button"
                   aria-label="Закрыть уведомления"
+                  data-hint="Закрыть"
                   onClick={() => setNotificationsOpen(false)}
                 >
                   <CloseIcon />
@@ -565,6 +574,7 @@ export function AccountDashboard() {
           <button
             type="button"
             aria-label="Закрыть уведомление"
+            data-hint="Закрыть"
             onClick={() => setToast("")}
           >
             <CloseIcon />
@@ -805,6 +815,7 @@ export function AccountDashboard() {
                       type="button"
                       onClick={requestAdd}
                       aria-label="Добавить госномер"
+                      data-hint="Добавить госномер"
                       title="Добавить госномер"
                     >
                       <PlusIcon />
@@ -980,6 +991,7 @@ export function AccountDashboard() {
                       )
                     }
                     aria-label="Добавить транспондер"
+                    data-hint="Добавить транспондер"
                     title="Добавить транспондер"
                   >
                     <PlusIcon />
@@ -1088,7 +1100,12 @@ export function AccountDashboard() {
                             Подобрать
                           </button>
                         ) : (
-                          item.subscription
+                          <>
+                            <span>{item.subscription}</span>
+                            {item.subscriptionEndsAt && (
+                              <strong>до {item.subscriptionEndsAt}</strong>
+                            )}
+                          </>
                         )}
                       </p>
                       <div className="transponder-interop-cell" role="cell">
@@ -1108,6 +1125,11 @@ export function AccountDashboard() {
                           type="button"
                           role="switch"
                           aria-label={`Интероперабельность: ${item.title}`}
+                          data-hint={
+                            interoperable
+                              ? "Отключить интероперабельность"
+                              : "Включить интероперабельность"
+                          }
                           aria-checked={interoperable}
                           onClick={() =>
                             interoperable
@@ -1213,6 +1235,7 @@ export function AccountDashboard() {
                 className="dialog-close"
                 type="button"
                 aria-label="Закрыть"
+                data-hint="Закрыть"
                 onClick={() => setAddOpen(false)}
               >
                 <CloseIcon />
@@ -1298,6 +1321,7 @@ export function AccountDashboard() {
                 className="dialog-close"
                 type="button"
                 aria-label="Закрыть"
+                data-hint="Закрыть"
                 onClick={() => setConfirmOpen(false)}
               >
                 <CloseIcon />
@@ -1347,6 +1371,7 @@ export function AccountDashboard() {
                 className="dialog-close"
                 type="button"
                 aria-label="Закрыть"
+                data-hint="Закрыть"
                 onClick={() => setRemovingPlate(null)}
               >
                 <CloseIcon />

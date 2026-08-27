@@ -100,7 +100,8 @@
 .liquidHeader :global(.brand-lockup) {
   flex: 0 1 clamp(180px, 14vw, 250px);
   width: clamp(180px, 14vw, 250px);
-  height: 42px;
+  height: 44px;
+  min-height: 44px;
 }
 
 .liquidHeader :global(.brand-lockup img) {
@@ -123,7 +124,7 @@
 }
 
 .liquidHeader :global(.desktop-navigation a) {
-  min-height: 46px;
+  min-height: 52px;
   padding-inline: clamp(8px, 0.72vw, 14px);
   border-radius: 16px;
   font-size: clamp(12px, 0.82vw, 15px);
@@ -511,7 +512,8 @@
   .liquidHeader :global(.brand-lockup) {
     flex-basis: min(220px, 38vw);
     width: min(220px, 38vw);
-    height: 40px;
+    height: 44px;
+    min-height: 44px;
   }
 
   .liquidHeader :global(.brand-lockup img) {
@@ -573,7 +575,8 @@
     flex: 1 1 auto;
     width: auto;
     min-width: 0;
-    height: 36px;
+    height: 44px;
+    min-height: 44px;
   }
 
   .liquidHeader :global(.brand-lockup img) {

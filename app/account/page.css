@@ -3111,13 +3111,18 @@ button:focus-visible,
 .account-header-actions > a {
   padding-inline: 0.9rem;
 }
+.account-header-actions > a.account-header-help {
+  width: 2.5rem;
+  padding: 0;
+}
 .account-header-actions > button:not(.account-header-user) {
   width: 2.5rem;
   padding: 0;
 }
+.account-header-actions > a.account-header-help > svg,
 .account-header-actions > button > svg {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 24px;
+  height: 24px;
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
@@ -3381,6 +3386,11 @@ button:focus-visible,
     min-width: 5.5rem;
     padding-inline: 1rem;
   }
+  .account-header-actions > a.account-header-help {
+    width: 3.25rem;
+    min-width: 3.25rem;
+    padding: 0;
+  }
   .account-header-actions > button:not(.account-header-user) {
     width: 3.25rem;
   }
@@ -3607,8 +3617,8 @@ button:focus-visible,
     background 160ms ease;
 }
 .account-header-bell svg {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 24px;
+  height: 24px;
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
@@ -4717,12 +4727,11 @@ button:focus-visible,
   height: 20px;
   stroke-width: 1.75;
 }
-.account-app .transponder-card__actions button {
+.account-app button[data-hint] {
   position: relative;
   overflow: visible;
 }
-.account-app .transponder-card__actions button::after,
-.account-app .plate-table-actions .plate-icon-button::after {
+.account-app button[data-hint]::after {
   position: absolute;
   z-index: 20;
   bottom: calc(100% + 0.55rem);
@@ -4730,15 +4739,13 @@ button:focus-visible,
   border: 1px solid rgb(255 255 255 / 12%);
   border-radius: 0.55rem;
   background: #2d2a26;
-  box-shadow:
-    inset 0 2px 0 var(--color-brand-orange),
-    0 0.7rem 1.5rem rgb(45 42 38 / 20%);
+  box-shadow: 0 0.7rem 1.5rem rgb(45 42 38 / 20%);
   color: #fff;
   content: attr(data-hint);
   opacity: 0;
   padding: 0.48rem 0.65rem 0.44rem;
   font-size: 0.68rem;
-  font-weight: 750;
+  font-weight: 400;
   letter-spacing: 0.01em;
   line-height: 1;
   pointer-events: none;
@@ -4748,10 +4755,8 @@ button:focus-visible,
     transform 140ms ease;
   white-space: nowrap;
 }
-.account-app .transponder-card__actions button:hover::after,
-.account-app .transponder-card__actions button:focus-visible::after,
-.account-app .plate-table-actions .plate-icon-button:hover::after,
-.account-app .plate-table-actions .plate-icon-button:focus-visible::after {
+.account-app button[data-hint]:hover::after,
+.account-app button[data-hint]:focus-visible::after {
   opacity: 1;
   transform: translate(-50%, 0);
 }
@@ -4768,8 +4773,7 @@ button:focus-visible,
   transform: translateY(0);
 }
 @media (prefers-reduced-motion: reduce) {
-  .account-app .transponder-card__actions button::after,
-  .account-app .plate-table-actions .plate-icon-button::after {
+  .account-app button[data-hint]::after {
     transition: none;
   }
 }
@@ -4790,8 +4794,18 @@ button:focus-visible,
   white-space: nowrap;
 }
 .account-app .transponder-cell.subscription-status {
-  color: #b96a16;
+  display: grid;
+  gap: 0.14rem;
+}
+.account-app .transponder-cell.subscription-status > span {
+  color: #52655c;
+  font-weight: 400;
+}
+.account-app .transponder-cell.subscription-status > strong {
+  color: var(--color-brand-orange);
+  font-size: 0.8rem;
   font-weight: 800;
+  white-space: nowrap;
 }
 .account-app .transponder-cell.subscription-status > button {
   display: inline-flex;

@@ -5,7 +5,6 @@ import { ArrowIcon } from "@/app/components/ArrowIcon";
 import { HeaderNav } from "@/app/components/HeaderNav.client";
 import { SiteFooter } from "@/app/components/SiteFooter";
 import { Icon } from "@/app/components/icons";
-import { SUBSIDIARY_SERVICES } from "@/app/data/home-content";
 
 import { HistoryMapOverlay } from "./HistoryMapOverlay.client";
 import { AboutVideo } from "./AboutVideo.client";
@@ -54,6 +53,45 @@ const activities = [
     text: "Восстановление федеральных и региональных дорог, связывающих города и населённые пункты.",
     href: "https://russianhighways.ru/about/activity/",
     image: "/media/news/perm-development.png",
+  },
+  {
+    title: "Кадровая политика",
+    text: "Построй карьеру в государственной компании",
+    href: "https://russianhighways.ru/about/activity/",
+    image: "/media/news/government-meeting.png",
+  },
+] as const;
+
+const compliance = [
+  {
+    id: "disclosure",
+    title: "Раскрытие информации",
+    href: "https://russianhighways.ru/about/regulatory-information/disc_inform/",
+    image: "/media/about-cards/disclosure.png",
+  },
+  {
+    id: "insiders",
+    title: "Инсайдерам",
+    href: "https://russianhighways.ru/for_investor/disclosure/insayderam",
+    image: "/media/about-cards/insiders.png",
+  },
+  {
+    id: "antimonopoly",
+    title: "Антимонопольный комплаенс",
+    href: "https://russianhighways.ru/about/antimonopolnyy-komplaens/",
+    image: "/media/about-cards/antimonopoly.png",
+  },
+  {
+    id: "revoked-powers",
+    title: "Отозванные доверенности",
+    href: "https://russianhighways.ru/about/otozvannye-doverennosti/",
+    image: "/media/about-cards/revoked-powers.png",
+  },
+  {
+    id: "legal-documentation",
+    title: "Нормативно-правовая документация",
+    href: "https://russianhighways.ru/about/regulatory-information/",
+    image: "/media/about-cards/legal-documentation.png",
   },
 ] as const;
 
@@ -260,9 +298,9 @@ export default function AboutPage() {
         >
           <SectionHeading
             id="structure-title"
-            lead="Система управления и взаимосвязь компаний группы"
+            lead="Государственная компания «Российские автомобильные дороги» состоит из Центрального аппарата, профильных подразделений и филиалов на территории Российской Федерации"
           >
-            Структура ГК
+            Структура компании
           </SectionHeading>
           <div
             className="about-structure__diagram"
@@ -302,7 +340,11 @@ export default function AboutPage() {
                 />
                 <span className="about-structure__copy">
                   <small>Отраслевое кураторство</small>
-                  <strong>Министерство транспорта Российской Федерации</strong>
+                  <strong>
+                    Министерство транспорта
+                    <br />
+                    Российской Федерации
+                  </strong>
                 </span>
                 <ArrowIcon className="about-structure__link-arrow" direction="right" />
               </a>
@@ -310,15 +352,10 @@ export default function AboutPage() {
 
             <span className="about-structure__flow" aria-hidden="true" />
 
-            <a
-              id="structure-01"
-              className="about-structure__council"
-              href="https://russianhighways.ru/about/structure/#structure-01"
-            >
+            <div id="structure-01" className="about-structure__council">
               <span>Высший орган управления</span>
               <h3>Наблюдательный совет</h3>
-              <ArrowIcon className="about-structure__link-arrow" direction="right" />
-            </a>
+            </div>
 
             <span className="about-structure__flow" aria-hidden="true" />
 
@@ -334,8 +371,10 @@ export default function AboutPage() {
                 alt=""
               />
               <span className="about-structure__copy">
-                <small>Государственная компания</small>
-                <strong>«Российские автомобильные дороги»</strong>
+                <small>Центральный аппарат и филиалы</small>
+                <strong>
+                  Государственная компания «Российские автомобильные дороги»
+                </strong>
               </span>
               <ArrowIcon className="about-structure__link-arrow" direction="right" />
             </a>
@@ -350,8 +389,7 @@ export default function AboutPage() {
               href="https://russianhighways.ru/about/affiliates/"
             >
               <span className="about-structure__copy">
-                <small>Дочерние и зависимые общества</small>
-                <strong>ДЗО</strong>
+                <strong>Дочерние компании</strong>
                 <span>Компании группы и направления работы</span>
               </span>
               <ArrowIcon className="about-structure__link-arrow" direction="right" />
@@ -369,13 +407,15 @@ export default function AboutPage() {
           >
             Комплаенс
           </SectionHeading>
-          <div className="subsidiary-bento" data-testid="subsidiary-grid">
-            {SUBSIDIARY_SERVICES.map((item, index) => (
+          <div
+            className="subsidiary-bento about-compliance-bento"
+            data-testid="compliance-grid"
+          >
+            {compliance.map((item, index) => (
               <article
                 key={item.id}
-                className={`subsidiary-card subsidiary-card--${index + 1}${item.href ? " subsidiary-card--linked" : ""}`}
-                data-subsidiary-item
-                data-subsidiary-service={item.id}
+                className={`subsidiary-card subsidiary-card--${index + 1} subsidiary-card--linked`}
+                data-compliance-item
               >
                 <div className="subsidiary-card__media" data-subsidiary-media>
                   <Image
@@ -386,20 +426,14 @@ export default function AboutPage() {
                   />
                 </div>
                 <div className="subsidiary-card__header">
-                  <p className="subsidiary-card__eyebrow card-eyebrow-tab">
-                    {item.company}
-                  </p>
-                  <h3>{item.service}</h3>
-                </div>
-                <div className="subsidiary-card__details">
-                  <p>{item.description}</p>
+                  <h3>{item.title}</h3>
                 </div>
                 <a
                   className="subsidiary-card__stretched-link card-stretched-link"
                   href={item.href}
                   target="_blank"
                   rel="noreferrer"
-                  aria-label={`Подробнее: ${item.service} (откроется в новой вкладке)`}
+                  aria-label={`Подробнее: ${item.title} (откроется в новой вкладке)`}
                 />
                 <span className="subsidiary-card__cta card-cta" aria-hidden="true">
                   Подробнее
@@ -423,12 +457,11 @@ export default function AboutPage() {
           </SectionHeading>
           <div className="about-contact-map">
             <Image
-              src="/media/about-contacts-map.png"
-              alt="Схема расположения офиса Государственной компании «Автодор» в Москве"
+              src="/media/about-contacts-building-map.png"
+              alt="Детальная карта расположения офиса Государственной компании «Автодор» на Страстном бульваре, 9 в Москве"
               fill
               sizes="(max-width: 767px) 100vw, 1464px"
             />
-            <div className="about-contact-map__scrim" aria-hidden="true" />
             <article className="about-contact-card">
               <dl>
                 <div>
@@ -453,15 +486,13 @@ export default function AboutPage() {
                   </dd>
                 </div>
               </dl>
+              <a
+                className="about-contact-card__feedback"
+                href="https://www.russianhighways.ru/feedback/"
+              >
+                Обратная связь
+              </a>
             </article>
-            <svg
-              className="about-contact-map__pin"
-              aria-hidden="true"
-              viewBox="0 0 48 56"
-              focusable="false"
-            >
-              <path d="M24 0C10.75 0 0 10.75 0 24c0 18 24 32 24 32s24-14 24-32C48 10.75 37.25 0 24 0Zm0 32a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z" />
-            </svg>
           </div>
         </section>
       </main>
