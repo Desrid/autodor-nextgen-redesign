@@ -8,8 +8,8 @@ import styles from "./RoadUsersPage.module.css";
 const LANES = [
   {
     id: "transponder",
-    title: "Только с транспондером",
-    description: "Зелёная полоса. Проезд без остановки.",
+    title: "Только с\u00a0транспондером",
+    description: "Зелёная полоса. Проезд без\u00a0остановки.",
     image: "/media/road-users/toll-plaza/transponder-lane.png",
     className: styles.laneTransponder,
   },
@@ -23,14 +23,14 @@ const LANES = [
   {
     id: "cash",
     title: "Оплата наличными",
-    description: "Подготовьте наличные до въезда на полосу.",
+    description: "Подготовьте наличные до\u00a0въезда на\u00a0полосу.",
     image: "/media/road-users/toll-plaza/cash-lane.png",
     className: styles.laneCash,
   },
   {
     id: "closed",
     title: "Полоса закрыта",
-    description: "Не заезжайте на полосу с запрещающим знаком.",
+    description: "Не заезжайте на\u00a0полосу с\u00a0запрещающим знаком.",
     image: "/media/road-users/toll-plaza/closed-lane.png",
     className: styles.laneClosed,
   },

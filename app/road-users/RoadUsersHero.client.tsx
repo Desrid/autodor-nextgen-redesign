@@ -11,7 +11,7 @@ import { RoadTrafficSignal } from "./RoadTrafficSignal.client";
 import styles from "./RoadUsersHero.module.css";
 
 const FIRST_TAB_PROMOTION = {
-  image: "/media/road-users/promotions/m-1-promo-v2.png",
+  image: "/media/road-users/promotions/m-1-coffee-rest-promo.png",
   description: "Кофе и отдых по пути: предложение от партнёров на остановках маршрута.",
 } as const;
 

@@ -162,7 +162,7 @@
   mask-image: linear-gradient(90deg, transparent 0%, #000 13%, #000 100%);
 }
 .about-video {
-  margin-top: 32px;
+  margin-top: 24px;
 }
 .about-video__preview {
   position: relative;
@@ -465,8 +465,8 @@
   line-height: 1.4;
 }
 .about-today {
-  margin-top: 24px;
-  padding: clamp(2rem, 4vw, 4.5rem) 0 0;
+  margin-top: 72px;
+  padding: 0;
 }
 .about-today h2 {
   margin: 0;
@@ -539,6 +539,9 @@
   color: #615e59;
   font-size: 18px;
   line-height: 1.45;
+}
+.about-structure > .about-section-heading p {
+  max-width: 1000px;
 }
 .about-activity {
   background: transparent;
@@ -790,13 +793,13 @@
   position: relative;
   display: grid;
   justify-items: center;
-  padding-block: clamp(16px, 2vw, 28px);
+  padding-block: clamp(8px, 1.2vw, 16px);
   overflow: visible;
 }
 .about-structure__top {
   position: relative;
   width: min(1280px, calc(100% + 160px));
-  min-height: 240px;
+  min-height: 180px;
 }
 .about-structure__node,
 .about-structure__company,
@@ -844,7 +847,7 @@
 }
 .about-structure__node--government {
   width: min(40%, 480px);
-  min-height: 240px;
+  min-height: 180px;
   gap: 14px;
   margin-inline: auto;
 }
@@ -904,13 +907,13 @@
   z-index: 1;
   display: block;
   width: 2px;
-  height: 56px;
+  height: 38px;
   background: var(--color-brand-orange);
 }
 .about-structure__council {
   position: relative;
   width: min(660px, 82%);
-  padding: 28px 58px 28px 36px;
+  padding: 20px 58px 20px 36px;
   scroll-margin-top: 120px;
   border: 1px solid var(--color-brand-orange);
   border-radius: 22px;
@@ -930,18 +933,18 @@
   text-transform: uppercase;
 }
 .about-structure__council h3 {
-  margin: 9px 0 0;
+  margin: 6px 0 0;
   font-size: clamp(26px, 2.4vw, 36px);
   font-weight: 500;
   letter-spacing: -0.04em;
   line-height: 1.05;
 }
 .about-structure__company {
-  width: min(780px, 92%);
-  min-height: 138px;
+  width: min(900px, 92%);
+  min-height: 120px;
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 30px;
-  padding: 30px 64px 30px 34px;
+  padding: 24px 64px 24px 34px;
   border: 1px solid var(--color-brand-orange);
   border-radius: 26px;
   background: white;
@@ -952,16 +955,16 @@
   height: auto;
 }
 .about-structure__company .about-structure__copy strong {
-  font-size: clamp(22px, 2vw, 30px);
+  font-size: clamp(22px, 1.7vw, 28px);
 }
 .about-structure__flow--branch {
-  height: 58px;
+  height: 40px;
 }
 .about-structure__dzo {
   width: min(620px, 78%);
-  min-height: 150px;
+  min-height: 132px;
   grid-template-columns: minmax(0, 1fr) auto;
-  padding: 30px 64px 30px 34px;
+  padding: 24px 64px 24px 34px;
   border: 1px solid var(--color-brand-orange);
   border-radius: 24px;
   background: var(--color-brand-black);
@@ -969,18 +972,21 @@
   color: white;
 }
 .about-structure__dzo .about-structure__copy strong {
-  font-size: clamp(28px, 2.4vw, 38px);
+  font-size: clamp(24px, 2vw, 32px);
   white-space: nowrap;
 }
 .about-structure__dzo .about-structure__copy > span {
   display: block;
   max-width: 34ch;
-  margin-top: 10px;
+  margin-top: 6px;
   color: rgb(255 255 255 / 66%);
   font-size: 15px;
   line-height: 1.35;
 }
 .about-structure__link-arrow {
+  position: absolute;
+  right: 28px;
+  bottom: 24px;
   display: block;
   width: 22px;
   height: 22px;
@@ -988,10 +994,8 @@
   pointer-events: none;
 }
 .about-structure__node--mintrans .about-structure__link-arrow {
-  position: absolute;
-  top: 50%;
   right: 20px;
-  transform: translateY(-50%);
+  bottom: 18px;
 }
 .about-structure__node:hover,
 .about-structure__node:focus-visible,
@@ -1304,27 +1308,30 @@
 }
 .about-contact-card .about-contact-card__feedback {
   display: inline-flex;
-  min-height: 46px;
+  gap: 10px;
   align-items: center;
-  justify-content: center;
   margin-top: 24px;
-  padding: 0 18px;
-  border-radius: 999px;
-  background: var(--color-brand-orange);
-  color: white;
-  font-size: 14px;
+  color: var(--color-brand-orange);
+  font-size: 15px;
   font-weight: 700;
   text-decoration: none;
   transition:
-    background-color 180ms ease-in-out,
+    color 180ms ease-in-out,
     transform 180ms ease-in-out;
+}
+.about-contact-card .about-contact-card__feedback svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 180ms ease-in-out;
 }
 .about-contact-card .about-contact-card__feedback:hover,
 .about-contact-card .about-contact-card__feedback:focus-visible {
-  background: var(--color-brand-orange-hover);
   color: white;
   outline: none;
-  transform: translateY(-2px);
+}
+.about-contact-card .about-contact-card__feedback:hover svg,
+.about-contact-card .about-contact-card__feedback:focus-visible svg {
+  transform: translateX(4px);
 }
 @media (max-width: 1199px) {
   .about-page {
@@ -1397,8 +1404,8 @@
     padding: 18px 0 0 18px;
   }
   .about-today {
-    margin-top: 16px;
-    padding-top: 32px;
+    margin-top: 72px;
+    padding-top: 0;
   }
   .about-today h2 {
     font-size: 40px;
@@ -1423,7 +1430,7 @@
     font-size: 17px;
   }
   .about-section {
-    margin-top: 64px;
+    margin-top: 72px;
   }
   .about-section-heading,
   .about-contacts .about-section-heading {
@@ -1492,7 +1499,7 @@
     display: grid;
     width: 100%;
     min-height: 0;
-    gap: 34px;
+    gap: 24px;
   }
   .about-structure__node {
     min-height: 0;
@@ -1516,23 +1523,21 @@
     grid-column: 1;
   }
   .about-structure__link-arrow {
-    position: absolute;
-    top: 50%;
     right: 18px;
-    transform: translateY(-50%);
+    bottom: 18px;
   }
   .about-structure__side-flow {
     position: static;
     justify-self: center;
     width: 2px;
-    height: 34px;
+    height: 26px;
   }
   .about-structure__flow {
-    height: 42px;
+    height: 30px;
   }
   .about-structure__council {
     width: 100%;
-    padding: 24px 48px 24px 18px;
+    padding: 20px 48px 20px 18px;
   }
   .about-structure__council h3 {
     font-size: 27px;
@@ -1541,9 +1546,9 @@
     width: 100%;
     min-height: 0;
     grid-template-columns: 1fr;
-    gap: 22px;
+    gap: 18px;
     justify-items: center;
-    padding: 28px 52px 28px 20px;
+    padding: 24px 52px 24px 20px;
     text-align: center;
   }
   .about-structure__company-logo {
@@ -1551,12 +1556,12 @@
   }
   .about-structure__dzo {
     width: 100%;
-    min-height: 142px;
+    min-height: 130px;
     grid-template-columns: 1fr;
-    padding: 26px 52px 26px 24px;
+    padding: 22px 52px 22px 24px;
   }
   .about-structure__dzo .about-structure__copy strong {
-    font-size: clamp(24px, 7vw, 32px);
+    font-size: clamp(22px, 6vw, 28px);
     white-space: normal;
   }
 }
@@ -1565,7 +1570,7 @@
     grid-template-columns: 1fr;
     gap: 28px;
     min-height: 0;
-    margin-top: 16px;
+    margin-top: 24px;
     padding: 32px 24px;
     border-radius: 22px;
   }
