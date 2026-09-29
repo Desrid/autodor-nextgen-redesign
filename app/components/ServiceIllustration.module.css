@@ -1,0 +1,1904 @@
+.illustration {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.defaultState,
+.hoverState {
+  position: absolute;
+  inset: 0;
+  transition: opacity 250ms ease-in-out;
+}
+.hoverState {
+  opacity: 0;
+}
+.filter {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(254.722deg, transparent, #fff);
+  pointer-events: none;
+}
+:global(.service-card):is(:focus-within, [open]) .defaultState {
+  opacity: 0;
+}
+:global(.service-card):is(:focus-within, [open]) .hoverState {
+  opacity: 1;
+}
+:global(.service-card):is(:focus-within, [open]) .filter {
+  background: linear-gradient(247.38deg, transparent 0%, #fff 79.808%);
+}
+@media (hover: hover) and (pointer: fine) {
+  :global(.service-card):hover .defaultState {
+    opacity: 0;
+  }
+  :global(.service-card):hover .hoverState {
+    opacity: 1;
+  }
+  :global(.service-card):hover .filter {
+    background: linear-gradient(247.38deg, transparent 0%, #fff 79.808%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .defaultState,
+  .hoverState {
+    transition: none;
+  }
+}
+/* Figma 461:43712 */
+.layerd31859fe {
+  position: absolute;
+  background: #f9f9f9;
+  height: 300px;
+  left: 50%;
+  overflow: hidden;
+  top: 50%;
+  width: 720px;
+  translate: -50% -50%;
+}
+/* Figma 461:43825 */
+.layerea164fad {
+  position: absolute;
+  display: flex;
+  height: 2px;
+  align-items: center;
+  justify-content: center;
+  left: 580px;
+  top: 161px;
+  width: 720px;
+}
+/* Figma 485:46811 */
+.layerc162be8a {
+  flex: none;
+  rotate: 90deg;
+}
+/* Figma 461:43826 */
+.layer6df4074a {
+  position: absolute;
+  display: flex;
+  height: 8px;
+  align-items: center;
+  justify-content: center;
+  left: 600px;
+  top: 203px;
+  width: 720px;
+}
+/* Figma 461:43827 */
+.layer26db5918 {
+  position: absolute;
+  display: flex;
+  height: 8px;
+  align-items: center;
+  justify-content: center;
+  left: -560px;
+  top: 103px;
+  width: 720px;
+}
+/* Figma 461:43831 */
+.layer1a2c4bba {
+  position: absolute;
+  display: flex;
+  height: 2px;
+  align-items: center;
+  justify-content: center;
+  left: -590px;
+  top: 64px;
+  width: 720px;
+}
+/* Figma 461:43832 */
+.layer83ea9ea0 {
+  position: absolute;
+  display: flex;
+  height: 2px;
+  align-items: center;
+  justify-content: center;
+  left: -640px;
+  top: 241px;
+  width: 720px;
+}
+/* Figma 461:43840 */
+.layerb9f91d40 {
+  position: absolute;
+  display: contents;
+  left: 725px;
+  top: -212.01px;
+}
+/* Figma 461:43842 */
+.layerea03509d {
+  position: absolute;
+  height: 97.5px;
+  left: 369px;
+  mask-mode: alpha;
+  mask-composite: intersect;
+  mask-clip: no-clip;
+  mask-repeat: no-repeat;
+  mask-position: 356px -277.011px;
+  mask-size: 544.301px 507.223px;
+  top: 65px;
+  width: 358px;
+}
+/* Figma 485:46811 */
+.layer4d31385e {
+  position: absolute;
+  inset: -5.13% -1.4%;
+}
+/* Figma 485:46811 */
+.layer23474865 {
+  display: block;
+  max-width: none;
+  width: 100%;
+  height: 100%;
+}
+/* Figma 461:43845 */
+.layer8a788392 {
+  position: absolute;
+  height: 300px;
+  left: 0;
+  top: 0;
+  width: 720px;
+}
+/* Figma 461:43853 */
+.layerbe8b7c05 {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+/* Figma 461:43853 */
+.layer2873e323 {
+  position: absolute;
+  height: 803.45%;
+  left: -45.21%;
+  max-width: none;
+  top: -519.64%;
+  width: 334.87%;
+}
+/* Figma 461:43734 */
+.layeraaa2b9f8 {
+  position: absolute;
+  height: 10px;
+  left: 50%;
+  top: calc(50% + 12px);
+  width: 20px;
+  translate: -50% -50%;
+}
+/* Figma 514:32420 */
+.layere440459b {
+  position: absolute;
+  display: block;
+  inset: 0;
+  max-width: none;
+  width: 100%;
+  height: 100%;
+}
+/* Figma 461:43713 */
+.layer80aba905 {
+  position: absolute;
+  display: flex;
+  height: 2px;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 161px;
+  width: 720px;
+}
+/* Figma 461:43854 */
+.layerfeb094a9 {
+  background: #d9d9d9;
+  height: 720px;
+  position: relative;
+  width: 2px;
+}
+/* Figma 461:43714 */
+.layer89242b54 {
+  position: absolute;
+  display: flex;
+  height: 8px;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 203px;
+  width: 720px;
+}
+/* Figma 461:43854 */
+.layer1032ea3d {
+  background-color: #fff;
+  height: 720px;
+  position: relative;
+  width: 8px;
+}
+/* Figma 461:43715 */
+.layerf1ed5686 {
+  position: absolute;
+  display: flex;
+  height: 8px;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 103px;
+  width: 720px;
+}
+/* Figma 461:43716 */
+.layer07e71711 {
+  position: absolute;
+  background: #d9d9d9;
+  height: 300px;
+  left: 198px;
+  top: 0;
+  width: 10px;
+}
+/* Figma 461:43717 */
+.layer213b13d5 {
+  position: absolute;
+  background: #d9d9d9;
+  height: 300px;
+  left: 114px;
+  top: 0;
+  width: 4px;
+}
+/* Figma 461:43718 */
+.layer84784f0e {
+  position: absolute;
+  background: #d9d9d9;
+  height: 300px;
+  left: 288px;
+  top: 0;
+  width: 2px;
+}
+/* Figma 461:43719 */
+.layer53395653 {
+  position: absolute;
+  display: flex;
+  height: 2px;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 64px;
+  width: 720px;
+}
+/* Figma 461:43720 */
+.layer34cbcbf9 {
+  position: absolute;
+  display: flex;
+  height: 2px;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 241px;
+  width: 720px;
+}
+/* Figma 461:43721 */
+.layer8181cc1d {
+  position: absolute;
+  background: #d9d9d9;
+  height: 300px;
+  left: 430px;
+  top: 0;
+  width: 2px;
+}
+/* Figma 461:43722 */
+.layerb4c4f259 {
+  position: absolute;
+  background: #d9d9d9;
+  height: 300px;
+  left: 602px;
+  top: 0;
+  width: 4px;
+}
+/* Figma 461:43723 */
+.layerc07dea4d {
+  position: absolute;
+  background: #d9d9d9;
+  height: 300px;
+  left: 512px;
+  top: 0;
+  width: 10px;
+}
+/* Figma 461:43724 */
+.layer1b17f5e5 {
+  position: absolute;
+  background: rgba(145, 145, 145, 0.3);
+  border-width: 1px;
+  border-color: rgba(189, 189, 189, 0.5);
+  border-style: solid;
+  height: 56px;
+  left: 238px;
+  border-radius: 4px;
+  top: 36px;
+  width: 113px;
+}
+/* Figma 461:43725 */
+.layerd178de4e {
+  position: absolute;
+  background: rgba(145, 145, 145, 0.3);
+  border-width: 1px;
+  border-color: rgba(189, 189, 189, 0.5);
+  border-style: solid;
+  height: 24px;
+  left: 552px;
+  border-radius: 4px;
+  top: 36px;
+  width: 113px;
+}
+/* Figma 461:43726 */
+.layer746b896d {
+  position: absolute;
+  background: rgba(145, 145, 145, 0.3);
+  border-width: 1px;
+  border-color: rgba(189, 189, 189, 0.5);
+  border-style: solid;
+  height: 100px;
+  left: 595px;
+  border-radius: 4px;
+  top: 70px;
+  width: 70px;
+}
+/* Figma 461:43727 */
+.layer4b539ee5 {
+  position: absolute;
+  background: rgba(145, 145, 145, 0.3);
+  border-width: 1px;
+  border-color: rgba(189, 189, 189, 0.5);
+  border-style: solid;
+  height: 51px;
+  left: 539px;
+  border-radius: 4px;
+  top: 229px;
+  width: 101px;
+}
+/* Figma 461:43728 */
+.layere23f2817 {
+  position: absolute;
+  display: contents;
+  left: 255px;
+  top: -212.01px;
+}
+/* Figma 461:43730 */
+.layere3b97819 {
+  position: absolute;
+  height: 97.5px;
+  left: 369px;
+  mask-mode: alpha;
+  mask-composite: intersect;
+  mask-clip: no-clip;
+  mask-repeat: no-repeat;
+  mask-position: -114px -277.008px;
+  mask-size: 544.301px 507.223px;
+  top: 65px;
+  width: 358px;
+}
+/* Figma 461:43735 */
+.layer6857fb0c {
+  position: absolute;
+  left: 348px;
+  width: 24px;
+  height: 24px;
+  top: 138px;
+}
+/* Figma 461:43736 */
+.layerb3b02c2b {
+  position: absolute;
+  display: contents;
+  inset: 6.25% 14.26% 6.24% 14.36%;
+}
+/* Figma 461:43737 */
+.layere1ad2f96 {
+  position: absolute;
+  inset: 6.25% 14.26% 6.24% 14.36%;
+}
+/* Figma 485:46811 */
+.layerb9c0e1b5 {
+  position: absolute;
+  inset: -3.57% -4.38%;
+}
+/* Figma 514:32145 */
+.layer70642bfc {
+  position: absolute;
+  height: 300px;
+  left: 50%;
+  overflow: hidden;
+  top: 50%;
+  width: 720px;
+  translate: -50% -50%;
+}
+/* Figma 485:47028 */
+.layer7836207b {
+  position: absolute;
+  border-width: 1px;
+  border-color: #c6c3c4;
+  border-style: solid;
+  height: 330px;
+  left: 50%;
+  overflow: hidden;
+  border-radius: 24px;
+  top: calc(50% + 100px);
+  width: 170px;
+  translate: -50% -50%;
+}
+/* Figma 485:47029 */
+.layer39846157 {
+  position: absolute;
+  background: #f9f9f9;
+  height: 360px;
+  left: 50%;
+  overflow: hidden;
+  top: 50%;
+  width: 864px;
+  translate: -50% -50%;
+}
+/* Figma 485:47030 */
+.layer45859cba {
+  position: absolute;
+  display: flex;
+  height: 2.4px;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 193.2px;
+  width: 864px;
+}
+/* Figma 485:46913 */
+.layeraef3ea8e {
+  background: #d9d9d9;
+  height: 864px;
+  position: relative;
+  width: 2.4px;
+}
+/* Figma 485:47031 */
+.layer4d7aa0dd {
+  position: absolute;
+  display: flex;
+  height: 9.6px;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 243.6px;
+  width: 864px;
+}
+/* Figma 485:46913 */
+.layer161afcab {
+  background-color: #fff;
+  height: 864px;
+  position: relative;
+  width: 9.6px;
+}
+/* Figma 485:47032 */
+.layer0e4f8ad6 {
+  position: absolute;
+  display: flex;
+  height: 9.6px;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 123.6px;
+  width: 864px;
+}
+/* Figma 485:47033 */
+.layer84d27b8d {
+  position: absolute;
+  background: #d9d9d9;
+  height: 360px;
+  left: 237.6px;
+  top: 0;
+  width: 12px;
+}
+/* Figma 485:47034 */
+.layer2647fa3d {
+  position: absolute;
+  background: #d9d9d9;
+  height: 360px;
+  left: 136.8px;
+  top: 0;
+  width: 4.8px;
+}
+/* Figma 485:47035 */
+.layer1c77c1b2 {
+  position: absolute;
+  background: #d9d9d9;
+  height: 360px;
+  left: 345.6px;
+  top: 0;
+  width: 2.4px;
+}
+/* Figma 485:47036 */
+.layer27efa4ea {
+  position: absolute;
+  display: flex;
+  height: 2.4px;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 76.8px;
+  width: 864px;
+}
+/* Figma 485:47037 */
+.layer7fe92736 {
+  position: absolute;
+  display: flex;
+  height: 2.4px;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 289.2px;
+  width: 864px;
+}
+/* Figma 485:47038 */
+.layerce37bf81 {
+  position: absolute;
+  background: #d9d9d9;
+  height: 360px;
+  left: 516px;
+  top: 0;
+  width: 2.4px;
+}
+/* Figma 485:47039 */
+.layer9a9f1313 {
+  position: absolute;
+  background: #d9d9d9;
+  height: 360px;
+  left: 722.4px;
+  top: 0;
+  width: 4.8px;
+}
+/* Figma 485:47040 */
+.layer1e1b5c16 {
+  position: absolute;
+  background: #d9d9d9;
+  height: 360px;
+  left: 614.4px;
+  top: 0;
+  width: 12px;
+}
+/* Figma 485:47041 */
+.layerd075d035 {
+  position: absolute;
+  background: rgba(145, 145, 145, 0.3);
+  border-width: 1.2px;
+  border-color: rgba(189, 189, 189, 0.5);
+  border-style: solid;
+  height: 67.2px;
+  left: 285.6px;
+  border-radius: 4.8px;
+  top: 43.2px;
+  width: 135.6px;
+}
+/* Figma 485:47042 */
+.layer959b7a72 {
+  position: absolute;
+  background: rgba(145, 145, 145, 0.3);
+  border-width: 1.2px;
+  border-color: rgba(189, 189, 189, 0.5);
+  border-style: solid;
+  height: 28.8px;
+  left: 662.4px;
+  border-radius: 4.8px;
+  top: 43.2px;
+  width: 135.6px;
+}
+/* Figma 485:47043 */
+.layer29ef5382 {
+  position: absolute;
+  background: rgba(145, 145, 145, 0.3);
+  border-width: 1.2px;
+  border-color: rgba(189, 189, 189, 0.5);
+  border-style: solid;
+  height: 120px;
+  left: 714px;
+  border-radius: 4.8px;
+  top: 84px;
+  width: 84px;
+}
+/* Figma 485:47044 */
+.layer73d9b22b {
+  position: absolute;
+  background: rgba(145, 145, 145, 0.3);
+  border-width: 1.2px;
+  border-color: rgba(189, 189, 189, 0.5);
+  border-style: solid;
+  height: 61.2px;
+  left: 646.8px;
+  border-radius: 4.8px;
+  top: 274.8px;
+  width: 121.2px;
+}
+/* Figma 485:47045 */
+.layer4f71ba3e {
+  position: absolute;
+  display: contents;
+  left: 306px;
+  top: -254.41px;
+}
+/* Figma 485:47047 */
+.layerd51b2148 {
+  position: absolute;
+  height: 117px;
+  left: 442.8px;
+  mask-mode: alpha;
+  mask-composite: intersect;
+  mask-clip: no-clip;
+  mask-repeat: no-repeat;
+  mask-position: -136.801px -332.409px;
+  mask-size: 653.164px 608.667px;
+  top: 78px;
+  width: 429.6px;
+}
+/* Figma 485:47051 */
+.layeracbb870d {
+  position: absolute;
+  height: 12px;
+  left: 50%;
+  top: calc(50% + 14.4px);
+  width: 24px;
+  translate: -50% -50%;
+}
+/* Figma 485:47052 */
+.layere3f6014b {
+  position: absolute;
+  left: 417.6px;
+  width: 28.8px;
+  height: 28.8px;
+  top: 165.6px;
+}
+/* Figma 485:47053 */
+.layer18ec6311 {
+  position: absolute;
+  display: contents;
+  inset: 6.25% 14.27% 6.24% 14.35%;
+}
+/* Figma 485:47054 */
+.layerdc167565 {
+  position: absolute;
+  inset: 6.25% 14.27% 6.24% 14.35%;
+}
+/* Figma 485:47057 */
+.layer8f362c97 {
+  position: absolute;
+  background: white;
+  height: 330px;
+  left: -1px;
+  top: -1px;
+  width: 170px;
+}
+/* Figma 485:47058 */
+.layer999b2367 {
+  position: absolute;
+  display: contents;
+  left: 9px;
+  top: 41px;
+}
+/* Figma 485:47059 */
+.layer732c9f81 {
+  position: absolute;
+  background: #d9d9d9;
+  left: 9px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 41px;
+}
+/* Figma 485:47060 */
+.layere0c615e0 {
+  position: absolute;
+  background: #d9d9d9;
+  left: 9px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 81px;
+}
+/* Figma 485:47061 */
+.layer19092b2c {
+  position: absolute;
+  background: #d9d9d9;
+  left: 9px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 121px;
+}
+/* Figma 485:47062 */
+.layera1d7adf2 {
+  position: absolute;
+  background: #d9d9d9;
+  left: 9px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 161px;
+}
+/* Figma 485:47063 */
+.layer0f4d53f7 {
+  position: absolute;
+  background: #d9d9d9;
+  left: 9px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 201px;
+}
+/* Figma 485:47064 */
+.layerb9437c21 {
+  position: absolute;
+  background: #d9d9d9;
+  left: 9px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 241px;
+}
+/* Figma 485:47065 */
+.layer216573b9 {
+  position: absolute;
+  background: #d9d9d9;
+  left: 9px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 287px;
+}
+/* Figma 485:47066 */
+.layer612384be {
+  position: absolute;
+  background: #d9d9d9;
+  left: 49px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 41px;
+}
+/* Figma 485:47067 */
+.layere0fad18d {
+  position: absolute;
+  background: #d9d9d9;
+  left: 49px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 81px;
+}
+/* Figma 485:47068 */
+.layerc2808cef {
+  position: absolute;
+  background: #d9d9d9;
+  left: 49px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 121px;
+}
+/* Figma 485:47069 */
+.layer3d3645ad {
+  position: absolute;
+  background: #d9d9d9;
+  left: 49px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 161px;
+}
+/* Figma 485:47070 */
+.layer89f456d3 {
+  position: absolute;
+  background: #d9d9d9;
+  left: 49px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 201px;
+}
+/* Figma 485:47071 */
+.layercf0d19f5 {
+  position: absolute;
+  background: #d9d9d9;
+  left: 49px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 241px;
+}
+/* Figma 485:47072 */
+.layerad1948e2 {
+  position: absolute;
+  background: #d9d9d9;
+  left: 49px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 287px;
+}
+/* Figma 485:47073 */
+.layera4a62bb0 {
+  position: absolute;
+  background: #d9d9d9;
+  left: 89px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 41px;
+}
+/* Figma 485:47074 */
+.layer5bcdda4e {
+  position: absolute;
+  background: #231f20;
+  left: 89px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 81px;
+}
+/* Figma 485:47075 */
+.layerdc9173b8 {
+  position: absolute;
+  background: #d9d9d9;
+  left: 89px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 121px;
+}
+/* Figma 485:47076 */
+.layerbcd526d9 {
+  position: absolute;
+  background: #d9d9d9;
+  left: 89px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 161px;
+}
+/* Figma 485:47077 */
+.layerdb35b08e {
+  position: absolute;
+  background: #d9d9d9;
+  left: 89px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 201px;
+}
+/* Figma 485:47078 */
+.layer2aa4d73e {
+  position: absolute;
+  background: #d9d9d9;
+  left: 89px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 241px;
+}
+/* Figma 485:47079 */
+.layer297a6b65 {
+  position: absolute;
+  background: #d9d9d9;
+  left: 89px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 287px;
+}
+/* Figma 485:47080 */
+.layer4645c56e {
+  position: absolute;
+  background: #d9d9d9;
+  left: 129px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 41px;
+}
+/* Figma 485:47081 */
+.layerbe64343d {
+  position: absolute;
+  background: #d9d9d9;
+  left: 129px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 81px;
+}
+/* Figma 485:47082 */
+.layerb3f543ea {
+  position: absolute;
+  background: #d9d9d9;
+  left: 129px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 121px;
+}
+/* Figma 485:47083 */
+.layer71bd9d75 {
+  position: absolute;
+  background: #d9d9d9;
+  left: 129px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 161px;
+}
+/* Figma 485:47084 */
+.layere3b14db7 {
+  position: absolute;
+  background: #d9d9d9;
+  left: 129px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 201px;
+}
+/* Figma 485:47085 */
+.layer9a55f283 {
+  position: absolute;
+  background: #d9d9d9;
+  left: 129px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 241px;
+}
+/* Figma 485:47086 */
+.layera631b38a {
+  position: absolute;
+  background: #d9d9d9;
+  left: 129px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  top: 287px;
+}
+/* Figma 17:3837 */
+.layer93044029 {
+  position: absolute;
+  height: 15px;
+  left: 93px;
+  overflow: hidden;
+  top: 89px;
+  width: 24px;
+}
+/* Figma 8:3919 */
+.layer73f182cc {
+  position: absolute;
+  inset: 7.16% -0.37% 0.51% 0.6%;
+}
+/* Figma 485:47088 */
+.layer25d78914 {
+  position: absolute;
+  background: #414141;
+  height: 12px;
+  left: 50%;
+  border-radius: 24px;
+  top: 9px;
+  width: 56px;
+  translate: -50% 0;
+}
+/* Figma 491:48260 */
+.layer33c3600a {
+  position: absolute;
+  height: 32px;
+  left: 574px;
+  top: 115px;
+  width: 118px;
+}
+/* Figma 485:47123 */
+.layera9d66bdc {
+  position: absolute;
+  display: flex;
+  height: 208.955px;
+  align-items: center;
+  justify-content: center;
+  left: calc(50% + 138.51px);
+  top: calc(50% + 0.4px);
+  width: 125.37px;
+  translate: -50% -50%;
+}
+/* Figma 485:46811 */
+.layer33495449 {
+  rotate: -7deg;
+  flex: none;
+}
+/* Figma 485:46811 */
+.layer9b8ae3f5 {
+  border-width: 0.6px;
+  border-color: #c6c3c4;
+  border-style: solid;
+  height: 198px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 14.4px;
+  width: 102px;
+}
+/* Figma 485:47124 */
+.layer646ab4e3 {
+  position: absolute;
+  display: flex;
+  height: 259.2px;
+  align-items: center;
+  justify-content: center;
+  left: 50%;
+  top: 50%;
+  width: 108px;
+  translate: -50% -50%;
+}
+/* Figma 485:46811 */
+.layerf9af3dfb {
+  height: 108px;
+  overflow: hidden;
+  position: relative;
+  width: 259.2px;
+}
+/* Figma 485:46811 */
+.layer9767c1c3 {
+  position: absolute;
+  background: #f9f9f9;
+  inset: 0;
+  pointer-events: none;
+}
+/* Figma 485:47125 */
+.layer1bb491c7 {
+  position: absolute;
+  display: flex;
+  height: 0.72px;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 57.96px;
+  width: 259.2px;
+}
+/* Figma 485:46811 */
+.layerab390c0a {
+  background: #d9d9d9;
+  height: 259.2px;
+  position: relative;
+  width: 0.72px;
+}
+/* Figma 485:47126 */
+.layer20b82b1a {
+  position: absolute;
+  display: flex;
+  height: 2.88px;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 73.08px;
+  width: 259.2px;
+}
+/* Figma 485:46811 */
+.layer2f72aa0f {
+  background-color: #fff;
+  height: 259.2px;
+  position: relative;
+  width: 2.88px;
+}
+/* Figma 485:47127 */
+.layer47739315 {
+  position: absolute;
+  display: flex;
+  height: 2.88px;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 37.08px;
+  width: 259.2px;
+}
+/* Figma 485:47128 */
+.layer7f878712 {
+  position: absolute;
+  background: #d9d9d9;
+  height: 108px;
+  left: 71.28px;
+  top: 0;
+  width: 3.6px;
+}
+/* Figma 485:47129 */
+.layer7111a5ac {
+  position: absolute;
+  background: #d9d9d9;
+  height: 108px;
+  left: 41.04px;
+  top: 0;
+  width: 1.44px;
+}
+/* Figma 485:47130 */
+.layerd7541d6d {
+  position: absolute;
+  background: #d9d9d9;
+  height: 108px;
+  left: 103.68px;
+  top: 0;
+  width: 0.72px;
+}
+/* Figma 485:47131 */
+.layer937d7e48 {
+  position: absolute;
+  display: flex;
+  height: 0.72px;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 23.04px;
+  width: 259.2px;
+}
+/* Figma 485:47132 */
+.layereb6b0468 {
+  position: absolute;
+  display: flex;
+  height: 0.72px;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 86.76px;
+  width: 259.2px;
+}
+/* Figma 485:47133 */
+.layer91dd4702 {
+  position: absolute;
+  background: #d9d9d9;
+  height: 108px;
+  left: 154.8px;
+  top: 0;
+  width: 0.72px;
+}
+/* Figma 485:47134 */
+.layerd19ede28 {
+  position: absolute;
+  background: #d9d9d9;
+  height: 108px;
+  left: 216.72px;
+  top: 0;
+  width: 1.44px;
+}
+/* Figma 485:47135 */
+.layer451b5114 {
+  position: absolute;
+  background: #d9d9d9;
+  height: 108px;
+  left: 184.32px;
+  top: 0;
+  width: 3.6px;
+}
+/* Figma 485:47136 */
+.layer2e43da0c {
+  position: absolute;
+  background: rgba(145, 145, 145, 0.3);
+  border-width: 0.36px;
+  border-color: rgba(189, 189, 189, 0.5);
+  border-style: solid;
+  height: 20.16px;
+  left: 85.68px;
+  border-radius: 1.44px;
+  top: 12.96px;
+  width: 40.68px;
+}
+/* Figma 485:47137 */
+.layerd199b49e {
+  position: absolute;
+  background: rgba(145, 145, 145, 0.3);
+  border-width: 0.36px;
+  border-color: rgba(189, 189, 189, 0.5);
+  border-style: solid;
+  height: 8.64px;
+  left: 198.72px;
+  border-radius: 1.44px;
+  top: 12.96px;
+  width: 40.68px;
+}
+/* Figma 485:47138 */
+.layera186ff86 {
+  position: absolute;
+  background: rgba(145, 145, 145, 0.3);
+  border-width: 0.36px;
+  border-color: rgba(189, 189, 189, 0.5);
+  border-style: solid;
+  height: 36px;
+  left: 214.2px;
+  border-radius: 1.44px;
+  top: 25.2px;
+  width: 25.2px;
+}
+/* Figma 485:47139 */
+.layer9466a14c {
+  position: absolute;
+  background: rgba(145, 145, 145, 0.3);
+  border-width: 0.36px;
+  border-color: rgba(189, 189, 189, 0.5);
+  border-style: solid;
+  height: 18.36px;
+  left: 194.04px;
+  border-radius: 1.44px;
+  top: 82.44px;
+  width: 36.36px;
+}
+/* Figma 485:47140 */
+.layer3538c127 {
+  position: absolute;
+  display: contents;
+  left: 91.8px;
+  top: -76.32px;
+}
+/* Figma 485:47142 */
+.layere8af37fa {
+  position: absolute;
+  height: 35.1px;
+  left: 132.84px;
+  mask-mode: alpha;
+  mask-composite: intersect;
+  mask-clip: no-clip;
+  mask-repeat: no-repeat;
+  mask-position: -44.822px -41.486px;
+  mask-size: 189.918px 193.942px;
+  top: 23.4px;
+  width: 128.88px;
+}
+/* Figma 485:47146 */
+.layer50ce3658 {
+  position: absolute;
+  display: flex;
+  height: 7.2px;
+  align-items: center;
+  justify-content: center;
+  left: calc(50% + 1.98px);
+  top: calc(50% + 4.56px);
+  width: 3.6px;
+  translate: -50% -50%;
+}
+/* Figma 485:46811 */
+.layer252ea806 {
+  rotate: -90deg;
+  flex: none;
+}
+/* Figma 485:46811 */
+.layer60fbe13d {
+  height: 3.6px;
+  position: relative;
+  width: 7.2px;
+}
+/* Figma 485:47147 */
+.layer7255ab65 {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 123.13px;
+  width: 8.64px;
+  height: 8.64px;
+  top: 54.14px;
+}
+/* Figma 485:46811 */
+.layere47cf686 {
+  position: relative;
+  width: 8.64px;
+  height: 8.64px;
+}
+/* Figma 485:47148 */
+.layer58677b63 {
+  position: absolute;
+  display: contents;
+  inset: 6.26% 14.26% 6.23% 14.35%;
+}
+/* Figma 485:47149 */
+.layer987aece8 {
+  position: absolute;
+  inset: 6.26% 14.26% 6.23% 14.35%;
+}
+/* Figma 485:46811 */
+.layer7b907831 {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 8px 6px 10px 0px white;
+}
+/* Figma 485:47183 */
+.layerb1efc39f {
+  position: absolute;
+  height: 7.2px;
+  left: 50%;
+  pointer-events: none;
+  border-radius: 14.4px;
+  top: 5.4px;
+  width: 33.6px;
+  translate: -50% 0;
+}
+/* Figma 485:46811 */
+.layerbcc1a206 {
+  position: absolute;
+  background: #414141;
+  inset: 0;
+  border-radius: 14.4px;
+}
+/* Figma 485:46811 */
+.layer70d4f323 {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 8px 6px 10px 0px white;
+}
+/* Figma 485:47184 */
+.layerab88bdfb {
+  position: absolute;
+  height: 32px;
+  left: 574px;
+  top: 90px;
+  width: 118px;
+}
+/* Figma 485:47189 */
+.layer3064c992 {
+  position: absolute;
+  background: white;
+  border-width: 1px;
+  border-color: #6ae172;
+  border-style: solid;
+  height: 32px;
+  left: 563px;
+  overflow: hidden;
+  border-radius: 8px;
+  top: 135px;
+  width: 118px;
+}
+/* Figma 485:47190 */
+.layer602b0365 {
+  position: absolute;
+  background: #86f28b;
+  height: 3px;
+  left: 43px;
+  border-radius: 2px;
+  top: 10px;
+  width: 52px;
+}
+/* Figma 485:47191 */
+.layer2528e996 {
+  position: absolute;
+  background: #86f28b;
+  height: 3px;
+  left: 43px;
+  border-radius: 2px;
+  top: 17px;
+  width: 40px;
+}
+/* Figma 485:47192 */
+.layer941d9f12 {
+  position: absolute;
+  left: 10px;
+  width: 18px;
+  height: 18px;
+  top: 6px;
+}
+/* Figma 485:47201 */
+.layer8afaf8e2 {
+  position: absolute;
+  background: white;
+  border-width: 1px;
+  border-color: #70b3ff;
+  border-style: solid;
+  height: 32px;
+  left: 592px;
+  overflow: hidden;
+  border-radius: 8px;
+  top: 183px;
+  width: 118px;
+}
+/* Figma 485:47202 */
+.layerd22cd4fc {
+  position: absolute;
+  background: #8dccff;
+  height: 3px;
+  left: 43px;
+  border-radius: 2px;
+  top: 10px;
+  width: 52px;
+}
+/* Figma 485:47203 */
+.layer06606a66 {
+  position: absolute;
+  background: #8dccff;
+  height: 3px;
+  left: 43px;
+  border-radius: 2px;
+  top: 17px;
+  width: 40px;
+}
+/* Figma 485:47204 */
+.layerbab56865 {
+  position: absolute;
+  left: 11px;
+  width: 18px;
+  height: 18px;
+  top: 6px;
+}
+/* Figma 491:47997 */
+.layer4d450da5 {
+  position: absolute;
+  display: contents;
+  inset: 0;
+}
+/* Figma 491:48281 */
+.layer9b74a26e {
+  position: absolute;
+  inset: 27% 39.03% 27% 41.81%;
+}
+/* Figma 491:48282 */
+.layerdd12f422 {
+  position: absolute;
+  inset: 29.67% 40.28% 30.67% 43.06%;
+}
+/* Figma 491:48283 */
+.layer5c8aef3b {
+  position: absolute;
+  display: contents;
+  inset: -17.85% 19.53% -18.98% 23.12%;
+}
+/* Figma 491:48284 */
+.layerefb60b4b {
+  position: absolute;
+  display: flex;
+  inset: -17.85% 20.34% -17.85% 23.12%;
+  align-items: center;
+  justify-content: center;
+}
+/* Figma 491:48140 */
+.layer7afdc2b5 {
+  rotate: -60deg;
+  flex: none;
+  height: hypot(63.3975cqw, 36.6025cqh);
+  width: hypot(36.6025cqw, -63.3975cqh);
+}
+/* Figma 491:48316 */
+.layerf953041a {
+  position: absolute;
+  inset: -31.33% -0.97% -32% 32.92%;
+}
+/* Figma 491:48317 */
+.layer96e6adcd {
+  position: absolute;
+  inset: 30% 24.72% 30.33% 58.61%;
+}
+/* Figma 491:48318 */
+.layer47835551 {
+  position: absolute;
+  display: contents;
+  inset: 0.67% 12.36% 0 46.25%;
+}
+/* Figma 491:48319 */
+.layer1afa5d92 {
+  position: absolute;
+  inset: 0.67% 12.36% 0 46.25%;
+}
+/* Figma 491:48320 */
+.layera1eed0c5 {
+  position: absolute;
+  background: white;
+  border-width: 1px;
+  border-color: #ff895a;
+  border-style: solid;
+  inset: 23.33% 14.58% 60.67% 78.75%;
+  overflow: hidden;
+  border-radius: 24px;
+}
+/* Figma 491:48003 */
+.layerd72e1375 {
+  position: absolute;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  top: 50%;
+  translate: -50% -50%;
+}
+/* Figma 491:48322 */
+.layerd4f15b9f {
+  position: absolute;
+  background: white;
+  border-width: 1px;
+  border-color: #ff895a;
+  border-style: solid;
+  inset: 83.33% 29.72% 0.67% 63.61%;
+  overflow: hidden;
+  border-radius: 24px;
+}
+/* Figma 491:48324 */
+.layer799b69a9 {
+  position: absolute;
+  background: white;
+  border-width: 1px;
+  border-color: #ff895a;
+  border-style: solid;
+  inset: 23.33% 44.86% 60.67% 48.47%;
+  overflow: hidden;
+  border-radius: 24px;
+}
+/* Figma 506:49016 */
+.layera9ac06eb {
+  position: absolute;
+  height: 108px;
+  left: 280px;
+  top: 96px;
+  width: 160px;
+}
+/* Figma 506:49026 */
+.layer0d3485fe {
+  position: absolute;
+  background: white;
+  border-width: 1px;
+  border-color: #ff895a;
+  border-style: solid;
+  height: 148px;
+  left: 280px;
+  overflow: hidden;
+  border-radius: 16px;
+  top: 76px;
+  width: 160px;
+}
+/* Figma 506:49055 */
+.layerdaf2b755 {
+  position: absolute;
+  background: #ff895a;
+  height: 8px;
+  left: 15px;
+  border-radius: 2px;
+  top: 15px;
+  width: 121px;
+}
+/* Figma 506:49056 */
+.layer788b6fb4 {
+  position: absolute;
+  background: #939091;
+  height: 2px;
+  left: 15px;
+  border-radius: 2px;
+  top: 47px;
+  width: 96px;
+}
+/* Figma 506:49057 */
+.layer60bace31 {
+  position: absolute;
+  background: #939091;
+  height: 2px;
+  left: 15px;
+  border-radius: 2px;
+  top: 73px;
+  width: 70px;
+}
+/* Figma 506:49058 */
+.layerfaee893d {
+  position: absolute;
+  background: #939091;
+  height: 2px;
+  left: 15px;
+  border-radius: 2px;
+  top: 99px;
+  width: 88px;
+}
+/* Figma 506:49059 */
+.layer6dad2758 {
+  position: absolute;
+  background: #ff895a;
+  height: 8px;
+  left: 15px;
+  border-radius: 2px;
+  top: 27px;
+  width: 93px;
+}
+/* Figma 506:49060 */
+.layer033c3e72 {
+  position: absolute;
+  background: #939091;
+  height: 2px;
+  left: 15px;
+  border-radius: 2px;
+  top: 59px;
+  width: 66px;
+}
+/* Figma 506:49061 */
+.layerbadf4928 {
+  position: absolute;
+  background: #939091;
+  height: 2px;
+  left: 15px;
+  border-radius: 2px;
+  top: 85px;
+  width: 93px;
+}
+/* Figma 506:49062 */
+.layer952498f8 {
+  position: absolute;
+  background: #939091;
+  height: 2px;
+  left: 15px;
+  border-radius: 2px;
+  top: 111px;
+  width: 66px;
+}
+/* Figma 506:49035 */
+.layere4ccd289 {
+  position: absolute;
+  height: 28px;
+  left: -18px;
+  top: 110px;
+  width: 82px;
+}
+/* Figma 506:49038 */
+.layer268546e5 {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 544.99px;
+  width: 96.027px;
+  height: 96.027px;
+  top: 173.99px;
+}
+/* Figma 506:48929 */
+.layerb74e6499 {
+  flex: none;
+  rotate: -68.42deg;
+}
+/* Figma 506:48929 */
+.layer7b7c7d40 {
+  position: relative;
+  width: 74px;
+  height: 74px;
+}
+/* Figma 506:49044 */
+.layer3193c09d {
+  position: absolute;
+  display: flex;
+  height: 122.102px;
+  align-items: center;
+  justify-content: center;
+  left: 472.42px;
+  top: 88.95px;
+  width: 169.158px;
+}
+/* Figma 506:48906 */
+.layereb95df63 {
+  flex: none;
+  rotate: 5.22deg;
+}
+/* Figma 506:48906 */
+.layerc58b424f {
+  height: 108px;
+  position: relative;
+  width: 160px;
+}
+/* Figma 506:49054 */
+.layere2dea6ae {
+  position: absolute;
+  display: flex;
+  height: 170.237px;
+  align-items: center;
+  justify-content: center;
+  left: 406.84px;
+  top: 64.88px;
+  width: 180.31px;
+}
+/* Figma 506:48906 */
+.layer683928f8 {
+  flex: none;
+  rotate: -8.59deg;
+}
+/* Figma 506:48906 */
+.layer0de12b43 {
+  background: white;
+  border-width: 1px;
+  border-color: #ff895a;
+  border-style: solid;
+  height: 148px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 16px;
+  width: 160px;
+}
+/* Figma 506:49063 */
+.layerbfbb6905 {
+  position: absolute;
+  height: 28px;
+  left: 69.48px;
+  top: 109.23px;
+  width: 82px;
+}
+/* Figma 506:49066 */
+.layercc9a2579 {
+  position: absolute;
+  left: 556px;
+  width: 74px;
+  height: 74px;
+  top: 185px;
+}
+/* Figma 514:32127 */
+.layerbba36aff {
+  position: absolute;
+  background: #c6c3c4;
+  height: 128px;
+  left: 50%;
+  border-radius: 24px;
+  top: 50%;
+  width: 224px;
+  translate: -50% -50%;
+}
+/* Figma 514:32147 */
+.layer89923cef {
+  position: absolute;
+  aspect-ratio: 186/100;
+  border-width: 1px;
+  border-color: #aca9aa;
+  border-style: solid;
+  bottom: 8.18%;
+  left: 50%;
+  border-radius: 16px;
+  top: 8.18%;
+  translate: -50% 0;
+}
+/* Figma 514:31874 */
+.layer9474af4a {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: 16px;
+}
+/* Figma 514:31874 */
+.layer32573459 {
+  position: absolute;
+  height: 101%;
+  left: -0.3%;
+  max-width: none;
+  top: 0;
+  width: 100.6%;
+}
+/* Figma 514:32137 */
+.layer37e4039a {
+  position: absolute;
+  height: 27px;
+  left: 0;
+  top: 250px;
+  width: 370px;
+}
+/* Figma 514:32146 */
+.layer46159803 {
+  position: absolute;
+  background: #c6c3c4;
+  height: 78px;
+  left: 431px;
+  border-radius: 24px;
+  top: 16px;
+  width: 136px;
+}
+/* Figma 514:32148 */
+.layer9c656741 {
+  position: absolute;
+  height: 170px;
+  left: 377px;
+  top: 80px;
+  width: 243.82px;
+}
+/* Figma 514:32149 */
+.layeraca17740 {
+  position: absolute;
+  background: #ffd6b1;
+  border-width: 2px;
+  border-color: #ff895a;
+  border-style: solid;
+  height: 72px;
+  left: 41px;
+  border-radius: 4px;
+  top: 98px;
+  width: 162px;
+}
+/* Figma 514:32150 */
+.layer51cf42ff {
+  position: absolute;
+  display: flex;
+  height: 80.148px;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 20px;
+  width: 57.821px;
+}
+/* Figma 514:31874 */
+.layer0295b3f9 {
+  rotate: -120deg;
+  flex: none;
+}
+/* Figma 514:31874 */
+.layer6d3b1ab9 {
+  background: #ffd6b1;
+  border-width: 2px;
+  border-color: #ff895a;
+  border-style: solid;
+  height: 20px;
+  position: relative;
+  border-radius: 4px;
+  width: 81px;
+}
+/* Figma 514:32151 */
+.layer10293b4c {
+  position: absolute;
+  display: flex;
+  height: 80.148px;
+  align-items: center;
+  justify-content: center;
+  left: 186px;
+  top: 20px;
+  width: 57.821px;
+}
+/* Figma 514:31874 */
+.layere3f7ebb5 {
+  flex: none;
+  rotate: 120deg;
+}
+/* Figma 514:32152 */
+.layer500626a3 {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.5);
+  height: 68px;
+  left: 114px;
+  top: 100px;
+  width: 16px;
+}
+/* Figma 514:32153 */
+.layer906a5fcf {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  height: 24px;
+  left: 55px;
+  border-radius: 4px;
+  top: 112px;
+  width: 38px;
+}
+/* Figma 514:32154 */
+.layerd93ca350 {
+  position: absolute;
+  background: #e1dedf;
+  height: 2px;
+  left: 59px;
+  border-radius: 4px;
+  top: 119px;
+  width: 30px;
+}
+/* Figma 514:32155 */
+.layerf6773e72 {
+  position: absolute;
+  background: #e1dedf;
+  height: 2px;
+  left: 59px;
+  border-radius: 4px;
+  top: 124px;
+  width: 21px;
+}
+/* Figma 514:32156 */
+.layer77717bbd {
+  position: absolute;
+  height: 27px;
+  left: 314px;
+  top: 250px;
+  width: 370px;
+}
+/* Figma 514:32507 */
+.layer91e4abe7 {
+  position: absolute;
+  height: 300px;
+  left: 50%;
+  top: 50%;
+  width: 720px;
+  translate: -50% -50%;
+}

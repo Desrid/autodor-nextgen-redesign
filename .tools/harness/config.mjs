@@ -2,6 +2,31 @@ export const integrationBranch = "codex/all-blocks-changes";
 
 export const designContract = {
   figmaRoot: "1767:6575",
+  visualSource: {
+    fileKey: "o2qoBC7fJlivEo8QSIxR5g",
+    pageId: "27:10810",
+    frames: {
+      home: "251:12155",
+      about: "276:7974",
+      roadUsers: "276:15363",
+      account: "276:18453",
+    },
+    sections: {
+      header: "52:7589",
+      roads: "146:7421",
+      services: "274:17065",
+      loyalty: "163:7835",
+      news: "258:20502",
+      important: "253:12984",
+      media: "244:11618",
+      contacts: "205:12128",
+      statistics: "232:9228",
+      "subsidiary-services": "251:11964",
+      social: "251:12156",
+      future: "262:31224",
+      footer: "253:17404",
+    },
+  },
   designDials: { variance: 8, motion: 8, density: 4 },
   theme: "light",
   colors: {
@@ -104,12 +129,20 @@ export const blockProfiles = {
     e2e: ["e2e/loyalty.spec.ts", "e2e/accessibility.spec.ts"],
   },
   news: {
-    files: ["app/data/home-content.ts", "app/data/home-content.test.ts", ...sharedFiles],
+    files: [
+      "app/data/home-content.ts",
+      "app/data/home-content.test.ts",
+      ...sharedFiles,
+    ],
     unit: ["app/data/home-content.test.ts", "app/page.test.tsx"],
     e2e: ["e2e/requirements.spec.ts", "e2e/accessibility.spec.ts"],
   },
   important: {
-    files: ["app/data/home-content.ts", "app/data/home-content.test.ts", ...sharedFiles],
+    files: [
+      "app/data/home-content.ts",
+      "app/data/home-content.test.ts",
+      ...sharedFiles,
+    ],
     unit: ["app/data/home-content.test.ts", "app/page.test.tsx"],
     e2e: ["e2e/requirements.spec.ts"],
   },
@@ -140,19 +173,24 @@ export const blockProfiles = {
       "app/data/statistics.test.ts",
       ...sharedFiles,
     ],
-    unit: [
-      "app/components/StatisticsBlock.test.tsx",
-      "app/data/statistics.test.ts",
-    ],
+    unit: ["app/components/StatisticsBlock.test.tsx", "app/data/statistics.test.ts"],
     e2e: ["e2e/requirements.spec.ts", "e2e/accessibility.spec.ts"],
   },
   subsidiary: {
-    files: ["app/data/home-content.ts", "app/data/home-content.test.ts", ...sharedFiles],
+    files: [
+      "app/data/home-content.ts",
+      "app/data/home-content.test.ts",
+      ...sharedFiles,
+    ],
     unit: ["app/data/home-content.test.ts", "app/page.test.tsx"],
     e2e: ["e2e/requirements.spec.ts", "e2e/accessibility.spec.ts"],
   },
   social: {
-    files: ["app/data/home-content.ts", "app/data/home-content.test.ts", ...sharedFiles],
+    files: [
+      "app/data/home-content.ts",
+      "app/data/home-content.test.ts",
+      ...sharedFiles,
+    ],
     unit: ["app/data/home-content.test.ts", "app/page.test.tsx"],
     e2e: ["e2e/requirements.spec.ts", "e2e/accessibility.spec.ts"],
   },
@@ -162,7 +200,11 @@ export const blockProfiles = {
     e2e: ["e2e/requirements.spec.ts", "e2e/resilience.spec.ts"],
   },
   footer: {
-    files: ["app/data/home-content.ts", "app/data/home-content.test.ts", ...sharedFiles],
+    files: [
+      "app/data/home-content.ts",
+      "app/data/home-content.test.ts",
+      ...sharedFiles,
+    ],
     unit: ["app/data/home-content.test.ts", "app/page.test.tsx"],
     e2e: [
       "e2e/footer.spec.ts",

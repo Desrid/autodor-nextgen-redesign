@@ -72,3 +72,38 @@
     font-size: 0.73rem;
   }
 }
+
+@media (min-width: 1280px) {
+  .root {
+    min-height: 132px;
+    padding: 16px 24px;
+    gap: 24px;
+    border: 1px solid rgb(255 255 255 / 80%);
+    border-radius: 14px;
+    background: rgb(0 0 0 / 40%);
+    backdrop-filter: blur(10px);
+  }
+  .light {
+    width: 36px;
+    height: 100px;
+  }
+  .eyebrow {
+    color: #ff5100;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: 0;
+  }
+  .root strong {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 38px;
+    letter-spacing: -0.64px;
+  }
+  .description {
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 16px;
+    color: white;
+  }
+}

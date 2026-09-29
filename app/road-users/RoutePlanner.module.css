@@ -1776,3 +1776,42 @@
     min-height: 0;
   }
 }
+
+@media (min-width: 1280px) {
+  .mapShell:not(.expanded):not(.calculated) {
+    height: 890px;
+    min-height: 890px;
+  }
+  .mapShell > .form {
+    top: 23px;
+    left: 23px;
+    width: 370px;
+    gap: 24px;
+    padding: 24px;
+    border: 1px solid #e1dedf;
+    border-radius: 16px;
+    background: rgb(255 255 255 / 80%);
+    box-shadow: 0 2px 2px rgb(0 0 0 / 5%);
+    backdrop-filter: blur(30px);
+  }
+  .routeFields {
+    gap: 12px;
+  }
+  .routeField input {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 24px;
+  }
+  .control {
+    height: 56px;
+    border-radius: 12px;
+  }
+  .mapShell .calculate {
+    min-height: 56px;
+    margin-top: 0;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+  }
+}

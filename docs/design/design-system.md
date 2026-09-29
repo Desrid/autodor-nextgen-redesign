@@ -16,32 +16,32 @@ replacing the approved visual language. Reuse an existing component from the hom
 page when it has the same semantic job. Do not substitute a semantically distinct
 block merely because its layout is similar.
 
-| Pattern | Owner | Reuse rule |
-| --- | --- | --- |
-| Header and navigation | `HeaderNav.client.tsx` and `HeaderNav.module.css` | Render on every route inside `.site-header` with `#header-scroll-sentinel`. |
-| Footer | `SiteFooter.tsx` and global footer styles | Use the same component; do not reproduce footer markup locally. |
-| Feedback and back-to-top | `FloatingUtilities.client.tsx` | Reuse on routes that expose the global support entry. |
-| Contacts | `ContactsTabs.client.tsx` | Reuse the tab component instead of copying contacts into a page. |
-| Services | `ServicesGrid.tsx` | The home-page service block is the source for equivalent service discovery. |
-| Loyalty | `LoyaltyRail.client.tsx` | Reuse the rail and its controls as a unit. |
-| Directional control | `ArrowIcon.tsx` | Use the 24px, 1.5px-stroke SVG; never replace it with a text arrow. |
+| Pattern                  | Owner                                             | Reuse rule                                                                  |
+| ------------------------ | ------------------------------------------------- | --------------------------------------------------------------------------- |
+| Header and navigation    | `HeaderNav.client.tsx` and `HeaderNav.module.css` | Render on every route inside `.site-header` with `#header-scroll-sentinel`. |
+| Footer                   | `SiteFooter.tsx` and global footer styles         | Use the same component; do not reproduce footer markup locally.             |
+| Feedback and back-to-top | `FloatingUtilities.client.tsx`                    | Reuse on routes that expose the global support entry.                       |
+| Contacts                 | `ContactsTabs.client.tsx`                         | Reuse the tab component instead of copying contacts into a page.            |
+| Services                 | `ServicesGrid.tsx`                                | The home-page service block is the source for equivalent service discovery. |
+| Loyalty                  | `LoyaltyRail.client.tsx`                          | Reuse the rail and its controls as a unit.                                  |
+| Directional control      | `ArrowIcon.tsx`                                   | Use the 24px, 1.5px-stroke SVG; never replace it with a text arrow.         |
 
 ### Foundations
 
 The UI is light-only and uses Montserrat for the application interface. The
 implementation tokens in `app/globals.css` are authoritative:
 
-| Role | Value or rule |
-| --- | --- |
-| Brand accent | `--color-brand-orange: #ff5100`; use for controlled accents, tabs, focus and active states. |
-| Primary text | `--color-brand-black: #2d2a26`; use for readable body and heading text. |
-| Neutral scale | `#97999c`, `#b1b3b6`, `#d1d3d4`, `#e8e8e8`, white. |
-| Page and surface | White page and raised surfaces; quiet groups may use the subtle gray surface. |
-| Border | `--color-border`; do not use a decorative border as the sole affordance for a control. |
-| Radii | Controls: 8px; ordinary cards: 16px; pill radius only for deliberately compact controls. |
-| Layers | Base 0, sticky 20, overlay 40, modal 60, toast 80. |
-| Page geometry | `--page-width: 1480px`; responsive gutter via `--page-gutter`. |
-| Scrollbar | Orange thumb, transparent track, no arrow buttons. |
+| Role             | Value or rule                                                                               |
+| ---------------- | ------------------------------------------------------------------------------------------- |
+| Brand accent     | `--color-brand-orange: #ff5100`; use for controlled accents, tabs, focus and active states. |
+| Primary text     | `--color-brand-black: #2d2a26`; use for readable body and heading text.                     |
+| Neutral scale    | `#97999c`, `#b1b3b6`, `#d1d3d4`, `#e8e8e8`, white.                                          |
+| Page and surface | White page and raised surfaces; quiet groups may use the subtle gray surface.               |
+| Border           | `--color-border`; do not use a decorative border as the sole affordance for a control.      |
+| Radii            | Controls: 8px; ordinary cards: 16px; pill radius only for deliberately compact controls.    |
+| Layers           | Base 0, sticky 20, overlay 40, modal 60, toast 80.                                          |
+| Page geometry    | `--page-width: 1480px`; responsive gutter via `--page-gutter`.                              |
+| Scrollbar        | Orange thumb, transparent track, no arrow buttons.                                          |
 
 The page background may contain the established subtle grid/atmospheric treatment,
 but it must not reduce text contrast or create a dark theme. Header and footer use
@@ -109,11 +109,11 @@ hero, Services, Loyalty, News, Important Information, Media Gallery, Contacts,
 Statistics, subsidiary services, social commitments and future projects. Preserve
 their established order and state contracts when changing a shared block.
 
-| Route | Local pattern | Constraint |
-| --- | --- | --- |
-| `/about` | Image hero with breadcrumbs, history/timeline, directions, group structure and compliance | Breadcrumbs have `aria-label="Хлебные крошки"`, a linked home item, SVG separator and current non-link with `aria-current="page"`. History is not FutureProjectsMap. Contacts uses `ContactsTabs`. |
-| `/road-users` | Journey calculator/result, payment rules, road status/help and useful-story modal | Services, Loyalty and Footer reuse their shared owners. The calculator and road status remain route-specific; story controls support mouse, Escape, Left/Right and scroll lock. |
-| `/account` | Profile sidebar/rail and account workspace | The dashboard is a distinct account pattern, not a generic card grid. At narrower desktop the sidebar becomes a horizontal rail and primary content becomes one column; no workspace content may overflow on phone. |
+| Route         | Local pattern                                                                             | Constraint                                                                                                                                                                                                          |
+| ------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/about`      | Image hero with breadcrumbs, history/timeline, directions, group structure and compliance | Breadcrumbs have `aria-label="Хлебные крошки"`, a linked home item, SVG separator and current non-link with `aria-current="page"`. History is not FutureProjectsMap. Contacts uses `ContactsTabs`.                  |
+| `/road-users` | Journey calculator/result, payment rules, road status/help and useful-story modal         | Services, Loyalty and Footer reuse their shared owners. The calculator and road status remain route-specific; story controls support mouse, Escape, Left/Right and scroll lock.                                     |
+| `/account`    | Profile sidebar/rail and account workspace                                                | The dashboard is a distinct account pattern, not a generic card grid. At narrower desktop the sidebar becomes a horizontal rail and primary content becomes one column; no workspace content may overflow on phone. |
 
 ### Responsive, accessibility and QA
 
@@ -428,3 +428,7 @@ Rules:
 - No hover-only content, fake metrics, temporary copy, decorative HUD text or custom cursor.
 - Reduced motion, no-JS, no-WebGL, media error and slow-network paths remain usable.
 - Responsive review covers 1920, 1440, 1024, 768, 390, 375 and 320 px.
+
+## Visual source refresh (2026-09-28)
+
+The visual source is Figma file o2qoBC7fJlivEo8QSIxR5g, page 27:10810. Desktop canvases: home 251:12155 (1920 × 8612), about 276:7974 (1920 × 7538), road users 276:15363 (1920 × 4006), account 276:18453 (1920 × 1608). The existing semantic node IDs and R01-R17 remain stable; the new frame/section mapping is recorded in designContract.visualSource in .tools/harness/config.mjs. The concept page contains no mobile route frames. Responsive behavior must be checked against the existing viewport matrix; no unverified mobile pixel-fidelity claim is made.

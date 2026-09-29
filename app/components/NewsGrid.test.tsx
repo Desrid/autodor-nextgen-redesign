@@ -10,7 +10,7 @@ describe("NewsGrid", () => {
     const { container } = render(<NewsGrid />);
 
     expect(
-      screen.getByRole("list", { name: "Последние новости Автодора" }),
+      screen.getByRole("region", { name: "Последние новости Автодора" }),
     ).toBeInTheDocument();
     expect(container.querySelectorAll("[data-news-item]")).toHaveLength(NEWS.length);
     expect(container.querySelectorAll("[data-news-date]")).toHaveLength(NEWS.length);

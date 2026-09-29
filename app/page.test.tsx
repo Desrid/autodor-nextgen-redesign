@@ -91,7 +91,7 @@ describe("HomePage", () => {
       ),
     ).toHaveAttribute(
       "src",
-      expect.stringContaining("/media/social/large-families-road.png"),
+      expect.stringContaining("/media/figma/251-12346-imgImage.png"),
     );
     expect(
       socialSection?.querySelector("[data-social-commitment='small-business'] img"),
@@ -104,7 +104,7 @@ describe("HomePage", () => {
       ),
     ).toHaveAttribute(
       "src",
-      expect.stringContaining("/media/social/small-business-roadworks.png"),
+      expect.stringContaining("/media/figma/251-12346-imgImage1.png"),
     );
     const links =
       socialSection?.querySelectorAll<HTMLAnchorElement>("[data-social-item] a");

@@ -51,7 +51,7 @@ describe("homepage source-backed content contracts", () => {
       expect(item.title).not.toMatch(
         /(?:^|\s)(?:а|в|и|к|о|с|у|на|по|за|из|от|до|для) /iu,
       );
-      expect(item.image).toMatch(/^\/media\/news\/[a-z-]+\.png$/);
+      expect(item.image).toMatch(/^\/media\/figma\/258-20591-imgImage\d?\.png$/);
       expect(item.imageAlt.length).toBeGreaterThan(30);
     }
   });
@@ -91,7 +91,7 @@ describe("homepage source-backed content contracts", () => {
       expect(item.company.trim()).not.toBe("");
       expect(item.service.trim()).not.toBe("");
       expect(item.description.trim()).not.toBe("");
-      expect(item.image).toMatch(/^\/media\/subsidiary\/[a-z-]+\.webp$/);
+      expect(item.image).toMatch(/^\/media\/figma\/251-12093-imgImage\d?\.png$/);
       expect(item.linkLabel.trim()).not.toBe("");
     }
     expect(new Set(SUBSIDIARY_SERVICES.map(({ image }) => image)).size).toBe(4);
@@ -179,7 +179,7 @@ describe("homepage source-backed content contracts", () => {
 
     for (const item of SOCIAL_COMMITMENTS) {
       expect(item.media).toBeTruthy();
-      expect(item.src).toMatch(/^\/media\/social\/.+\.png$/);
+      expect(item.src).toMatch(/^\/media\/figma\/251-12346-imgImage\d?\.png$/);
       expect(item.imageAlt).toMatch(/^Сгенерированный образ/);
       expect(item.eyebrow).not.toBe("");
       expect(item.title).not.toBe("");

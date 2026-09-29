@@ -45,3 +45,7 @@ Google Sheet: «Структура главной страницы сайта Г
 - responsive mobile hero preload — `e2e/performance.spec.ts` green, один AVIF request без double-fetch;
 - Lighthouse latest median (`mobile-preload-1..3`): Performance **97**, Accessibility **100**, Best Practices **100**, SEO **100**, LCP **2666 мс**, TBT **50 мс**, CLS **0**;
 - release gate **BLOCKED**: R09 и R13 закрыты проверенными официальными источниками, но остаются другие source gaps (включая email дочерних обществ), невыполненные NVDA/real-device/field CWV и отдельные ограничения, перечисленные в QA-документации.
+
+## Visual source refresh (2026-09-28)
+
+The visual source is Figma file o2qoBC7fJlivEo8QSIxR5g, page 27:10810. Desktop canvases: home 251:12155 (1920 × 8612), about 276:7974 (1920 × 7538), road users 276:15363 (1920 × 4006), account 276:18453 (1920 × 1608). The existing semantic node IDs and R01-R17 remain stable; the new frame/section mapping is recorded in designContract.visualSource in .tools/harness/config.mjs. The concept page contains no mobile route frames. Responsive behavior must be checked against the existing viewport matrix; no unverified mobile pixel-fidelity claim is made.

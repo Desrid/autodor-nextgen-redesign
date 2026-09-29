@@ -15,7 +15,7 @@ const IMPORTANT_STORIES = [
     description:
       "Официальные новости, проекты и сервисы Министерства транспорта Российской Федерации.",
     href: "https://transport.gov.ru/",
-    image: "/media/important/transport-complex.png",
+    image: "/media/figma/253-12984-imgImage.png",
     imageAlt:
       "Мультимодальный транспортный узел с автомобильными дорогами, железной дорогой и речным портом",
   },
@@ -26,7 +26,7 @@ const IMPORTANT_STORIES = [
     description:
       "Ключевые события, новые маршруты и изменения на сети федеральных дорог.",
     href: "https://www.russianhighways.ru/press/news/",
-    image: "/media/important/road-infrastructure.png",
+    image: "/media/figma/253-12984-imgImage1.png",
     imageAlt: "Многоуровневая дорожная развязка на рассвете",
   },
   {
@@ -36,7 +36,7 @@ const IMPORTANT_STORIES = [
     description:
       "Истории дорожников и транспортной инфраструктуры в годы Великой Отечественной войны.",
     href: "https://www.russianhighways.ru/",
-    image: "/media/important/roads-of-war.png",
+    image: "/media/figma/253-12984-imgImage2.png",
     imageAlt: "Дорожные рабочие восстанавливают деревянный мост в 1940-х годах",
   },
 ] as const;

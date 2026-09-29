@@ -88,11 +88,11 @@ export function AboutVideo() {
       >
         <video
           className="about-video__preview-media"
-          autoPlay
+          poster="/media/figma/about-video-poster.png"
           loop
           muted
           playsInline
-          preload="auto"
+          preload="none"
         >
           <source src={VIDEO_SOURCE} type="video/mp4" />
         </video>

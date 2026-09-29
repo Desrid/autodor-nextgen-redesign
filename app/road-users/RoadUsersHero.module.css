@@ -209,3 +209,101 @@
     transition: none;
   }
 }
+
+@media (min-width: 1280px) {
+  .root :global(.road-hero) {
+    --page-width: 1464px;
+    padding-top: 24px;
+  }
+  .root :global(.road-hero__island) {
+    height: 720px;
+    min-height: 720px;
+  }
+  .root :global(.road-hero[data-hero-variant="cinematic"] .road-hero__content) {
+    inset: 215px auto auto 72px;
+    width: 740px;
+    height: 312px;
+    justify-content: flex-start;
+    overflow: visible;
+    gap: 0;
+  }
+  .root :global(.road-title__number) {
+    font-size: 96px;
+    font-weight: 900;
+    line-height: 68px;
+    letter-spacing: 5px;
+    margin-bottom: 24px;
+  }
+  .root :global(.road-title-row h1 strong) {
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 52px;
+    letter-spacing: 0;
+  }
+  .promotionContent {
+    display: contents;
+  }
+  .promotionDescription {
+    width: 450px;
+    max-width: 450px;
+    margin-top: 48px;
+    font-size: 18px;
+    line-height: 24px;
+    color: white;
+  }
+  .promotionAction {
+    position: absolute;
+    top: 381px;
+    left: 0;
+    min-height: 56px;
+    padding: 16px 24px;
+    gap: 16px;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+  }
+  .promotionAction svg {
+    width: 24px;
+    height: 24px;
+  }
+  .trafficPanel {
+    top: 200px;
+    right: 24px;
+    width: 400px;
+    transform: none;
+  }
+  .assistancePanel {
+    top: 356px;
+    right: 24px;
+    width: 400px;
+    height: 144px;
+    padding: 16px 24px;
+    gap: 24px;
+    border: 1px solid rgb(255 255 255 / 80%);
+    border-radius: 14px;
+    background: rgb(0 0 0 / 40%);
+    backdrop-filter: blur(10px);
+  }
+  .assistanceCopy {
+    gap: 8px;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 300;
+  }
+  .assistanceEyebrow {
+    color: #ff5100;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: 0;
+  }
+  .assistanceCopy strong {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 52px;
+  }
+  .assistanceCopy > span:not(.assistanceEyebrow) {
+    color: white;
+  }
+}

@@ -15,10 +15,7 @@ describe("ImportantStories", () => {
     );
     const link = screen.getByRole("link", { name: /открыть источник/i });
 
-    expect(link).toHaveAttribute(
-      "href",
-      "https://transport.gov.ru/",
-    );
+    expect(link).toHaveAttribute("href", "https://transport.gov.ru/");
     expect(link).toHaveClass("card-cta", "card-stretched-link");
     expect(link.querySelector(".card-cta__icon")).toBeInTheDocument();
     expect(container.querySelector(".important-state__meta")).toBeNull();
@@ -34,7 +31,7 @@ describe("ImportantStories", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole("img", { name: IMPORTANT_STORIES[1].imageAlt }),
-    ).toHaveAttribute("src", expect.stringContaining("road-infrastructure.png"));
+    ).toHaveAttribute("src", expect.stringContaining("253-12984-imgImage1.png"));
     expect(screen.queryAllByRole("article")).toHaveLength(1);
     expect(
       screen.queryByText(`2 / ${IMPORTANT_STORIES.length}`),

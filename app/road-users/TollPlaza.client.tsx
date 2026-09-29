@@ -108,7 +108,7 @@ function PhotoVariant({ onToggle }: Readonly<{ onToggle: () => void }>) {
     <>
       <Image
         className={styles.photoPlazaBackground}
-        src="/media/road-users/toll-plaza/toll-plaza-photo-v2.png"
+        src="/media/figma/557-47578-imgAboutContactsBuildingMap1.png"
         alt=""
         fill
         sizes="(max-width: 900px) 100vw, 94vw"
@@ -142,7 +142,7 @@ function PhotoVariant({ onToggle }: Readonly<{ onToggle: () => void }>) {
 }
 
 export function TollPlaza() {
-  const [photoMode, setPhotoMode] = useState(false);
+  const [photoMode, setPhotoMode] = useState(true);
 
   return (
     <div

@@ -4,6 +4,7 @@ import { ServicesGrid } from "@/app/components/ServicesGrid";
 import { SiteFooter } from "@/app/components/SiteFooter";
 
 import styles from "./RoadUsersPage.module.css";
+import "../public-figma.css";
 import { RoutePlanner } from "./RoutePlanner.client";
 import { RoadUsersHero } from "./RoadUsersHero.client";
 import { TollPlaza } from "./TollPlaza.client";
@@ -11,7 +12,7 @@ import { TollPlaza } from "./TollPlaza.client";
 export default function RoadUsersPage() {
   return (
     <>
-      <header className="site-header">
+      <header className="site-header public-figma-header">
         <HeaderNav />
       </header>
       <div
@@ -19,7 +20,11 @@ export default function RoadUsersPage() {
         className="header-scroll-sentinel"
         aria-hidden="true"
       />
-      <main id="main-content" className={styles.page} tabIndex={-1}>
+      <main
+        id="main-content"
+        className={`${styles.page} road-users-figma`}
+        tabIndex={-1}
+      >
         <RoadUsersHero />
 
         <section

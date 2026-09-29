@@ -111,17 +111,6 @@ type RootLayoutProps = Readonly<{
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="ru">
-      <head>
-        <link
-          rel="preload"
-          as="image"
-          type="image/avif"
-          media="(max-width: 767px)"
-          imageSrcSet="/media/optimized/federal-highway-aerial-hero/federal-highway-aerial-hero-mobile-320.avif 320w, /media/optimized/federal-highway-aerial-hero/federal-highway-aerial-hero-mobile-480.avif 480w, /media/optimized/federal-highway-aerial-hero/federal-highway-aerial-hero-mobile-720.avif 720w"
-          imageSizes="100vw"
-          fetchPriority="high"
-        />
-      </head>
       <body>
         <a className="skip-link" href="#main-content">
           К основному содержанию

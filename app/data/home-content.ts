@@ -89,7 +89,7 @@ export const NEWS = [
     title:
       "Михаил Мишустин встретился с\u00a0председателем правления государственной компании «Автодор» Вячеславом Петушенко",
     href: "https://russianhighways.ru/press/news/149487/",
-    image: "/media/news/government-meeting-patriotic.png",
+    image: "/media/figma/258-20591-imgImage.png",
     imageAlt:
       "Сгенерированный образ совещания по дорожной инфраструктуре с российским триколором; не является документальной съёмкой встречи",
   },
@@ -99,7 +99,7 @@ export const NEWS = [
     title:
       "Глава Автодора и\u00a0губернатор Пермского края обсудили перспективы развития региона",
     href: "https://russianhighways.ru/press/news/149367/",
-    image: "/media/news/perm-development.png",
+    image: "/media/figma/258-20591-imgImage1.png",
     imageAlt:
       "Сгенерированная панорама современной автомагистрали в лесном ландшафте; не является снимком конкретного участка",
   },
@@ -108,7 +108,7 @@ export const NEWS = [
     date: "9 июля 2026",
     title: "Автодор поздравил выпускников МАДИ с\u00a0окончанием университета",
     href: "https://russianhighways.ru/press/news/149323/",
-    image: "/media/news/madi-graduates.png",
+    image: "/media/figma/258-20591-imgImage2.png",
     imageAlt:
       "Сгенерированная иллюстрация выпускников дорожного инженерного направления с чертежами и касками",
   },
@@ -118,7 +118,7 @@ export const NEWS = [
     title:
       "Госкомпания «Автодор» и\u00a0Правительство Псковской области будут развивать дорожный сервис для\u00a0автотуристов",
     href: "https://russianhighways.ru/press/news/149261/",
-    image: "/media/news/pskov-roadside.png",
+    image: "/media/figma/258-20591-imgImage3.png",
     imageAlt:
       "Сгенерированная иллюстрация современного придорожного сервиса для автотуристов в сосновом лесу",
   },
@@ -127,7 +127,7 @@ export const NEWS = [
     date: "8 июля 2026",
     title: "За\u00a0пять лет на\u00a0ЦКАД зафиксировано около 410 млн проездов",
     href: "https://russianhighways.ru/press/news/149242/",
-    image: "/media/news/ckad-traffic.png",
+    image: "/media/figma/258-20591-imgImage4.png",
     imageAlt:
       "Сгенерированный вид сверху на загруженную многоуровневую дорожную развязку; не является снимком ЦКАД",
   },
@@ -196,7 +196,7 @@ export const CONTACT_TABS = [
 export const SUBSIDIARY_SERVICES = [
   {
     id: "transponders",
-    image: "/media/subsidiary/transponders-bright.webp",
+    image: "/media/figma/251-12093-imgImage.png",
     company: "Электронный проезд",
     service: "Реализация транспондеров",
     description:
@@ -206,7 +206,7 @@ export const SUBSIDIARY_SERVICES = [
   },
   {
     id: "kasko",
-    image: "/media/subsidiary/kasko-bright.webp",
+    image: "/media/figma/251-12093-imgImage1.png",
     company: "Защита автомобиля",
     service: "КАСКО",
     description: "Платите только за пройденные километры, не больше!",
@@ -215,7 +215,7 @@ export const SUBSIDIARY_SERVICES = [
   },
   {
     id: "osago",
-    image: "/media/subsidiary/osago-bright.webp",
+    image: "/media/figma/251-12093-imgImage2.png",
     company: "Автострахование",
     service: "ОСАГО",
     description:
@@ -225,7 +225,7 @@ export const SUBSIDIARY_SERVICES = [
   },
   {
     id: "legal-api",
-    image: "/media/subsidiary/legal-api-bright.webp",
+    image: "/media/figma/251-12093-imgImage3.png",
     company: "Интеграция для бизнеса",
     service: "Подключение к API (для юридических лиц)",
     description: "Подключение к API для юридических лиц.",
@@ -239,7 +239,7 @@ export const SOCIAL_COMMITMENTS = [
     id: "large-families",
     nodeId: "1767:7504",
     media: "bridge-viaduct",
-    src: "/media/social/large-families-road.png",
+    src: "/media/figma/251-12346-imgImage.png",
     imageAlt:
       "Сгенерированный образ дорожной инфраструктуры без привязки к конкретной социальной программе",
     eyebrow: "Льготы для поездок",
@@ -253,7 +253,7 @@ export const SOCIAL_COMMITMENTS = [
     id: "small-business",
     nodeId: "1767:7506",
     media: "road-construction",
-    src: "/media/social/small-business-roadworks.png",
+    src: "/media/figma/251-12346-imgImage1.png",
     imageAlt:
       "Сгенерированный образ строительства дорожной инфраструктуры без привязки к конкретной закупке",
     eyebrow: "Ответственные закупки",

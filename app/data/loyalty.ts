@@ -27,7 +27,7 @@ export const LOYALTY_PROGRAMS = [
       "Баллы можно обменять на\u00a0скидку на\u00a0проезд, а транспондер T-pass — приобрести со\u00a0скидкой 30% при\u00a0выполнении условий акции.",
     href: LOYALTY_SOURCES.largeFamilies,
     linkLabel: "Условия акции",
-    image: "/media/loyalty/large-families-road-trip.png",
+    image: "/media/figma/163-7835-imgImage2.png",
     imageAlt: "Автомобиль едет по скоростной дороге среди лесистых холмов",
   },
   {
@@ -40,7 +40,7 @@ export const LOYALTY_PROGRAMS = [
       "Накопленные баллы программы лояльности можно обменять на\u00a0скидку, которая действует выбранный календарный месяц.",
     href: LOYALTY_SOURCES.largeFamilies,
     linkLabel: "Как работает скидка",
-    image: "/media/loyalty/bonus-discount-transponder.png",
+    image: "/media/figma/163-7835-imgImage3.png",
     imageAlt: "Транспондер в салоне автомобиля на фоне пункта оплаты",
   },
   {
@@ -53,7 +53,7 @@ export const LOYALTY_PROGRAMS = [
       "Баллы начисляются за\u00a0проезды по\u00a0платным участкам дорог Автодора после подключения программы лояльности.",
     href: LOYALTY_SOURCES.programRules,
     linkLabel: "Правила начисления",
-    image: "/media/loyalty/earn-points-motorway.png",
+    image: "/media/figma/163-7835-imgImage4.png",
     imageAlt: "Вид сверху на многополосную дорогу среди зелёного леса",
   },
   {
@@ -66,7 +66,7 @@ export const LOYALTY_PROGRAMS = [
       "Доступные уровни — 3%, 5%, 7%, 10% или 15%. Чем выше скидка, тем больше бонусных баллов потребуется.",
     href: LOYALTY_SOURCES.programRules,
     linkLabel: "Уровни программы",
-    image: "/media/loyalty/discount-levels-console.png",
+    image: "/media/figma/163-7835-imgImage5.png",
     imageAlt: "Транспондер и банковская карта на центральной консоли автомобиля",
   },
   {
@@ -79,7 +79,7 @@ export const LOYALTY_PROGRAMS = [
       "Скидку можно активировать на\u00a0подходящий месяц, а до\u00a0начала действия — отменить и выбрать другой период.",
     href: LOYALTY_SOURCES.programRules,
     linkLabel: "Управление скидкой",
-    image: "/media/loyalty/flexible-period-road-trip.png",
+    image: "/media/figma/163-7835-imgImage6.png",
     imageAlt: "Автомобиль у зоны отдыха рядом со скоростной дорогой",
   },
   {
@@ -92,7 +92,7 @@ export const LOYALTY_PROGRAMS = [
       "История начислений и срок действия баллов доступны в\u00a0личном кабинете владельца транспондера T-pass.",
     href: LOYALTY_SOURCES.programRules,
     linkLabel: "Подробнее о\u00a0баллах",
-    image: "/media/loyalty/points-balance-dashboard.png",
+    image: "/media/figma/163-7835-imgImage7.png",
     imageAlt: "Вид из автомобиля на вечернюю скоростную дорогу",
   },
 ] as const satisfies readonly LoyaltyProgram[];

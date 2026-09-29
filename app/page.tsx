@@ -20,6 +20,8 @@ import {
 } from "@/app/data/home-content";
 import { FUTURE_PROJECTS } from "@/app/data/future-projects";
 import Image from "next/image";
+import "./home-figma.css";
+import "./public-figma.css";
 
 const MEDIA_GALLERY = [
   {
@@ -221,7 +223,11 @@ function MediaPicture({
 export default function HomePage() {
   return (
     <>
-      <header className="site-header" data-section="header" data-node-id="1767:6576">
+      <header
+        className="site-header home-figma-header"
+        data-section="header"
+        data-node-id="1767:6576"
+      >
         <HeaderNav />
       </header>
       <div
@@ -230,7 +236,7 @@ export default function HomePage() {
         aria-hidden="true"
       />
 
-      <main id="main-content" tabIndex={-1}>
+      <main id="main-content" className="home-figma" tabIndex={-1}>
         <div data-section="roads" data-node-id="1767:7102">
           <RoadNetworkHeroQuery />
         </div>
@@ -304,16 +310,25 @@ export default function HomePage() {
             {MEDIA_GALLERY.map((item, index) => (
               <figure key={item.id}>
                 <MediaPicture
-                  media={item.media}
+                  src={
+                    [
+                      "/media/figma/248-11022-imgImage.png",
+                      "/media/figma/248-11022-imgImage1.png",
+                      "/media/figma/248-11022-imgImage2.png",
+                    ][index] ?? "/media/figma/248-11022-imgImage.png"
+                  }
                   alt={item.alt}
-                  priority={index === 0}
                 />
               </figure>
             ))}
             {GENERATED_MEDIA.map(([id, title]) => (
               <figure key={id}>
                 <MediaPicture
-                  src={`/media/gallery/${id}.webp`}
+                  src={
+                    id === "gallery-01"
+                      ? "/media/figma/248-11022-imgImage3.png"
+                      : `/media/gallery/${id}.webp`
+                  }
                   alt={`Сгенерированный образ: ${title.toLocaleLowerCase("ru")}`}
                 />
               </figure>

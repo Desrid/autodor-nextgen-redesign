@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { RoadNetworkHero } from "@/app/components/RoadNetworkHero.client";
+import { ArrowIcon } from "@/app/components/ArrowIcon";
 import { Icon } from "@/app/components/icons";
 import { ROADS, type RoadId } from "@/app/data/roads";
 
@@ -11,7 +12,8 @@ import { RoadTrafficSignal } from "./RoadTrafficSignal.client";
 import styles from "./RoadUsersHero.module.css";
 
 const FIRST_TAB_PROMOTION = {
-  image: "/media/road-users/promotions/m-1-coffee-rest-promo.png",
+  image:
+    "/media/figma/535-34200-img07719D58Db00833Abcccd2B395D01A55Af76E8Ce2Ab84838A33094C5Aade94F02.png",
   description: "Кофе и отдых по пути: предложение от партнёров на остановках маршрута.",
 } as const;
 
@@ -80,6 +82,7 @@ function RoadUsersHeroPromotion() {
               </p>
               <a className={styles.promotionAction} href="#calculator-title">
                 Участвовать в акции
+                <ArrowIcon direction="right" />
               </a>
             </div>,
             panel,

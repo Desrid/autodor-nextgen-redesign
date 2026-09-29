@@ -1,0 +1,278 @@
+/* Measured from o2qoBC7fJlivEo8QSIxR5g / 251:12155. Scoped to the homepage. */
+.home-figma {
+  --page-width: 1464px;
+  --section-space: 64px;
+  --heading-content-space: 48px;
+  --color-surface-subtle: #f1f1f1;
+}
+
+.home-figma .section-heading h2 {
+  font-weight: 500;
+  line-height: 1.125;
+  letter-spacing: 0;
+}
+
+.home-figma .loyalty-card {
+  border-radius: 24px;
+}
+.home-figma .loyalty-rail {
+  --loyalty-rail-gap: 24px;
+}
+.home-figma .loyalty-controls button,
+.home-figma .important-stories__controls button {
+  width: 48px;
+  height: 48px;
+}
+
+@media (min-width: 1280px) {
+  body:has(.home-figma)::before,
+  body:has(.home-figma)::after {
+    display: none;
+  }
+
+  .site-header.home-figma-header:has(.header-shell) {
+    inset-block-start: 20px;
+    width: calc(100% - 100px);
+    margin-block-start: 20px;
+    margin-inline: 50px;
+  }
+
+  .home-figma-header .header-shell.header-shell {
+    height: 88px;
+    padding-inline: 16px;
+    border-radius: 24px;
+    box-shadow: 0 5px 8px rgb(35 42 50 / 10%);
+    backdrop-filter: blur(56px);
+  }
+
+  .home-figma-header .header-shell::before {
+    border-radius: 23px;
+  }
+  .home-figma-header .header-shell::after {
+    display: none;
+  }
+
+  .home-figma .road-hero {
+    padding-block-start: 24px;
+  }
+  .home-figma .road-hero__island {
+    height: 720px;
+    min-height: 720px;
+  }
+  .home-figma .road-hero[data-hero-variant="cinematic"] .road-hero__content {
+    inset: 215px auto auto 72px;
+    width: 740px;
+    height: 312px;
+    justify-content: flex-start;
+    overflow: visible;
+    gap: 0;
+  }
+  .home-figma .road-title-row h1 {
+    line-height: 1;
+  }
+  .home-figma .road-title__number {
+    margin-block-end: 24px;
+    font-weight: 800;
+    letter-spacing: 0;
+  }
+  .home-figma .road-hero .road-title-row h1 strong {
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  .home-figma .road-hero .road-title-row + .road-facts {
+    margin-block-start: 48px;
+  }
+  .home-figma .road-facts {
+    width: 740px;
+    gap: 16px;
+  }
+  .home-figma .road-facts div {
+    min-height: 96px;
+    padding: 16px 24px;
+    border-radius: 16px;
+    box-shadow: none;
+  }
+  .home-figma .road-hero .hero-detail-link {
+    position: absolute;
+    top: 413px;
+    left: 0;
+    transform: none;
+  }
+  .home-figma .road-hero .road-hero__notch .hero-action-label {
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .home-figma .loyalty-card {
+    min-height: 585px;
+  }
+  .home-figma .news-bento {
+    height: 584px;
+    grid-template-columns: minmax(0, 718fr) repeat(2, minmax(0, 348fr));
+    grid-template-rows: 228px 80px 124px 80px;
+  }
+  .home-figma .news-card--1 {
+    grid-row: 1 / 5;
+  }
+  .home-figma .news-card--2,
+  .home-figma .news-card--3 {
+    grid-row: 1;
+  }
+  .home-figma .news-card--4 {
+    grid-row: 2 / 5;
+  }
+  .home-figma .news-card--5 {
+    grid-row: 2 / 4;
+  }
+  .home-figma .news-bento__all {
+    grid-row: 4;
+  }
+  .home-figma .news-card__content {
+    padding: 32px;
+  }
+
+  .home-figma .contacts-directory {
+    --contact-panel-height: 456px;
+    --contact-tabs-height: 408px;
+    grid-template-columns: minmax(0, 496fr) minmax(0, 968fr);
+  }
+  .home-figma .statistics-dashboard {
+    min-height: 438px;
+  }
+  .home-figma .subsidiary-bento {
+    grid-template-columns: minmax(0, 596fr) repeat(2, minmax(0, 410fr));
+    grid-template-rows: repeat(2, 280px);
+  }
+  .home-figma .subsidiary-card {
+    box-shadow: 0 4px 4px rgb(0 0 0 / 5%);
+  }
+  .home-figma .social-card {
+    min-height: 384px;
+  }
+
+  .home-figma [data-testid="future-map-atlas"] {
+    margin-top: 0;
+    min-height: 802px;
+  }
+  .home-figma [data-testid="future-map-atlas"] > div > div {
+    aspect-ratio: 1464 / 802;
+  }
+  .home-figma .future-projects {
+    margin-top: 2px;
+  }
+  .home-figma .future-section {
+    margin-block-end: 0;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1279px) {
+  .home-figma .section-heading h2 {
+    font-size: clamp(36px, 4.4vw, 56px);
+  }
+}
+
+@media (min-width: 1280px) {
+  .home-figma .road-title__number {
+    font-weight: 900;
+    line-height: 68px;
+    letter-spacing: 5px;
+  }
+  .home-figma .road-hero .road-title-row h1 strong {
+    font-weight: 500;
+    line-height: 52px;
+  }
+  .home-figma .road-hero .road-facts dt {
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 16px;
+  }
+  .home-figma .road-hero .road-facts dd {
+    font-weight: 700;
+    line-height: 38px;
+    letter-spacing: -0.64px;
+  }
+  .home-figma .loyalty-card {
+    border: 0;
+  }
+  .home-figma .loyalty-card__media {
+    height: 240px;
+    aspect-ratio: auto;
+    flex-shrink: 0;
+  }
+  .home-figma .loyalty-card__content {
+    padding: 32px 24px 24px;
+    gap: 16px;
+  }
+  .home-figma .important-state.important-state {
+    height: 300px;
+  }
+  .home-figma .future-layout {
+    gap: 2px;
+  }
+  .home-figma .future-projects {
+    margin-top: 0;
+  }
+  .home-figma .future-projects article {
+    height: 300px;
+  }
+}
+
+@media (min-width: 1280px) {
+  body:has(.home-figma) {
+    background:
+      url("/media/figma/home-road-background.png") top center / 100% auto no-repeat,
+      #fff;
+  }
+}
+
+@media (max-width: 767px) {
+  .home-figma .loyalty-header {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 24px;
+  }
+  .home-figma .loyalty-header .section-heading h2 {
+    white-space: normal;
+  }
+  .home-figma .loyalty-controls {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .home-figma .loyalty-rail {
+    grid-column: 1;
+    grid-row: 3;
+  }
+}
+
+@media (max-width: 767px) {
+  .home-figma .loyalty-rail {
+    --loyalty-tilt-bleed: 16px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .home-figma .road-hero .road-hero__notch .hero-action-label {
+    max-width: none;
+    font-weight: 700;
+  }
+  .home-figma-header .brand-lockup {
+    min-height: 44px;
+  }
+}
+
+/* Hide neighboring cards in the side gutters while retaining vertical shadow space. */
+@media (min-width: 768px) {
+  .home-figma .loyalty-rail {
+    clip-path: inset(0 var(--loyalty-tilt-bleed));
+  }
+}
+
+/* Services restored from origin/codex/all-blocks-changes. */
+.home-figma .services-section {
+  --page-width: 1480px;
+  --section-space: 72px;
+  --color-surface-subtle: color-mix(
+    in srgb,
+    var(--color-gray-1) 62%,
+    var(--color-page)
+  );
+}

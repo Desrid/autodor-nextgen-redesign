@@ -1899,3 +1899,64 @@
     min-height: 15rem;
   }
 }
+
+/* Figma frames 441:41282 and 557:47578. */
+@media (min-width: 1280px) {
+  .section {
+    padding-top: 64px;
+  }
+  .heading {
+    margin-bottom: 48px;
+  }
+  .heading h2 {
+    max-width: none;
+    font-size: 64px;
+    font-weight: 500;
+    line-height: 72px;
+    letter-spacing: 0;
+  }
+  .heading > p {
+    max-width: none;
+    margin-top: 16px;
+    font-size: 18px;
+    line-height: 24px;
+    color: #231f20;
+  }
+  .tollPlazaPhoto {
+    height: 514px;
+    min-height: 514px;
+    aspect-ratio: auto;
+    border-radius: 24px;
+    box-shadow: none;
+  }
+  .photoPlazaShade {
+    background: transparent;
+  }
+  .photoLaneGrid {
+    inset: 0 92px;
+    gap: 32px;
+  }
+  .photoLaneCopy {
+    left: 0;
+    right: 0;
+    bottom: 31px;
+    height: 124px;
+    padding: 24px;
+    border: 2px solid rgb(var(--lane-border));
+    border-radius: 16px;
+    box-shadow: none;
+  }
+  .photoLaneCopy h3 {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 24px;
+    text-shadow: none;
+  }
+  .photoLaneCopy p {
+    margin-top: 16px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    text-shadow: none;
+  }
+}

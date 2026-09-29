@@ -672,3 +672,64 @@
     transition: none;
   }
 }
+
+/* UI-Kit 30:3119 / 30:3118 / 30:3117 and 30:3188. */
+.liquidHeader.liquidHeader :global(.desktop-navigation a) {
+  min-height: 46px;
+  padding-inline: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+}
+.liquidHeader.liquidHeader :global(.desktop-navigation a:hover),
+.liquidHeader.liquidHeader :global(.desktop-navigation a:focus-visible) {
+  background: rgb(255 255 255 / 80%);
+  color: #ff5100;
+  box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
+}
+.liquidHeader.liquidHeader :global(.desktop-navigation a:active) {
+  background: transparent;
+  color: #d73700;
+  box-shadow: none;
+}
+.liquidHeader.liquidHeader :global(.more-button),
+.liquidHeader.liquidHeader :global(.language-button),
+.liquidHeader.liquidHeader :global(.search-button) {
+  border: 1px solid rgb(255 255 255 / 30%);
+  border-radius: 16px;
+  background: rgb(255 255 255 / 40%);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+  font-weight: 700;
+  color: #231f20;
+}
+.liquidHeader.liquidHeader :global(.more-button:hover),
+.liquidHeader.liquidHeader :global(.language-button:hover),
+.liquidHeader.liquidHeader :global(.search-button:hover),
+.liquidHeader.liquidHeader :global(button[aria-expanded="true"]) {
+  border-color: #ff5100;
+  background: rgb(255 255 255 / 10%);
+  box-shadow: 0 4px 8px rgb(255 81 0 / 15%);
+  color: #ff6e39;
+}
+.liquidHeader.liquidHeader :global(.account-link) {
+  border-radius: 16px;
+  background: #ff5100;
+  box-shadow: none;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+}
+.liquidHeader.liquidHeader :global(.account-link:hover),
+.liquidHeader.liquidHeader :global(.account-link:focus-visible) {
+  background: #ff6e39;
+  box-shadow: 0 4px 8px rgb(255 81 0 / 15%);
+}
+.liquidHeader.liquidHeader :global(.account-link:active) {
+  background: #d73700;
+}
+@media (max-width: 1439px) and (min-width: 1024px) {
+  .liquidHeader.liquidHeader :global(.desktop-navigation a) {
+    padding-inline: 8px;
+    font-size: 12px;
+  }
+}

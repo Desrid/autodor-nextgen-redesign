@@ -10,55 +10,56 @@ import { HistoryMapOverlay } from "./HistoryMapOverlay.client";
 import { AboutVideo } from "./AboutVideo.client";
 
 import "./page.css";
+import "../public-figma.css";
 
 const activities = [
   {
     title: "Строительство и реконструкция дорог",
     text: "Скоростные магистрали и обходы населённых пунктов для\u00a0безопасных и быстрых поездок между\u00a0городами.",
     href: "https://russianhighways.ru/about/activity/",
-    image: "/media/optimized/road-construction/road-construction-desktop-640.avif",
+    image: "/media/figma/299-26295-imgImage.png",
   },
   {
     title: "Ремонт и эксплуатация дорог",
     text: "Мониторинг состояния, ремонт, содержание и комплексное обустройство дорожной сети.",
     href: "https://russianhighways.ru/about/activity/",
-    image: "/media/optimized/bridge-viaduct/bridge-viaduct-desktop-640.avif",
+    image: "/media/figma/299-26295-imgImage1.png",
   },
   {
     title: "Придорожный сервис",
     text: "Многофункциональные зоны отдыха с\u00a0топливом, кафе, магазинами и сервисами для\u00a0путешественников.",
     href: "https://russianhighways.ru/about/activity/",
-    image: "/media/news/pskov-roadside.png",
+    image: "/media/figma/299-26295-imgImage2.png",
   },
   {
     title: "Инновации",
     text: "Интеллектуальное управление дорогами, новые материалы и современные технологии проектирования.",
     href: "https://russianhighways.ru/about/activity/",
-    image: "/media/road-user-stories/transponder.png",
+    image: "/media/figma/299-26295-imgImage3.png",
   },
   {
     title: "Экология",
     text: "«Зелёный стандарт»: ресурсосбережение и снижение воздействия строительства и эксплуатации на природу.",
     href: "https://russianhighways.ru/about/activity/",
-    image: "/media/important/road-infrastructure.png",
+    image: "/media/figma/299-26295-imgImage4.png",
   },
   {
     title: "Просветительская и образовательная деятельности",
     text: "Совместные программы с ведущими вузами, практики, стажировки и прикладные исследования.",
     href: "https://russianhighways.ru/about/activity/",
-    image: "/media/news/madi-graduates.png",
+    image: "/media/figma/299-26295-imgImage5.png",
   },
   {
     title: "Восстановление дорожной инфраструктуры в исторических регионах",
     text: "Восстановление федеральных и региональных дорог, связывающих города и населённые пункты.",
     href: "https://russianhighways.ru/about/activity/",
-    image: "/media/news/perm-development.png",
+    image: "/media/figma/299-26295-imgImage6.png",
   },
   {
     title: "Кадровая политика",
     text: "Построй карьеру в государственной компании",
     href: "https://russianhighways.ru/about/activity/",
-    image: "/media/news/government-meeting.png",
+    image: "/media/figma/299-26295-imgImage7.png",
   },
 ] as const;
 
@@ -67,31 +68,31 @@ const compliance = [
     id: "disclosure",
     title: "Раскрытие информации",
     href: "https://russianhighways.ru/about/regulatory-information/disc_inform/",
-    image: "/media/about-cards/disclosure.png",
+    image: "/media/figma/300-40961-imgImage.png",
   },
   {
     id: "insiders",
     title: "Инсайдерам",
     href: "https://russianhighways.ru/for_investor/disclosure/insayderam",
-    image: "/media/about-cards/insiders.png",
+    image: "/media/figma/300-40961-imgImage1.png",
   },
   {
     id: "antimonopoly",
     title: "Антимонопольный комплаенс",
     href: "https://russianhighways.ru/about/antimonopolnyy-komplaens/",
-    image: "/media/about-cards/antimonopoly.png",
+    image: "/media/figma/300-40961-imgImage3.png",
   },
   {
     id: "revoked-powers",
     title: "Отозванные доверенности",
     href: "https://russianhighways.ru/about/otozvannye-doverennosti/",
-    image: "/media/about-cards/revoked-powers.png",
+    image: "/media/figma/300-40961-imgImage2.png",
   },
   {
     id: "legal-documentation",
     title: "Нормативно-правовая документация",
     href: "https://russianhighways.ru/about/regulatory-information/",
-    image: "/media/about-cards/legal-documentation.png",
+    image: "/media/figma/300-40961-imgImage4.png",
   },
 ] as const;
 
@@ -101,7 +102,11 @@ const companyFacts = [
     unit: "км",
     label: "Общая протяжённость дорог в\u00a0доверительном управлении",
   },
-  { value: "3 679,5", unit: "км", label: "Протяжённость дорог в\u00a0платной эксплуатации" },
+  {
+    value: "3 679,5",
+    unit: "км",
+    label: "Протяжённость дорог в\u00a0платной эксплуатации",
+  },
   {
     value: "130",
     unit: "км/ч",
@@ -134,7 +139,7 @@ function SectionHeading({
 export default function AboutPage() {
   return (
     <>
-      <header className="site-header">
+      <header className="site-header public-figma-header">
         <HeaderNav />
       </header>
       <div
@@ -146,10 +151,11 @@ export default function AboutPage() {
         <section className="about-hero" aria-labelledby="about-title">
           <Image
             className="about-hero__image"
-            src="/media/optimized/road-construction/road-construction-desktop-1440.avif"
+            src="/media/figma/282-57242-imgAboutHeroImage.png"
             alt="Строительство современной автомобильной дороги"
             fill
-            priority
+            loading="eager"
+            fetchPriority="high"
             sizes="(max-width: 767px) 100vw, 1464px"
           />
           <div className="about-hero__scrim" aria-hidden="true" />
@@ -162,30 +168,25 @@ export default function AboutPage() {
             <h1 id="about-title">О компании</h1>
             <p className="about-hero__lead">
               Мы создаём современную дорожную инфраструктуру, которая объединяет регионы
-              и открывает возможности.
+              и открывает возможности.
             </p>
             <aside className="about-mission">
               <span>Миссия</span>
-              <p>Безопасные дороги, развитие территорий и комфорт пользователей.</p>
+              <p>Наша миссия – обеспечить быстрый, безопасный и комфортный проезд для всех пользователей автомобильных дорог, связывая территории, заботясь об экологии и сокращая затраты государства</p>
             </aside>
           </div>
           <aside className="about-quote" aria-label="Слово председателя правления">
             <div className="about-quote__copy">
-              <svg
+              <Image
                 className="about-quote__mark"
-                aria-hidden="true"
-                viewBox="0 0 96 66"
-                focusable="false"
-              >
-                <path d="M0 66V42.5L18.5 0H39L25.5 39H42V66H0Z" />
-                <path
-                  d="M0 66V42.5L18.5 0H39L25.5 39H42V66H0Z"
-                  transform="translate(54)"
-                />
-              </svg>
+                src="/media/figma/282-57242-imgQuoteMark.svg"
+                alt=""
+                width={55}
+                height={42}
+              />
               <blockquote>
-                «Скорость — отличительная черта дорог Автодора. Комфорт, безопасность,
-                экологичность — ключевые требования наших клиентов — пользователей
+                Скорость — отличительная черта дорог Автодора. Комфорт, безопасность,
+                экологичность — ключевые требования наших клиентов — пользователей
                 дорог»
               </blockquote>
               <footer>
@@ -195,7 +196,7 @@ export default function AboutPage() {
             </div>
             <Image
               className="about-quote__portrait"
-              src="/media/about-petushenko.png"
+              src="/media/figma/282-57242-img00080ImgAboutQuotePortrait.png"
               alt="Вячеслав Петушенко, председатель правления Государственной компании «Автодор»"
               width={560}
               height={690}
@@ -462,10 +463,32 @@ export default function AboutPage() {
           </SectionHeading>
           <div className="about-contact-map">
             <Image
-              src="/media/about-contacts-building-map.png"
+              src="/media/figma/308-41205-imgAboutContactsBuildingMap1.png"
               alt="Детальная карта расположения офиса Государственной компании «Автодор» на Страстном бульваре, 9 в Москве"
               fill
               sizes="(max-width: 767px) 100vw, 1464px"
+            />
+            <span className="about-contact-map__building" aria-hidden="true">
+              <Image
+                src="/media/figma/308-41205-imgImage29.png"
+                alt=""
+                width={1511}
+                height={671}
+              />
+            </span>
+            <Image
+              className="about-contact-map__pin"
+              src="/media/figma/308-41205-imgPin.svg"
+              alt=""
+              width={64}
+              height={67}
+            />
+            <Image
+              className="about-contact-map__entrance"
+              src="/media/figma/308-41205-imgProperty1Frame3187.svg"
+              alt=""
+              width={76}
+              height={172}
             />
             <article className="about-contact-card">
               <dl>
@@ -477,11 +500,11 @@ export default function AboutPage() {
                   <dt>Контактные телефоны</dt>
                   <dd>
                     <a href="tel:+74957271195">+7 (495) 727-11-95</a>
-                    <span>/ многоканальный</span>
+                    <span>многоканальный</span>
                   </dd>
                   <dd>
                     <a href="tel:+74955809841">+7 (495) 580-98-41</a>
-                    <span>/ ситуационный центр</span>
+                    <span>ситуационный центр</span>
                   </dd>
                 </div>
                 <div>

@@ -16,7 +16,7 @@ describe("HeaderNav", () => {
     vi.unstubAllGlobals();
   });
 
-  it("opens and closes the full mega layer with the same trigger", () => {
+  it("opens and closes the full mega layer with the same trigger", async () => {
     const { container } = render(<HeaderNav />);
     const trigger = screen.getByRole("button", {
       name: "Открыть дополнительную навигацию",
@@ -38,7 +38,7 @@ describe("HeaderNav", () => {
       "data-header-state",
       "closed",
     );
-    expect(trigger).toHaveFocus();
+    await waitFor(() => expect(trigger).toHaveFocus());
   });
 
   it("keeps search, language and mega menu mutually exclusive", async () => {
@@ -75,12 +75,12 @@ describe("HeaderNav", () => {
     fireEvent.click(search);
     await waitFor(() => expect(screen.getByRole("searchbox")).toHaveFocus());
     fireEvent.keyDown(document, { key: "Escape" });
-    expect(search).toHaveFocus();
+    await waitFor(() => expect(search).toHaveFocus());
 
     fireEvent.click(search);
     await waitFor(() => expect(screen.getByRole("searchbox")).toHaveFocus());
     fireEvent.pointerDown(document.querySelector("[data-layer='search']")!);
-    expect(search).toHaveFocus();
+    await waitFor(() => expect(search).toHaveFocus());
 
     fireEvent.click(search);
     await waitFor(() => expect(screen.getByRole("searchbox")).toHaveFocus());
@@ -89,7 +89,7 @@ describe("HeaderNav", () => {
       cancelable: true,
     });
     document.body.dispatchEvent(outsideClick);
-    expect(search).toHaveFocus();
+    await waitFor(() => expect(search).toHaveFocus());
     expect(outsideClick.defaultPrevented).toBe(false);
   });
 
@@ -160,7 +160,7 @@ describe("HeaderNav", () => {
     expect(close).toHaveFocus();
 
     fireEvent.keyDown(document, { key: "Escape" });
-    expect(trigger).toHaveFocus();
+    await waitFor(() => expect(trigger).toHaveFocus());
     expect(document.body.style.overflow).toBe("");
     expect(main.inert).toBe(false);
     main.remove();
