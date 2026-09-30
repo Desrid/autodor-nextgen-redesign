@@ -4841,7 +4841,7 @@ button:focus-visible,
   flex: 0 0 auto;
 }
 .account-app .transponder-interop-cell .switch {
-  margin-left: auto;
+  display: none;
 }
 .account-app .table-interop-heading {
   position: relative;
@@ -4953,9 +4953,6 @@ button:focus-visible,
   .account-app .transponder-interop-cell {
     align-items: flex-start;
     flex-direction: column;
-  }
-  .account-app .transponder-interop-cell .switch {
-    margin-left: 0;
   }
 }
 @media (max-width: 620px) {
