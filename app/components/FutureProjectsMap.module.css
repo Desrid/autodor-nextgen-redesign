@@ -300,6 +300,12 @@
   line-height: 1.45;
 }
 
+@media (min-width: 1024px) {
+  .stageSource {
+    display: none;
+  }
+}
+
 @keyframes stage-in {
   from {
     opacity: 0;
