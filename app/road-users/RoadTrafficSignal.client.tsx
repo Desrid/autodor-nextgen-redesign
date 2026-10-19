@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 
 import styles from "./RoadTrafficSignal.module.css";
 
@@ -12,15 +12,7 @@ const SIGNALS: Record<TrafficLevel, { label: string; description: string }> = {
   busy: { label: "Затруднено", description: "На участке возможна задержка" },
 };
 
-const DEMO_FRAMES: readonly TrafficLevel[][] = [
-  ["free", "slow", "free", "free", "slow", "free"],
-  ["slow", "free", "free", "busy", "free", "slow"],
-  ["free", "busy", "slow", "free", "free", "free"],
-];
-
-function getRoadIndex(road: string) {
-  return [...road].reduce((total, character) => total + character.charCodeAt(0), 0) % 6;
-}
+const LEVELS: readonly TrafficLevel[] = ["free", "slow", "busy"];
 
 function TrafficLight({ level }: { level: TrafficLevel }) {
   return (
@@ -40,35 +32,36 @@ export function RoadTrafficSignal({
   road,
   roadName,
 }: Readonly<{ road: string; roadName: string }>) {
-  const [frame, setFrame] = useState(0);
-  const roadIndex = useMemo(() => getRoadIndex(road), [road]);
-  const level = DEMO_FRAMES[frame]?.[roadIndex] ?? "free";
+  const [selection, setSelection] = useState<{ road: string; level: TrafficLevel }>({
+    road,
+    level: "free",
+  });
+  const level = selection.road === road ? selection.level : "free";
   const signal = SIGNALS[level];
 
-  useEffect(() => {
-    const timer = window.setInterval(() => {
-      setFrame((currentFrame) => (currentFrame + 1) % DEMO_FRAMES.length);
-    }, 7000);
-
-    return () => window.clearInterval(timer);
-  }, []);
+  function cycleSignal() {
+    setSelection({
+      road,
+      level: LEVELS[(LEVELS.indexOf(level) + 1) % LEVELS.length] ?? "free",
+    });
+  }
 
   return (
-    <aside
+    <button
+      type="button"
+      onClick={cycleSignal}
       className={styles.root}
-      aria-label={`Ситуация на ${road}`}
+      aria-label={`Ситуация на ${road}: ${signal.label}. Нажмите, чтобы переключить`}
       data-traffic-demo="true"
     >
       <TrafficLight level={level} />
-      <div>
-        <p className={styles.eyebrow}>
-          Ситуация на дороге <span>Демо</span>
-        </p>
+      <span>
+        <span className={styles.eyebrow}>Ситуация на дороге</span>
         <strong>{signal.label}</strong>
-        <p className={styles.description}>
+        <span className={styles.description}>
           {road} {roadName}: {signal.description.toLocaleLowerCase()}.
-        </p>
-      </div>
-    </aside>
+        </span>
+      </span>
+    </button>
   );
 }

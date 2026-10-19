@@ -1,0 +1,6 @@
+Offline map: Natural Earth, public domain. https://www.naturalearthdata.com/about/terms-of-use/
+Saved route: OSRM / OpenStreetMap contributors, ODbL. https://www.openstreetmap.org/copyright
+Leaflet 1.9.4, BSD-2-Clause. leaflet-LICENSE.txt
+Leaflet.markercluster 1.5.3, MIT. markercluster-LICENSE.txt
+Montserrat, SIL Open Font License 1.1. montserrat-OFL.txt
+Node.js v24.18.0, node-LICENSE.txt

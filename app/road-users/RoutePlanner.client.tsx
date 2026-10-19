@@ -6,6 +6,9 @@ import { createRoot, type Root } from "react-dom/client";
 import { Icon, type IconName } from "@/app/components/icons";
 
 import styles from "./RoutePlanner.module.css";
+import portableRoute from "./portable-route.json";
+
+const PORTABLE_DEMO = process.env.NEXT_PUBLIC_PORTABLE_DEMO === "true";
 
 type Place = { label: string; lat: number; lon: number };
 type PoiKind = "fuel" | "rest" | "sight";
@@ -48,6 +51,11 @@ type LeafletMap = {
 type LeafletApi = {
   map: (element: HTMLElement, options: unknown) => LeafletMap;
   tileLayer: (url: string, options: unknown) => { addTo: (map: LeafletMap) => void };
+  imageOverlay: (
+    url: string,
+    bounds: number[][],
+    options: unknown,
+  ) => { addTo: (map: LeafletMap) => void };
   polyline: (
     coordinates: [number, number][],
     options: unknown,
@@ -211,6 +219,7 @@ async function geocode(query: string): Promise<Place[]> {
   const localMatches = Object.values(DEFAULT_PLACES).filter((place) =>
     place.label.toLocaleLowerCase("ru-RU").includes(normalizedQuery),
   );
+  if (PORTABLE_DEMO) return localMatches;
   const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&accept-language=ru&q=${encodeURIComponent(query)}`;
   try {
     const response = await fetch(url, {
@@ -436,7 +445,9 @@ export function RoutePlanner() {
   const [suggestions, setSuggestions] = useState<Place[]>([]);
   const [field, setField] = useState<RouteField | null>(null);
   const [route, setRoute] = useState<RouteData>(() =>
-    interpolateRoute(DEFAULT_PLACES["Москва"]!, DEFAULT_PLACES["Краснодар"]!),
+    PORTABLE_DEMO
+      ? (portableRoute as RouteData)
+      : interpolateRoute(DEFAULT_PLACES["Москва"]!, DEFAULT_PLACES["Краснодар"]!),
   );
   const [sharedRoutePoints, setSharedRoutePoints] = useState<Place[]>([
     DEFAULT_PLACES["Москва"]!,
@@ -451,6 +462,22 @@ export function RoutePlanner() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [date, setDate] = useState("2026-08-12");
   const [vehicle, setVehicle] = useState("Легковой автомобиль");
+
+  useEffect(() => {
+    if (!PORTABLE_DEMO || !new URLSearchParams(window.location.search).has("demoRoute"))
+      return;
+    const frame = window.requestAnimationFrame(() => {
+      setOrigin("Ростов-на-Дону");
+      setDestination("Москва");
+      setRoute(portableRoute as RouteData);
+      setSharedRoutePoints([
+        DEFAULT_PLACES["Ростов-на-Дону"]!,
+        DEFAULT_PLACES["Москва"]!,
+      ]);
+      setHasCalculated(true);
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   useEffect(() => {
     if (!field) return;
@@ -488,8 +515,19 @@ export function RoutePlanner() {
     const setup = async () => {
       const load = (source: string, type: "script" | "style") =>
         new Promise<void>((resolve, reject) => {
-          if (document.querySelector(`[data-route-map-source="${source}"]`))
-            return resolve();
+          const existing = document.querySelector<HTMLElement>(
+            `[data-route-map-source="${source}"]`,
+          );
+          if (existing) {
+            if (existing.dataset.routeMapLoaded === "true") return resolve();
+            existing.addEventListener("load", () => resolve(), { once: true });
+            existing.addEventListener(
+              "error",
+              () => reject(new Error("Map assets unavailable")),
+              { once: true },
+            );
+            return;
+          }
           const element = document.createElement(
             type === "script" ? "script" : "link",
           ) as HTMLScriptElement | HTMLLinkElement;
@@ -501,22 +539,41 @@ export function RoutePlanner() {
             (element as HTMLLinkElement).href = source;
             (element as HTMLLinkElement).rel = "stylesheet";
           }
-          element.onload = () => resolve();
+          element.onload = () => {
+            element.dataset.routeMapLoaded = "true";
+            resolve();
+          };
           element.onerror = () => reject(new Error("Map assets unavailable"));
           document.head.append(element);
         });
-      await load("https://unpkg.com/leaflet@1.9.4/dist/leaflet.css", "style");
-      await load("https://unpkg.com/leaflet@1.9.4/dist/leaflet.js", "script");
       await load(
-        "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css",
+        PORTABLE_DEMO
+          ? "/offline/leaflet.css"
+          : "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
         "style",
       );
       await load(
-        "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css",
+        PORTABLE_DEMO
+          ? "/offline/leaflet.js"
+          : "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
+        "script",
+      );
+      await load(
+        PORTABLE_DEMO
+          ? "/offline/MarkerCluster.css"
+          : "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css",
         "style",
       );
       await load(
-        "https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js",
+        PORTABLE_DEMO
+          ? "/offline/MarkerCluster.Default.css"
+          : "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css",
+        "style",
+      );
+      await load(
+        PORTABLE_DEMO
+          ? "/offline/leaflet.markercluster.js"
+          : "https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js",
         "script",
       );
       const L = (window as Window & { L?: LeafletApi }).L;
@@ -524,11 +581,32 @@ export function RoutePlanner() {
       const map = L.map(mapElement.current, {
         zoomControl: false,
         attributionControl: false,
+        ...(PORTABLE_DEMO
+          ? {
+              minZoom: 4,
+              maxZoom: 9,
+              maxBounds: [
+                [42, 23],
+                [63, 55],
+              ],
+              maxBoundsViscosity: 1,
+            }
+          : {}),
       });
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 18,
-        attribution: "© OpenStreetMap contributors",
-      }).addTo(map);
+      if (PORTABLE_DEMO) {
+        L.imageOverlay(
+          "/offline/route-map.svg",
+          [
+            [42, 23],
+            [63, 55],
+          ],
+          { interactive: false },
+        ).addTo(map);
+      } else
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          maxZoom: 18,
+          attribution: "© OpenStreetMap contributors",
+        }).addTo(map);
       const routeLine = hasCalculated
         ? L.polyline(route.coordinates, {
             color: "#ff5100",
@@ -540,7 +618,7 @@ export function RoutePlanner() {
         map.fitBounds(routeLine.getBounds(), { padding: [72, 72] });
         map.setZoom(Math.max(map.getZoom(), 5));
       } else {
-        map.setView([56.2, 41], 5);
+        map.setView(PORTABLE_DEMO ? [52, 39] : [56.2, 41], 5);
       }
       const cluster = L.markerClusterGroup({
         maxClusterRadius: 64,
@@ -658,6 +736,21 @@ export function RoutePlanner() {
     setField(null);
   };
   const calculate = async () => {
+    if (PORTABLE_DEMO) {
+      setOrigin("Ростов-на-Дону");
+      setDestination("Москва");
+      setStops([]);
+      setPointOrder(["origin", "destination"]);
+      setField(null);
+      setSuggestions([]);
+      setRoute(portableRoute as RouteData);
+      setSharedRoutePoints([
+        DEFAULT_PLACES["Ростов-на-Дону"]!,
+        DEFAULT_PLACES["Москва"]!,
+      ]);
+      setHasCalculated(true);
+      return;
+    }
     setLoading(true);
     const routeCandidates = await Promise.all(
       pointOrder.map(async (id) => {
