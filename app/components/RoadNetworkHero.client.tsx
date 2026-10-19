@@ -419,9 +419,11 @@ export function RoadNetworkHero({
                 <dt>Полос</dt>
                 <dd>до {activeRoad.fact.lanesMax}</dd>
               </div>
-              <div>
+              <div className="road-facts__speed-card">
                 <dt>Скорость</dt>
-                <dd>до {activeRoad.fact.speedKmhMax} км/ч</dd>
+                <dd className="road-facts__speed">
+                  до {activeRoad.fact.speedKmhMax} км/ч
+                </dd>
               </div>
             </dl>
             <a className="hero-detail-link" href={activeRoad.detailsUrl}>

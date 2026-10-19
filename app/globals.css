@@ -2256,6 +2256,15 @@ h3 {
   box-shadow: inset 0 0 0 1px rgb(255 255 255 / 34%);
 }
 
+.road-hero .road-facts .road-facts__speed-card {
+  container-type: inline-size;
+}
+
+.road-hero .road-facts dd.road-facts__speed {
+  white-space: nowrap;
+  font-size: clamp(0.75rem, 14cqi, 2rem);
+}
+
 .road-hero .road-facts dt,
 .road-hero .road-facts dd {
   color: #fff;
