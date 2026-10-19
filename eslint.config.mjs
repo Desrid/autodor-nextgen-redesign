@@ -8,12 +8,18 @@ export default defineConfig([
   ...nextCoreWebVitals,
   ...nextTypeScript,
   ...storybook.configs["flat/recommended"],
+  {
+    files: [".tools/portable/**/*.cjs"],
+    rules: { "@typescript-eslint/no-require-imports": "off" },
+  },
   globalIgnores([
     ".next/**",
+    ".artifacts/**",
     "coverage/**",
     "playwright-report/**",
     "storybook-static/**",
     "test-results/**",
     "next-env.d.ts",
+    "public/offline/**",
   ]),
 ]);
