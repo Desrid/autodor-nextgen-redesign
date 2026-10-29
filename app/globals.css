@@ -4743,14 +4743,19 @@ a:focus-visible > .inline-arrow-icon {
 
 .footer-top-row {
   display: grid;
-  grid-template-columns: 215px 204px minmax(0, 1fr) 264px;
+  grid-template-columns: 241px minmax(0, 1fr) 264px;
+  column-gap: 32px;
   align-items: center;
   min-height: 48px;
 }
 
+.footer-top-spacer {
+  display: none;
+}
+
 .footer-brand {
   align-self: start;
-  width: 215px;
+  width: 241px;
   height: 40px;
   margin-block-start: 4px;
 }
@@ -4770,7 +4775,9 @@ a:focus-visible > .inline-arrow-icon {
 
 .footer-contacts {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   min-width: 0;
   margin: 0;
   gap: 48px;
@@ -4935,7 +4942,8 @@ a:focus-visible > .inline-arrow-icon {
   }
 
   .footer-top-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
     row-gap: 24px;
   }
 
@@ -4956,13 +4964,13 @@ a:focus-visible > .inline-arrow-icon {
   }
 
   .footer-top-row {
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .footer-contacts {
     grid-column: 1 / -1;
     grid-row: 2;
-    justify-content: space-between;
+    justify-content: center;
   }
 
   .footer-government {
@@ -4996,12 +5004,18 @@ a:focus-visible > .inline-arrow-icon {
     grid-column: 1;
     grid-row: auto;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 16px;
   }
 
+  .footer-contact {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
   .footer-social {
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .footer-government {
@@ -5015,7 +5029,8 @@ a:focus-visible > .inline-arrow-icon {
 
   .footer-legal {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
     margin-block-start: 32px;
     gap: 12px;
     line-height: 18px;
@@ -5033,7 +5048,7 @@ a:focus-visible > .inline-arrow-icon {
   .footer-copyright {
     margin-block-start: 54px;
     line-height: 1.4;
-    text-align: left;
+    text-align: center;
     white-space: normal;
   }
 }
@@ -5041,7 +5056,7 @@ a:focus-visible > .inline-arrow-icon {
 @media (max-width: 479px) {
   .footer-social {
     width: 100%;
-    justify-content: space-between;
+    justify-content: center;
     gap: 12px;
   }
 

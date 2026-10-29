@@ -57,7 +57,7 @@ body:has(.road-users-figma)::after {
   body:has(.about-page) .site-footer,
   body:has(.road-users-figma) .site-footer {
     width: calc(100% - 100px);
-    margin-inline: 50px;
+    margin-inline: auto;
     margin-top: 64px;
     padding-block: 64px;
     border-radius: 32px 32px 0 0;
@@ -729,7 +729,7 @@ body:has(.road-users-figma)::after {
   body:has(.home-figma) .footer-top-row,
   body:has(.about-page) .footer-top-row,
   body:has(.road-users-figma) .footer-top-row {
-    grid-template-columns: 249px minmax(0, 1fr) auto 264px;
+    grid-template-columns: 249px minmax(0, 1fr) 264px;
     column-gap: 24px;
   }
   body:has(.home-figma) .footer-brand,
